@@ -280,6 +280,35 @@ a {
   animation: child-wiggle 0.3s ease-in-out infinite alternate;
 }
 
+/* --- MARQUEE ANIMATION --- */
+.marquee-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 30px;
+  min-width: 100%;
+  flex-shrink: 0;
+  animation: scroll-marquee 20s linear infinite;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 15px)); /* -50% minus half the gap */
+  }
+}
+
 /* Crayon Fill Colors on Hover */
 .link-spotify:hover {
   background-color: #00f5d4; /* Bright cyan */
