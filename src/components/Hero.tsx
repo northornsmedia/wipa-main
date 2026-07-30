@@ -21,7 +21,7 @@ export default function Hero() {
         </FadeIn>
         
         <TextReveal 
-          lines={["The Global Community", "for Women in", "Intellectual Property."]} 
+          lines={["The Global Community", "for Women in", "Intellectual Property"]} 
           className="heading-huge" 
           style={{ maxWidth: '1100px' }} 
         />
