@@ -286,6 +286,8 @@ a {
   width: 100%;
   position: relative;
   display: flex;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 
 .marquee-content {
