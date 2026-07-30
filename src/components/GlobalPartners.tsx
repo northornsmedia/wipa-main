@@ -9,7 +9,7 @@ export default function GlobalPartners() {
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
-              Supported by the <br/> <span style={{ backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '0 20px' }}>Global IP Community</span>
+              Alliance <br/> <span style={{ backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '0 20px' }}>Supporting Partners</span>
             </h2>
             <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
               The Women's IP World Alliance proudly collaborates with conferences, universities, technology providers, professional organisations, and industry partners committed to supporting women across intellectual property.
