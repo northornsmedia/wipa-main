@@ -25,10 +25,10 @@ export default function Leadership() {
           </FadeIn>
         </div>
 
-        <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+        <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
           {leaders.map((l, i) => (
-            <div key={i} className={`pill-container ${l.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
-              <h4 className="heading-md">{l.role}</h4>
+            <div key={i} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', padding: '20px 40px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+              <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3 }}>{l.role}</h4>
             </div>
           ))}
         </StaggerGrid>

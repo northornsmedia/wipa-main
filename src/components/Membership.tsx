@@ -66,7 +66,7 @@ export default function Membership() {
                 <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6 }}>{t.desc}</div>
               </div>
 
-              <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold' }}>SELECT PLAN</button>
+              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold' }}>SELECT PLAN</button>
             </TiltCard>
           ))}
         </StaggerGrid>
