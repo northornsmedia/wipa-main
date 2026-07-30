@@ -8,7 +8,7 @@ export default function FloatAnim({ children, delay = 0, className, style }: { c
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   
   // Parallax effect: moves opposite to scroll direction
-  const scrollY = useTransform(scrollYProgress, [0, 1], ["-60px", "60px"]);
+  const scrollY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
 
   // Magnetic effect
   const mouseX = useMotionValue(0);
@@ -32,7 +32,7 @@ export default function FloatAnim({ children, delay = 0, className, style }: { c
   };
 
   // Combine parallax scroll and magnetic pull for Y axis
-  const combinedY = useTransform([scrollY, springY], ([s, m]) => s + m);
+  const combinedY = useTransform([scrollY, springY], ([s, m]: number[]) => s + m);
 
   return (
     <motion.div 

@@ -13,8 +13,14 @@ export default function MeshGradient() {
   const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
 
   // Map spring to pixel offsets (inverted for parallax feel)
-  const xOffset = useTransform(springX, [-100, 100], [50, -50]);
-  const yOffset = useTransform(springY, [-100, 100], [50, -50]);
+  const xOffset1 = useTransform(springX, [-100, 100], [50, -50]);
+  const yOffset1 = useTransform(springY, [-100, 100], [50, -50]);
+
+  const xOffset2 = useTransform(springX, [-100, 100], [-30, 30]);
+  const yOffset2 = useTransform(springY, [-100, 100], [-30, 30]);
+
+  const xOffset3 = useTransform(springX, [-100, 100], [20, -20]);
+  const yOffset3 = useTransform(springY, [-100, 100], [-40, 40]);
 
   useEffect(() => {
     setMounted(true);
@@ -45,8 +51,8 @@ export default function MeshGradient() {
           backgroundColor: "var(--color-pastel-purple)",
           filter: "blur(120px)",
           opacity: 0.4,
-          x: xOffset,
-          y: yOffset,
+          x: xOffset1,
+          y: yOffset1,
         }}
         animate={{
           scale: [1, 1.2, 1],
@@ -65,8 +71,8 @@ export default function MeshGradient() {
           backgroundColor: "var(--color-pastel-green)",
           filter: "blur(100px)",
           opacity: 0.3,
-          x: useTransform(springX, [-100, 100], [-30, 30]), 
-          y: useTransform(springY, [-100, 100], [-30, 30]),
+          x: xOffset2, 
+          y: yOffset2,
         }}
         animate={{
           scale: [1, 1.1, 1],
@@ -85,8 +91,8 @@ export default function MeshGradient() {
           backgroundColor: "var(--color-pastel-yellow)",
           filter: "blur(90px)",
           opacity: 0.2,
-          x: useTransform(springX, [-100, 100], [20, -20]),
-          y: useTransform(springY, [-100, 100], [-40, 40]),
+          x: xOffset3,
+          y: yOffset3,
         }}
         animate={{
           scale: [1, 1.3, 1],
