@@ -5,16 +5,16 @@ import FadeIn from "./animations/FadeIn";
 import StaggerGrid from "./animations/StaggerGrid";
 
 const faqs = [
-  "When does the Alliance launch?",
-  "Who can become a member?",
-  "How does Founding Membership work?",
-  "When do memberships begin?",
-  "Is membership international?",
-  "Can organisations enrol multiple members?",
-  "What events are included?",
-  "How does the mentorship programme work?",
-  "Will there be regional chapters?",
-  "What makes the Alliance different?"
+  { q: "When does the Alliance launch?", a: "The Women's IP World Alliance officially launches in January 2027. We are currently accepting applications for our exclusive Founding Membership tier." },
+  { q: "Who can become a member?", a: "Membership is open to all women professionals working in intellectual property, including patent practitioners, trade mark attorneys, academics, researchers, and in-house counsel." },
+  { q: "How does Founding Membership work?", a: "Founding Members join our inaugural cohort with lifetime priority status. This includes locked-in pricing, VIP access to all our global events, and special recognition on our platform." },
+  { q: "When do memberships begin?", a: "All memberships will officially activate in January 2027. However, Founding Members gain immediate access to our private community channels and early-bird event registrations." },
+  { q: "Is membership international?", a: "Yes! The Alliance is a truly global community. Our network spans across North America, Europe, Asia, and beyond, providing unparalleled opportunities for cross-border collaboration." },
+  { q: "Can organisations enrol multiple members?", a: "Absolutely. We offer tailored Corporate and Academic memberships designed to support entire IP departments, providing discounted rates for group enrolments." },
+  { q: "What events are included?", a: "Members enjoy year-round access to virtual workshops, educational webinars led by industry experts, and exclusive networking events, plus heavy discounts on our flagship annual face-to-face summits." },
+  { q: "How does the mentorship programme work?", a: "Our structured mentorship framework pairs emerging IP professionals with internationally recognised industry leaders for 6-month cycles, focusing on career acceleration and leadership development." },
+  { q: "Will there be regional chapters?", a: "Yes. While our community is global, we will be launching regional chapters throughout 2027 to facilitate local meetups, intimate networking dinners, and region-specific legal discussions." },
+  { q: "What makes the Alliance different?", a: "Unlike traditional networking groups, the Alliance is built by the trusted team behind The Women's IP World Annual. We provide a vibrant, year-round ecosystem focused entirely on empowering women in IP." }
 ];
 
 export default function FAQ() {
@@ -36,7 +36,7 @@ export default function FAQ() {
 
         <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <StaggerGrid>
-            {faqs.map((q, i) => (
+            {faqs.map((faq, i) => (
               <div 
                 key={i} 
                 className="pill-container bg-white" 
@@ -52,14 +52,14 @@ export default function FAQ() {
                 onClick={() => toggleFaq(i)}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4 className="heading-md" style={{ fontSize: '1.3rem' }}>{q}</h4>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>
+                  <h4 className="heading-md" style={{ fontSize: '1.3rem', margin: 0 }}>{faq.q}</h4>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, marginLeft: '20px' }}>
                     {openIndex === i ? '−' : '+'}
                   </div>
                 </div>
                 {openIndex === i && (
-                  <div style={{ fontSize: '1.1rem', marginTop: '10px', color: 'rgba(0,0,0,0.7)', lineHeight: 1.6 }}>
-                    This is a placeholder answer. In the actual platform, this will contain the detailed answer to the question regarding the Women's IP World Alliance.
+                  <div style={{ fontSize: '1.1rem', marginTop: '15px', color: 'rgba(0,0,0,0.8)', lineHeight: 1.6, paddingRight: '40px' }}>
+                    {faq.a}
                   </div>
                 )}
               </div>
