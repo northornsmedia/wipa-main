@@ -46,7 +46,7 @@ export default function StaggerGrid({ children, className, style }: StaggerGridP
 
         if (typeof childType === 'string') {
           return (
-            <motion.div key={i} variants={itemVariants} className={props.className} style={props.style}>
+            <motion.div key={i} variants={itemVariants} {...props}>
               {props.children}
             </motion.div>
           );
