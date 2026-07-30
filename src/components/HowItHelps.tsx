@@ -2,10 +2,10 @@ import StaggerGrid from "./animations/StaggerGrid";
 import FadeIn from "./animations/FadeIn";
 
 const stages = [
-  { title: "Early in Your Career?", desc: "Access mentorship, curated learning, and a vibrant community of professionals." },
-  { title: "Mid-Career Professional?", desc: "Expand your network. Discover opportunities through the Job Board and build visibility." },
-  { title: "A Leader in IP?", desc: "Mentor the next generation, speak at events, and help shape the future." },
-  { title: "A Startup Founder?", desc: "Connect with IP professionals who can protect your innovations from day one." },
+  { title: "Early Career", desc: "Develop confidence through mentoring, education, and networking." },
+  { title: "Mid-Career", desc: "Expand your international network and unlock new opportunities." },
+  { title: "Senior Leaders", desc: "Increase your influence through speaking, mentoring, and leadership initiatives." },
+  { title: "Entrepreneurs & Founders", desc: "Promote your business, build partnerships, and connect with clients worldwide." },
 ];
 
 export default function HowItHelps() {
@@ -16,7 +16,8 @@ export default function HowItHelps() {
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <FadeIn direction="up">
           <h2 className="heading-huge" style={{ textAlign: 'center', marginBottom: '80px' }}>
-            Support at <br/> <span style={{ backgroundColor: 'var(--color-pastel-yellow)', padding: '0 20px' }}>Every Stage.</span>
+            Supporting <span style={{ backgroundColor: 'var(--color-pastel-yellow)', padding: '0 20px' }}>Every Stage</span><br/>
+            of Your Journey
           </h2>
         </FadeIn>
 

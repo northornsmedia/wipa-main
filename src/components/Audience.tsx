@@ -3,10 +3,10 @@ import FadeIn from "./animations/FadeIn";
 import FloatAnim from "./animations/FloatAnim";
 
 const personas = [
-  { title: "Patent Attorneys", desc: "Connect with peers, find mentors, and stay on top of trends.", style: "bg-charcoal" },
-  { title: "Trademark Specialists", desc: "Join a focused community that understands your challenges.", style: "bg-pastel-pink" },
-  { title: "IP Law Students", desc: "Get mentorship and build your network before graduation.", style: "bg-pastel-yellow" },
-  { title: "Startup Founders", desc: "Learn how to protect your innovations and connect with pros.", style: "bg-pastel-purple" },
+  { title: "Legal & IP Practice", desc: "Patent Attorneys, Trademark Professionals, IP Lawyers, In-house Counsel, and Patent Engineers.", style: "bg-charcoal" },
+  { title: "Tech & Innovation", desc: "Technology Professionals, Innovation Leaders, Licensing Specialists, and Researchers.", style: "bg-pastel-pink" },
+  { title: "Business & Academia", desc: "Entrepreneurs, Startup Founders, Business Leaders, Academics, University Professionals, and Government Reps.", style: "bg-pastel-yellow" },
+  { title: "Emerging Talent", desc: "Students, Alumni, and Future IP Professionals beginning their journey.", style: "bg-pastel-purple" },
 ];
 
 export default function Audience() {
@@ -15,7 +15,10 @@ export default function Audience() {
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '80px' }}>
           <FadeIn direction="right">
-            <h2 className="heading-huge">Designed for <br/><span style={{ color: 'var(--color-pastel-pink)' }}>Every Woman</span></h2>
+            <h2 className="heading-huge">Designed for <br/><span style={{ color: 'var(--color-pastel-pink)' }}>Every Woman</span><br/><span style={{ fontSize: '3rem' }}>in Intellectual Property</span></h2>
+            <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', marginTop: '20px', maxWidth: '600px', lineHeight: 1.6 }}>
+              Whether you're just beginning your career or leading an international practice, the Alliance has been designed to support every stage of your professional journey.
+            </p>
           </FadeIn>
           <FloatAnim delay={0.2} className="sticker" style={{ '--rot': '15deg', position: 'relative', backgroundColor: 'var(--color-pastel-yellow)', color: 'var(--color-black)' } as React.CSSProperties}>🎯</FloatAnim>
         </div>

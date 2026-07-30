@@ -43,13 +43,12 @@ export default function MeshGradient() {
       <motion.div
         style={{
           position: "absolute",
-          top: "20%",
-          left: "20%",
-          width: "50vw",
-          height: "50vw",
+          top: "10%",
+          left: "10%",
+          width: "70vw",
+          height: "70vw",
           borderRadius: "50%",
-          backgroundColor: "var(--color-pastel-purple)",
-          filter: "blur(120px)",
+          background: "radial-gradient(circle, var(--color-pastel-purple) 0%, transparent 60%)",
           opacity: 0.4,
           x: xOffset1,
           y: yOffset1,
@@ -63,13 +62,12 @@ export default function MeshGradient() {
       <motion.div
         style={{
           position: "absolute",
-          bottom: "10%",
-          right: "10%",
-          width: "45vw",
-          height: "45vw",
+          bottom: "-10%",
+          right: "-10%",
+          width: "65vw",
+          height: "65vw",
           borderRadius: "50%",
-          backgroundColor: "var(--color-pastel-green)",
-          filter: "blur(100px)",
+          background: "radial-gradient(circle, var(--color-pastel-green) 0%, transparent 60%)",
           opacity: 0.3,
           x: xOffset2, 
           y: yOffset2,
@@ -83,13 +81,12 @@ export default function MeshGradient() {
       <motion.div
         style={{
           position: "absolute",
-          top: "40%",
-          left: "60%",
-          width: "40vw",
-          height: "40vw",
+          top: "30%",
+          left: "50%",
+          width: "60vw",
+          height: "60vw",
           borderRadius: "50%",
-          backgroundColor: "var(--color-pastel-yellow)",
-          filter: "blur(90px)",
+          background: "radial-gradient(circle, var(--color-pastel-yellow) 0%, transparent 60%)",
           opacity: 0.2,
           x: xOffset3,
           y: yOffset3,
@@ -99,14 +96,13 @@ export default function MeshGradient() {
         }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
-      {/* Noise overlay to give it a textured feel */}
+      {/* Noise overlay to give it a textured feel without mixBlendMode for performance */}
       <div 
         style={{ 
           position: 'absolute', 
           inset: 0, 
-          opacity: 0.05, 
+          opacity: 0.04, 
           backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
-          mixBlendMode: 'overlay',
           pointerEvents: 'none'
         }} 
       />

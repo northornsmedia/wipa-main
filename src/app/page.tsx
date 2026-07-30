@@ -19,13 +19,13 @@ export default function Home() {
       <Hero />
       <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • DEEP TECH • INNOVATION" />
       <About />
+      <Audience />
       <WhyWipa />
       <Features />
-      <Values />
-      <Audience />
       <HowItHelps />
-      <Membership />
+      <Values />
       <TechStack />
+      <Membership />
       <CTA />
       <Footer />
     </main>

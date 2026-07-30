@@ -4,25 +4,28 @@ import TiltCard from "./animations/TiltCard";
 import FloatAnim from "./animations/FloatAnim";
 
 const features = [
-  { title: "Social Feed", desc: "A dynamic, real-time social feed. LinkedIn, but built for IP.", style: "bg-pastel-purple span-2 row-span-2", img: "/images/social_feed_mockup_1785398662862.png" },
-  { title: "Direct Messaging", desc: "Fully real-time private messaging.", style: "bg-pastel-yellow span-2", img: "/images/messaging_mockup_1785398592482.png" },
-  { title: "Members Directory", desc: "Find a patent counsel in Tokyo or trademark specialist in NY.", style: "bg-charcoal span-2", img: "/images/directory_mockup_1785398601914.png" },
-  { title: "Networking", desc: "Send connection requests and build your circle.", style: "bg-pastel-green span-2", img: "/images/networking_mockup_1785398611398.png" },
-  { title: "Mentorship", desc: "Connect experienced IP pros with emerging talent.", style: "bg-pastel-pink span-2", img: "/images/mentorship_mockup_1785398688205.png" },
-  { title: "Job Board", desc: "Discover career opportunities for IP professionals.", style: "bg-pastel-yellow span-2 row-span-2", img: "/images/job_board_mockup_1785398621354.png" },
-  { title: "Events & Confs", desc: "Virtual webinars, panels, and networking mixers.", style: "bg-charcoal span-2", img: "/images/events_mockup_1785398631503.png" },
-  { title: "Pro Profiles", desc: "Showcase your role, experience, education, and projects.", style: "bg-pastel-purple span-2" },
+  { title: "Community Feed", desc: "Access the Community Feed and Discussion Forums.", style: "bg-pastel-purple span-2 row-span-2", img: "/images/social_feed_mockup_1785398662862.png" },
+  { title: "Direct Messaging", desc: "Fully real-time Direct Messaging & Networking Groups.", style: "bg-pastel-yellow span-2", img: "/images/messaging_mockup_1785398592482.png" },
+  { title: "Global Directory", desc: "Professional Profiles and the Global Member Directory.", style: "bg-charcoal span-2", img: "/images/directory_mockup_1785398601914.png" },
+  { title: "Mentorship Hub", desc: "Access the Mentorship Hub and Business Opportunities.", style: "bg-pastel-green span-2", img: "/images/networking_mockup_1785398611398.png" },
+  { title: "Resource Library", desc: "Explore the Resource Library with Future AI-Powered Search.", style: "bg-pastel-pink span-2", img: "/images/mentorship_mockup_1785398688205.png" },
+  { title: "Job Board", desc: "Discover career opportunities and Member Notifications.", style: "bg-pastel-yellow span-2 row-span-2", img: "/images/job_board_mockup_1785398621354.png" },
+  { title: "Events & Webinars", desc: "Access the Events Calendar and Webinar Centre.", style: "bg-charcoal span-2", img: "/images/events_mockup_1785398631503.png" },
+  { title: "Mobile Access", desc: "Stay connected wherever you are in the world.", style: "bg-pastel-purple span-2" },
 ];
 
 export default function Features() {
   return (
     <section id="features" className="section section-dark">
       <div className="container">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '80px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '80px', position: 'relative' }}>
           <FadeIn direction="left">
-            <h2 className="heading-huge">Interactive<br/>Features</h2>
+            <h2 className="heading-huge">Your Community.<br/><span style={{ color: 'var(--color-pastel-pink)' }}>Connected</span> All Year Round.</h2>
+            <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', marginTop: '20px', maxWidth: '700px', lineHeight: 1.6 }}>
+              Designed exclusively for Alliance members, our digital platform keeps you connected wherever you are in the world, making networking, collaboration, learning, and professional development accessible throughout the year.
+            </p>
           </FadeIn>
-          <FloatAnim delay={0.5} className="sticker" style={{ '--rot': '-20deg', position: 'relative', backgroundColor: 'var(--color-pastel-green)', color: 'var(--color-black)' } as React.CSSProperties}>🚀</FloatAnim>
+          <FloatAnim delay={0.5} className="sticker" style={{ '--rot': '-20deg', position: 'absolute', top: 0, right: 0, backgroundColor: 'var(--color-pastel-green)', color: 'var(--color-black)' } as React.CSSProperties}>🚀</FloatAnim>
         </div>
 
         <StaggerGrid className="bento-grid">
