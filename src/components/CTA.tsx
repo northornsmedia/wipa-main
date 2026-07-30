@@ -7,9 +7,6 @@ export default function CTA() {
   return (
     <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
 
-
-      <FloatAnim delay={0.3} className="sticker" style={{ '--rot': '-45deg', position: 'absolute', backgroundColor: 'var(--color-pastel-pink)', color: 'var(--color-black)', top: '20%', left: '15%' } as React.CSSProperties}>✨</FloatAnim>
-
       <div className="container" style={{ padding: '120px 40px', position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <FadeIn direction="up">
           <h2 className="heading-huge" style={{ marginBottom: '40px' }}>Join the Women Shaping the <br/><span style={{ color: 'var(--color-pastel-pink)' }}>Future of IP</span></h2>
