@@ -7,7 +7,7 @@ import React from "react";
 const tiers = [
   { 
     name: "IP Professionals", 
-    desc: "For lawyers, attorneys, trade mark professionals, patent practitioners, academics, consultants, and in-house counsel.", 
+    desc: "For lawyers, attorneys, trade mark professionals, patent practitioners, consultants, and in-house counsel.", 
     price: "£395",
     style: "bg-pastel-green"
   },
