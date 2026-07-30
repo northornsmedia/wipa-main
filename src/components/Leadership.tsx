@@ -25,13 +25,23 @@ export default function Leadership() {
           </FadeIn>
         </div>
 
-        <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
-          {leaders.map((l, i) => (
-            <div key={i} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', padding: '20px 40px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
-              <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3 }}>{l.role}</h4>
-            </div>
-          ))}
-        </StaggerGrid>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
+          <StaggerGrid style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '800px' }}>
+            {leaders.slice(0, 2).map((l, i) => (
+              <div key={i} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', flex: '1 1 300px', padding: '20px 40px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+                <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3 }}>{l.role}</h4>
+              </div>
+            ))}
+          </StaggerGrid>
+          
+          <StaggerGrid style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '1000px' }}>
+            {leaders.slice(2, 5).map((l, i) => (
+              <div key={i + 2} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', flex: '1 1 250px', padding: '20px 40px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+                <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3 }}>{l.role}</h4>
+              </div>
+            ))}
+          </StaggerGrid>
+        </div>
 
       </div>
     </section>
