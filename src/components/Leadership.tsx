@@ -2,7 +2,7 @@ import FadeIn from "./animations/FadeIn";
 import StaggerGrid from "./animations/StaggerGrid";
 
 const leaders = [
-  { role: "Founder & CEO", style: "bg-pastel-pink" },
+  { role: "Regional Chairs", style: "bg-pastel-pink" },
   { role: "Alliance President", style: "bg-pastel-yellow" },
   { role: "Advisory Board", style: "bg-pastel-green" },
   { role: "Regional Representatives", style: "bg-pastel-purple" },
