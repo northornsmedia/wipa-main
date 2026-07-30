@@ -52,21 +52,21 @@ export default function Membership() {
 
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto', alignItems: 'stretch' }}>
           {tiers.map((t, i) => (
-            <TiltCard key={i} className={`pill-container ${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px 25px', border: '2px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)', height: '100%' }}>
+            <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '40px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', marginBottom: '20px' }}>
-                <h3 className="heading-md" style={{ lineHeight: 1.1, minHeight: '85px', display: 'flex', alignItems: 'flex-start' }}>{t.name}</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
+                <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', alignItems: 'flex-start' }}>{t.name}</h3>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-                  <div style={{ fontSize: '3.5rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{t.price}</div>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase' }}>/ year</div>
+                  <div style={{ fontSize: '4rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{t.price}</div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>/ year</div>
                 </div>
               </div>
 
-              <div style={{ flexGrow: 1, marginBottom: '20px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '1.1rem', opacity: 0.9, lineHeight: 1.5 }}>{t.desc}</div>
+              <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6 }}>{t.desc}</div>
               </div>
 
-              <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)' }}>SELECT PLAN</button>
+              <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold' }}>SELECT PLAN</button>
             </TiltCard>
           ))}
         </StaggerGrid>
