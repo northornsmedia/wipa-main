@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DoodleSocials from "./DoodleSocials";
 
 export default function Footer() {
   return (
@@ -61,6 +62,8 @@ export default function Footer() {
         </div>
 
       </div>
+
+      <DoodleSocials />
       
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px solid var(--color-black)', paddingTop: '40px', fontSize: '1rem', fontWeight: 600 }}>
         <span>© 2026 WIPA. All rights reserved.</span>
