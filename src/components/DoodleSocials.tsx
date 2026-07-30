@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function DoodleSocials() {
   return (
-    <div style={{ padding: '20px 0', display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <svg
         style={{ visibility: 'hidden', position: 'absolute' }}
         width="0"
