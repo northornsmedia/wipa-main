@@ -33,14 +33,16 @@ export default function MemberBenefits() {
           </FadeIn>
         </div>
 
-        <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-          {benefits.map((b, i) => (
-            <TiltCard key={i} className={`pill-container ${b.style}`} style={{ padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
-              <h4 className="heading-md" style={{ marginBottom: '10px', color: b.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{b.title}</h4>
-              <p style={{ fontSize: '1.1rem', color: b.style === 'bg-charcoal' ? 'rgba(255,255,255,0.8)' : 'var(--color-black)' }}>{b.desc}</p>
-            </TiltCard>
-          ))}
-        </StaggerGrid>
+        <div className="marquee-container" style={{ margin: '0 -20px', padding: '10px 20px 30px' }}>
+          <div className="marquee-content" style={{ animationDuration: '40s', gap: '24px' }}>
+            {[...benefits, ...benefits].map((b, i) => (
+              <TiltCard key={i} className={`pill-container ${b.style}`} style={{ width: '320px', flexShrink: 0, padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)' }}>
+                <h4 className="heading-md" style={{ marginBottom: '10px', color: b.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{b.title}</h4>
+                <p style={{ fontSize: '1.1rem', color: b.style === 'bg-charcoal' ? 'rgba(255,255,255,0.8)' : 'var(--color-black)' }}>{b.desc}</p>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
 
       </div>
     </section>

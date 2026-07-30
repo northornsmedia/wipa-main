@@ -23,16 +23,14 @@ export default function Audience() {
           <FloatAnim delay={0.2} className="sticker" style={{ '--rot': '15deg', position: 'relative', backgroundColor: 'var(--color-pastel-yellow)', color: 'var(--color-black)' } as React.CSSProperties}>🎯</FloatAnim>
         </div>
 
-        <div className="marquee-container" style={{ margin: '0 -20px', padding: '0 20px' }}>
-          <div className="marquee-content">
-            {[...personas, ...personas, ...personas].map((p, i) => (
-              <div key={i} className={`bento-card ${p.style}`} style={{ width: '400px', flexShrink: 0, border: p.style === 'bg-charcoal' ? '2px solid rgba(255,255,255,0.2)' : '2px solid var(--color-black)' }}>
-                <h4 className="heading-md" style={{ marginBottom: '15px' }}>{p.title}</h4>
-                <p style={{ fontSize: '1.1rem', opacity: p.style === 'bg-charcoal' ? 0.8 : 1 }}>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <StaggerGrid className="bento-grid">
+          {personas.map((p, i) => (
+            <div key={i} className={`bento-card span-2 ${p.style}`} style={{ border: p.style === 'bg-charcoal' ? '2px solid rgba(255,255,255,0.2)' : '2px solid var(--color-black)' }}>
+              <h4 className="heading-md" style={{ marginBottom: '15px' }}>{p.title}</h4>
+              <p style={{ fontSize: '1.1rem', opacity: p.style === 'bg-charcoal' ? 0.8 : 1 }}>{p.desc}</p>
+            </div>
+          ))}
+        </StaggerGrid>
       </div>
     </section>
   );
