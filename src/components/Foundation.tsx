@@ -23,7 +23,7 @@ export default function Foundation() {
               An International Legacy
             </h2>
             <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6 }}>
-              The Women's IP World Alliance has been developed by the team behind The Women's IP World Annual—one of the world's leading publications celebrating women across intellectual property.
+              The Women's IP World Alliance has been developed by the team behind The Women's IP World Annual—the world's leading publication celebrating women across intellectual property.
             </p>
             <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6 }}>
               For years, the publication has connected outstanding professionals from every region, showcasing leadership, celebrating achievement, and promoting diversity across patents, trade marks, innovation, technology, academia, and law.
