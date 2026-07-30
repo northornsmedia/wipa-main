@@ -21,8 +21,8 @@ const containerVariants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 20 } },
+  hidden: { opacity: 0, y: -150, scale: 0.9 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 120, damping: 12 } },
 };
 
 export default function StaggerGrid({ children, className, style }: StaggerGridProps) {
