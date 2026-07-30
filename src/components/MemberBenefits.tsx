@@ -37,7 +37,7 @@ export default function MemberBenefits() {
       <div className="marquee-container" style={{ padding: '10px 0 50px' }}>
         <div className="marquee-content" style={{ animationDuration: '40s', gap: '24px' }}>
           {[...benefits, ...benefits].map((b, i) => (
-            <TiltCard key={i} className={`pill-container ${b.style}`} style={{ width: '320px', flexShrink: 0, padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)' }}>
+            <TiltCard key={i} className={`pill-container ${b.style}`} style={{ width: '360px', flexShrink: 0, padding: '35px 45px', border: '2px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)' }}>
               <h4 className="heading-md" style={{ marginBottom: '10px', color: b.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{b.title}</h4>
               <p style={{ fontSize: '1.1rem', color: b.style === 'bg-charcoal' ? 'rgba(255,255,255,0.8)' : 'var(--color-black)' }}>{b.desc}</p>
             </TiltCard>
