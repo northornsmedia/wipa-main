@@ -63,6 +63,29 @@ export default function Membership() {
           </FadeIn>
         </div>
 
+        <FadeIn direction="up" delay={0.3}>
+          <div style={{
+            margin: '40px auto 60px',
+            padding: '40px',
+            backgroundColor: 'var(--color-pastel-yellow)',
+            color: 'var(--color-charcoal)',
+            border: '2px solid var(--color-white)',
+            boxShadow: '0px 0px 40px rgba(254, 243, 199, 0.2)',
+            borderRadius: '32px',
+            maxWidth: '900px',
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <h4 style={{ fontSize: '2.2rem', marginBottom: '20px', fontFamily: 'var(--font-display)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
+              🔥 Your Founding Member Advantage
+            </h4>
+            <p style={{ fontSize: '1.2rem', margin: 0, lineHeight: 1.6, fontWeight: 600 }}>
+              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'var(--color-pastel-pink)', padding: '2px 8px', borderRadius: '4px' }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
+            </p>
+          </div>
+        </FadeIn>
+
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto', alignItems: 'stretch' }}>
           {tiers.map((t, i) => (
             <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '40px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
@@ -92,14 +115,7 @@ export default function Membership() {
           ))}
         </StaggerGrid>
 
-        <FadeIn direction="up" delay={0.4}>
-          <div style={{ marginTop: '60px', padding: '40px', backgroundColor: 'var(--color-charcoal-light)', border: '2px solid var(--color-pastel-yellow)', borderRadius: '20px', maxWidth: '1000px', margin: '60px auto 0', textAlign: 'center' }}>
-            <h4 style={{ color: 'var(--color-pastel-yellow)', fontSize: '1.5rem', marginBottom: '15px' }}>Your Founding Member Advantage</h4>
-            <p style={{ fontSize: '1.1rem', opacity: 0.9, margin: 0, lineHeight: 1.6 }}>
-              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also locks in your exclusive Founding Member membership rate for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
-            </p>
-          </div>
-        </FadeIn>
+
 
       </div>
     </section>
