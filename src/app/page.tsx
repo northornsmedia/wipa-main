@@ -24,7 +24,7 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
-      <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • DEEP TECH • INNOVATION" />
+      <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • INNOVATION" />
       <About />
       <Foundation />
       <Audience />

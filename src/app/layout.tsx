@@ -5,7 +5,7 @@ import ScrollProgress from "@/components/animations/ScrollProgress";
 import Preloader from "@/components/animations/Preloader";
 
 export const metadata: Metadata = {
-  title: "WIPA — Women in Intellectual Property Association",
+  title: "WIPA — Women's IP Alliance",
   description:
     "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",
 };

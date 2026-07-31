@@ -12,7 +12,7 @@ export default function Footer() {
             WIPA<span style={{ color: 'var(--color-accent-purple)' }}>*</span>
           </Link>
           <p style={{ fontSize: '1.1rem', opacity: 0.9, lineHeight: 1.6 }}>
-            Women in Intellectual Property Association — Empowering women in Patents, Trademarks, Copyright, and Innovation.
+            Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
           </p>
           <div style={{ marginTop: '20px', fontWeight: 600 }}>
             <a href="mailto:info@northonsprmarketing.com" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>info@northonsprmarketing.com</a>
