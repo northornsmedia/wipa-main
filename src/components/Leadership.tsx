@@ -5,7 +5,7 @@ const leaders = [
   { role: "Alliance President", style: "bg-pastel-yellow" },
   { role: "Advisory Board", style: "bg-pastel-green" },
   { role: "Regional Chairs", style: "bg-pastel-pink" },
-  { role: "Community Ambassadors", style: "bg-pastel-pink" },
+  { role: "Community Ambassadors", style: "bg-pastel-yellow" },
   { role: "Regional Representatives", style: "bg-pastel-purple" }
 ];
 
