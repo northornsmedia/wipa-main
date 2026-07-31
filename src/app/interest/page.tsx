@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import FadeIn from "@/components/animations/FadeIn";
 
-export default function InterestPage() {
+function InterestForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const planName = searchParams.get("plan") || "";
@@ -32,12 +32,11 @@ export default function InterestPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
     setIsSubmitted(true);
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "var(--color-pastel-purple)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
+    <>
       <FadeIn direction="up">
         <div style={{ backgroundColor: "var(--color-white)", padding: "50px", borderRadius: "32px", border: "3px solid var(--color-black)", boxShadow: "12px 12px 0px var(--color-black)", width: "100%", maxWidth: "600px" }}>
           
@@ -144,6 +143,16 @@ export default function InterestPage() {
           </FadeIn>
         </div>
       )}
+    </>
+  );
+}
+
+export default function InterestPage() {
+  return (
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--color-pastel-purple)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
+      <Suspense fallback={<div>Loading form...</div>}>
+        <InterestForm />
+      </Suspense>
     </div>
   );
 }
