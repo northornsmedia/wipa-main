@@ -205,10 +205,6 @@ a {
     display: none !important;
   }
   
-  .foundation-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  
   .foundation-pill-text {
     white-space: normal !important;
     font-size: 1.1rem !important;
@@ -218,12 +214,6 @@ a {
 @media (min-width: 769px) {
   .desktop-hidden {
     display: none !important;
-  }
-  
-  .foundation-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
   }
   
   .foundation-pill-text {

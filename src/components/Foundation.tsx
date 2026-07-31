@@ -34,7 +34,7 @@ export default function Foundation() {
           </FadeIn>
         </div>
 
-        <StaggerGrid className="foundation-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+        <StaggerGrid className="foundation-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', maxWidth: '1000px', margin: '0 auto' }}>
           {highlights.map((h, i) => (
             <div key={i} className={`pill-container ${h.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <h4 className="heading-md foundation-pill-text" style={{ color: h.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{h.title}</h4>
