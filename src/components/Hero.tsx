@@ -19,7 +19,7 @@ export default function Hero() {
         
         <FadeIn direction="up" delay={0.2} style={{ display: 'flex', gap: '40px', marginTop: '60px', alignItems: 'flex-start' }}>
           <p style={{ maxWidth: '600px', fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
-            The Women's IP World Alliance is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, the Alliance provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
+            The Women's IP Alliance is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, the Alliance provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
           </p>
           <div style={{ pointerEvents: 'auto', display: 'flex', flexDirection: 'column', gap: '15px', minWidth: '300px' }}>
             <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '20px 40px', fontSize: '1.2rem', width: '100%' }}>

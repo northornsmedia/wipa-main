@@ -13,7 +13,7 @@ export default function About() {
             Women have long played a vital role in shaping innovation, protecting brands, advancing technology, and driving the future of intellectual property. Yet opportunities to build lasting international relationships, exchange expertise, and collaborate beyond conferences remain limited.
           </p>
           <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
-            The Women's IP World Alliance has been created to bridge that gap.
+            The Women's IP Alliance has been created to bridge that gap.
           </p>
           <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
             Launching in 2027, the Alliance transforms an annual publication into a year-round international community where members can connect with peers, access world-class learning opportunities, develop professionally, and become part of a collaborative global network designed specifically for women in IP.

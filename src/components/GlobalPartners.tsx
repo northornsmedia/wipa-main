@@ -12,7 +12,7 @@ export default function GlobalPartners() {
               Alliance <br/> <span style={{ backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '0 20px' }}>Supporting Partners</span>
             </h2>
             <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
-              The Women's IP World Alliance proudly collaborates with conferences, universities, technology providers, professional organisations, and industry partners committed to supporting women across intellectual property.
+              The Women's IP Alliance proudly collaborates with conferences, universities, technology providers, professional organisations, and industry partners committed to supporting women across intellectual property.
             </p>
           </FadeIn>
         </div>

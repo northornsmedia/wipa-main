@@ -5,7 +5,7 @@ import FadeIn from "./animations/FadeIn";
 import StaggerGrid from "./animations/StaggerGrid";
 
 const faqs = [
-  { q: "When does the Alliance launch?", a: "The Women's IP World Alliance officially launches in January 2027. We are currently accepting applications for our exclusive Founding Membership tier." },
+  { q: "When does the Alliance launch?", a: "The Women's IP Alliance officially launches in January 2027. We are currently accepting applications for our exclusive Founding Membership tier." },
   { q: "Who can become a member?", a: "Membership is open to all women professionals working in intellectual property, including patent practitioners, trade mark attorneys, academics, researchers, and in-house counsel." },
   { q: "How does Founding Membership work?", a: "Founding Members join our inaugural cohort with lifetime priority status. This includes locked-in pricing, VIP access to all our global events, and special recognition on our platform." },
   { q: "When do memberships begin?", a: "All memberships will officially activate in January 2027. However, Founding Members gain immediate access to our private community channels and early-bird event registrations." },
