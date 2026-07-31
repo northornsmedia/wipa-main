@@ -88,22 +88,22 @@ export default function Membership() {
 
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto', alignItems: 'stretch' }}>
           {tiers.map((t, i) => (
-            <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '40px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
+            <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '40px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
-                <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                   {t.name}
                   {t.subtitle && <span style={{ fontSize: '1.2rem', marginTop: '5px', opacity: 0.8 }}>{t.subtitle}</span>}
                 </h3>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', justifyContent: 'center' }}>
                   <div style={{ fontSize: '4rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{t.price}</div>
                   <div style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>/ year</div>
                 </div>
               </div>
 
-              <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 {t.extra && <div style={{ fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' }}>{t.extra}</div>}
-                <div className="pulse-highlight" style={{ fontSize: '1.05rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'flex-start' }}>🚨 {t.limit}</div>
+                <div className="pulse-highlight" style={{ fontSize: '1.05rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>🚨 {t.limit}</div>
                 <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px' }}>{t.desc}</div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>
               </div>
