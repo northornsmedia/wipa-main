@@ -210,6 +210,19 @@ a {
   .desktop-hidden {
     display: none !important;
   }
+@keyframes pulse-highlight {
+  0% { transform: scale(1); opacity: 1; color: var(--color-charcoal); }
+  50% { transform: scale(1.02); opacity: 0.8; color: #d90429; }
+  100% { transform: scale(1); opacity: 1; color: var(--color-charcoal); }
+}
+
+.pulse-highlight {
+  animation: pulse-highlight 2s infinite ease-in-out;
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  border: 1px dashed var(--color-black);
 }
 
 @keyframes float {
