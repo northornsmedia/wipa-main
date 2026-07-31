@@ -184,6 +184,32 @@ a {
 @media (max-width: 768px) {
   .bento-grid { grid-template-columns: 1fr; }
   .span-2, .span-3, .row-span-2 { grid-column: span 1; grid-row: auto; }
+  
+  .container {
+    padding: 0 20px;
+  }
+  
+  p {
+    text-align: justify;
+  }
+  
+  .heading-huge {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+  
+  .heading-lg {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  .mobile-hidden {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-hidden {
+    display: none !important;
+  }
 }
 
 @keyframes float {
