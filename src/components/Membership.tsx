@@ -104,7 +104,7 @@ export default function Membership() {
               <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 {t.extra && <div style={{ fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' }}>{t.extra}</div>}
                 <div className="pulse-highlight" style={{ fontSize: '1.05rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>🚨 {t.limit}</div>
-                <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px' }}>{t.desc}</div>
+                <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px', textAlign: 'center' }}>{t.desc}</div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>
               </div>
 
