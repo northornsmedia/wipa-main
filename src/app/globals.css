@@ -204,12 +204,34 @@ a {
   .mobile-hidden {
     display: none !important;
   }
+  
+  .foundation-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .foundation-pill-text {
+    white-space: normal !important;
+    font-size: 1.1rem !important;
+  }
 }
 
 @media (min-width: 769px) {
   .desktop-hidden {
     display: none !important;
   }
+  
+  .foundation-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+  }
+  
+  .foundation-pill-text {
+    white-space: nowrap;
+    font-size: clamp(0.8rem, 1.2vw, 1.1rem) !important;
+  }
+}
+
 @keyframes pulse-highlight {
   0% { transform: scale(1); opacity: 1; color: var(--color-charcoal); }
   50% { transform: scale(1.02); opacity: 0.8; color: #d90429; }
