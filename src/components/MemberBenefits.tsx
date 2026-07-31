@@ -39,7 +39,7 @@ export default function MemberBenefits() {
           {[...benefits, ...benefits].map((b, i) => (
             <TiltCard key={i} className={`pill-container ${b.style}`} style={{ width: '280px', flexShrink: 0, padding: '25px 35px', border: '2px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)' }}>
               <h4 className="heading-md" style={{ textAlign: 'center', marginBottom: '15px', fontSize: '1.25rem', color: b.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{b.title}</h4>
-              <p style={{ textAlign: 'justify', fontSize: '0.95rem', color: b.style === 'bg-charcoal' ? 'rgba(255,255,255,0.8)' : 'var(--color-black)' }}>{b.desc}</p>
+              <p style={{ textAlign: 'center', fontSize: '0.95rem', color: b.style === 'bg-charcoal' ? 'rgba(255,255,255,0.8)' : 'var(--color-black)' }}>{b.desc}</p>
             </TiltCard>
           ))}
         </div>
