@@ -6,26 +6,38 @@ import React from "react";
 
 const tiers = [
   { 
-    name: "IP Professionals", 
-    desc: "For lawyers, attorneys, trade mark professionals, patent practitioners, consultants, and in-house counsel.", 
+    name: "IP Professional Membership", 
     price: "£395",
+    limit: "Limited to the first 300 members worldwide",
+    desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, in-house counsel, and other intellectual property professionals.", 
+    standardPrice: "Standard Membership Price: £695/year",
     style: "bg-pastel-green"
   },
   { 
-    name: "Start-ups & Emerging Businesses", 
-    desc: (
-      <>
-        For founders, entrepreneurs, innovators, and businesses established within the previous 12 months.
-      </>
-    ), 
+    name: "Entrepreneur Membership", 
     price: "£295",
+    limit: "Limited to the first 200 members worldwide",
+    desc: "For founders, entrepreneurs, innovators, business owners, start-ups, and professionals commercialising intellectual property and innovation.", 
+    standardPrice: "Standard Membership Price: £495/year",
     style: "bg-pastel-purple"
   },
   { 
-    name: "Students & Alumni", 
-    desc: "For students and graduates beginning careers across intellectual property and innovation.", 
+    name: "Student Membership", 
     price: "£99",
+    limit: "Limited to the first 200 members worldwide",
+    desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.", 
+    standardPrice: "Standard Membership Price: £149/year",
     style: "bg-pastel-pink"
+  },
+  { 
+    name: "Enterprise Membership", 
+    subtitle: "(IP Professional Teams)",
+    extra: "5 IP Professional Memberships for the Price of 4",
+    price: "£1,580",
+    limit: "Saving £395 – One membership completely free",
+    desc: "Perfect for law firms, corporate IP departments, universities, innovation teams, and organisations looking to provide membership benefits to multiple professionals while securing Founding Member status for their team.", 
+    standardPrice: "Standard Price After Launch: £2,780/year",
+    style: "bg-pastel-yellow"
   },
 ];
 
@@ -45,7 +57,7 @@ export default function Membership() {
               Your membership is an investment in lifelong professional development, international networking, leadership opportunities, and meaningful global connections.
             </p>
             <p style={{ fontSize: '1.2rem', opacity: 0.9, maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
-              Choose the membership designed for your stage of career and become part of an international community shaping the future of intellectual property.
+              Join an international community dedicated to advancing women across intellectual property, innovation, technology, academia, and entrepreneurship. Secure your place today at our exclusive Founding Member rate before standard membership pricing applies.
             </p>
           </FadeIn>
         </div>
@@ -55,7 +67,10 @@ export default function Membership() {
             <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '40px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
-                <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', alignItems: 'flex-start' }}>{t.name}</h3>
+                <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  {t.name}
+                  {t.subtitle && <span style={{ fontSize: '1.2rem', marginTop: '5px', opacity: 0.8 }}>{t.subtitle}</span>}
+                </h3>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
                   <div style={{ fontSize: '4rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{t.price}</div>
                   <div style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>/ year</div>
@@ -63,18 +78,22 @@ export default function Membership() {
               </div>
 
               <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6 }}>{t.desc}</div>
+                {t.extra && <div style={{ fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' }}>{t.extra}</div>}
+                <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: 'var(--color-black)', opacity: 0.7, marginBottom: '15px' }}>{t.limit}</div>
+                <div style={{ fontSize: '1.15rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px' }}>{t.desc}</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>
               </div>
 
-              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold' }}>SELECT PLAN</button>
+              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold' }}>Reserve your founding membership</button>
             </TiltCard>
           ))}
         </StaggerGrid>
 
         <FadeIn direction="up" delay={0.4}>
-          <div style={{ marginTop: '60px', padding: '30px', backgroundColor: 'var(--color-charcoal-light)', border: '2px solid var(--color-pastel-yellow)', borderRadius: '20px', maxWidth: '1000px', margin: '60px auto 0', textAlign: 'center' }}>
-            <p style={{ fontSize: '1.1rem', opacity: 0.9, margin: 0 }}>
-              <strong style={{ color: 'var(--color-pastel-yellow)' }}>Note:</strong> Founding Member rates are available exclusively during the Alliance&apos;s inaugural launch period and are available for a limited time. Standard membership rates will apply upon renewal.
+          <div style={{ marginTop: '60px', padding: '40px', backgroundColor: 'var(--color-charcoal-light)', border: '2px solid var(--color-pastel-yellow)', borderRadius: '20px', maxWidth: '1000px', margin: '60px auto 0', textAlign: 'center' }}>
+            <h4 style={{ color: 'var(--color-pastel-yellow)', fontSize: '1.5rem', marginBottom: '15px' }}>Your Founding Member Advantage</h4>
+            <p style={{ fontSize: '1.1rem', opacity: 0.9, margin: 0, lineHeight: 1.6 }}>
+              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also locks in your exclusive Founding Member membership rate for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
             </p>
           </div>
         </FadeIn>
