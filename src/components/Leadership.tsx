@@ -10,6 +10,7 @@ const leaders = [
 ];
 
 export default function Leadership() {
+  // Renders the leadership section
   return (
     <section className="section section-white">
       <div className="container">
