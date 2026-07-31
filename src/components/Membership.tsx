@@ -3,6 +3,7 @@ import TextReveal from "./animations/TextReveal";
 import StaggerGrid from "./animations/StaggerGrid";
 import TiltCard from "./animations/TiltCard";
 import React from "react";
+import Link from "next/link";
 
 const tiers = [
   { 
@@ -84,7 +85,9 @@ export default function Membership() {
                 <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>
               </div>
 
-              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', marginTop: 'auto', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold' }}>Reserve your founding membership</button>
+              <Link href={`/interest?plan=${encodeURIComponent(t.name)}`} style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
+                <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer' }}>Reserve your founding membership</button>
+              </Link>
             </TiltCard>
           ))}
         </StaggerGrid>
