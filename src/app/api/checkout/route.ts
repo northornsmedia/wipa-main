@@ -2,12 +2,6 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/utils/supabase/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2026-07-29.dahlia', // using expected SDK version
-});
-
-
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -36,6 +30,10 @@ export async function POST(req: Request) {
       console.warn('STRIPE_SECRET_KEY is missing. Add it to .env.local');
       return NextResponse.json({ error: 'Stripe configuration missing' }, { status: 500 });
     }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2026-07-29.dahlia', // using expected SDK version
+    });
 
     // Determine base URL dynamically
     const protocol = req.headers.get('x-forwarded-proto') || 'http';
