@@ -24,25 +24,27 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
-      <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • INNOVATION" />
-      <About />
-      <Foundation />
-      <Audience />
-      <MemberBenefits />
-      <WhyWipa />
-      <Features />
-      <HowItHelps />
-      <Values />
-      <MembershipJourney />
-      <Membership />
-      <ExclusiveAdvantages />
-      <Leadership />
-      <EventsLearning />
-      <GlobalPartners />
-      <FAQ />
-      <CommunityImpact />
-      <CTA />
-      <Footer />
+      <div style={{ position: 'relative', zIndex: 10, backgroundColor: 'var(--color-charcoal)' }}>
+        <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • INNOVATION" />
+        <About />
+        <Foundation />
+        <Audience />
+        <MemberBenefits />
+        <WhyWipa />
+        <Features />
+        <HowItHelps />
+        <Values />
+        <MembershipJourney />
+        <Membership />
+        <ExclusiveAdvantages />
+        <Leadership />
+        <EventsLearning />
+        <GlobalPartners />
+        <FAQ />
+        <CommunityImpact />
+        <CTA />
+        <Footer />
+      </div>
     </main>
   );
 }

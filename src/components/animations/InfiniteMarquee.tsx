@@ -15,7 +15,9 @@ export default function InfiniteMarquee({ text }: { text: string }) {
       borderTop: "2px solid var(--color-charcoal-light)",
       borderBottom: "2px solid var(--color-charcoal-light)",
       display: "flex",
-      alignItems: "center"
+      alignItems: "center",
+      position: "relative",
+      zIndex: 10
     }}>
       <motion.div
         style={{
@@ -32,7 +34,7 @@ export default function InfiniteMarquee({ text }: { text: string }) {
           x: ["0%", "-50%"] // Move exactly half width (since we repeated it to be twice as long as needed)
         }}
         transition={{
-          duration: 15,
+          duration: 40,
           ease: "linear",
           repeat: Infinity
         }}

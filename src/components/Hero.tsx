@@ -28,7 +28,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'relative', overflow: 'hidden', padding: '60px 0 80px 0' }}>
+    <section className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'sticky', top: 0, zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0', marginBottom: '-150px' }}>
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
@@ -81,11 +81,26 @@ export default function Hero() {
           </div>
 
           {/* Right Side: Animated Swapping Cards for Profile Images */}
-          <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', transform: 'translateY(-380px)' }}>
+          <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', transform: 'translateY(-280px)' }}>
             
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '-30px', position: 'relative', zIndex: 10 }}>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px', position: 'relative', zIndex: 10 }}>
               <FadeIn direction="up" delay={0.3}>
-                <img src="/our-members.png" alt="Our Members" style={{ maxWidth: '100%', height: 'auto', maxHeight: '250px', objectFit: 'contain' }} />
+                <h2 style={{ 
+                  fontFamily: 'var(--font-display)', 
+                  fontSize: '2.2rem', 
+                  fontWeight: 900, 
+                  textTransform: 'uppercase', 
+                  color: 'var(--color-black)',
+                  backgroundColor: 'var(--color-pastel-purple)',
+                  padding: '12px 28px',
+                  borderRadius: '16px',
+                  border: '3px solid var(--color-white)',
+                  boxShadow: '6px 6px 0px rgba(255,255,255,0.9)',
+                  margin: 0,
+                  transform: 'rotate(2deg)'
+                }}>
+                  Our Founding Members
+                </h2>
               </FadeIn>
             </div>
 
