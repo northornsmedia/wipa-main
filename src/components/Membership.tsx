@@ -80,6 +80,11 @@ export default function Membership({ hideExploreButton = false }: { hideExploreB
       </div>
 
       <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto', padding: '0 40px' }}>
+        <FadeIn direction="up" delay={0.4} style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
+          <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)' }}>
+            Please note: All memberships purchased today will officially commence in January 2027.
+          </div>
+        </FadeIn>
         <PlansGridClient plans={tiers} />
       </div>
       {!hideExploreButton && (

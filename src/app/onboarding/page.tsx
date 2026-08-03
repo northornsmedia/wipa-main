@@ -86,22 +86,59 @@ const options: JourneyOption[] = [
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", country: "" });
-  const [selectedOption, setSelectedOption] = useState<JourneyOption | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<JourneyOption | null>(null);
+  const [onboardingId, setOnboardingId] = useState<string | null>(null);
 
   const selectedCountryObj = countries.find(c => c.n === formData.country);
 
-  const handleNextStep = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.phone && formData.country) {
-      setStep(2);
-    } else {
-      alert("Please fill in all fields to continue.");
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch('/api/onboarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          country: formData.country,
+          phone: (selectedCountryObj ? selectedCountryObj.d + ' ' : '') + formData.phone
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.id) setOnboardingId(data.id);
+      }
+    } catch (err) {
+      console.error('Failed to save lead:', err);
     }
+    
+    setIsLoading(false);
+    setStep(2);
   };
 
-  const handleOptionSelect = (opt: JourneyOption) => {
+  const handleOptionSelect = async (opt: JourneyOption) => {
     setSelectedOption(opt);
+    
+    if (onboardingId) {
+      try {
+        await fetch('/api/onboarding', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: onboardingId,
+            journey_stage: opt.title
+          })
+        });
+      } catch (err) {
+        console.error('Failed to update lead:', err);
+      }
+    }
+    
     setStep(3);
   };
 
@@ -144,7 +181,7 @@ export default function OnboardingPage() {
                 Please share a few details so we can tailor your experience.
               </p>
 
-              <form onSubmit={handleNextStep} style={{ width: '100%', backgroundColor: 'var(--color-white)', padding: '40px', borderRadius: '32px', border: '3px solid var(--color-black)', boxShadow: '12px 12px 0px var(--color-black)' }}>
+              <form onSubmit={handleSubmit} style={{ width: '100%', backgroundColor: 'var(--color-white)', padding: '50px', borderRadius: '32px', border: '4px solid var(--color-black)', boxShadow: '16px 16px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                   <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px' }}>Full Name *</label>
                   <input type="text" placeholder="Jane Doe" required style={inputStyle} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} onFocus={e => e.target.style.boxShadow = "6px 6px 0px var(--color-black)"} onBlur={e => e.target.style.boxShadow = "4px 4px 0px rgba(0,0,0,0.1)"} />
@@ -229,8 +266,8 @@ export default function OnboardingPage() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-wipa" style={{ width: '100%', backgroundColor: 'var(--color-pastel-green)', color: 'var(--color-black)', padding: '20px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 900, border: '3px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)', cursor: 'pointer', textTransform: 'uppercase', marginTop: '10px' }}>
-                  Continue →
+                <button type="submit" disabled={isLoading} className="btn-wipa" style={{ width: '100%', backgroundColor: 'var(--color-pastel-green)', color: 'var(--color-black)', padding: '20px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 900, border: '3px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)', cursor: 'pointer', textTransform: 'uppercase', marginTop: '10px', opacity: isLoading ? 0.7 : 1 }}>
+                  {isLoading ? 'Saving...' : 'Continue →'}
                 </button>
               </form>
             </motion.div>

@@ -4,6 +4,8 @@ import CustomCursor from "@/components/animations/CustomCursor";
 import ScrollProgress from "@/components/animations/ScrollProgress";
 import Preloader from "@/components/animations/Preloader";
 import DisableImageContextMenu from "@/components/DisableImageContextMenu";
+import Analytics from "@/components/Analytics";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "WIPA — Women's IP Alliance",
@@ -20,6 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <DisableImageContextMenu />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
         <Preloader />
         <ScrollProgress />
         <CustomCursor />

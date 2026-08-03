@@ -70,10 +70,13 @@ export default function PlansPage() {
                 style={{ marginBottom: '10px' }} 
               />
             </div>
-            <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px' }}>
+            <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
               <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300 }}>
                 Choose the perfect plan for you or your organisation.
               </p>
+              <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)' }}>
+                Please note: All memberships purchased today will officially commence in January 2027.
+              </div>
             </FadeIn>
           </div>
           
@@ -88,11 +91,11 @@ export default function PlansPage() {
           <p style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6 }}>
             Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team's needs.
           </p>
-          <a href="mailto:hello@wipa.org" style={{ textDecoration: 'none' }}>
+          <Link href="/enterprise" style={{ textDecoration: 'none' }}>
             <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', backgroundColor: 'var(--color-white)', padding: '15px 40px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}>
               Inquire About Custom Plans
             </button>
-          </a>
+          </Link>
         </div>
       </div>
 

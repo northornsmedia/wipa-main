@@ -1,0 +1,276 @@
+"use client";
+
+import { useState } from "react";
+import FadeIn from "@/components/animations/FadeIn";
+import StaggerGrid from "@/components/animations/StaggerGrid";
+
+type AdminDashboardProps = {
+  onboardingLeads: any[];
+  interestLeads: any[];
+  enterpriseLeads: any[];
+  analyticsEvents: any[];
+};
+
+const CircularProgress = ({ percentage, color, label, value }: { percentage: number, color: string, label: string, value: string }) => {
+  const radius = 45;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px" }}>
+      <div style={{ position: "relative", width: "120px", height: "120px" }}>
+        <svg width="120" height="120" style={{ transform: "rotate(-90deg)" }}>
+          <circle cx="60" cy="60" r={radius} fill="none" stroke="#2d3142" strokeWidth="12" />
+          <circle 
+            cx="60" cy="60" r={radius} fill="none" stroke={color} strokeWidth="12" 
+            strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} 
+            strokeLinecap="round" 
+            style={{ transition: "stroke-dashoffset 1s ease-out" }}
+          />
+        </svg>
+        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+          <span style={{ fontSize: "1.4rem", fontWeight: "bold", color: "#fff" }}>{percentage}%</span>
+        </div>
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "1px", color: "#7a7e93", marginBottom: "4px" }}>{label}</div>
+        <div style={{ fontSize: "1.1rem", fontWeight: "600", color: "#fff" }}>{value}</div>
+      </div>
+    </div>
+  );
+};
+
+export default function AdminDashboardClient({ onboardingLeads, interestLeads, enterpriseLeads, analyticsEvents }: AdminDashboardProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [activeTab, setActiveTab] = useState("overview");
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "wipa2026") {
+      setIsAuthenticated(true);
+    } else {
+      alert("Incorrect password");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ minHeight: "100vh", backgroundColor: "#0f111a", display: "flex", justifyContent: "center", alignItems: "center", fontFamily: "sans-serif" }}>
+        <FadeIn direction="up">
+          <div style={{ backgroundColor: "#1c1f2e", padding: "40px", borderRadius: "20px", border: "1px solid #2d3142", width: "400px", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+            <h1 style={{ color: "#fff", marginBottom: "20px", fontSize: "1.8rem", textAlign: "center" }}>Admin Login</h1>
+            <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+              <input 
+                type="password" 
+                placeholder="Enter password..." 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ padding: "15px", borderRadius: "10px", backgroundColor: "#0f111a", border: "1px solid #2d3142", color: "#fff", fontSize: "1.1rem", outline: "none" }}
+              />
+              <button type="submit" style={{ padding: "15px", borderRadius: "10px", backgroundColor: "#00f0ff", color: "#000", fontWeight: "bold", fontSize: "1.1rem", border: "none", cursor: "pointer" }}>
+                Access Dashboard
+              </button>
+            </form>
+          </div>
+        </FadeIn>
+      </div>
+    );
+  }
+
+  const totalLeads = onboardingLeads.length + interestLeads.length + enterpriseLeads.length;
+
+  const renderTable = (title: string, data: any[], columns: string[]) => (
+    <div style={{ backgroundColor: "#1c1f2e", borderRadius: "20px", padding: "25px", border: "1px solid #2d3142", marginTop: "25px", overflowX: "auto" }}>
+      <h2 style={{ color: "#fff", fontSize: "1.5rem", marginBottom: "20px", fontWeight: "600" }}>{title}</h2>
+      <table style={{ width: "100%", borderCollapse: "collapse", color: "#b3b7c6" }}>
+        <thead>
+          <tr>
+            {columns.map(col => (
+              <th key={col} style={{ padding: "15px", textAlign: "left", borderBottom: "2px solid #2d3142", color: "#fff", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px" }}>
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length} style={{ padding: "30px", textAlign: "center", color: "#7a7e93", fontSize: "0.95rem" }}>
+                No data available yet. Waiting for new leads...
+              </td>
+            </tr>
+          ) : (
+            data.map((row, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid #2d3142", transition: "background-color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#24283b"} onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}>
+                {columns.map(col => (
+                  <td key={col} style={{ padding: "15px", fontSize: "0.95rem" }}>
+                    {col === 'created_at' ? new Date(row[col]).toLocaleDateString() : (row[col] || '-')}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  return (
+    <div style={{ minHeight: "100vh", backgroundColor: "#0f111a", display: "flex", fontFamily: "sans-serif", color: "#fff" }}>
+      
+      {/* Sidebar */}
+      <div style={{ width: "280px", backgroundColor: "#1c1f2e", borderRight: "1px solid #2d3142", padding: "30px", display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "15px", marginBottom: "50px" }}>
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#ff007f", display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold", fontSize: "1.2rem" }}>W</div>
+          <h1 style={{ fontSize: "1.5rem", fontWeight: "800", letterSpacing: "2px" }}>WIPA ADMIN</h1>
+        </div>
+
+        <nav style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {[
+            { id: "overview", label: "Dashboard Overview" },
+            { id: "onboarding", label: "Onboarding Leads" },
+            { id: "interests", label: "Checkout Tracking" },
+            { id: "enterprise", label: "Enterprise Inquiries" }
+          ].map(item => (
+            <button 
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              style={{ 
+                padding: "15px 20px", 
+                borderRadius: "12px", 
+                backgroundColor: activeTab === item.id ? "rgba(0, 240, 255, 0.1)" : "transparent",
+                color: activeTab === item.id ? "#00f0ff" : "#7a7e93",
+                border: "none",
+                textAlign: "left",
+                fontSize: "1rem",
+                fontWeight: activeTab === item.id ? "600" : "500",
+                cursor: "pointer",
+                transition: "all 0.2s"
+              }}
+              onMouseOver={(e) => {
+                if (activeTab !== item.id) {
+                  e.currentTarget.style.color = "#fff";
+                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                }
+              }}
+              onMouseOut={(e) => {
+                if (activeTab !== item.id) {
+                  e.currentTarget.style.color = "#7a7e93";
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div style={{ flex: 1, padding: "40px", overflowY: "auto", height: "100vh" }}>
+        
+        {/* Topbar */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
+          <div>
+            <h2 style={{ fontSize: "2rem", fontWeight: "700" }}>
+              {activeTab === 'overview' && "Platform Overview"}
+              {activeTab === 'onboarding' && "Onboarding Leads"}
+              {activeTab === 'interests' && "Checkout Tracking"}
+              {activeTab === 'enterprise' && "Enterprise Inquiries"}
+            </h2>
+            <p style={{ color: "#7a7e93", marginTop: "5px" }}>Real-time statistics and lead tracking.</p>
+          </div>
+          <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+            <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#3a3f58" }}></div>
+            <span style={{ fontWeight: "600" }}>Admin</span>
+          </div>
+        </div>
+
+        <FadeIn direction="up" key={activeTab}>
+          {activeTab === 'overview' && (
+            <>
+              {/* Stat Cards */}
+              <StaggerGrid style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "25px", marginBottom: "40px" }}>
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #00f0ff" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Total Pageviews</h3>
+                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{analyticsEvents.length}</div>
+                </div>
+                
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #ff007f" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Unique Sessions</h3>
+                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{new Set(analyticsEvents.map(e => e.session_id)).size}</div>
+                </div>
+
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #bc00ff" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Total Form Leads</h3>
+                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{totalLeads}</div>
+                </div>
+
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #ffaa00" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Active Checkouts</h3>
+                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{interestLeads.length}</div>
+                </div>
+              </StaggerGrid>
+
+              {/* Analytics Breakdowns */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px", marginBottom: "40px" }}>
+                
+                {/* Devices */}
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
+                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Device Demographics</h3>
+                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
+                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.device_type] = (acc[ev.device_type] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([device, count], index) => {
+                      const colors = ["#00f0ff", "#bc00ff", "#ffaa00"];
+                      return (
+                        <CircularProgress 
+                          key={device} 
+                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
+                          color={colors[index % colors.length]} 
+                          label={device} 
+                          value={String(count)} 
+                        />
+                      );
+                    })}
+                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
+                  </div>
+                </div>
+
+                {/* Browsers */}
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
+                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Browser Popularity</h3>
+                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
+                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.browser] = (acc[ev.browser] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([browser, count], index) => {
+                      const colors = ["#ff007f", "#00f0ff", "#ffaa00", "#bc00ff"];
+                      return (
+                        <CircularProgress 
+                          key={browser} 
+                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
+                          color={colors[index % colors.length]} 
+                          label={browser} 
+                          value={String(count)} 
+                        />
+                      );
+                    })}
+                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
+                  </div>
+                </div>
+
+              </div>
+
+              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 10), ['session_id', 'page_url', 'referrer', 'device_type', 'created_at'])}
+            </>
+          )}
+
+          {activeTab === 'onboarding' && renderTable("All Onboarding Leads", onboardingLeads, ['id', 'name', 'email', 'phone', 'country', 'journey_stage', 'created_at'])}
+          
+          {activeTab === 'interests' && renderTable("Detailed Checkout Tracking", interestLeads, ['name', 'email', 'profession', 'plan', 'payment_status', 'created_at'])}
+
+          {activeTab === 'enterprise' && renderTable("All Enterprise Inquiries", enterpriseLeads, ['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at'])}
+
+        </FadeIn>
+      </div>
+
+    </div>
+  );
+}

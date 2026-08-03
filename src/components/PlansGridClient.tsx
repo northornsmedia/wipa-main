@@ -126,8 +126,8 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
               {isYearly && <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>}
             </div>
 
-            <Link href={`/interest?plan=${encodeURIComponent(t.name.replace('\n', ' '))}&billing=${isYearly ? 'yearly' : 'monthly'}`} style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
-              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer' }}>Reserve your founding membership</button>
+            <Link href={`/interest?plan=${encodeURIComponent(t.name.replace('\n', ' '))}&billing=${isYearly ? 'yearly' : 'monthly'}&amount=${encodeURIComponent(isYearly ? t.price : t.monthlyPrice)}`} style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
+              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase' }}>Purchase Your Membership Now</button>
             </Link>
           </TiltCard>
         ))}

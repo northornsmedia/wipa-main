@@ -6,12 +6,12 @@ import MagneticButton from "./animations/MagneticButton";
 
 export default function Hero() {
   const profiles = [
-    { src: "/1.png", name: "Michele S. Katz", position: "Founding Partner & WIPA Inaugural President" },
-    { src: "/2.png", name: "Dhruva Dakhani", position: "Director" },
-    { src: "/3.jpg", name: "Roba Hamam", position: "Partner & Legal Director" },
-    { src: "/4.jpg", name: "Nithya Somasundaram", position: "Senior Legal Consultant" },
-    { src: "/5.jpeg", name: "Claudia Kaya", position: "Director and Managing IP Consultant" },
-    { src: "/6.png", name: "Ximena Souza Ferreira", position: "Partner" },
+    { src: "/1.png", name: "Michele S. Katz", position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
+    { src: "/2.png", name: "Dhruva Dakhani", position: "Director", company: "Women’s IP Alliance" },
+    { src: "/3.jpg", name: "Roba Hamam", position: "Partner & Legal Director", company: "AÏP Genius" },
+    { src: "/4.jpg", name: "Nithya Somasundaram", position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
+    { src: "/5.jpeg", name: "Claudia Kaya", position: "Director and Managing IP Consultant", company: "Dormann IP" },
+    { src: "/6.png", name: "Ximena Souza Ferreira", position: "Partner", company: "Osterling Abogados" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -28,7 +28,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'sticky', top: 0, zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0', marginBottom: '-150px' }}>
+    <section id="hero" className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'sticky', top: 0, zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0', marginBottom: '-150px' }}>
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
@@ -133,6 +133,9 @@ export default function Hero() {
                     <div style={{ textAlign: 'center', marginTop: '16px', width: '100%' }}>
                       <div style={{ color: 'var(--color-white)', fontSize: '1.2rem', fontWeight: 600 }}>{profile.name}</div>
                       <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginTop: '4px', lineHeight: 1.3 }}>{profile.position}</div>
+                      {profile.company && (
+                        <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginTop: '4px', fontStyle: 'italic' }}>{profile.company}</div>
+                      )}
                     </div>
                   </motion.div>
                 );
