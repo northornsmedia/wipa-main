@@ -10,8 +10,8 @@ export default function Navbar() {
     <>
       <header className="section-white" style={{ position: 'relative', zIndex: 100, padding: '20px 0' }}>
         <nav className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2rem', letterSpacing: '-0.05em', zIndex: 101 }}>
-            WIPA<span style={{ color: 'var(--color-accent-purple)' }}>*</span>
+          <Link href="/" style={{ zIndex: 101, display: 'flex', alignItems: 'center' }}>
+            <img src="/WIPALOGO.png" alt="WIPA Logo" style={{ height: '40px', width: 'auto' }} />
           </Link>
 
           {/* Desktop Nav */}

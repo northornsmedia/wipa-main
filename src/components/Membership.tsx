@@ -45,47 +45,47 @@ const tiers = [
 export default function Membership() {
   return (
     <section id="membership" className="section section-dark">
-      <div className="container">
+      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
         
-        <div style={{ textAlign: 'center', marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <TextReveal 
-            lines={["Invest in", "Your Future"]} 
-            className="heading-huge" 
-            style={{ marginBottom: '10px' }} 
-          />
-          <FadeIn direction="up" delay={0.2}>
-            <p style={{ fontSize: '1.2rem', opacity: 0.9, maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6 }}>
-              Your membership is an investment in lifelong professional development, international networking, leadership opportunities, and meaningful global connections.
+        <div style={{ textAlign: 'center', marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <div style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 900, textTransform: 'uppercase', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+            <TextReveal 
+              lines={["INVEST IN YOUR FUTURE"]} 
+              style={{ marginBottom: '10px' }} 
+            />
+          </div>
+          <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px' }}>
+            <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto 25px', lineHeight: 1.8, fontWeight: 300 }}>
+              Your membership is an investment in <span style={{ color: 'var(--color-pastel-purple)', fontWeight: 600 }}>lifelong professional development</span>, international networking, leadership opportunities, and meaningful global connections.
             </p>
-            <p style={{ fontSize: '1.2rem', opacity: 0.9, maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
-              Join an international community dedicated to advancing women across intellectual property, innovation, technology, academia, and entrepreneurship. Secure your place today at our exclusive Founding Member rate before standard membership pricing applies.
+            <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300 }}>
+              Join an international community dedicated to advancing women across intellectual property, innovation, technology, academia, and entrepreneurship. Secure your place today at our <span style={{ color: 'var(--color-pastel-green)', fontWeight: 600 }}>exclusive Founding Member rate</span> before standard membership pricing applies.
             </p>
           </FadeIn>
         </div>
+      </div>
 
+      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
         <FadeIn direction="up" delay={0.3}>
           <div style={{
-            margin: '40px auto 60px',
-            padding: '40px',
-            backgroundColor: 'var(--color-pastel-yellow)',
-            color: 'var(--color-charcoal)',
-            border: '2px solid var(--color-white)',
-            boxShadow: '0px 0px 40px rgba(254, 243, 199, 0.2)',
-            borderRadius: '32px',
-            maxWidth: '900px',
+            margin: '20px auto 60px',
+            padding: '30px 40px',
+            backgroundColor: 'transparent',
+            color: 'var(--color-white)',
+            border: '2px dotted rgba(255, 255, 255, 0.4)',
+            borderRadius: '16px',
+            maxWidth: '100%',
             textAlign: 'center',
-            position: 'relative',
-            overflow: 'hidden'
+            position: 'relative'
           }}>
-            <h4 style={{ fontSize: '2.2rem', marginBottom: '20px', fontFamily: 'var(--font-display)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
-              🔥 Your Founding Member Advantage
+            <h4 style={{ fontSize: '1.3rem', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: 'var(--color-pastel-purple)' }}>
+              Your Founding Member Advantage
             </h4>
-            <p style={{ fontSize: '1.2rem', margin: 0, lineHeight: 1.6, fontWeight: 600 }}>
-              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'var(--color-pastel-pink)', padding: '2px 8px', borderRadius: '4px' }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
+            <p style={{ fontSize: '1.0rem', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9 }}>
+              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'var(--color-pastel-pink)', color: 'var(--color-black)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
             </p>
           </div>
         </FadeIn>
-
       </div>
 
       <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
@@ -106,7 +106,7 @@ export default function Membership() {
 
               <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 {t.extra && <div style={{ fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' }}>{t.extra}</div>}
-                <div className="pulse-highlight" style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>🚨 {t.limit}</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>{t.limit}</div>
                 <div style={{ fontSize: '1.05rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px', textAlign: 'center' }}>{t.desc}</div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>
               </div>
