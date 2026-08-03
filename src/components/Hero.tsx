@@ -1,45 +1,121 @@
+"use client";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FadeIn from "./animations/FadeIn";
 import MagneticButton from "./animations/MagneticButton";
 
 export default function Hero() {
+  const profiles = [
+    { src: "/1.png", name: "Michele S. Katz", position: "Founding Partner & WIPA Inaugural President" },
+    { src: "/2.png", name: "Dhruva Dakhani", position: "Director" },
+    { src: "/3.jpg", name: "Roba Hamam", position: "Partner & Legal Director" },
+    { src: "/4.jpg", name: "Nithya Somasundaram", position: "Senior Legal Consultant" },
+    { src: "/5.jpeg", name: "Claudia Kaya", position: "Director and Managing IP Consultant" },
+    { src: "/6.png", name: "Ximena Souza Ferreira", position: "Partner" },
+  ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % profiles.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeProfiles = [
+    profiles[currentIndex],
+    profiles[(currentIndex + 1) % profiles.length],
+  ];
+
   return (
-    <section className="section section-dark" style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+    <section className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'relative', overflow: 'hidden', padding: '60px 0 80px 0' }}>
 
-      <div className="container" style={{ position: 'relative', zIndex: 10, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <FadeIn direction="up" delay={0.1}>
-          <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '8px 16px', borderRadius: '30px', fontWeight: 700, fontSize: '0.9rem', marginBottom: '30px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
-            Launching January 2027 | Become a Founding Member
+      <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
+        
+        {/* Top Full-Width Section: Badge & Heading */}
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+            <FadeIn direction="up" delay={0.1}>
+              <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '8px 16px', borderRadius: '30px', fontWeight: 700, fontSize: '0.9rem', marginBottom: '40px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+                Launching January 2027 | Become a Founding Member
+              </div>
+            </FadeIn>
           </div>
-        </FadeIn>
-        
-        <FadeIn direction="up" delay={0.1} style={{ width: '100%' }}>
-          <h1 className="heading-huge" style={{ maxWidth: '100%', margin: '0 auto', fontSize: 'clamp(2.5rem, 5.5vw, 5.5rem)', lineHeight: 1.1 }}>
-            The Global Community for Women in <br/> Intellectual Property
-          </h1>
-        </FadeIn>
-        
-        <FadeIn direction="up" delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '30px', marginTop: '40px', alignItems: 'center', width: '100%' }}>
-          <p style={{ maxWidth: '800px', fontSize: '1.25rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
-            The Women's IP Alliance is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, the Alliance provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
-          </p>
           
-          <div style={{ pointerEvents: 'auto', display: 'flex', gap: '20px', width: '100%', maxWidth: '600px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '20px 40px', fontSize: '1.2rem', flex: '1 1 250px' }}>
-              Become a Founding Member
-            </MagneticButton>
-            <MagneticButton href="#join" className="btn btn-outline" style={{ padding: '15px 40px', fontSize: '1.1rem', backgroundColor: 'transparent', color: 'var(--color-white)', border: '2px solid var(--color-white)', flex: '1 1 250px' }}>
-              Join the Waiting List
-            </MagneticButton>
-          </div>
-        </FadeIn>
+          <FadeIn direction="up" delay={0.1} style={{ width: '100%' }}>
+            <h1 className="heading-huge" style={{ margin: '0', fontSize: 'clamp(2rem, 3.8vw, 4.5rem)', lineHeight: 1.1, maxWidth: '100%' }}>
+              The Global Community for Women in <br/>
+              Intellectual Property
+            </h1>
+          </FadeIn>
+        </div>
 
-        <FadeIn direction="up" delay={0.4} style={{ marginTop: '70px', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '30px', display: 'flex', gap: '30px', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
-          {["Global Community", "Exclusive Events", "International Networking", "Educational Webinars", "Leadership Development"].map((highlight, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.9)', fontSize: '1.1rem', fontWeight: 600 }}>
-              <span style={{ color: 'var(--color-pastel-green)' }}>✓</span> {highlight}
-            </div>
-          ))}
-        </FadeIn>
+        {/* Bottom Split Section: Text/Buttons vs Image */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '60px', alignItems: 'center' }}>
+          
+          {/* Left Side: Content */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none' }}>
+            <FadeIn direction="up" delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start', width: '100%' }}>
+              <p style={{ maxWidth: '800px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, textAlign: 'justify' }}>
+                The Women's IP Alliance is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, the Alliance provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
+              </p>
+              
+              <div style={{ pointerEvents: 'auto', display: 'flex', gap: '20px', width: '100%', flexWrap: 'wrap' }}>
+                <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '18px 32px', fontSize: '1.1rem' }}>
+                  Become a Founding Member
+                </MagneticButton>
+                <MagneticButton href="#join" className="btn btn-outline" style={{ padding: '18px 32px', fontSize: '1.1rem', backgroundColor: 'transparent', color: 'var(--color-white)', border: '2px solid var(--color-white)' }}>
+                  Join the Waiting List
+                </MagneticButton>
+              </div>
+            </FadeIn>
+
+            <FadeIn direction="up" delay={0.4} style={{ marginTop: '50px', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '25px', display: 'flex', gap: '25px', flexWrap: 'wrap', width: '100%' }}>
+              {["Global Community", "Exclusive Events", "International Networking", "Educational Webinars"].map((highlight, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.9)', fontSize: '1rem', fontWeight: 600 }}>
+                  <span style={{ color: 'var(--color-pastel-green)' }}>✓</span> {highlight}
+                </div>
+              ))}
+            </FadeIn>
+          </div>
+
+          {/* Right Side: Animated Swapping Cards for Profile Images */}
+          <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', pointerEvents: 'auto', minHeight: '480px', transform: 'translateY(-60px)' }}>
+            <AnimatePresence mode="popLayout">
+              {activeProfiles.map((profile, index) => {
+                const isRight = index === 1;
+                return (
+                  <motion.div
+                    layout
+                    key={profile.src}
+                    initial={{ opacity: 0, scale: 0.8, x: 100, rotate: 5 }}
+                    animate={{ opacity: 1, scale: 1, x: 0, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, x: -100, rotate: -5 }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    style={{ 
+                      position: 'relative', 
+                      width: '100%', 
+                      maxWidth: '280px', 
+                      marginTop: isRight ? '80px' : '0px',
+                      zIndex: isRight ? 1 : 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <div style={{ width: '100%', height: '380px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: isRight ? 'var(--color-pastel-purple)' : 'var(--color-pastel-yellow)', position: 'relative' }}>
+                      <img src={profile.src} alt={profile.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                    <div style={{ textAlign: 'center', marginTop: '16px', width: '100%' }}>
+                      <div style={{ color: 'var(--color-white)', fontSize: '1.2rem', fontWeight: 600 }}>{profile.name}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginTop: '4px', lineHeight: 1.3 }}>{profile.position}</div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );

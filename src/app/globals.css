@@ -308,6 +308,9 @@ a {
 .link-mail {
   background-color: #fdffb6;
 }
+.link-linkedin {
+  background-color: #bdb2ff;
+}
 
 .doodle-svg {
   width: 18px;
@@ -371,6 +374,10 @@ a {
 .link-mail:hover {
   background-color: #fcd22a; /* Bright yellow */
   border-radius: 70% 30% 50% 50% / 40% 60% 40% 60%;
+}
+.link-linkedin:hover {
+  background-color: #7b2cbf; /* Bright purple/indigo */
+  border-radius: 50% 60% 40% 50% / 60% 50% 60% 40%;
 }
 
 /* Make icons white when filled with crayon color */
@@ -460,6 +467,15 @@ a {
 }
 .tooltip-mail::after {
   background-color: #fcd22a;
+}
+
+.tooltip-linkedin {
+  background-color: #7b2cbf;
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #1e1e24;
+}
+.tooltip-linkedin::after {
+  background-color: #7b2cbf;
 }
 
 /* Tooltip Hover Pop-Up */

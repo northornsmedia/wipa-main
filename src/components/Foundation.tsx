@@ -34,14 +34,16 @@ export default function Foundation() {
           </FadeIn>
         </div>
 
-        <StaggerGrid className="foundation-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', maxWidth: '1000px', margin: '0 auto' }}>
+      </div>
+      
+      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
+        <StaggerGrid className="foundation-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', width: '100%' }}>
           {highlights.map((h, i) => (
-            <div key={i} className={`pill-container ${h.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div key={i} className={`pill-container ${h.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1, minWidth: '220px' }}>
               <h4 className="heading-md foundation-pill-text" style={{ color: h.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{h.title}</h4>
             </div>
           ))}
         </StaggerGrid>
-
       </div>
     </section>
   );

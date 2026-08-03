@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FadeIn from "./animations/FadeIn";
 import StaggerGrid from "./animations/StaggerGrid";
 
@@ -34,7 +35,7 @@ export default function FAQ() {
           </FadeIn>
         </div>
 
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
           <StaggerGrid>
             {faqs.map((faq, i) => (
               <div 
@@ -47,7 +48,7 @@ export default function FAQ() {
                   cursor: 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '10px'
+                  marginBottom: '20px'
                 }}
                 onClick={() => toggleFaq(i)}
               >
@@ -57,11 +58,21 @@ export default function FAQ() {
                     {openIndex === i ? '−' : '+'}
                   </div>
                 </div>
-                {openIndex === i && (
-                  <div style={{ fontSize: '1.1rem', marginTop: '15px', color: 'rgba(0,0,0,0.8)', lineHeight: 1.6, paddingRight: '40px' }}>
-                    {faq.a}
-                  </div>
-                )}
+                <AnimatePresence>
+                  {openIndex === i && (
+                    <motion.div 
+                      initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                      animate={{ height: "auto", opacity: 1, marginTop: '15px' }}
+                      exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <div style={{ fontSize: '1.1rem', color: 'rgba(0,0,0,0.8)', lineHeight: 1.6, paddingRight: '40px', paddingBottom: '10px' }}>
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </StaggerGrid>
