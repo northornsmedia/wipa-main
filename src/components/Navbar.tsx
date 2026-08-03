@@ -16,14 +16,14 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="mobile-hidden" style={{ display: 'flex', gap: '3rem', fontFamily: 'var(--font-display)', fontWeight: 700, textTransform: 'uppercase' }}>
-            <Link href="#about">About</Link>
-            <Link href="#features">Platform</Link>
-            <Link href="#audience">Community</Link>
+            <Link href="/#about">About</Link>
+            <Link href="/coming-soon">Platform</Link>
+            <Link href="/coming-soon">Community</Link>
+            <Link href="/plans">Pricing</Link>
           </div>
 
           <div className="mobile-hidden" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            <Link href="https://wipa.vercel.app" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, textTransform: 'uppercase' }}>Sign In</Link>
-            <Link href="#membership" className="btn btn-accent" style={{ padding: '12px 24px', fontSize: '0.9rem' }}>
+            <Link href="/onboarding" className="btn btn-accent" style={{ padding: '12px 24px', fontSize: '0.9rem' }}>
               Get Started
             </Link>
           </div>
@@ -54,14 +54,14 @@ export default function Navbar() {
           </div>
           
           <FadeIn direction="up" style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center', marginTop: '60px', fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, textTransform: 'uppercase' }}>
-            <Link href="#about" onClick={() => setIsOpen(false)}>About</Link>
-            <Link href="#features" onClick={() => setIsOpen(false)}>Platform</Link>
-            <Link href="#audience" onClick={() => setIsOpen(false)}>Community</Link>
+            <Link href="/#about" onClick={() => setIsOpen(false)}>About</Link>
+            <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Platform</Link>
+            <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Community</Link>
+            <Link href="/plans" onClick={() => setIsOpen(false)}>Pricing</Link>
             
             <div style={{ width: '80%', height: '1px', backgroundColor: 'rgba(255,255,255,0.2)', margin: '20px 0' }}></div>
             
-            <Link href="https://wipa.vercel.app" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem' }}>Sign In</Link>
-            <Link href="#membership" onClick={() => setIsOpen(false)} className="btn btn-accent" style={{ padding: '15px 30px', fontSize: '1.2rem', marginTop: '10px' }}>
+            <Link href="/onboarding" onClick={() => setIsOpen(false)} className="btn btn-accent" style={{ padding: '15px 30px', fontSize: '1.2rem', marginTop: '10px' }}>
               Get Started
             </Link>
           </FadeIn>

@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FadeIn from "./animations/FadeIn";
 import StaggerGrid from "./animations/StaggerGrid";
 
@@ -10,9 +15,54 @@ const highlights = [
 ];
 
 export default function Foundation() {
+  const containerRef = useRef<HTMLElement>(null);
+  const sticker1Ref = useRef<HTMLImageElement>(null);
+  const sticker2Ref = useRef<HTMLImageElement>(null);
+  const sticker3Ref = useRef<HTMLImageElement>(null);
+  const sticker4Ref = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const ctx = gsap.context(() => {
+      const stickers = [
+        sticker1Ref.current,
+        sticker3Ref.current,
+        sticker2Ref.current,
+        sticker4Ref.current
+      ];
+
+      gsap.fromTo(
+        stickers,
+        { scale: 0, opacity: 0, rotation: () => gsap.utils.random(-45, 45) },
+        {
+          scale: 1,
+          opacity: 1,
+          rotation: () => gsap.utils.random(-15, 15),
+          duration: 1,
+          stagger: 0.15,
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+          }
+        }
+      );
+    }, containerRef);
+    
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="section section-white" style={{ position: 'relative' }}>
-      <div className="container">
+    <section ref={containerRef} className="section section-white" style={{ position: 'relative' }}>
+      
+      {/* Decorative Stickers */}
+      <img ref={sticker1Ref} src="/sticker (1).png" alt="Sticker" style={{ position: 'absolute', top: '15%', left: '8%', width: '160px', zIndex: 0, objectFit: 'contain' }} />
+      <img ref={sticker2Ref} src="/sticker (4).png" alt="Sticker" style={{ position: 'absolute', bottom: '35%', left: '12%', width: '220px', zIndex: 0, objectFit: 'contain' }} />
+      <img ref={sticker3Ref} src="/sticker (3).png" alt="Sticker" style={{ position: 'absolute', top: '20%', right: '10%', width: '150px', zIndex: 0, objectFit: 'contain' }} />
+      <img ref={sticker4Ref} src="/sticker (2).png" alt="Sticker" style={{ position: 'absolute', bottom: '40%', right: '5%', width: '180px', zIndex: 0, objectFit: 'contain' }} />
+
+      <div className="container" style={{ position: 'relative', zIndex: 10 }}>
         
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
@@ -36,7 +86,7 @@ export default function Foundation() {
 
       </div>
       
-      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 10 }}>
         <StaggerGrid className="foundation-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', width: '100%' }}>
           {highlights.map((h, i) => (
             <div key={i} className={`pill-container ${h.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1, minWidth: '220px' }}>

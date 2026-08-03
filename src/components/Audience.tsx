@@ -20,7 +20,9 @@ export default function Audience() {
               Whether you're just beginning your career or leading an international practice, the Alliance has been designed to support every stage of your professional journey.
             </p>
           </FadeIn>
-          <FloatAnim delay={0.2} className="sticker" style={{ '--rot': '15deg', position: 'relative', backgroundColor: 'var(--color-pastel-yellow)', color: 'var(--color-black)' } as React.CSSProperties}>🎯</FloatAnim>
+          <FloatAnim delay={0.2} style={{ position: 'relative', marginTop: '40px', marginRight: '40px' }}>
+            <img src="/sticker (5).png" alt="Sticker" style={{ width: '280px', objectFit: 'contain', transform: 'rotate(15deg)' }} />
+          </FloatAnim>
         </div>
 
         <StaggerGrid className="bento-grid">

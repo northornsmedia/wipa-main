@@ -4,45 +4,39 @@ import StaggerGrid from "./animations/StaggerGrid";
 import TiltCard from "./animations/TiltCard";
 import React from "react";
 import Link from "next/link";
+import PlansGridClient from "./PlansGridClient";
 
 const tiers = [
   { 
-    name: "IP Professional Membership", 
+    name: "IP Professional\nMembership", 
     price: "£395",
-    limit: "Limited to the first 300 members worldwide",
+    monthlyPrice: "£50",
+    limit: "Rate-limited for the first 300 founding members worldwide",
     desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, in-house counsel, and other intellectual property professionals.", 
-    standardPrice: "Standard Membership Price: £695/year",
+    standardPrice: "Standard Membership Rate: £695/year (effective once all 300 Founding Membership places have been secured).",
     style: "bg-pastel-green"
   },
   { 
-    name: "Entrepreneur Membership", 
+    name: "Entrepreneur\nMembership", 
     price: "£295",
-    limit: "Limited to the first 200 members worldwide",
+    monthlyPrice: "£42",
+    limit: "Rate-limited for the first 200 founding members worldwide",
     desc: "For founders, entrepreneurs, innovators, business owners, start-ups, and professionals commercialising intellectual property and innovation.", 
-    standardPrice: "Standard Membership Price: £495/year",
+    standardPrice: "Standard Membership Rate: £495/year (effective once all 200 Founding Membership places have been secured).",
     style: "bg-pastel-purple"
   },
   { 
-    name: "Student Membership", 
+    name: "Student\nMembership", 
     price: "£99",
-    limit: "Limited to the first 200 members worldwide",
+    monthlyPrice: "£12",
+    limit: "Rate-limited for the first 200 founding members worldwide",
     desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.", 
-    standardPrice: "Standard Membership Price: £149/year",
+    standardPrice: "Standard Membership Rate: £149/year (effective once all 200 Founding Membership places have been secured).",
     style: "bg-pastel-pink"
-  },
-  { 
-    name: "Enterprise Membership", 
-    subtitle: "(IP Professional Teams)",
-    extra: "5 IP Professional Memberships for the Price of 4",
-    price: "£1,580",
-    limit: "Saving £395 – One membership completely free",
-    desc: "Perfect for law firms, corporate IP departments, universities, innovation teams, and organisations looking to provide membership benefits to multiple professionals while securing Founding Member status for their team.", 
-    standardPrice: "Standard Price After Launch: £2,780/year",
-    style: "bg-pastel-yellow"
-  },
+  }
 ];
 
-export default function Membership() {
+export default function Membership({ hideExploreButton = false }: { hideExploreButton?: boolean }) {
   return (
     <section id="membership" className="section section-dark">
       <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
@@ -57,9 +51,6 @@ export default function Membership() {
           <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px' }}>
             <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto 25px', lineHeight: 1.8, fontWeight: 300 }}>
               Your membership is an investment in <span style={{ color: 'var(--color-pastel-purple)', fontWeight: 600 }}>lifelong professional development</span>, international networking, leadership opportunities, and meaningful global connections.
-            </p>
-            <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300 }}>
-              Join an international community dedicated to advancing women across intellectual property, innovation, technology, academia, and entrepreneurship. Secure your place today at our <span style={{ color: 'var(--color-pastel-green)', fontWeight: 600 }}>exclusive Founding Member rate</span> before standard membership pricing applies.
             </p>
           </FadeIn>
         </div>
@@ -88,41 +79,18 @@ export default function Membership() {
         </FadeIn>
       </div>
 
-      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
-        <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', alignItems: 'stretch' }}>
-          {tiers.map((t, i) => (
-            <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '30px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
-                <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                  {t.name}
-                  {t.subtitle && <span style={{ fontSize: '1.2rem', marginTop: '5px', opacity: 0.8 }}>{t.subtitle}</span>}
-                </h3>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', justifyContent: 'center' }}>
-                  <div style={{ fontSize: '3.5rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{t.price}</div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>/ year</div>
-                </div>
-              </div>
-
-              <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                {t.extra && <div style={{ fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' }}>{t.extra}</div>}
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>{t.limit}</div>
-                <div style={{ fontSize: '1.05rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px', textAlign: 'center' }}>{t.desc}</div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>
-              </div>
-
-              <Link href={`/interest?plan=${encodeURIComponent(t.name)}`} style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
-                <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer' }}>Reserve your founding membership</button>
-              </Link>
-            </TiltCard>
-          ))}
-        </StaggerGrid>
+      <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto', padding: '0 40px' }}>
+        <PlansGridClient plans={tiers} />
       </div>
-      <div>
-
-
-
-      </div>
+      {!hideExploreButton && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px', paddingBottom: '20px' }}>
+          <Link href="/plans" style={{ textDecoration: 'none' }}>
+            <button className="btn btn-outline" style={{ borderColor: 'var(--color-white)', color: 'var(--color-black)', backgroundColor: 'var(--color-white)', padding: '15px 40px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}>
+              Explore More Plans
+            </button>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

@@ -5,12 +5,12 @@ import FloatAnim from "./animations/FloatAnim";
 
 const features = [
   { title: "Community Feed", desc: "Access the Community Feed and Discussion Forums.", style: "bg-pastel-purple span-2 row-span-2", img: "/images/social_feed_mockup_1785398662862.png" },
-  { title: "Direct Messaging", desc: "Fully real-time Direct Messaging & Networking Groups.", style: "bg-pastel-yellow span-2", img: "/images/messaging_mockup_1785398592482.png" },
+  { title: "Direct Messaging", desc: "Fully real-time Direct Messaging & Networking Groups.", style: "bg-pastel-yellow span-2", img: "/chat.png" },
   { title: "Global Directory", desc: "Professional Profiles and the Global Member Directory.", style: "bg-charcoal span-2", img: "/images/directory_mockup_1785398601914.png" },
   { title: "Mentorship Hub", desc: "Access the Mentorship Hub and Business Opportunities.", style: "bg-pastel-green span-2", img: "/images/networking_mockup_1785398611398.png" },
   { title: "Resource Library", desc: "Explore the Resource Library with Future AI-Powered Search.", style: "bg-pastel-pink span-2", img: "/images/mentorship_mockup_1785398688205.png" },
-  { title: "Job Board", desc: "Discover career opportunities and Member Notifications.", style: "bg-pastel-yellow span-2 row-span-2", img: "/images/job_board_mockup_1785398621354.png" },
-  { title: "Events & Webinars", desc: "Access the Events Calendar and Webinar Centre.", style: "bg-charcoal span-2", img: "/images/events_mockup_1785398631503.png" },
+  { title: "Job Board", desc: "Discover career opportunities and Member Notifications.", style: "bg-pastel-yellow span-2 row-span-2", img: "/jobs-board.png" },
+  { title: "Events & Webinars", desc: "Access the Events Calendar and Webinar Centre.", style: "bg-charcoal span-2", img: "/events.png" },
   { title: "Mobile Access", desc: "Stay connected wherever you are in the world.", style: "bg-pastel-purple span-2" },
 ];
 
@@ -25,7 +25,9 @@ export default function Features() {
               Designed exclusively for Alliance members, our digital platform keeps you connected wherever you are in the world, making networking, collaboration, learning, and professional development accessible throughout the year.
             </p>
           </FadeIn>
-          <FloatAnim delay={0.5} className="sticker" style={{ '--rot': '-20deg', position: 'absolute', top: 0, right: 0, backgroundColor: 'var(--color-pastel-green)', color: 'var(--color-black)' } as React.CSSProperties}>🚀</FloatAnim>
+          <div style={{ position: 'absolute', bottom: '-20px', right: '-5%', zIndex: 5 }}>
+            <img src="/sticker (6).png" alt="Sticker" style={{ width: '220px', objectFit: 'contain', transform: 'rotate(-10deg)' }} />
+          </div>
         </div>
 
         <StaggerGrid className="bento-grid">

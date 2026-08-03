@@ -172,9 +172,14 @@ a {
 
 /* Pill Shapes (Online School) */
 .pill-container {
-  border-radius: 100px;
+  border-radius: 32px;
   overflow: hidden;
   position: relative;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive */

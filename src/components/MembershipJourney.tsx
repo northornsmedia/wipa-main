@@ -13,8 +13,8 @@ const journeySteps = [
 
 export default function MembershipJourney() {
   return (
-    <section className="section section-white">
-      <div className="container" style={{ textAlign: 'center' }}>
+    <section className="section section-white" style={{ paddingBottom: 0 }}>
+      <div className="container" style={{ textAlign: 'center', paddingBottom: 0 }}>
         
         <FadeIn direction="up">
           <h2 className="heading-huge" style={{ marginBottom: '80px' }}>
@@ -22,71 +22,11 @@ export default function MembershipJourney() {
           </h2>
         </FadeIn>
 
-        <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '20px 0' }}>
-          {/* Center Dashed Line */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: 0,
-            bottom: 0,
-            width: '4px',
-            borderLeft: '4px dashed var(--color-black)',
-            transform: 'translateX(-50%)',
-            zIndex: 0,
-            opacity: 0.3
-          }} />
-
-          {journeySteps.map((step, i) => {
-            const isLeft = i % 2 === 0;
-            return (
-              <FadeIn key={i} direction={isLeft ? "right" : "left"} delay={i * 0.1}>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: isLeft ? 'flex-start' : 'flex-end',
-                  alignItems: 'center',
-                  width: '100%',
-                  marginBottom: '40px',
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  
-                  {/* Left Side Content */}
-                  {isLeft && (
-                    <div style={{ width: '50%', paddingRight: '40px', textAlign: 'right' }}>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-black)' }}>{step.title}</div>
-                    </div>
-                  )}
-
-                  {/* Center Node */}
-                  <div style={{
-                    position: 'absolute',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    border: '3px solid var(--color-black)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 900,
-                    fontSize: '1.2rem'
-                  }} className={step.color}>
-                    {i + 1}
-                  </div>
-
-                  {/* Right Side Content */}
-                  {!isLeft && (
-                    <div style={{ width: '50%', paddingLeft: '40px', textAlign: 'left' }}>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-black)' }}>{step.title}</div>
-                    </div>
-                  )}
-
-                </div>
-              </FadeIn>
-            );
-          })}
-        </div>
+        <FadeIn direction="up" delay={0.2}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: '1400px', margin: '0 auto', padding: '40px 0 0 0', display: 'flex', justifyContent: 'center' }}>
+            <img src="/roadmap.png" alt="Membership Journey Roadmap" style={{ width: '100%', maxWidth: '1200px', height: 'auto', objectFit: 'contain' }} />
+          </div>
+        </FadeIn>
 
       </div>
     </section>
