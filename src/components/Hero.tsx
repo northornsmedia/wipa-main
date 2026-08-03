@@ -33,8 +33,8 @@ export default function Hero() {
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
         {/* Top Full-Width Section: Badge & Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <div style={{ textAlign: 'left', marginBottom: '60px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
             <FadeIn direction="up" delay={0.1}>
               <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '8px 16px', borderRadius: '30px', fontWeight: 700, fontSize: '0.9rem', marginBottom: '40px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
                 Launching January 2027 | Become a Founding Member
@@ -43,9 +43,10 @@ export default function Hero() {
           </div>
           
           <FadeIn direction="up" delay={0.1} style={{ width: '100%' }}>
-            <h1 className="heading-huge" style={{ margin: '0', fontSize: 'clamp(2rem, 3.8vw, 4.5rem)', lineHeight: 1.1, maxWidth: '100%' }}>
-              The Global Community for Women in <br/>
-              Intellectual Property
+            <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(1.8rem, 3vw, 3.5rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
+              THE GLOBAL COMMUNITY <br/>
+              FOR WOMEN IN <br/>
+              INTELLECTUAL PROPERTY
             </h1>
           </FadeIn>
         </div>
@@ -54,7 +55,7 @@ export default function Hero() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '60px', alignItems: 'center' }}>
           
           {/* Left Side: Content */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none', transform: 'translateY(-150px)' }}>
             <FadeIn direction="up" delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start', width: '100%' }}>
               <p style={{ maxWidth: '800px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, textAlign: 'justify' }}>
                 The Women's IP Alliance is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, the Alliance provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
@@ -80,7 +81,15 @@ export default function Hero() {
           </div>
 
           {/* Right Side: Animated Swapping Cards for Profile Images */}
-          <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', pointerEvents: 'auto', minHeight: '480px', transform: 'translateY(-60px)' }}>
+          <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', transform: 'translateY(-380px)' }}>
+            
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '-30px', position: 'relative', zIndex: 10 }}>
+              <FadeIn direction="up" delay={0.3}>
+                <img src="/our-members.png" alt="Our Members" style={{ maxWidth: '100%', height: 'auto', maxHeight: '250px', objectFit: 'contain' }} />
+              </FadeIn>
+            </div>
+
+            <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', pointerEvents: 'auto', minHeight: '480px' }}>
             <AnimatePresence mode="popLayout">
               {activeProfiles.map((profile, index) => {
                 const isRight = index === 1;
@@ -114,6 +123,7 @@ export default function Hero() {
                 );
               })}
             </AnimatePresence>
+          </div>
           </div>
         </div>
       </div>

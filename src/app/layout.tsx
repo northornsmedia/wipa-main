@@ -3,6 +3,7 @@ import "./globals.css";
 import CustomCursor from "@/components/animations/CustomCursor";
 import ScrollProgress from "@/components/animations/ScrollProgress";
 import Preloader from "@/components/animations/Preloader";
+import DisableImageContextMenu from "@/components/DisableImageContextMenu";
 
 export const metadata: Metadata = {
   title: "WIPA — Women's IP Alliance",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <DisableImageContextMenu />
         <Preloader />
         <ScrollProgress />
         <CustomCursor />
