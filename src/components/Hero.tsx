@@ -65,9 +65,6 @@ export default function Hero() {
                 <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '18px 32px', fontSize: '1.1rem' }}>
                   Become a Founding Member
                 </MagneticButton>
-                <MagneticButton href="#join" className="btn btn-outline" style={{ padding: '18px 32px', fontSize: '1.1rem', backgroundColor: 'transparent', color: 'var(--color-white)', border: '2px solid var(--color-white)' }}>
-                  Join the Waiting List
-                </MagneticButton>
               </div>
             </FadeIn>
 

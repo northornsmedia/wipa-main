@@ -21,9 +21,6 @@ export default function CTA() {
           <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '24px 48px', fontSize: '1.4rem' }}>
             Become a Founding Member
           </MagneticButton>
-          <MagneticButton href="#join" className="btn btn-outline" style={{ padding: '24px 48px', fontSize: '1.4rem', backgroundColor: 'transparent', color: 'var(--color-white)', border: '2px solid var(--color-white)' }}>
-            Join the Waiting List
-          </MagneticButton>
         </FadeIn>
       </div>
     </section>
