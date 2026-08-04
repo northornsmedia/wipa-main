@@ -2,6 +2,12 @@ import About from "@/components/About";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn about the Women's IP Alliance (WIPA), our mission, vision, and how we empower women in intellectual property to drive global innovation.",
+};
 
 export default function AboutPage() {
   return (

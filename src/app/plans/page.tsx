@@ -7,9 +7,11 @@ import TextReveal from "@/components/animations/TextReveal";
 import Link from "next/link";
 import PlansGridClient from "@/components/PlansGridClient";
 
-export const metadata = {
-  title: 'Membership Plans | Women\'s IP Alliance',
-  description: 'Explore membership plans for the Women\'s IP Alliance.',
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Membership Plans',
+  description: 'Join WIPA with our flexible membership plans tailored for IP Professionals, Entrepreneurs, and Students. Exclusive benefits and networking opportunities await.',
 };
 
 const plans = [

@@ -18,6 +18,13 @@ import FAQ from "@/components/FAQ";
 import CommunityImpact from "@/components/CommunityImpact";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Join the Women's IP Alliance, a global network of women professionals in intellectual property, patents, and innovation. Empowering women in IP to lead and succeed.",
+};
+
 export default function Home() {
   return (
     <main>
