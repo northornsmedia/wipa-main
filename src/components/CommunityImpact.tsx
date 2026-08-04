@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import FadeIn from "./animations/FadeIn";
-import StaggerGrid from "./animations/StaggerGrid";
+import { motion, AnimatePresence } from "framer-motion";
 
 const baseStyles = ["bg-pastel-pink", "bg-pastel-yellow", "bg-pastel-purple", "bg-pastel-green"];
 const profiles = [
@@ -26,8 +26,8 @@ export default function CommunityImpact() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setStartIndex((prev) => (prev + 4) % profiles.length);
-    }, 4000);
+      setStartIndex((prev) => (prev + 1) % profiles.length);
+    }, 3000);
     return () => clearInterval(timer);
   }, []);
 
@@ -45,28 +45,39 @@ export default function CommunityImpact() {
           </FadeIn>
         </div>
 
-        <div key={startIndex} style={{ animation: 'fadeIn 0.5s ease-in-out' }}>
-          <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
-            {visibleProfiles.map((p, i) => (
-              <div key={`${startIndex}-${i}`} className={`pill-container ${p.style}`} style={{ padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '16px', transition: 'all 0.3s ease', alignItems: 'center', textAlign: 'center' }}>
-                <div style={{ width: '160px', height: '160px', borderRadius: '24px', overflow: 'hidden', border: '3px solid var(--color-black)', backgroundColor: 'var(--color-white)' }}>
-                  <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div style={{ marginTop: 'auto', width: '100%' }}>
-                  <div style={{ color: 'var(--color-black)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
-                    {p.countryCode?.map((code: string) => (
-                      <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
-                    ))}
-                    {p.name}
+        <div style={{ padding: '10px 0', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            <AnimatePresence mode="popLayout">
+              {visibleProfiles.map((p) => (
+                <motion.div 
+                  key={p.name}
+                  layout
+                  initial={{ opacity: 0, x: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -50, scale: 0.9 }}
+                  transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+                  className={`pill-container ${p.style}`} 
+                  style={{ padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center', textAlign: 'center' }}
+                >
+                  <div style={{ width: '160px', height: '160px', borderRadius: '24px', overflow: 'hidden', border: '3px solid var(--color-black)', backgroundColor: 'var(--color-white)' }}>
+                    <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
-                  <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--color-charcoal)' }}>{p.position}</h4>
-                  {p.company && (
-                    <p style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)' }}>{p.company}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </StaggerGrid>
+                  <div style={{ marginTop: 'auto', width: '100%' }}>
+                    <div style={{ color: 'var(--color-black)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
+                      {p.countryCode?.map((code: string) => (
+                        <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
+                      ))}
+                      {p.name}
+                    </div>
+                    <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--color-charcoal)' }}>{p.position}</h4>
+                    {p.company && (
+                      <p style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)' }}>{p.company}</p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
 
       </div>
