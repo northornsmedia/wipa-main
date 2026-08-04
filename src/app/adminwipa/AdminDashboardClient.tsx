@@ -148,6 +148,93 @@ const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
   );
 };
 
+const PaginatedTable = ({ title, data, columns }: { title: string, data: any[], columns: string[] }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 50;
+  const totalPages = Math.ceil(data.length / itemsPerPage) || 1;
+  const currentData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(1);
+  }, [data.length, currentPage, totalPages]);
+
+  return (
+    <div style={{ backgroundColor: "#1c1f2e", borderRadius: "20px", padding: "25px", border: "1px solid #2d3142", marginTop: "25px", overflowX: "auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+        <h2 style={{ color: "#fff", fontSize: "1.5rem", fontWeight: "600", margin: 0 }}>{title}</h2>
+        <div style={{ color: "#7a7e93", fontSize: "0.95rem" }}>
+          Total Records: <span style={{ color: "#fff", fontWeight: "bold" }}>{data.length}</span> | Page <span style={{ color: "#fff", fontWeight: "bold" }}>{currentPage}</span> of {totalPages}
+        </div>
+      </div>
+      
+      {totalPages > 1 && (
+        <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "15px" }}>
+          <button
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            style={{ padding: "6px 12px", backgroundColor: currentPage === 1 ? "transparent" : "#2d3142", color: currentPage === 1 ? "#555" : "#fff", border: "1px solid #2d3142", borderRadius: "5px", cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
+          >
+            Prev
+          </button>
+          
+          <select 
+            value={currentPage} 
+            onChange={(e) => setCurrentPage(Number(e.target.value))}
+            style={{ padding: "6px", backgroundColor: "#0f111a", color: "#fff", border: "1px solid #2d3142", borderRadius: "5px", outline: "none", cursor: "pointer" }}
+          >
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <option key={page} value={page}>Page {page}</option>
+            ))}
+          </select>
+
+          <button
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            style={{ padding: "6px 12px", backgroundColor: currentPage === totalPages ? "transparent" : "#2d3142", color: currentPage === totalPages ? "#555" : "#fff", border: "1px solid #2d3142", borderRadius: "5px", cursor: currentPage === totalPages ? "not-allowed" : "pointer" }}
+          >
+            Next
+          </button>
+        </div>
+      )}
+
+      <table style={{ width: "100%", borderCollapse: "collapse", color: "#b3b7c6" }}>
+        <thead>
+          <tr>
+            {columns.map(col => (
+              <th key={col} style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #2d3142", color: "#fff", textTransform: "uppercase", fontSize: "0.8rem", letterSpacing: "1px", whiteSpace: "nowrap" }}>
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length} style={{ padding: "30px", textAlign: "center", color: "#7a7e93", fontSize: "0.85rem" }}>
+                No data available yet. Waiting for new leads...
+              </td>
+            </tr>
+          ) : (
+            currentData.map((row, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid #2d3142", transition: "background-color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#24283b"} onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}>
+                {columns.map(col => (
+                  <td key={col} style={{ padding: "12px", fontSize: "0.85rem", whiteSpace: "nowrap", maxWidth: "300px", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {col === 'created_at' || col === 'paid_at' 
+                      ? (row[col] ? new Date(row[col]).toLocaleString() : '-') 
+                      : col === 'amount_paid' 
+                        ? (row[col] ? `£${row[col]}` : '-')
+                        : (row[col] || '-')}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 export default function AdminDashboardClient({ onboardingLeads, interestLeads, enterpriseLeads, analyticsEvents, initialAuthStep }: AdminDashboardProps) {
   const [authStep, setAuthStep] = useState(initialAuthStep); // 0 = unauth, 1 = first pass success, 2 = fully auth
   const [password, setPassword] = useState("");
@@ -220,46 +307,6 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
   }
 
   const totalLeads = onboardingLeads.length + interestLeads.length + enterpriseLeads.length;
-
-  const renderTable = (title: string, data: any[], columns: string[]) => (
-    <div style={{ backgroundColor: "#1c1f2e", borderRadius: "20px", padding: "25px", border: "1px solid #2d3142", marginTop: "25px", overflowX: "auto" }}>
-      <h2 style={{ color: "#fff", fontSize: "1.5rem", marginBottom: "20px", fontWeight: "600" }}>{title}</h2>
-      <table style={{ width: "100%", borderCollapse: "collapse", color: "#b3b7c6" }}>
-        <thead>
-          <tr>
-            {columns.map(col => (
-              <th key={col} style={{ padding: "15px", textAlign: "left", borderBottom: "2px solid #2d3142", color: "#fff", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px" }}>
-                {col}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.length === 0 ? (
-            <tr>
-              <td colSpan={columns.length} style={{ padding: "30px", textAlign: "center", color: "#7a7e93", fontSize: "0.95rem" }}>
-                No data available yet. Waiting for new leads...
-              </td>
-            </tr>
-          ) : (
-            data.map((row, i) => (
-              <tr key={i} style={{ borderBottom: "1px solid #2d3142", transition: "background-color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#24283b"} onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}>
-                {columns.map(col => (
-                  <td key={col} style={{ padding: "15px", fontSize: "0.95rem" }}>
-                    {col === 'created_at' || col === 'paid_at' 
-                      ? (row[col] ? new Date(row[col]).toLocaleString() : '-') 
-                      : col === 'amount_paid' 
-                        ? (row[col] ? `£${row[col]}` : '-')
-                        : (row[col] || '-')}
-                  </td>
-                ))}
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f111a", display: "flex", fontFamily: "sans-serif", color: "#fff" }}>
@@ -456,7 +503,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
               </div>
               
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px", marginBottom: "40px" }}>
-                {renderTable("Top Landing Pages", Object.entries(analyticsEvents.reduce((acc, ev) => {
+                <PaginatedTable title="Top Landing Pages" data={Object.entries(analyticsEvents.reduce((acc, ev) => {
                   if (!acc[ev.page_url]) acc[ev.page_url] = { views: 0, sessions: new Set<string>() };
                   acc[ev.page_url].views++;
                   acc[ev.page_url].sessions.add(ev.session_id);
@@ -465,9 +512,9 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                   page_url: url.replace(typeof window !== "undefined" ? window.location.origin : "", ""),
                   views: data.views,
                   unique_visitors: data.sessions.size
-                })).slice(0, 10), ['page_url', 'views', 'unique_visitors'])}
+                }))} columns={['page_url', 'views', 'unique_visitors']} />
                 
-                {renderTable("Peak Traffic Hours", Object.entries(analyticsEvents.reduce((acc, ev) => {
+                <PaginatedTable title="Peak Traffic Hours" data={Object.entries(analyticsEvents.reduce((acc, ev) => {
                   const hour = new Date(ev.created_at).getHours();
                   const time = `${hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour)} ${hour >= 12 ? 'PM' : 'AM'}`;
                   acc[time] = (acc[time] || 0) + 1;
@@ -475,18 +522,18 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                 }, {} as Record<string, number>)).sort((a: any, b: any) => b[1] - a[1]).map(([time, count]: [string, any]) => ({
                   time,
                   visitors: count
-                })).slice(0, 5), ['time', 'visitors'])}
+                }))} columns={['time', 'visitors']} />
               </div>
 
-              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 20), ['session_id', 'page_url', 'city', 'region', 'country', 'network', 'os', 'created_at'])}
+              <PaginatedTable title="Recent Traffic Events" data={analyticsEvents} columns={['session_id', 'page_url', 'city', 'region', 'country', 'network', 'os', 'created_at']} />
             </>
           )}
 
-          {activeTab === 'onboarding' && renderTable("All Onboarding Leads", onboardingLeads, ['id', 'name', 'email', 'phone', 'country', 'journey_stage', 'created_at'])}
+          {activeTab === 'onboarding' && <PaginatedTable title="All Onboarding Leads" data={onboardingLeads} columns={['id', 'name', 'email', 'phone', 'country', 'journey_stage', 'created_at']} />}
           
-          {activeTab === 'interests' && renderTable("Detailed Checkout Tracking", interestLeads, ['name', 'email', 'profession', 'plan', 'amount_paid', 'paid_at', 'payment_status', 'created_at'])}
+          {activeTab === 'interests' && <PaginatedTable title="Detailed Checkout Tracking" data={interestLeads} columns={['name', 'email', 'profession', 'plan', 'amount_paid', 'paid_at', 'payment_status', 'created_at']} />}
 
-          {activeTab === 'enterprise' && renderTable("All Enterprise Inquiries", enterpriseLeads, ['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at'])}
+          {activeTab === 'enterprise' && <PaginatedTable title="All Enterprise Inquiries" data={enterpriseLeads} columns={['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at']} />}
 
           {activeTab === 'defense' && (
             <div style={{ backgroundColor: "#1c1f2e", borderRadius: "20px", padding: "25px", border: "1px solid #2d3142", marginTop: "25px" }}>
