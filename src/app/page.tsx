@@ -14,7 +14,7 @@ import Membership from "@/components/Membership";
 import ExclusiveAdvantages from "@/components/ExclusiveAdvantages";
 import Leadership from "@/components/Leadership";
 import EventsLearning from "@/components/EventsLearning";
-import FAQ from "@/components/FAQ";
+
 import CommunityImpact from "@/components/CommunityImpact";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
@@ -45,7 +45,7 @@ export default function Home() {
         <ExclusiveAdvantages />
         <Leadership />
         <EventsLearning />
-        <FAQ />
+
         <CommunityImpact />
         <CTA />
         <Footer />

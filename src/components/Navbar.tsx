@@ -20,6 +20,7 @@ export default function Navbar() {
             <Link href="/coming-soon">Platform</Link>
             <Link href="/coming-soon">Community</Link>
             <Link href="/plans">Pricing</Link>
+            <Link href="/faqs">FAQs</Link>
           </div>
 
           <div className="mobile-hidden" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
@@ -58,6 +59,7 @@ export default function Navbar() {
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Platform</Link>
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Community</Link>
             <Link href="/plans" onClick={() => setIsOpen(false)}>Pricing</Link>
+            <Link href="/faqs" onClick={() => setIsOpen(false)}>FAQs</Link>
             
             <div style={{ width: '80%', height: '1px', backgroundColor: 'rgba(255,255,255,0.2)', margin: '20px 0' }}></div>
             
