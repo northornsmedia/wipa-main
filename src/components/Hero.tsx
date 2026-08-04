@@ -10,7 +10,7 @@ export default function Hero() {
     { src: "/Rafaella Oliveira.png", name: "🇧🇷 Rafaella Oliveira", position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
     { src: "/2.png", name: "🇬🇧/🇮🇳 Dhruva Dakhani", position: "Director", company: "Women’s IP Alliance" },
     { src: "/Liliane Roriz.png", name: "🇧🇷 Appellate Judge (ret.) Liliane Roriz", position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
-    { src: "/3.jpg", name: "🇨🇭 Roba Hamam", position: "Partner & Legal Director", company: "AÏP Genius" },
+    { src: "/roba.jpg", name: "🇨🇭 Roba Hamam", position: "Partner, Intellectual Property & Life Sciences.", company: "AÏP Genius" },
     { src: "/Leonne Theodore-John.png", name: "🇱🇨 Leonne Theodore-John", position: "Partner & Head of Intellectual Property", company: "Nicholas John & Co" },
     { src: "/4.jpg", name: "🇮🇳 Nithya Somasundaram", position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
     { src: "/Juliana Neves.png", name: "🇧🇷 Juliana Neves", position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
