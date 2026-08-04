@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const { id, payment_status } = await req.json();
+    const { id, payment_status, amount_paid, paid_at } = await req.json();
 
     if (!id) {
       return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
@@ -45,7 +45,7 @@ export async function PATCH(req: Request) {
     
     const { error } = await supabaseAdmin
       .from('interests')
-      .update({ payment_status })
+      .update({ payment_status, amount_paid, paid_at })
       .eq('id', id);
 
     if (error) {

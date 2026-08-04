@@ -43,12 +43,27 @@ export default function Analytics() {
         // Don't track if they are on the admin page
         if (pathname?.startsWith('/adminwipa')) return;
 
+        let country = "Unknown";
+        let network = "Unknown";
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout to prevent blocking
+          const ipRes = await fetch('https://ipapi.co/json/', { signal: controller.signal }).then(r => r.json());
+          clearTimeout(timeoutId);
+          if (ipRes && ipRes.country_name) country = ipRes.country_name;
+          if (ipRes && ipRes.org) network = ipRes.org;
+        } catch (e) {
+          console.warn("Could not fetch IP geolocation:", e);
+        }
+
         const payload = {
           session_id: sessionId,
           page_url: window.location.href,
           referrer: document.referrer || "Direct",
           device_type: getDeviceType(userAgent),
           browser: getBrowser(userAgent),
+          country,
+          network
         };
 
         // Use fetch with keepalive if possible so it doesn't block navigation,

@@ -8,16 +8,22 @@ import { useEffect, Suspense } from "react";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const interestId = searchParams.get("interestId");
+  const amount = searchParams.get("amount");
 
   useEffect(() => {
     if (interestId) {
       fetch('/api/interest', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: interestId, payment_status: 'Payment success, subscription purchased' })
+        body: JSON.stringify({ 
+          id: interestId, 
+          payment_status: 'Payment success, subscription purchased',
+          amount_paid: amount ? (parseInt(amount) / 100).toFixed(2) : null,
+          paid_at: new Date().toISOString()
+        })
       }).catch(err => console.error("Failed to update status:", err));
     }
-  }, [interestId]);
+  }, [interestId, amount]);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--color-pastel-green)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>

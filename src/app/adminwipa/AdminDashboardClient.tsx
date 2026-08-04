@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import FadeIn from "@/components/animations/FadeIn";
 import StaggerGrid from "@/components/animations/StaggerGrid";
+import { useRouter } from "next/navigation";
 
 type AdminDashboardProps = {
   onboardingLeads: any[];
@@ -97,6 +98,17 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
   const [authStep, setAuthStep] = useState(0); // 0 = unauth, 1 = first pass success, 2 = fully auth
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
+  const router = useRouter();
+
+  useEffect(() => {
+    // Only start polling if fully authenticated
+    if (authStep === 2) {
+      const interval = setInterval(() => {
+        router.refresh();
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [router, authStep]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,7 +187,11 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
               <tr key={i} style={{ borderBottom: "1px solid #2d3142", transition: "background-color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#24283b"} onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}>
                 {columns.map(col => (
                   <td key={col} style={{ padding: "15px", fontSize: "0.95rem" }}>
-                    {col === 'created_at' ? new Date(row[col]).toLocaleDateString() : (row[col] || '-')}
+                    {col === 'created_at' || col === 'paid_at' 
+                      ? (row[col] ? new Date(row[col]).toLocaleString() : '-') 
+                      : col === 'amount_paid' 
+                        ? (row[col] ? `£${row[col]}` : '-')
+                        : (row[col] || '-')}
                   </td>
                 ))}
               </tr>
@@ -329,13 +345,13 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
 
               </div>
 
-              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 10), ['session_id', 'page_url', 'referrer', 'device_type', 'created_at'])}
+              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 10), ['session_id', 'page_url', 'country', 'network', 'device_type', 'created_at'])}
             </>
           )}
 
           {activeTab === 'onboarding' && renderTable("All Onboarding Leads", onboardingLeads, ['id', 'name', 'email', 'phone', 'country', 'journey_stage', 'created_at'])}
           
-          {activeTab === 'interests' && renderTable("Detailed Checkout Tracking", interestLeads, ['name', 'email', 'profession', 'plan', 'payment_status', 'created_at'])}
+          {activeTab === 'interests' && renderTable("Detailed Checkout Tracking", interestLeads, ['name', 'email', 'profession', 'plan', 'amount_paid', 'paid_at', 'payment_status', 'created_at'])}
 
           {activeTab === 'enterprise' && renderTable("All Enterprise Inquiries", enterpriseLeads, ['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at'])}
 

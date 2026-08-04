@@ -65,7 +65,7 @@ export async function POST(req: Request) {
         planKey,
         interestId: interestId || ''
       },
-      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}${interestId ? '&interestId=' + interestId : ''}`,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}${interestId ? '&interestId=' + interestId : ''}&amount=${priceInPence}`,
       cancel_url: `${baseUrl}/cancel${interestId ? '?interestId=' + interestId : ''}`,
     });
 
