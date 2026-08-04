@@ -478,7 +478,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                 })).slice(0, 5), ['time', 'visitors'])}
               </div>
 
-              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 20), ['session_id', 'page_url', 'city', 'region', 'country', 'os', 'created_at'])}
+              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 20), ['session_id', 'page_url', 'city', 'region', 'country', 'network', 'os', 'created_at'])}
             </>
           )}
 
