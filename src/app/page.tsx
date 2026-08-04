@@ -2,13 +2,11 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import InfiniteMarquee from "@/components/animations/InfiniteMarquee";
 import About from "@/components/About";
-import Foundation from "@/components/Foundation";
 import Audience from "@/components/Audience";
 import MemberBenefits from "@/components/MemberBenefits";
 import WhyWipa from "@/components/WhyWipa";
 import Features from "@/components/Features";
 import HowItHelps from "@/components/HowItHelps";
-import Values from "@/components/Values";
 import MembershipJourney from "@/components/MembershipJourney";
 import Membership from "@/components/Membership";
 import ExclusiveAdvantages from "@/components/ExclusiveAdvantages";
@@ -33,13 +31,11 @@ export default function Home() {
       <div style={{ position: 'relative', zIndex: 10, backgroundColor: 'var(--color-charcoal)' }}>
         <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • INNOVATION" />
         <About />
-        <Foundation />
         <Audience />
         <MemberBenefits />
         <WhyWipa />
         <Features />
         <HowItHelps />
-        <Values />
         <MembershipJourney />
         <Membership />
         <ExclusiveAdvantages />
