@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: Request) {
   try {
     const { name, email, country, phone, profession, plan } = await req.json();
 
-    const supabase = await createClient();
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
+      process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+    );
     
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('interests')
       .insert([
         { name, email, country, phone, profession, plan }
@@ -35,9 +38,12 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
+      process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+    );
     
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('interests')
       .update({ payment_status })
       .eq('id', id);
