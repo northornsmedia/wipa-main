@@ -127,9 +127,9 @@ export default function EnterprisePage() {
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px' }}>
              <FadeIn direction="left" delay={0.4}>
                 <div style={{ backgroundColor: 'var(--color-pastel-purple)', padding: '20px', borderRadius: '32px', border: '4px solid var(--color-black)', boxShadow: '16px 16px 0px var(--color-black)', position: 'relative', transform: 'rotate(2deg)' }}>
-                   <img src="/events.png" alt="Enterprise Platform" style={{ width: '100%', maxWidth: '500px', borderRadius: '16px', border: '2px solid var(--color-black)' }} />
-                   <img src="/sticker (4).png" alt="Sticker" style={{ position: 'absolute', top: '-40px', right: '-40px', width: '150px', transform: 'rotate(15deg)' }} />
-                   <img src="/sticker (1).png" alt="Sticker" style={{ position: 'absolute', bottom: '-40px', left: '-30px', width: '120px', transform: 'rotate(-25deg)' }} />
+                   <img src="/events.png" alt="Women's IP Alliance Enterprise Platform Preview" style={{ width: '100%', maxWidth: '500px', borderRadius: '16px', border: '2px solid var(--color-black)' }} />
+                   <img src="/sticker (4).png" alt="WIPA corporate engagement sticker" style={{ position: 'absolute', top: '-40px', right: '-40px', width: '150px', transform: 'rotate(15deg)' }} />
+                   <img src="/sticker (1).png" alt="Global IP network decorative sticker" style={{ position: 'absolute', bottom: '-40px', left: '-30px', width: '120px', transform: 'rotate(-25deg)' }} />
                 </div>
              </FadeIn>
           </div>

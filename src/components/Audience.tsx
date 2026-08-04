@@ -21,7 +21,7 @@ export default function Audience() {
             </p>
           </FadeIn>
           <FloatAnim delay={0.2} style={{ position: 'relative', marginTop: '40px', marginRight: '40px' }}>
-            <img src="/sticker (5).png" alt="Sticker" style={{ width: '280px', objectFit: 'contain', transform: 'rotate(15deg)' }} />
+            <img src="/sticker (5).png" alt="WIPA members collaboration sticker" style={{ width: '280px', objectFit: 'contain', transform: 'rotate(15deg)' }} />
           </FloatAnim>
         </div>
 

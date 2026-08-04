@@ -60,6 +60,37 @@ const plans = [
 export default function PlansPage() {
   return (
     <main style={{ backgroundColor: 'var(--color-charcoal)' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "IP Professional Membership",
+              "description": "For lawyers, patent attorneys, trade mark attorneys, and IP practitioners.",
+              "offers": {
+                "@type": "Offer",
+                "price": "395.00",
+                "priceCurrency": "GBP",
+                "availability": "https://schema.org/InStock"
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "Student Membership",
+              "description": "For full-time or part-time students exploring a career in intellectual property.",
+              "offers": {
+                "@type": "Offer",
+                "price": "120.00",
+                "priceCurrency": "GBP",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          ])
+        }}
+      />
       <Navbar />
       
       <section className="section section-dark" style={{ paddingTop: '160px', paddingBottom: '100px' }}>

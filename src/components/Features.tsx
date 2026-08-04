@@ -26,7 +26,7 @@ export default function Features() {
             </p>
           </FadeIn>
           <div style={{ position: 'absolute', bottom: '-20px', right: '-5%', zIndex: 5 }}>
-            <img src="/sticker (6).png" alt="Sticker" style={{ width: '220px', objectFit: 'contain', transform: 'rotate(-10deg)' }} />
+            <img src="/sticker (6).png" alt="WIPA leadership and learning sticker" style={{ width: '220px', objectFit: 'contain', transform: 'rotate(-10deg)' }} />
           </div>
         </div>
 
@@ -39,7 +39,7 @@ export default function Features() {
               </div>
               {f.img && (
                 <div style={{ marginTop: '25px', flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '2px solid var(--color-black)', minHeight: '140px', position: 'relative' }}>
-                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
+                  <img src={f.img} alt={`Women's IP Alliance feature: ${f.title}`} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
                 </div>
               )}
             </TiltCard>
