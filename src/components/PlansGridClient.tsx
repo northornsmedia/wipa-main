@@ -133,9 +133,11 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
             <Link href={`/interest?plan=${encodeURIComponent(t.name.replace('\n', ' '))}&billing=${isYearly ? 'yearly' : 'monthly'}&amount=${encodeURIComponent(isYearly ? t.price : t.monthlyPrice)}`} style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
               <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase', lineHeight: '1.2' }}>Purchase Your<br/>Membership Now</button>
             </Link>
-            <div style={{ marginTop: '12px', fontSize: '0.85rem', fontWeight: '600', textDecoration: 'underline', opacity: 0.8, cursor: 'pointer' }}>
-              Request an invoice
-            </div>
+            {isYearly && (
+              <div style={{ marginTop: '12px', fontSize: '0.85rem', fontWeight: '600', textDecoration: 'underline', opacity: 0.8, cursor: 'pointer' }}>
+                Request an invoice
+              </div>
+            )}
           </TiltCard>
         ))}
       </StaggerGrid>
