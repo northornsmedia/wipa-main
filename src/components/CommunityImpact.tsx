@@ -48,7 +48,7 @@ export default function CommunityImpact() {
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
             {visibleProfiles.map((p, i) => (
               <div key={`${startIndex}-${i}`} className={`pill-container ${p.style}`} style={{ padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '16px', transition: 'all 0.3s ease', alignItems: 'center', textAlign: 'center' }}>
-                <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--color-black)', backgroundColor: 'var(--color-white)' }}>
+                <div style={{ width: '160px', height: '160px', borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--color-black)', backgroundColor: 'var(--color-white)' }}>
                   <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div style={{ marginTop: 'auto', width: '100%' }}>
