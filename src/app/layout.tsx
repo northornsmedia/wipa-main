@@ -10,8 +10,8 @@ import { Suspense } from "react";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.womensipalliance.com"),
   title: {
-    default: "WIPA — Women's IP Alliance",
-    template: "%s | WIPA"
+    default: "WIPA | Women's IP Alliance",
+    template: "%s | WIPA (Women's IP Alliance)"
   },
   description:
     "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",

@@ -11,7 +11,7 @@ export default function Navbar() {
       <header className="section-white" style={{ position: 'relative', zIndex: 100, padding: '20px 0' }}>
         <nav className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ zIndex: 101, display: 'flex', alignItems: 'center' }}>
-            <img src="/WIPALOGO.png" alt="Women's IP Alliance (WIPA) Official Logo" style={{ height: '40px', width: 'auto' }} />
+            <img src="/WIPALOGO.png" alt="WIPA (Women's IP Alliance) Official Logo" style={{ height: '40px', width: 'auto' }} />
           </Link>
 
           {/* Desktop Nav */}
