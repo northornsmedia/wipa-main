@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
+import { faqSchema } from "./faqData";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,6 +19,13 @@ export default function FAQsPage() {
       </div>
       
       <Footer />
+      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema)
+        }}
+      />
     </main>
   );
 }
