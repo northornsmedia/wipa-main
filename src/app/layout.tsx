@@ -15,7 +15,13 @@ export const metadata: Metadata = {
   },
   description:
     "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",
-  keywords: ["Women in IP", "Intellectual Property", "Patents", "Trademarks", "Law", "Innovation", "Womens IP Alliance", "WIPA", "Copyright"],
+  keywords: [
+    "Women's IP Alliance", "WIPA", "Women in intellectual property", "Intellectual property for women",
+    "IP law for women", "Women in IP law", "Patents for women", "Women in patents",
+    "Trademarks for women", "Women in trademarks", "Copyright for women", "Women in copyright",
+    "IP strategy for women", "Women in IP strategy", "Patent prosecution for women",
+    "WIPA founding member", "Women's IP World Annual", "IP community"
+  ],
   openGraph: {
     title: "WIPA — Women's IP Alliance",
     description: "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",
