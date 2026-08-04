@@ -19,7 +19,7 @@ export default function Navbar() {
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
             <Link href="/coming-soon">Platform</Link>
-            <Link href="/coming-soon">Community</Link>
+            <Link href="/community">Community</Link>
             <Link href="/plans">Pricing</Link>
             <Link href="/faqs">FAQs</Link>
           </div>
@@ -59,7 +59,7 @@ export default function Navbar() {
             <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
             <Link href="/about" onClick={() => setIsOpen(false)}>About</Link>
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Platform</Link>
-            <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Community</Link>
+            <Link href="/community" onClick={() => setIsOpen(false)}>Community</Link>
             <Link href="/plans" onClick={() => setIsOpen(false)}>Pricing</Link>
             <Link href="/faqs" onClick={() => setIsOpen(false)}>FAQs</Link>
             
