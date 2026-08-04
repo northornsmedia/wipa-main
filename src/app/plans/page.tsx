@@ -45,7 +45,6 @@ const plans = [
   { 
     name: "Enterprise\nMembership", 
     subtitle: "(IP Professional Teams)",
-    extra: "6 IP Professional Memberships for the Price of 4",
     price: "£1,745",
     monthlyPrice: "£175",
     hideLimitOnMonthly: true,
