@@ -5,45 +5,32 @@ import FadeIn from "./animations/FadeIn";
 import StaggerGrid from "./animations/StaggerGrid";
 
 const baseStyles = ["bg-pastel-pink", "bg-pastel-yellow", "bg-pastel-purple", "bg-pastel-green"];
-const stories = [
-  { role: "Founding President", quote: "\"Why I Joined the Alliance\"...", style: "bg-pastel-pink" },
-  { role: "Regional Representative", quote: "\"Building the future of IP together.\"", style: "bg-pastel-yellow" },
-  { role: "Member Spotlight", quote: "\"An incredible international community.\"", style: "bg-pastel-purple" },
-  { role: "Early Member", quote: "\"Networking that actually works beyond conferences.\"", style: "bg-pastel-green" },
-  ...Array.from({ length: 16 }).map((_, i) => {
-    const realisticRoles = [
-      "Patent Attorney", "IP Consultant", "In-House Counsel", "Trade Mark Specialist",
-      "Law Student", "Innovation Director", "IP Litigator", "Tech Transfer Officer"
-    ];
-    const realisticQuotes = [
-      "A transformative community for female professionals.",
-      "The best networking I've experienced in the IP sector.",
-      "Empowering, supportive, and truly global.",
-      "Found my mentors and business partners here.",
-      "An invaluable resource for career growth in IP law.",
-      "Connecting with top minds across borders.",
-      "Finally, a space dedicated to women innovating in IP.",
-      "Highly recommend to anyone starting in the industry."
-    ];
-    return {
-      role: realisticRoles[i % realisticRoles.length],
-      quote: `"${realisticQuotes[i % realisticQuotes.length]}"`,
-      style: baseStyles[i % 4]
-    };
-  })
-];
+const profiles = [
+  { src: "/1.png", name: "Michele S. Katz", countryCode: ["us"], position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
+  { src: "/Rafaella Oliveira.png", name: "Rafaella Oliveira", countryCode: ["br"], position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
+  { src: "/2.png", name: "Dhruva Dakhani", countryCode: ["gb", "in"], position: "Director", company: "Women’s IP Alliance" },
+  { src: "/Liliane Roriz.png", name: "Appellate Judge (ret.) Liliane Roriz", countryCode: ["br"], position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
+  { src: "/roba.jpg", name: "Roba Hamam", countryCode: ["ch"], position: "Partner, Intellectual Property & Life Sciences.", company: "AÏP Genius" },
+  { src: "/Leonne Theodore-John.png", name: "Leonne Theodore-John", countryCode: ["lc"], position: "Partner & Head of Intellectual Property", company: "Nicholas John & Co" },
+  { src: "/4.jpg", name: "Nithya Somasundaram", countryCode: ["in"], position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
+  { src: "/Juliana Neves.png", name: "Juliana Neves", countryCode: ["br"], position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
+  { src: "/5.jpeg", name: "Claudia Kaya", countryCode: ["ch"], position: "Director and Managing IP Consultant", company: "Dormann IP" },
+  { src: "/Isabella Bonisolo.png", name: "Isabella Bonisolo", countryCode: ["br"], position: "Partner – Patent Litigation", company: "Licks Advogados" },
+  { src: "/6.png", name: "Ximena Souza Ferreira", countryCode: ["pe"], position: "Partner", company: "Osterling Abogados" },
+  { src: "/Carolina Caetano.png", name: "Carolina Caetano", countryCode: ["br"], position: "Head of Trademark Prosecution", company: "Licks Advogados" },
+].map((p, i) => ({ ...p, style: baseStyles[i % 4] }));
 
 export default function CommunityImpact() {
   const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setStartIndex((prev) => (prev + 4) % stories.length);
+      setStartIndex((prev) => (prev + 4) % profiles.length);
     }, 4000);
     return () => clearInterval(timer);
   }, []);
 
-  const visibleStories = stories.slice(startIndex, startIndex + 4);
+  const visibleProfiles = Array.from({ length: 4 }).map((_, i) => profiles[(startIndex + i) % profiles.length]);
 
   return (
     <section className="section section-white">
@@ -59,13 +46,22 @@ export default function CommunityImpact() {
 
         <div key={startIndex} style={{ animation: 'fadeIn 0.5s ease-in-out' }}>
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
-            {visibleStories.map((s, i) => (
-              <div key={`${startIndex}-${i}`} className={`pill-container ${s.style}`} style={{ padding: '40px 25px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '20px', transition: 'all 0.3s ease' }}>
-                <p style={{ fontSize: '1.2rem', fontStyle: 'italic', lineHeight: 1.5 }}>
-                  {s.quote}
-                </p>
-                <div style={{ marginTop: 'auto' }}>
-                  <h4 className="heading-md" style={{ fontSize: '1.2rem' }}>{s.role}</h4>
+            {visibleProfiles.map((p, i) => (
+              <div key={`${startIndex}-${i}`} className={`pill-container ${p.style}`} style={{ padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '16px', transition: 'all 0.3s ease', alignItems: 'center', textAlign: 'center' }}>
+                <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--color-black)', backgroundColor: 'var(--color-white)' }}>
+                  <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ marginTop: 'auto', width: '100%' }}>
+                  <div style={{ color: 'var(--color-black)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
+                    {p.countryCode?.map((code: string) => (
+                      <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
+                    ))}
+                    {p.name}
+                  </div>
+                  <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--color-charcoal)' }}>{p.position}</h4>
+                  {p.company && (
+                    <p style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)' }}>{p.company}</p>
+                  )}
                 </div>
               </div>
             ))}
