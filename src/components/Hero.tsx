@@ -6,18 +6,18 @@ import MagneticButton from "./animations/MagneticButton";
 
 export default function Hero() {
   const profiles = [
-    { src: "/1.png", name: "🇺🇸 Michele S. Katz", position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
-    { src: "/Rafaella Oliveira.png", name: "🇧🇷 Rafaella Oliveira", position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
-    { src: "/2.png", name: "🇬🇧/🇮🇳 Dhruva Dakhani", position: "Director", company: "Women’s IP Alliance" },
-    { src: "/Liliane Roriz.png", name: "🇧🇷 Appellate Judge (ret.) Liliane Roriz", position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
-    { src: "/roba.jpg", name: "🇨🇭 Roba Hamam", position: "Partner, Intellectual Property & Life Sciences.", company: "AÏP Genius" },
-    { src: "/Leonne Theodore-John.png", name: "🇱🇨 Leonne Theodore-John", position: "Partner & Head of Intellectual Property", company: "Nicholas John & Co" },
-    { src: "/4.jpg", name: "🇮🇳 Nithya Somasundaram", position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
-    { src: "/Juliana Neves.png", name: "🇧🇷 Juliana Neves", position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
-    { src: "/5.jpeg", name: "🇨🇭 Claudia Kaya", position: "Director and Managing IP Consultant", company: "Dormann IP" },
-    { src: "/Isabella Bonisolo.png", name: "🇧🇷 Isabella Bonisolo", position: "Partner – Patent Litigation", company: "Licks Advogados" },
-    { src: "/6.png", name: "🇵🇪 Ximena Souza Ferreira", position: "Partner", company: "Osterling Abogados" },
-    { src: "/Carolina Caetano.png", name: "🇧🇷 Carolina Caetano", position: "Head of Trademark Prosecution", company: "Licks Advogados" },
+    { src: "/1.png", name: "Michele S. Katz", countryCode: ["us"], position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
+    { src: "/Rafaella Oliveira.png", name: "Rafaella Oliveira", countryCode: ["br"], position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
+    { src: "/2.png", name: "Dhruva Dakhani", countryCode: ["gb", "in"], position: "Director", company: "Women’s IP Alliance" },
+    { src: "/Liliane Roriz.png", name: "Appellate Judge (ret.) Liliane Roriz", countryCode: ["br"], position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
+    { src: "/roba.jpg", name: "Roba Hamam", countryCode: ["ch"], position: "Partner, Intellectual Property & Life Sciences.", company: "AÏP Genius" },
+    { src: "/Leonne Theodore-John.png", name: "Leonne Theodore-John", countryCode: ["lc"], position: "Partner & Head of Intellectual Property", company: "Nicholas John & Co" },
+    { src: "/4.jpg", name: "Nithya Somasundaram", countryCode: ["in"], position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
+    { src: "/Juliana Neves.png", name: "Juliana Neves", countryCode: ["br"], position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
+    { src: "/5.jpeg", name: "Claudia Kaya", countryCode: ["ch"], position: "Director and Managing IP Consultant", company: "Dormann IP" },
+    { src: "/Isabella Bonisolo.png", name: "Isabella Bonisolo", countryCode: ["br"], position: "Partner – Patent Litigation", company: "Licks Advogados" },
+    { src: "/6.png", name: "Ximena Souza Ferreira", countryCode: ["pe"], position: "Partner", company: "Osterling Abogados" },
+    { src: "/Carolina Caetano.png", name: "Carolina Caetano", countryCode: ["br"], position: "Head of Trademark Prosecution", company: "Licks Advogados" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -134,7 +134,12 @@ export default function Hero() {
                       <img src={profile.src} alt={profile.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <div style={{ textAlign: 'center', marginTop: '16px', width: '100%' }}>
-                      <div style={{ color: 'var(--color-white)', fontSize: '1.2rem', fontWeight: 600 }}>{profile.name}</div>
+                      <div style={{ color: 'var(--color-white)', fontSize: '1.2rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        {profile.countryCode?.map(code => (
+                          <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
+                        ))}
+                        {profile.name}
+                      </div>
                       <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginTop: '4px', lineHeight: 1.3 }}>{profile.position}</div>
                       {profile.company && (
                         <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginTop: '4px', fontStyle: 'italic' }}>{profile.company}</div>
