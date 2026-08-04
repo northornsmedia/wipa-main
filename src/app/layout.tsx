@@ -38,6 +38,39 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Women's IP Alliance",
+              "url": "https://www.womensipalliance.com/",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.womensipalliance.com/?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Women's IP Alliance",
+              "url": "https://www.womensipalliance.com/",
+              "logo": "https://www.womensipalliance.com/favicon.ico",
+              "sameAs": [
+                "https://www.linkedin.com/company/womensipalliance"
+              ]
+            })
+          }}
+        />
+      </head>
       <body>
         <DisableImageContextMenu />
         <Suspense fallback={null}>
