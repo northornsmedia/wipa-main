@@ -52,12 +52,14 @@ export async function POST(req: Request) {
               description: `Member: ${name} (${profession})`,
             },
             unit_amount: priceInPence,
+            recurring: {
+              interval: isYearly ? 'year' : 'month',
+            },
           },
           quantity: 1,
         },
       ],
-      mode: 'payment', // using payment instead of subscription for now to simplify
-      invoice_creation: { enabled: true },
+      mode: 'subscription',
       customer_email: email,
       metadata: {
         name,
