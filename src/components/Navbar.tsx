@@ -16,6 +16,7 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="mobile-hidden" style={{ display: 'flex', gap: '3rem', fontFamily: 'var(--font-display)', fontWeight: 700, textTransform: 'uppercase' }}>
+            <Link href="/">Home</Link>
             <Link href="/#hero">About</Link>
             <Link href="/coming-soon">Platform</Link>
             <Link href="/coming-soon">Community</Link>
@@ -55,6 +56,7 @@ export default function Navbar() {
           </div>
           
           <FadeIn direction="up" style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center', marginTop: '60px', fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, textTransform: 'uppercase' }}>
+            <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
             <Link href="/#hero" onClick={() => setIsOpen(false)}>About</Link>
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Platform</Link>
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Community</Link>
