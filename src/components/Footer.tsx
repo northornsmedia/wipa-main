@@ -66,7 +66,7 @@ export default function Footer() {
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid var(--color-black)', paddingTop: '40px', fontSize: '1rem', fontWeight: 600 }}>
         <span>© 2026 WIPA. All rights reserved.</span>
         <DoodleSocials />
-        <span>Built for women in IP.</span>
+        <span>Product of Northon's Media PR & Marketing Ltd</span>
       </div>
     </footer>
   );
