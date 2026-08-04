@@ -21,8 +21,8 @@ import Footer from "@/components/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Join the Women's IP Alliance, a global network of women professionals in intellectual property, patents, and innovation. Empowering women in IP to lead and succeed.",
+  title: "Women's IP Alliance | Global Community for Women in Patents, Trademarks & IP Law",
+  description: "Join WIPA, the international membership community for women in intellectual property — patents, trademarks, copyright & innovation. Founding memberships open now.",
 };
 
 export default function Home() {

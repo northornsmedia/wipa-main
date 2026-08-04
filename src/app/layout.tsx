@@ -62,10 +62,29 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Women's IP Alliance",
+              "alternateName": "WIPA",
               "url": "https://www.womensipalliance.com/",
-              "logo": "https://www.womensipalliance.com/favicon.ico",
+              "logo": "https://www.womensipalliance.com/WIPALOGO.png",
+              "description": "The Women's IP Alliance is an international membership community for women across intellectual property, patents, trademarks, copyright, innovation, technology, law, academia, and entrepreneurship.",
               "sameAs": [
-                "https://www.linkedin.com/company/womensipalliance"
+                "https://facebook.com/WomensIPWorld",
+                "https://instagram.com/womensip",
+                "https://x.com/WomensIPWorld1",
+                "https://linkedin.com/company/the-women-s-ip-world-annual"
+              ],
+              "contactPoint": [
+                {
+                  "@type": "ContactPoint",
+                  "telephone": "+44-203-813-0457",
+                  "contactType": "customer service",
+                  "areaServed": "GB"
+                },
+                {
+                  "@type": "ContactPoint",
+                  "telephone": "+91-90545-75950",
+                  "contactType": "customer service",
+                  "areaServed": "IN"
+                }
               ]
             })
           }}

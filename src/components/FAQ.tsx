@@ -29,6 +29,24 @@ export default function FAQ() {
     <section className="section section-white">
       <div className="container">
         
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.q,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.a
+                }
+              }))
+            })
+          }}
+        />
+
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
             <h2 className="heading-huge">Frequently Asked Questions</h2>
@@ -73,6 +91,12 @@ export default function FAQ() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+                {/* SEO: Keep answer in DOM even when collapsed */}
+                {openIndex !== i && (
+                  <div style={{ display: 'none' }} aria-hidden="true">
+                    {faq.a}
+                  </div>
+                )}
               </div>
             ))}
           </StaggerGrid>
