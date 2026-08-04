@@ -45,7 +45,7 @@ export default function Hero() {
             <FadeIn direction="up" delay={0.1}>
               <div style={{ 
                 display: 'inline-block', 
-                backgroundColor: 'var(--color-pastel-purple)', 
+                backgroundColor: 'var(--color-pastel-blue)', 
                 color: 'var(--color-black)', 
                 padding: '8px 16px', 
                 borderRadius: '30px', 
