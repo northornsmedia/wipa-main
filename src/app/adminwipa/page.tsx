@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@supabase/supabase-js';
 import AdminDashboardClient from './AdminDashboardClient';
 
 // Ensure this page is not statically cached
@@ -6,7 +6,10 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminPage() {
-  const supabase = await createClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  );
 
   // Fetch all leads
   const { data: onboardingLeads } = await supabase
