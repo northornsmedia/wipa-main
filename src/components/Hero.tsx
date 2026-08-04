@@ -45,18 +45,15 @@ export default function Hero() {
             <FadeIn direction="up" delay={0.1}>
               <div style={{ 
                 display: 'inline-block', 
-                background: 'linear-gradient(to bottom, #ffeba8 0%, #dfb746 48%, #c59b27 52%, #ffefb0 100%)',
-                color: '#2a2202', 
-                padding: '8px 20px', 
+                backgroundColor: 'var(--color-pastel-purple)', 
+                color: 'var(--color-black)', 
+                padding: '8px 16px', 
                 borderRadius: '30px', 
-                fontWeight: 800, 
-                fontSize: '0.95rem', 
+                fontWeight: 700, 
+                fontSize: '0.9rem', 
                 marginBottom: '40px', 
                 border: '2px solid var(--color-black)', 
-                boxShadow: 'inset 0 2px 2px rgba(255,255,255,0.9), inset 0 -2px 4px rgba(0,0,0,0.3), 4px 4px 0px var(--color-black)',
-                textShadow: '0 1px 0 rgba(255,255,255,0.5)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
+                boxShadow: '4px 4px 0px var(--color-black)' 
               }}>
                 Launching January 2027 | Become a Founding Member
               </div>
