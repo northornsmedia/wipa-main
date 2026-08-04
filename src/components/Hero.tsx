@@ -6,18 +6,18 @@ import MagneticButton from "./animations/MagneticButton";
 
 export default function Hero() {
   const profiles = [
-    { src: "/1.png", name: "Michele S. Katz", position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
-    { src: "/Rafaella Oliveira.png", name: "Rafaella Oliveira", position: "Founding Member", company: "WIPA" },
-    { src: "/2.png", name: "Dhruva Dakhani", position: "Director", company: "Women’s IP Alliance" },
-    { src: "/Liliane Roriz.png", name: "Liliane Roriz", position: "Founding Member", company: "WIPA" },
+    { src: "/1.png", name: "🇺🇸 Michele S. Katz", position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
+    { src: "/Rafaella Oliveira.png", name: "🇧🇷 Rafaella Oliveira", position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
+    { src: "/2.png", name: "🇮🇳 Dhruva Dakhani", position: "Director", company: "Women’s IP Alliance" },
+    { src: "/Liliane Roriz.png", name: "🇧🇷 Appellate Judge (ret.) Liliane Roriz", position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
     { src: "/3.jpg", name: "Roba Hamam", position: "Partner & Legal Director", company: "AÏP Genius" },
-    { src: "/Leonne Theodore-John.png", name: "Leonne Theodore-John", position: "Founding Member", company: "WIPA" },
-    { src: "/4.jpg", name: "Nithya Somasundaram", position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
-    { src: "/Juliana Neves.png", name: "Juliana Neves", position: "Founding Member", company: "WIPA" },
+    { src: "/Leonne Theodore-John.png", name: "🇱🇨 Leonne Theodore-John", position: "Partner & Head of Intellectual Property", company: "Nicholas John & Co" },
+    { src: "/4.jpg", name: "🇮🇳 Nithya Somasundaram", position: "Senior Legal Consultant", company: "R.K. Dewan & Co" },
+    { src: "/Juliana Neves.png", name: "🇧🇷 Juliana Neves", position: "Partner – Patent and Trademark Litigation", company: "Licks Advogados" },
     { src: "/5.jpeg", name: "Claudia Kaya", position: "Director and Managing IP Consultant", company: "Dormann IP" },
-    { src: "/Isabella Bonisolo.png", name: "Isabella Bonisolo", position: "Founding Member", company: "WIPA" },
-    { src: "/6.png", name: "Ximena Souza Ferreira", position: "Partner", company: "Osterling Abogados" },
-    { src: "/Carolina Caetano.png", name: "Carolina Caetano", position: "Founding Member", company: "WIPA" },
+    { src: "/Isabella Bonisolo.png", name: "🇧🇷 Isabella Bonisolo", position: "Partner – Patent Litigation", company: "Licks Advogados" },
+    { src: "/6.png", name: "🇵🇪 Ximena Souza Ferreira", position: "Partner", company: "Osterling Abogados" },
+    { src: "/Carolina Caetano.png", name: "🇧🇷 Carolina Caetano", position: "Head of Trademark Prosecution", company: "Licks Advogados" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
 
