@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/utils/supabase/server';
+import { createClient as createClientRaw } from '@supabase/supabase-js';
 
 export async function POST(req: Request) {
   try {
@@ -71,7 +72,12 @@ export async function POST(req: Request) {
     });
 
     if (interestId) {
-      const { error: updateError } = await supabase
+      const supabaseAdmin = createClientRaw(
+        process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
+        process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+      );
+
+      const { error: updateError } = await supabaseAdmin
         .from('interests')
         .update({ checkout_session_id: session.id })
         .eq('id', interestId);
