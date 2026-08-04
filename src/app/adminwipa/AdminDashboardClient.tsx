@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import FadeIn from "@/components/animations/FadeIn";
 import StaggerGrid from "@/components/animations/StaggerGrid";
 import { useRouter } from "next/navigation";
-import { verifyPrimaryPassword, verifySecondaryPassword } from "./actions";
+import { verifyPrimaryPassword, verifySecondaryPassword, getLiveDatabaseLogs } from "./actions";
 
 type AdminDashboardProps = {
   onboardingLeads: any[];
@@ -43,37 +43,89 @@ const CircularProgress = ({ percentage, color, label, value }: { percentage: num
   );
 };
 
-const DefenseTerminal = () => {
+const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
   const [logs, setLogs] = useState<string[]>([]);
+  const [liveDbActivity, setLiveDbActivity] = useState<any[]>([]);
+
+  // Fetch real Postgres activity
+  useEffect(() => {
+    let isRunning = true;
+    const fetchLogs = async () => {
+      if (!isRunning) return;
+      const res = await getLiveDatabaseLogs();
+      if (res.success && res.data) {
+        setLiveDbActivity(res.data);
+      }
+      setTimeout(fetchLogs, 3000);
+    };
+    fetchLogs();
+    return () => { isRunning = false; };
+  }, []);
 
   useEffect(() => {
-    const scripts = [
-      "Running security scan on 127.0.0.1...",
-      "Firewall active. Monitoring incoming traffic.",
-      "Decrypting payload 0x8F9A...",
-      "Warning: Unauthorized access attempt blocked from IP 192.168.1.5",
-      "Updating encryption protocols...",
-      "Analyzing system integrity: 100% stable.",
-      "Bypassing mainframe proxy...",
-      "Routing traffic through VPN node 44...",
-      "Executing deep packet inspection...",
-      "Checking database synchronization...",
-      "SQL Injection attempt mitigated successfully.",
-      "Network packet loss: 0.00%",
-      "Compiling defensive heuristics...",
-      "Loading kernel modules...",
-    ];
+    let timeoutId: NodeJS.Timeout;
+    let isRunning = true;
 
-    const interval = setInterval(() => {
+    const generateLog = () => {
+      if (!isRunning) return;
+      
+      let newLog = "Analyzing system integrity: 100% stable.";
+      const rand = Math.random();
+
+      // Mix real DB logs with real Analytics logs and mock logs
+      if (liveDbActivity.length > 0 && rand < 0.6) {
+        const dbEvent = liveDbActivity[Math.floor(Math.random() * liveDbActivity.length)];
+        const queryPreview = (dbEvent.query || "").trim().replace(/\n/g, ' ').substring(0, 60);
+        if (queryPreview) {
+          newLog = `[DB ${dbEvent.pid}] ${dbEvent.usename || 'system'} @ ${dbEvent.client_addr || 'local'} -> ${queryPreview}...`;
+        } else {
+          newLog = `[DB ${dbEvent.pid}] Status: ${dbEvent.state}`;
+        }
+      } else if (analyticsEvents.length > 0 && rand < 0.8) {
+        const randomEvent = analyticsEvents[Math.floor(Math.random() * analyticsEvents.length)];
+        if (rand < 0.65) {
+          newLog = `Incoming connection from ${randomEvent.city || 'Unknown'}, ${randomEvent.region || 'Unknown'} [${randomEvent.os || 'Unknown OS'}]...`;
+        } else if (rand < 0.70) {
+          newLog = `SSL Handshake successful for client from ${randomEvent.network || 'External IP'}.`;
+        } else if (rand < 0.75) {
+          newLog = `Evaluating packet headers for ${randomEvent.browser || 'Unknown'} request to ${randomEvent.page_url}...`;
+        } else {
+          newLog = `Traffic authorized for session ID: [${(randomEvent.session_id || '').substring(0,8)}...]`;
+        }
+      } else {
+         const scripts = [
+          "Firewall active. Monitoring incoming traffic.",
+          "Decrypting payload 0x8F9A...",
+          "Updating encryption protocols...",
+          "Bypassing mainframe proxy...",
+          "Executing deep packet inspection...",
+          "SQL Injection attempt mitigated successfully.",
+          "Network packet loss: 0.00%",
+          "Checking database synchronization across active clusters...",
+        ];
+        newLog = scripts[Math.floor(Math.random() * scripts.length)];
+      }
+
       setLogs(prev => {
-        const newLogs = [...prev, `[${new Date().toISOString().split('T')[1].split('.')[0]}] ${scripts[Math.floor(Math.random() * scripts.length)]}`];
-        if (newLogs.length > 20) newLogs.shift();
-        return newLogs;
+        const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+        const nextLogs = [...prev, `[${timestamp}] ${newLog}`];
+        if (nextLogs.length > 20) nextLogs.shift();
+        return nextLogs;
       });
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+      // Random delay between 200ms and 2000ms
+      const delay = Math.floor(Math.random() * 1800) + 200;
+      timeoutId = setTimeout(generateLog, delay);
+    };
+
+    // Start loop
+    generateLog();
+
+    return () => {
+      isRunning = false;
+      clearTimeout(timeoutId);
+    };
+  }, [analyticsEvents, liveDbActivity]);
 
   return (
     <div style={{ backgroundColor: "#05070a", padding: "20px", borderRadius: "10px", border: "1px solid #00f0ff", fontFamily: "monospace", color: "#00f0ff", height: "500px", overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", boxShadow: "0 0 20px rgba(0, 240, 255, 0.2)" }}>
@@ -442,7 +494,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#ff007f", animation: "blink 1s step-end infinite" }}></div>
                 SYSTEM DEFENSE OVERRIDE
               </h2>
-              <DefenseTerminal />
+              <DefenseTerminal analyticsEvents={analyticsEvents} />
             </div>
           )}
 
