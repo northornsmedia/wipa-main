@@ -17,9 +17,9 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div className="mobile-hidden" style={{ display: 'flex', gap: '3rem', fontFamily: 'var(--font-display)', fontWeight: 700, textTransform: 'uppercase' }}>
             <Link href="/">Home</Link>
-            <Link href="/#hero">About</Link>
+            <Link href="/about">About</Link>
             <Link href="/coming-soon">Platform</Link>
-            <Link href="/community">Community</Link>
+            <Link href="/coming-soon">Community</Link>
             <Link href="/plans">Pricing</Link>
             <Link href="/faqs">FAQs</Link>
           </div>
@@ -57,9 +57,9 @@ export default function Navbar() {
           
           <FadeIn direction="up" style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center', marginTop: '60px', fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, textTransform: 'uppercase' }}>
             <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
-            <Link href="/#hero" onClick={() => setIsOpen(false)}>About</Link>
+            <Link href="/about" onClick={() => setIsOpen(false)}>About</Link>
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Platform</Link>
-            <Link href="/community" onClick={() => setIsOpen(false)}>Community</Link>
+            <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Community</Link>
             <Link href="/plans" onClick={() => setIsOpen(false)}>Pricing</Link>
             <Link href="/faqs" onClick={() => setIsOpen(false)}>FAQs</Link>
             

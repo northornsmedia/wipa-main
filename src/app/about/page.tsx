@@ -1,4 +1,6 @@
 import About from "@/components/About";
+import Values from "@/components/Values";
+import Foundation from "@/components/Foundation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React from "react";
@@ -58,6 +60,11 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+      </div>
+      
+      <div style={{ backgroundColor: 'var(--color-charcoal)', position: 'relative', zIndex: 10 }}>
+        <Values />
+        <Foundation />
       </div>
 
       <Footer />
