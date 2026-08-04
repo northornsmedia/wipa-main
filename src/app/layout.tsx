@@ -5,6 +5,7 @@ import ScrollProgress from "@/components/animations/ScrollProgress";
 import Preloader from "@/components/animations/Preloader";
 import DisableImageContextMenu from "@/components/DisableImageContextMenu";
 import Analytics from "@/components/Analytics";
+import SchemaBreadcrumbs from "@/components/SchemaBreadcrumbs";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -97,6 +98,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <SchemaBreadcrumbs />
         <DisableImageContextMenu />
         <Suspense fallback={null}>
           <Analytics />
