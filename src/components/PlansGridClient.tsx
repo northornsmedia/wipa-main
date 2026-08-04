@@ -100,7 +100,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
           <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '30px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%', position: 'relative' }}>
             
             {t.subtitle && (
-              <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '8px 24px', borderRadius: '24px', fontWeight: 'bold', fontSize: '1.05rem', whiteSpace: 'nowrap', zIndex: 10 }}>
+              <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#555', color: 'var(--color-white)', padding: '8px 24px', borderRadius: '24px', fontWeight: 'bold', fontSize: '1.05rem', whiteSpace: 'nowrap', zIndex: 10 }}>
                 {t.subtitle}
               </div>
             )}
