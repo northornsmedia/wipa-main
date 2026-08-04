@@ -223,7 +223,11 @@ const PaginatedTable = ({ title, data, columns }: { title: string, data: any[], 
                       ? (row[col] ? new Date(row[col]).toLocaleString() : '-') 
                       : col === 'amount_paid' 
                         ? (row[col] ? `£${row[col]}` : '-')
-                        : (row[col] || '-')}
+                        : col === 'invoice'
+                          ? (row['payment_status'] === 'Payment success, subscription purchased' 
+                              ? <a href={`/api/adminwipa/invoice?id=${row.id}`} target="_blank" rel="noreferrer" style={{ color: "#00f0ff", textDecoration: "none", fontWeight: "bold" }}>Download PDF</a> 
+                              : '-')
+                          : (row[col] || '-')}
                   </td>
                 ))}
               </tr>
@@ -531,7 +535,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
 
           {activeTab === 'onboarding' && <PaginatedTable title="All Onboarding Leads" data={onboardingLeads} columns={['id', 'name', 'email', 'phone', 'country', 'journey_stage', 'created_at']} />}
           
-          {activeTab === 'interests' && <PaginatedTable title="Detailed Checkout Tracking" data={interestLeads} columns={['name', 'email', 'profession', 'plan', 'amount_paid', 'paid_at', 'payment_status', 'created_at']} />}
+          {activeTab === 'interests' && <PaginatedTable title="Detailed Checkout Tracking" data={interestLeads} columns={['name', 'email', 'profession', 'plan', 'amount_paid', 'paid_at', 'payment_status', 'invoice', 'created_at']} />}
 
           {activeTab === 'enterprise' && <PaginatedTable title="All Enterprise Inquiries" data={enterpriseLeads} columns={['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at']} />}
 

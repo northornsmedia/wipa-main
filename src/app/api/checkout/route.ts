@@ -56,6 +56,7 @@ export async function POST(req: Request) {
         },
       ],
       mode: 'payment', // using payment instead of subscription for now to simplify
+      invoice_creation: { enabled: true },
       customer_email: email,
       metadata: {
         name,
@@ -68,6 +69,17 @@ export async function POST(req: Request) {
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}${interestId ? '&interestId=' + interestId : ''}&amount=${priceInPence}`,
       cancel_url: `${baseUrl}/cancel${interestId ? '?interestId=' + interestId : ''}`,
     });
+
+    if (interestId) {
+      const { error: updateError } = await supabase
+        .from('interests')
+        .update({ checkout_session_id: session.id })
+        .eq('id', interestId);
+      
+      if (updateError) {
+        console.error('Error saving session ID to database:', updateError);
+      }
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
