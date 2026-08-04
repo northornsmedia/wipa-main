@@ -301,7 +301,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
               </StaggerGrid>
 
               {/* Analytics Breakdowns */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px", marginBottom: "40px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "25px", marginBottom: "40px" }}>
                 
                 {/* Devices */}
                 <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
@@ -335,6 +335,26 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                           percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
                           color={colors[index % colors.length]} 
                           label={browser} 
+                          value={String(count)} 
+                        />
+                      );
+                    })}
+                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
+                  </div>
+                </div>
+
+                {/* Countries */}
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
+                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Country Distribution</h3>
+                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
+                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.country || "Unknown"] = (acc[ev.country || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([country, count], index) => {
+                      const colors = ["#ffaa00", "#00f0ff", "#bc00ff", "#ff007f"];
+                      return (
+                        <CircularProgress 
+                          key={country} 
+                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
+                          color={colors[index % colors.length]} 
+                          label={country} 
                           value={String(count)} 
                         />
                       );
