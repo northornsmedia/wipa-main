@@ -15,6 +15,15 @@ function getBrowser(userAgent: string) {
   return "Unknown";
 }
 
+function getOS(userAgent: string) {
+  if (userAgent.includes("Win")) return "Windows";
+  if (userAgent.includes("Mac") && !userAgent.includes("like Mac")) return "macOS";
+  if (userAgent.includes("like Mac")) return "iOS";
+  if (userAgent.includes("Android")) return "Android";
+  if (userAgent.includes("Linux")) return "Linux";
+  return "Unknown";
+}
+
 function getDeviceType(userAgent: string) {
   const ua = userAgent.toLowerCase();
   if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
@@ -45,6 +54,8 @@ export default function Analytics() {
 
         let country = "Unknown";
         let network = "Unknown";
+        let city = "Unknown";
+        let region = "Unknown";
         try {
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout to prevent blocking
@@ -52,6 +63,8 @@ export default function Analytics() {
           clearTimeout(timeoutId);
           if (ipRes && ipRes.country_name) country = ipRes.country_name;
           if (ipRes && ipRes.org) network = ipRes.org;
+          if (ipRes && ipRes.city) city = ipRes.city;
+          if (ipRes && ipRes.region) region = ipRes.region;
         } catch (e) {
           console.warn("Could not fetch IP geolocation:", e);
         }
@@ -62,8 +75,11 @@ export default function Analytics() {
           referrer: document.referrer || "Direct",
           device_type: getDeviceType(userAgent),
           browser: getBrowser(userAgent),
+          os: getOS(userAgent),
           country,
-          network
+          network,
+          city,
+          region
         };
 
         // Use fetch with keepalive if possible so it doesn't block navigation,

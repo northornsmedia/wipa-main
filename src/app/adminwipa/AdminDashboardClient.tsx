@@ -278,25 +278,36 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
           {activeTab === 'overview' && (
             <>
               {/* Stat Cards */}
-              <StaggerGrid style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "25px", marginBottom: "40px" }}>
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #00f0ff" }}>
-                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Total Pageviews</h3>
-                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{analyticsEvents.length}</div>
+              <StaggerGrid style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "20px", marginBottom: "40px" }}>
+                <div style={{ backgroundColor: "#1c1f2e", padding: "20px", borderRadius: "15px", border: "1px solid #2d3142", borderTop: "4px solid #00f0ff" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>Total Pageviews</h3>
+                  <div style={{ fontSize: "2rem", fontWeight: "bold" }}>{analyticsEvents.length}</div>
                 </div>
                 
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #ff007f" }}>
-                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Unique Sessions</h3>
-                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{new Set(analyticsEvents.map(e => e.session_id)).size}</div>
+                <div style={{ backgroundColor: "#1c1f2e", padding: "20px", borderRadius: "15px", border: "1px solid #2d3142", borderTop: "4px solid #ff007f" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>Unique Sessions</h3>
+                  <div style={{ fontSize: "2rem", fontWeight: "bold" }}>{new Set(analyticsEvents.map(e => e.session_id)).size}</div>
                 </div>
 
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #bc00ff" }}>
-                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Total Form Leads</h3>
-                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{totalLeads}</div>
+                <div style={{ backgroundColor: "#1c1f2e", padding: "20px", borderRadius: "15px", border: "1px solid #2d3142", borderTop: "4px solid #bc00ff" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>Pages / Session</h3>
+                  <div style={{ fontSize: "2rem", fontWeight: "bold" }}>
+                    {new Set(analyticsEvents.map(e => e.session_id)).size ? (analyticsEvents.length / new Set(analyticsEvents.map(e => e.session_id)).size).toFixed(1) : "0"}
+                  </div>
                 </div>
 
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142", borderTop: "4px solid #ffaa00" }}>
-                  <h3 style={{ color: "#7a7e93", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>Active Checkouts</h3>
-                  <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{interestLeads.length}</div>
+                <div style={{ backgroundColor: "#1c1f2e", padding: "20px", borderRadius: "15px", border: "1px solid #2d3142", borderTop: "4px solid #ffaa00" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>Bounce Rate</h3>
+                  <div style={{ fontSize: "2rem", fontWeight: "bold" }}>
+                    {new Set(analyticsEvents.map(e => e.session_id)).size ? Math.round((Object.values(analyticsEvents.reduce((acc, ev) => { acc[ev.session_id] = (acc[ev.session_id] || 0) + 1; return acc; }, {} as Record<string, number>)).filter(count => count === 1).length / new Set(analyticsEvents.map(e => e.session_id)).size) * 100) : 0}%
+                  </div>
+                </div>
+                
+                <div style={{ backgroundColor: "#1c1f2e", padding: "20px", borderRadius: "15px", border: "1px solid #2d3142", borderTop: "4px solid #00ff7f" }}>
+                  <h3 style={{ color: "#7a7e93", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "5px" }}>Conversion Rate</h3>
+                  <div style={{ fontSize: "2rem", fontWeight: "bold" }}>
+                    {new Set(analyticsEvents.map(e => e.session_id)).size ? ((interestLeads.filter(l => l.payment_status === 'Payment success, subscription purchased').length / new Set(analyticsEvents.map(e => e.session_id)).size) * 100).toFixed(2) : "0.00"}%
+                  </div>
                 </div>
               </StaggerGrid>
 
@@ -363,9 +374,52 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                   </div>
                 </div>
 
+                {/* Operating Systems */}
+                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
+                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Operating Systems</h3>
+                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
+                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.os || "Unknown"] = (acc[ev.os || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([os, count], index) => {
+                      const colors = ["#00ff7f", "#bc00ff", "#00f0ff", "#ff007f", "#ffaa00"];
+                      return (
+                        <CircularProgress 
+                          key={os} 
+                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
+                          color={colors[index % colors.length]} 
+                          label={os} 
+                          value={String(count)} 
+                        />
+                      );
+                    })}
+                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
+                  </div>
+                </div>
+
+              </div>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px", marginBottom: "40px" }}>
+                {renderTable("Top Landing Pages", Object.entries(analyticsEvents.reduce((acc, ev) => {
+                  if (!acc[ev.page_url]) acc[ev.page_url] = { views: 0, sessions: new Set() };
+                  acc[ev.page_url].views++;
+                  acc[ev.page_url].sessions.add(ev.session_id);
+                  return acc;
+                }, {} as Record<string, { views: number, sessions: Set<string> }>)).sort((a, b) => b[1].views - a[1].views).map(([url, data]) => ({
+                  page_url: url.replace(typeof window !== "undefined" ? window.location.origin : "", ""),
+                  views: data.views,
+                  unique_visitors: data.sessions.size
+                })).slice(0, 10), ['page_url', 'views', 'unique_visitors'])}
+                
+                {renderTable("Peak Traffic Hours", Object.entries(analyticsEvents.reduce((acc, ev) => {
+                  const hour = new Date(ev.created_at).getHours();
+                  const time = `${hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour)} ${hour >= 12 ? 'PM' : 'AM'}`;
+                  acc[time] = (acc[time] || 0) + 1;
+                  return acc;
+                }, {} as Record<string, number>)).sort((a, b) => b[1] - a[1]).map(([time, count]) => ({
+                  time,
+                  visitors: count
+                })).slice(0, 5), ['time', 'visitors'])}
               </div>
 
-              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 10), ['session_id', 'page_url', 'country', 'network', 'device_type', 'created_at'])}
+              {renderTable("Recent Traffic Events", analyticsEvents.slice(0, 20), ['session_id', 'page_url', 'city', 'region', 'country', 'os', 'created_at'])}
             </>
           )}
 
