@@ -10,12 +10,15 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.womensipalliance.com"),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     default: "WIPA | Women's IP Alliance",
-    template: "%s | WIPA (Women's IP Alliance)"
+    template: "%s | WIPA"
   },
   description:
-    "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",
+    "Join WIPA, the global community for women in intellectual property. Access mentorship, networking & resources. Founding memberships are open now.",
   keywords: [
     "Women's IP Alliance", "WIPA", "Women in intellectual property", "Intellectual property for women",
     "IP law for women", "Women in IP law", "Patents for women", "Women in patents",
@@ -24,17 +27,26 @@ export const metadata: Metadata = {
     "WIPA founding member", "Women's IP World Annual", "IP community"
   ],
   openGraph: {
-    title: "WIPA — Women's IP Alliance",
-    description: "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",
+    title: "Women's IP Alliance (WIPA) | Global Community",
+    description: "Join WIPA, the global community for women in intellectual property. Access mentorship, networking & resources.",
     url: "https://www.womensipalliance.com",
     siteName: "Women's IP Alliance",
+    images: [
+      {
+        url: '/og-image.jpg', // Ensure you have an og-image in public
+        width: 1200,
+        height: 630,
+        alt: 'WIPA - The Global Community for Women in Intellectual Property',
+      },
+    ],
     locale: "en_GB",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "WIPA — Women's IP Alliance",
-    description: "A global, empowering community to grow your network, leadership, career, patents & knowledge. Connect with women professionals in Patents, Trademarks, Copyright, and Innovation.",
+    title: "Women's IP Alliance (WIPA) | Global Community",
+    description: "Join WIPA, the global community for women in intellectual property.",
+    images: ['/og-image.jpg'],
   }
 };
 

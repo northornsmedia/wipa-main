@@ -42,9 +42,9 @@ export default function Preloader() {
             transition={{ duration: 0.5 }}
             style={{ textAlign: 'center' }}
           >
-            <h1 className="heading-huge" style={{ color: 'var(--color-white)', margin: 0, fontSize: '6rem' }}>
+            <div className="heading-huge" style={{ color: 'var(--color-white)', margin: 0, fontSize: '6rem' }}>
               WIPA<span style={{ color: 'var(--color-pastel-purple)' }}>.</span>
-            </h1>
+            </div>
             <motion.div 
               style={{ width: '0%', height: '4px', backgroundColor: 'var(--color-pastel-purple)', marginTop: '20px', borderRadius: '2px' }}
               animate={{ width: '100%' }}
