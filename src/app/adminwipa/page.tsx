@@ -1,43 +1,56 @@
 import { createClient } from '@supabase/supabase-js';
 import AdminDashboardClient from './AdminDashboardClient';
+import { cookies } from 'next/headers';
 
 // Ensure this page is not statically cached
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminPage() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
-    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  );
+  const cookieStore = cookies();
+  const token = cookieStore.get('admin_auth_token');
+  const step1 = cookieStore.get('admin_auth_step_1');
+  
+  const isFullyAuthenticated = token && token.value === 'fully_authenticated_secret_token';
+  const isPartiallyAuthenticated = step1 && step1.value === 'true';
 
-  // Fetch all leads
-  const { data: onboardingLeads } = await supabase
-    .from('onboarding_leads')
-    .select('*')
-    .order('created_at', { ascending: false });
+  let analyticsEvents: any[] = [];
+  let onboardingLeads: any[] = [];
+  let interestLeads: any[] = [];
+  let enterpriseLeads: any[] = [];
 
-  const { data: interestLeads } = await supabase
-    .from('interests')
-    .select('*')
-    .order('created_at', { ascending: false });
+  // ONLY fetch sensitive data if fully authenticated
+  if (isFullyAuthenticated) {
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
+      process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+    );
 
-  const { data: enterpriseLeads } = await supabase
-    .from('enterprise_leads')
-    .select('*')
-    .order('created_at', { ascending: false });
+    const [
+      { data: analytics },
+      { data: onboarding },
+      { data: interest },
+      { data: enterprise }
+    ] = await Promise.all([
+      supabaseAdmin.from('analytics_events').select('*').order('created_at', { ascending: false }),
+      supabaseAdmin.from('onboarding_leads').select('*').order('created_at', { ascending: false }),
+      supabaseAdmin.from('interests').select('*').order('created_at', { ascending: false }),
+      supabaseAdmin.from('enterprise_leads').select('*').order('created_at', { ascending: false })
+    ]);
 
-  const { data: analyticsEvents } = await supabase
-    .from('analytics_events')
-    .select('*')
-    .order('created_at', { ascending: false });
+    analyticsEvents = analytics || [];
+    onboardingLeads = onboarding || [];
+    interestLeads = interest || [];
+    enterpriseLeads = enterprise || [];
+  }
 
   return (
     <AdminDashboardClient 
-      onboardingLeads={onboardingLeads || []}
-      interestLeads={interestLeads || []}
-      enterpriseLeads={enterpriseLeads || []}
-      analyticsEvents={analyticsEvents || []}
+      onboardingLeads={onboardingLeads}
+      interestLeads={interestLeads}
+      enterpriseLeads={enterpriseLeads}
+      analyticsEvents={analyticsEvents}
+      initialAuthStep={isFullyAuthenticated ? 2 : (isPartiallyAuthenticated ? 1 : 0)}
     />
   );
 }

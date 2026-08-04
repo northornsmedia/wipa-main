@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import FadeIn from "@/components/animations/FadeIn";
 import StaggerGrid from "@/components/animations/StaggerGrid";
 import { useRouter } from "next/navigation";
+import { verifyPrimaryPassword, verifySecondaryPassword } from "./actions";
 
 type AdminDashboardProps = {
   onboardingLeads: any[];
   interestLeads: any[];
   enterpriseLeads: any[];
   analyticsEvents: any[];
+  initialAuthStep: number;
 };
 
 const CircularProgress = ({ percentage, color, label, value }: { percentage: number, color: string, label: string, value: string }) => {
@@ -94,8 +96,8 @@ const DefenseTerminal = () => {
   );
 };
 
-export default function AdminDashboardClient({ onboardingLeads, interestLeads, enterpriseLeads, analyticsEvents }: AdminDashboardProps) {
-  const [authStep, setAuthStep] = useState(0); // 0 = unauth, 1 = first pass success, 2 = fully auth
+export default function AdminDashboardClient({ onboardingLeads, interestLeads, enterpriseLeads, analyticsEvents, initialAuthStep }: AdminDashboardProps) {
+  const [authStep, setAuthStep] = useState(initialAuthStep); // 0 = unauth, 1 = first pass success, 2 = fully auth
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
   const router = useRouter();
@@ -110,18 +112,23 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
     }
   }, [router, authStep]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (authStep === 0) {
-      if (password === "wipa2026") {
+      const result = await verifyPrimaryPassword(password);
+      if (result.success) {
         setAuthStep(1);
         setPassword("");
+        router.refresh(); // to push new state to server
       } else {
         alert("Incorrect password");
       }
     } else if (authStep === 1) {
-      if (password === "northon1") {
+      const result = await verifySecondaryPassword(password);
+      if (result.success) {
         setAuthStep(2);
+        setPassword("");
+        router.refresh(); // Tell Server to fetch DB records
       } else {
         alert("Incorrect password");
       }
@@ -398,11 +405,11 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
               
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px", marginBottom: "40px" }}>
                 {renderTable("Top Landing Pages", Object.entries(analyticsEvents.reduce((acc, ev) => {
-                  if (!acc[ev.page_url]) acc[ev.page_url] = { views: 0, sessions: new Set() };
+                  if (!acc[ev.page_url]) acc[ev.page_url] = { views: 0, sessions: new Set<string>() };
                   acc[ev.page_url].views++;
                   acc[ev.page_url].sessions.add(ev.session_id);
                   return acc;
-                }, {} as Record<string, { views: number, sessions: Set<string> }>)).sort((a, b) => b[1].views - a[1].views).map(([url, data]) => ({
+                }, {} as Record<string, { views: number, sessions: Set<string> }>)).sort((a: any, b: any) => b[1].views - a[1].views).map(([url, data]: [string, any]) => ({
                   page_url: url.replace(typeof window !== "undefined" ? window.location.origin : "", ""),
                   views: data.views,
                   unique_visitors: data.sessions.size
@@ -413,7 +420,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
                   const time = `${hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour)} ${hour >= 12 ? 'PM' : 'AM'}`;
                   acc[time] = (acc[time] || 0) + 1;
                   return acc;
-                }, {} as Record<string, number>)).sort((a, b) => b[1] - a[1]).map(([time, count]) => ({
+                }, {} as Record<string, number>)).sort((a: any, b: any) => b[1] - a[1]).map(([time, count]: [string, any]) => ({
                   time,
                   visitors: count
                 })).slice(0, 5), ['time', 'visitors'])}
