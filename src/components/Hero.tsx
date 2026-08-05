@@ -86,7 +86,7 @@ export default function Hero() {
               </div>
             </FadeIn>
 
-            <FadeIn direction="up" delay={0.4} style={{ marginTop: '50px', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '25px', display: 'flex', gap: '25px', flexWrap: 'wrap', width: '100%' }}>
+            <FadeIn direction="up" delay={0.4} className="mobile-stack mobile-gap-sm" style={{ marginTop: '50px', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '25px', display: 'flex', gap: '25px', flexWrap: 'wrap', width: '100%' }}>
               {["Global Community", "Exclusive Events", "International Networking", "Educational Webinars"].map((highlight, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.9)', fontSize: '1rem', fontWeight: 600 }}>
                   <span style={{ color: 'var(--color-pastel-green)' }}>✓</span> {highlight}
