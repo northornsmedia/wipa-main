@@ -18,6 +18,7 @@ export default async function AdminPage() {
   let onboardingLeads: any[] = [];
   let interestLeads: any[] = [];
   let enterpriseLeads: any[] = [];
+  let waitingListLeads: any[] = [];
 
   // ONLY fetch sensitive data if fully authenticated
   if (isFullyAuthenticated) {
@@ -30,18 +31,21 @@ export default async function AdminPage() {
       { data: analytics },
       { data: onboarding },
       { data: interest },
-      { data: enterprise }
+      { data: enterprise },
+      { data: waitingList }
     ] = await Promise.all([
       supabaseAdmin.from('analytics_events').select('*').order('created_at', { ascending: false }),
       supabaseAdmin.from('onboarding_leads').select('*').order('created_at', { ascending: false }),
       supabaseAdmin.from('interests').select('*').order('created_at', { ascending: false }),
-      supabaseAdmin.from('enterprise_leads').select('*').order('created_at', { ascending: false })
+      supabaseAdmin.from('enterprise_leads').select('*').order('created_at', { ascending: false }),
+      supabaseAdmin.from('waiting_list').select('*').order('created_at', { ascending: false })
     ]);
 
     analyticsEvents = analytics || [];
     onboardingLeads = onboarding || [];
     interestLeads = interest || [];
     enterpriseLeads = enterprise || [];
+    waitingListLeads = waitingList || [];
   }
 
   return (
@@ -49,6 +53,7 @@ export default async function AdminPage() {
       onboardingLeads={onboardingLeads}
       interestLeads={interestLeads}
       enterpriseLeads={enterpriseLeads}
+      waitingListLeads={waitingListLeads}
       analyticsEvents={analyticsEvents}
       initialAuthStep={isFullyAuthenticated ? 2 : (isPartiallyAuthenticated ? 1 : 0)}
     />

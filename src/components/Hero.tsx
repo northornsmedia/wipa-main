@@ -80,8 +80,8 @@ export default function Hero() {
               </p>
               
               <div style={{ pointerEvents: 'auto', display: 'flex', gap: '20px', width: '100%', flexWrap: 'wrap' }}>
-                <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '18px 32px', fontSize: '1.1rem' }}>
-                  Become a Founding Member
+                <MagneticButton href="/waiting-list" className="btn btn-accent" style={{ padding: '18px 32px', fontSize: '1.1rem' }}>
+                  JOIN WAITING LIST
                 </MagneticButton>
               </div>
             </FadeIn>

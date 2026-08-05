@@ -10,6 +10,7 @@ type AdminDashboardProps = {
   onboardingLeads: any[];
   interestLeads: any[];
   enterpriseLeads: any[];
+  waitingListLeads: any[];
   analyticsEvents: any[];
   initialAuthStep: number;
 };
@@ -239,7 +240,7 @@ const PaginatedTable = ({ title, data, columns }: { title: string, data: any[], 
   );
 };
 
-export default function AdminDashboardClient({ onboardingLeads, interestLeads, enterpriseLeads, analyticsEvents, initialAuthStep }: AdminDashboardProps) {
+export default function AdminDashboardClient({ onboardingLeads, interestLeads, enterpriseLeads, waitingListLeads, analyticsEvents, initialAuthStep }: AdminDashboardProps) {
   const [authStep, setAuthStep] = useState(initialAuthStep); // 0 = unauth, 1 = first pass success, 2 = fully auth
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
@@ -310,7 +311,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
     );
   }
 
-  const totalLeads = onboardingLeads.length + interestLeads.length + enterpriseLeads.length;
+  const totalLeads = onboardingLeads.length + interestLeads.length + enterpriseLeads.length + waitingListLeads.length;
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f111a", display: "flex", fontFamily: "sans-serif", color: "#fff" }}>
@@ -328,6 +329,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
             { id: "onboarding", label: "Onboarding Leads" },
             { id: "interests", label: "Checkout Tracking" },
             { id: "enterprise", label: "Enterprise Inquiries" },
+            { id: "waiting_list", label: "Waiting List Leads" },
             { id: "defense", label: "Defense Mode" }
           ].map(item => (
             <button 
@@ -375,6 +377,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
               {activeTab === 'onboarding' && "Onboarding Leads"}
               {activeTab === 'interests' && "Checkout Tracking"}
               {activeTab === 'enterprise' && "Enterprise Inquiries"}
+              {activeTab === 'waiting_list' && "Waiting List Leads"}
             </h2>
             <p style={{ color: "#7a7e93", marginTop: "5px" }}>Real-time statistics and defense tracking.</p>
           </div>
@@ -538,6 +541,8 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
           {activeTab === 'interests' && <PaginatedTable title="Detailed Checkout Tracking" data={interestLeads} columns={['name', 'email', 'profession', 'plan', 'amount_paid', 'paid_at', 'payment_status', 'invoice', 'created_at']} />}
 
           {activeTab === 'enterprise' && <PaginatedTable title="All Enterprise Inquiries" data={enterpriseLeads} columns={['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at']} />}
+
+          {activeTab === 'waiting_list' && <PaginatedTable title="All Waiting List Leads" data={waitingListLeads} columns={['id', 'name', 'email', 'country', 'phone', 'company', 'profession', 'plan', 'created_at']} />}
 
           {activeTab === 'defense' && (
             <div style={{ backgroundColor: "#1c1f2e", borderRadius: "20px", padding: "25px", border: "1px solid #2d3142", marginTop: "25px" }}>

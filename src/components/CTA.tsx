@@ -18,8 +18,8 @@ export default function CTA() {
           </p>
         </FadeIn>
         <FadeIn direction="up" delay={0.2} style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-          <MagneticButton href="#membership" className="btn btn-accent" style={{ padding: '24px 48px', fontSize: '1.4rem' }}>
-            Become a Founding Member
+          <MagneticButton href="/waiting-list" className="btn btn-accent" style={{ padding: '24px 48px', fontSize: '1.4rem' }}>
+            JOIN WAITING LIST
           </MagneticButton>
         </FadeIn>
       </div>
