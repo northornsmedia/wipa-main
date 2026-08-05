@@ -49,7 +49,7 @@ const plans = [
     monthlyPrice: "£175",
     hideLimitOnMonthly: true,
     hideOnMonthly: true,
-    limit: "Saving £625 – Unbeatable value for your founding team",
+    limit: "5 Founding Memberships + 1 FREE Membership – An Exclusive Saving of £625",
     desc: "Perfect for law firms, corporate IP departments, universities, innovation teams, and organisations looking to provide membership benefits to multiple professionals while securing Founding Member status for their team.", 
     standardPrice: "Standard Price After Launch: £2,780/year",
     style: "bg-pastel-yellow"

@@ -79,7 +79,7 @@ const options: JourneyOption[] = [
     planName: "Enterprise Membership",
     planStyle: "bg-pastel-yellow",
     planPrice: "£1,745 / year",
-    planLimit: "Saving £625 – Unbeatable value"
+    planLimit: "5 Founding Memberships + 1 FREE Membership – An Exclusive Saving of £625"
   }
 ];
 
