@@ -260,7 +260,7 @@ a {
   
   .hero-grid {
     grid-template-columns: 1fr !important;
-    gap: 40px !important;
+    gap: 80px !important;
   }
 }
 
