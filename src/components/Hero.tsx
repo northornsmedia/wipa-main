@@ -119,7 +119,7 @@ export default function Hero() {
               </FadeIn>
             </div>
 
-            <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', pointerEvents: 'auto', minHeight: '480px' }}>
+            <div className="mobile-stack" style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', pointerEvents: 'auto', minHeight: '480px' }}>
             <AnimatePresence mode="popLayout">
               {activeProfiles.map((profile, index) => {
                 const isRight = index === 1;
@@ -131,6 +131,7 @@ export default function Hero() {
                     animate={{ opacity: 1, scale: 1, x: 0, rotate: 0 }}
                     exit={{ opacity: 0, scale: 0.8, x: -100, rotate: -5 }}
                     transition={{ duration: 0.8, ease: "easeInOut" }}
+                    className={isRight ? 'mobile-mt-0' : ''}
                     style={{ 
                       position: 'relative', 
                       width: '100%', 
