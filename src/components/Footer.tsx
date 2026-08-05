@@ -16,7 +16,7 @@ export default function Footer() {
           </p>
           <div style={{ marginTop: '20px', fontWeight: 600, display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <a href="mailto:info@northonsprmarketing.com" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>info@northonsprmarketing.com</a>
-            <a href="mailto:wipw@northonsprmarketing.com" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>wipw@northonsprmarketing.com</a>
+            <a href="mailto:dhruva@northonsprmarketing.com" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>dhruva@northonsprmarketing.com</a>
           </div>
         </div>
 
@@ -43,7 +43,7 @@ export default function Footer() {
 
         {/* UK Office */}
         <div>
-          <h4 style={{ marginBottom: '24px', fontWeight: 800, fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>HEAD OFFICE<br/>UNITED KINGDOM OFFICE</h4>
+          <h4 style={{ marginBottom: '24px', fontWeight: 800, fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>HEAD OFFICE<br/>UNITED KINGDOM OFFICE</h4>
           <address style={{ fontStyle: 'normal', fontSize: '1.1rem', lineHeight: 1.6, opacity: 0.9 }}>
             60 Castle Street, Dover,<br/>
             CT16 1PJ, United Kingdom<br/><br/>
