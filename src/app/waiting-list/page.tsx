@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import FadeIn from "@/components/animations/FadeIn";
 import Select from "react-select";
 import { allCountries } from "country-telephone-data";
@@ -97,10 +99,23 @@ export default function WaitingListPage() {
   const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+1";
   
   const [submitted, setSubmitted] = useState(false);
+  const [countdown, setCountdown] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [phoneStatus, setPhoneStatus] = useState({ status: 'idle', message: '' });
   const [nameStatus, setNameStatus] = useState("");
+  const [phoneStatus, setPhoneStatus] = useState<{status: 'idle' | 'valid' | 'invalid', message: string}>({ status: 'idle', message: '' });
+  
+  const router = useRouter();
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (submitted && countdown > 0) {
+      timer = setTimeout(() => setCountdown(c => c - 1), 1000);
+    } else if (submitted && countdown === 0) {
+      router.push("/");
+    }
+    return () => clearTimeout(timer);
+  }, [submitted, countdown, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -207,7 +222,11 @@ export default function WaitingListPage() {
     <div style={{ position: "relative", minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
       <FloatingGrid />
       <FadeIn direction="up" style={{ width: "100%", maxWidth: "600px", position: "relative", zIndex: 10 }}>
-        <div style={{ backgroundColor: "var(--color-white)", padding: "50px", borderRadius: "32px", border: "3px solid var(--color-black)", boxShadow: "12px 12px 0px var(--color-black)", width: "100%" }}>
+        <motion.div 
+          animate={{ y: [0, -8, 0] }} 
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ backgroundColor: "var(--color-white)", padding: "50px", borderRadius: "32px", border: "3px solid var(--color-black)", boxShadow: "12px 12px 0px var(--color-black)", width: "100%" }}
+        >
           
           {!submitted ? (
             <>
@@ -368,34 +387,43 @@ export default function WaitingListPage() {
                   </div>
                 )}
 
-                <button 
+                <motion.button 
                   type="submit" 
                   disabled={isLoading}
-                  style={{ padding: "20px", marginTop: "10px", borderRadius: "50px", border: "2px solid var(--color-black)", backgroundColor: isLoading ? "var(--color-charcoal)" : "var(--color-pastel-pink)", color: isLoading ? "var(--color-white)" : "var(--color-black)", fontSize: "1.2rem", fontWeight: "bold", cursor: isLoading ? "not-allowed" : "pointer", transition: "transform 0.2s" }}
-                  onMouseOver={(e) => !isLoading && (e.currentTarget.style.transform = "scale(1.02)")}
-                  onMouseOut={(e) => !isLoading && (e.currentTarget.style.transform = "scale(1)")}
+                  whileHover={{ scale: isLoading ? 1 : 1.03, boxShadow: "6px 6px 0px var(--color-accent-purple)" }}
+                  whileTap={{ scale: isLoading ? 1 : 0.97 }}
+                  style={{ padding: "20px", marginTop: "10px", borderRadius: "50px", border: "2px solid var(--color-black)", backgroundColor: isLoading ? "var(--color-charcoal)" : "var(--color-pastel-pink)", color: isLoading ? "var(--color-white)" : "var(--color-black)", fontSize: "1.2rem", fontWeight: "bold", cursor: isLoading ? "not-allowed" : "pointer", transition: "background-color 0.2s" }}
                 >
                   {isLoading ? "Submitting..." : "JOIN THE WAITING AREA NOW !"}
-                </button>
+                </motion.button>
               </form>
             </>
           ) : (
             <div style={{ textAlign: "center", padding: "40px 0" }}>
               <div style={{ fontSize: "4rem", marginBottom: "20px" }}>🎉</div>
-              <h2 className="heading-md" style={{ marginBottom: "15px" }}>You're on the list!</h2>
-              <p style={{ fontSize: "1.1rem", opacity: 0.8, marginBottom: "30px" }}>
-                Thank you for your interest. We'll be in touch as soon as spots open up.
+              <h2 className="heading-md" style={{ marginBottom: "15px" }}>
+                {formData.title} {formData.name}
+              </h2>
+              <p style={{ fontSize: "1.2rem", opacity: 0.9, marginBottom: "30px", fontWeight: "500" }}>
+                Your interest has been submitted. We will be back to you!
               </p>
-              <button 
-                onClick={() => window.location.href = '/'}
-                style={{ padding: "15px 30px", borderRadius: "50px", border: "2px solid var(--color-black)", backgroundColor: "var(--color-white)", color: "var(--color-black)", fontSize: "1.1rem", fontWeight: "bold", cursor: "pointer" }}
-              >
-                Back to Home
-              </button>
+              
+              <div style={{ 
+                display: "inline-block", 
+                backgroundColor: "var(--color-pastel-blue)", 
+                padding: "15px 30px", 
+                borderRadius: "50px", 
+                border: "2px solid var(--color-black)", 
+                fontWeight: "bold",
+                fontSize: "1.2rem",
+                boxShadow: "4px 4px 0px var(--color-black)"
+              }}>
+                Returning to home in {countdown}...
+              </div>
             </div>
           )}
 
-        </div>
+        </motion.div>
       </FadeIn>
     </div>
   );
