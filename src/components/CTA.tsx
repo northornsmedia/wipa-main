@@ -19,7 +19,7 @@ export default function CTA() {
         </FadeIn>
         <FadeIn direction="up" delay={0.2} style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
           <MagneticButton href="/waiting-list" className="btn btn-accent" style={{ padding: '24px 48px', fontSize: '1.4rem' }}>
-            JOIN WAITING LIST
+            JOIN THE WAITING LIST
           </MagneticButton>
         </FadeIn>
       </div>

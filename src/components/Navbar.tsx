@@ -26,7 +26,7 @@ export default function Navbar() {
 
           <div className="mobile-hidden" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
             <Link href="/waiting-list" className="btn btn-accent" style={{ padding: '12px 24px', fontSize: '0.9rem' }}>
-              JOIN WAITING LIST
+              JOIN THE WAITING LIST
             </Link>
           </div>
 
@@ -66,7 +66,7 @@ export default function Navbar() {
             <div style={{ width: '80%', height: '1px', backgroundColor: 'rgba(255,255,255,0.2)', margin: '20px 0' }}></div>
             
             <Link href="/waiting-list" onClick={() => setIsOpen(false)} className="btn btn-accent" style={{ padding: '15px 30px', fontSize: '1.2rem', marginTop: '10px' }}>
-              JOIN WAITING LIST
+              JOIN THE WAITING LIST
             </Link>
           </FadeIn>
         </div>

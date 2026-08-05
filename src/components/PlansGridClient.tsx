@@ -131,7 +131,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
             </div>
 
             <Link href="/waiting-list" style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
-              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase', lineHeight: '1.2' }}>JOIN WAITING LIST</button>
+              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase', lineHeight: '1.2' }}>JOIN THE WAITING LIST</button>
             </Link>
           </TiltCard>
         ))}

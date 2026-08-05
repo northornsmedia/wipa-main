@@ -81,7 +81,7 @@ export default function Hero() {
               
               <div style={{ pointerEvents: 'auto', display: 'flex', gap: '20px', width: '100%', flexWrap: 'wrap' }}>
                 <MagneticButton href="/waiting-list" className="btn btn-accent" style={{ padding: '18px 32px', fontSize: '1.1rem' }}>
-                  JOIN WAITING LIST
+                  JOIN THE WAITING LIST
                 </MagneticButton>
               </div>
             </FadeIn>
