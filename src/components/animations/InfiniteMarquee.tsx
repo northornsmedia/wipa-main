@@ -21,7 +21,7 @@ export default function InfiniteMarquee({ text, images }: { text?: string, image
     <div style={{
       width: "100%",
       overflow: "hidden",
-      backgroundColor: "var(--color-black)",
+      background: "linear-gradient(90deg, #ffffff, #f0f4f8, #ffffff)",
       padding: images ? "30px 0" : "20px 0",
       borderTop: "2px solid var(--color-charcoal-light)",
       borderBottom: "2px solid var(--color-charcoal-light)",
