@@ -576,3 +576,46 @@ a {
   box-shadow: 0px 0px 0px var(--color-black) !important;
   transition: all 0.1s ease;
 }
+
+/* --- NAVBAR STYLES --- */
+.navbar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  transition: padding 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
+}
+
+.navbar-header.scrolled {
+  padding: 10px 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  transition: height 0.3s ease;
+}
+
+.navbar-header.scrolled .navbar-logo {
+  height: 32px;
+}
+
+@media (max-width: 768px) {
+  .navbar-header {
+    padding: 12px 0;
+  }
+  
+  .navbar-header.scrolled {
+    padding: 8px 0;
+  }
+  
+  .navbar-logo {
+    height: 32px;
+  }
+  
+  .navbar-header.scrolled .navbar-logo {
+    height: 28px;
+  }
+}

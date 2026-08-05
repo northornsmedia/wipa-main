@@ -30,19 +30,11 @@ export default function Navbar() {
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
-        className="section-white" 
-        style={{ 
-          position: 'sticky', 
-          top: 0, 
-          zIndex: 1000, 
-          padding: scrolled ? '10px 0' : '20px 0', 
-          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.1)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : 'none'
-        }}
+        className={`section-white navbar-header ${scrolled ? 'scrolled' : ''}`}
       >
         <nav className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ zIndex: 101, display: 'flex', alignItems: 'center' }}>
-            <img src="/WIPALOGO.png" alt="WIPA (Women's IP Alliance) Official Logo" style={{ height: '40px', width: 'auto' }} />
+            <img src="/WIPALOGO.png" alt="WIPA (Women's IP Alliance) Official Logo" className="navbar-logo" />
           </Link>
 
           {/* Desktop Nav */}
