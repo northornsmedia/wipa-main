@@ -253,10 +253,6 @@ a {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
-  
-  .hero-left, .hero-right {
-    transform: none !important;
-  }
 }
 
 @media (min-width: 769px) {
@@ -267,6 +263,15 @@ a {
   .foundation-pill-text {
     white-space: nowrap;
     font-size: clamp(0.8rem, 1.2vw, 1.1rem) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-left {
+    transform: translateY(-150px);
+  }
+  .hero-right {
+    transform: translateY(-280px);
   }
 }
 

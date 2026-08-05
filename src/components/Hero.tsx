@@ -73,7 +73,7 @@ export default function Hero() {
         <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '60px', alignItems: 'center' }}>
           
           {/* Left Side: Content */}
-          <div className="hero-left" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none', transform: 'translateY(-150px)' }}>
+          <div className="hero-left" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none' }}>
             <FadeIn direction="up" delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start', width: '100%' }}>
               <p style={{ maxWidth: '800px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, textAlign: 'justify' }}>
                 <strong>WIPA (The Women's IP Alliance)</strong> is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, WIPA provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
@@ -96,7 +96,7 @@ export default function Hero() {
           </div>
 
           {/* Right Side: Animated Swapping Cards for Profile Images */}
-          <div className="hero-right" style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', transform: 'translateY(-280px)' }}>
+          <div className="hero-right" style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             
             <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px', position: 'relative', zIndex: 10 }}>
               <FadeIn direction="up" delay={0.3}>
