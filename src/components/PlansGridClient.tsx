@@ -27,7 +27,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
   return (
     <div style={{ width: '100%', maxWidth: visiblePlans.length <= 3 ? '1200px' : '1600px', margin: '0 auto', transition: 'max-width 0.4s ease-in-out' }}>
       
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+      <div style={{ display: 'none', justifyContent: 'center', marginBottom: '40px' }}>
         <div style={{ display: 'flex', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '50px', padding: '5px' }}>
           <button 
             onClick={() => setIsYearly(false)}
@@ -133,11 +133,6 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
             <Link href="/waiting-list" style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
               <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase', lineHeight: '1.2' }}>JOIN WAITING LIST</button>
             </Link>
-            {isYearly && (
-              <div style={{ marginTop: '12px', fontSize: '0.85rem', fontWeight: '600', textDecoration: 'underline', opacity: 0.8, cursor: 'pointer' }}>
-                Request an invoice
-              </div>
-            )}
           </TiltCard>
         ))}
       </StaggerGrid>
