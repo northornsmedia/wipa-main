@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FadeIn from "./animations/FadeIn";
 import MagneticButton from "./animations/MagneticButton";
+import "../app/stars.css";
 
 export default function Hero() {
   const profiles = [
@@ -35,7 +36,13 @@ export default function Hero() {
   ];
 
   return (
-    <section id="hero" className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0' }}>
+    <section id="hero" className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0', position: 'relative' }}>
+
+      <div className="stars-container">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+      </div>
 
       <div className="mobile-padding" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
