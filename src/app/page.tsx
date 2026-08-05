@@ -24,7 +24,16 @@ export default function Home() {
       <Navbar />
       <Hero />
       <div style={{ position: 'relative', zIndex: 10, backgroundColor: 'var(--color-charcoal)' }}>
-        <InfiniteMarquee text="PATENTS • TRADEMARKS • COPYRIGHT • INNOVATION" />
+        <InfiniteMarquee images={[
+          "/LOGO - ALLIANCE USE (1).png",
+          "/LOGO - ALLIANCE USE (2).png",
+          "/LOGO - ALLIANCE USE (3).png",
+          "/LOGO - ALLIANCE USE (4).png",
+          "/LOGO - ALLIANCE USE (5).png",
+          "/LOGO - ALLIANCE USE (6).png",
+          "/LOGO - ALLIANCE USE (7).png",
+          "/LOGO - ALLIANCE USE.png"
+        ]} />
         <About />
         <MemberBenefits />
         <WhyWipa />
