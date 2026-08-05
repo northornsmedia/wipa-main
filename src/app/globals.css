@@ -258,6 +258,10 @@ a {
     margin-top: 0 !important;
   }
   
+  .mobile-no-tilt {
+    transform: none !important;
+  }
+  
   .hero-grid {
     grid-template-columns: 1fr !important;
     gap: 80px !important;

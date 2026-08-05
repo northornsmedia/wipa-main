@@ -100,7 +100,7 @@ export default function Hero() {
             
             <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '20px', position: 'relative', zIndex: 10 }}>
               <FadeIn direction="up" delay={0.3}>
-                <h2 style={{ 
+                <h2 className="mobile-no-tilt" style={{ 
                   fontFamily: 'var(--font-display)', 
                   fontSize: '2.2rem', 
                   fontWeight: 900, 
