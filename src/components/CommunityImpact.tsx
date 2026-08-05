@@ -46,7 +46,7 @@ export default function CommunityImpact() {
         </div>
 
         <div style={{ padding: '10px 0', overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          <div className="mobile-grid-1" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
             <AnimatePresence mode="popLayout">
               {visibleProfiles.map((p) => (
                 <motion.div 

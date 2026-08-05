@@ -51,7 +51,7 @@ export default function Features() {
               Designed exclusively for Alliance members, our digital platform keeps you connected wherever you are in the world, making networking, collaboration, learning, and professional development accessible throughout the year.
             </p>
           </FadeIn>
-          <div style={{ position: 'absolute', bottom: '-20px', right: '-5%', zIndex: 5 }}>
+          <div className="mobile-hidden" style={{ position: 'absolute', bottom: '-20px', right: '-5%', zIndex: 5 }}>
             <img src="/sticker (6).png" alt="WIPA leadership and learning sticker" style={{ width: '220px', objectFit: 'contain', transform: 'rotate(-10deg)' }} />
           </div>
         </div>
