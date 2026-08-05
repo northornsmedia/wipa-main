@@ -262,6 +262,11 @@ a {
     transform: none !important;
   }
   
+  .mobile-text-center {
+    text-align: center !important;
+    justify-content: center !important;
+  }
+  
   .hero-grid {
     grid-template-columns: 1fr !important;
     gap: 80px !important;
