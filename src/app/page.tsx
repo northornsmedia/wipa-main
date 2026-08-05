@@ -27,7 +27,7 @@ export default function Home() {
         <InfiniteMarquee images={[
           "/LOGO - ALLIANCE USE (1).png",
           "/LOGO - ALLIANCE USE (2).png",
-          "/LOGO - ALLIANCE USE (3).png",
+          "/LOGO - ALLIANCE USE (8).png",
           "/LOGO - ALLIANCE USE (4).png",
           "/LOGO - ALLIANCE USE (5).png",
           "/LOGO - ALLIANCE USE (6).png",
