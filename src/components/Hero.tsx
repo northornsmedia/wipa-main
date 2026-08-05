@@ -40,8 +40,8 @@ export default function Hero() {
       <div className="mobile-padding" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
         {/* Top Full-Width Section: Badge & Heading */}
-        <div style={{ textAlign: 'left', marginBottom: '60px' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+        <div className="mobile-text-center" style={{ textAlign: 'left', marginBottom: '60px' }}>
+          <div className="mobile-text-center" style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
             <FadeIn direction="up" delay={0.1}>
               <div style={{ 
                 display: 'inline-block', 
