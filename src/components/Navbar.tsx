@@ -59,9 +59,9 @@ export default function Navbar() {
             onClick={() => setIsOpen(true)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', zIndex: 101, display: 'flex', flexDirection: 'column', gap: '6px', padding: '10px' }}
           >
-            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-black)', borderRadius: '3px' }}></div>
-            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-black)', borderRadius: '3px' }}></div>
-            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-black)', borderRadius: '3px' }}></div>
+            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}></div>
+            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}></div>
+            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}></div>
           </button>
         </nav>
       </motion.header>
