@@ -249,6 +249,11 @@ a {
     flex-direction: column !important;
   }
   
+  .mobile-grid-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
   .mobile-mt-0 {
     margin-top: 0 !important;
   }
