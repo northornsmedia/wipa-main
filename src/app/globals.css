@@ -271,6 +271,12 @@ a {
 }
 
 @media (min-width: 1024px) {
+  #hero {
+    position: sticky;
+    top: 0;
+    margin-bottom: -150px;
+  }
+  
   .hero-left {
     transform: translateY(-150px);
   }

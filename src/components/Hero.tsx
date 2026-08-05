@@ -35,7 +35,7 @@ export default function Hero() {
   ];
 
   return (
-    <section id="hero" className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', position: 'sticky', top: 0, zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0', marginBottom: '-150px' }}>
+    <section id="hero" className="section section-dark" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', zIndex: 0, overflow: 'hidden', padding: '60px 0 80px 0' }}>
 
       <div className="mobile-padding" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
