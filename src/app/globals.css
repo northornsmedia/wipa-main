@@ -612,9 +612,11 @@ a {
     position: absolute !important;
     width: 100%;
     padding: 12px 0;
-    background-color: rgba(255, 255, 255, 0.75) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
   }
   
   .navbar-header.scrolled {
