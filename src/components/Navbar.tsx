@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import FadeIn from "./animations/FadeIn";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,27 +56,38 @@ export default function Navbar() {
           {/* Mobile Hamburger */}
           <button 
             className="desktop-hidden" 
-            onClick={() => setIsOpen(true)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', zIndex: 101, display: 'flex', flexDirection: 'column', gap: '6px', padding: '10px' }}
+            onClick={() => setIsOpen(!isOpen)}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', zIndex: 1001, display: 'flex', flexDirection: 'column', gap: '6px', padding: '10px' }}
           >
-            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}></div>
-            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}></div>
-            <div style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}></div>
+            <motion.div 
+              animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 9 : 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px', transformOrigin: 'center' }}
+            ></motion.div>
+            <motion.div 
+              animate={{ opacity: isOpen ? 0 : 1 }}
+              transition={{ duration: 0.3 }}
+              style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}
+            ></motion.div>
+            <motion.div 
+              animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -9 : 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px', transformOrigin: 'center' }}
+            ></motion.div>
           </button>
         </nav>
       </motion.header>
 
       {/* Mobile Menu Overlay */}
-      {isOpen && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'var(--color-charcoal)', color: 'var(--color-white)', zIndex: 1000, display: 'flex', flexDirection: 'column', padding: '40px 20px', overflowY: 'auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button 
-              onClick={() => setIsOpen(false)}
-              style={{ background: 'none', border: 'none', color: 'var(--color-white)', fontSize: '2rem', cursor: 'pointer', padding: '10px' }}
-            >
-              ✕
-            </button>
-          </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'var(--color-charcoal)', color: 'var(--color-white)', zIndex: 999, display: 'flex', flexDirection: 'column', padding: '100px 20px 40px', overflowY: 'auto' }}
+          >
           
           <FadeIn direction="up" style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center', marginTop: '60px', fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, textTransform: 'uppercase' }}>
             <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
@@ -92,8 +103,9 @@ export default function Navbar() {
               JOIN THE WAITING LIST
             </Link>
           </FadeIn>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 }
