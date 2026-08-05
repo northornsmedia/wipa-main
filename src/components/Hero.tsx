@@ -79,7 +79,7 @@ export default function Hero() {
                 <strong>WIPA (The Women's IP Alliance)</strong> is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, WIPA provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
               </p>
               
-              <div style={{ pointerEvents: 'auto', display: 'flex', gap: '20px', width: '100%', flexWrap: 'wrap' }}>
+              <div className="mobile-text-center" style={{ pointerEvents: 'auto', display: 'flex', gap: '20px', width: '100%', flexWrap: 'wrap' }}>
                 <MagneticButton href="/waiting-list" className="btn btn-accent" style={{ padding: '18px 32px', fontSize: '1.1rem' }}>
                   JOIN THE WAITING LIST
                 </MagneticButton>
