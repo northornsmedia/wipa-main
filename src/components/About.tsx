@@ -26,7 +26,7 @@ export default function About() {
     { text: "More", color: "inherit" },
     { text: "Than", color: "inherit" },
     { text: "a", color: "inherit" },
-    { text: "Membership.", color: "inherit" },
+    { text: "Membership.", color: "inherit", br: true },
     { text: "A", color: "inherit" },
     { text: "Global", color: "inherit" },
     { text: "Community", color: "inherit", br: true },
