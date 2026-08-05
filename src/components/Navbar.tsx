@@ -19,13 +19,6 @@ export default function Navbar() {
     } else {
       setScrolled(false);
     }
-
-    // Hide on scroll down, show on scroll up
-    if (latest > previous && latest > 150) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
   });
 
   return (
