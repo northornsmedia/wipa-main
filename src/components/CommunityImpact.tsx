@@ -46,7 +46,7 @@ export default function CommunityImpact() {
         </div>
 
         <div style={{ padding: '10px 0', overflow: 'hidden' }}>
-          <div className="mobile-grid-1" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          <div className="mobile-carousel" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
             <AnimatePresence mode="popLayout">
               {visibleProfiles.map((p) => (
                 <motion.div 
@@ -56,10 +56,10 @@ export default function CommunityImpact() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: -50, scale: 0.9 }}
                   transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
-                  className={`pill-container ${p.style}`} 
-                  style={{ padding: '30px 20px', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center', textAlign: 'center' }}
+                  className={p.style} 
+                  style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center', textAlign: 'center' }}
                 >
-                  <div style={{ width: '160px', height: '220px', borderRadius: '24px', overflow: 'hidden', border: '3px solid var(--color-black)', backgroundColor: 'var(--color-white)' }}>
+                  <div style={{ width: '100%', height: '320px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-pastel-purple)', position: 'relative' }}>
                     <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ marginTop: 'auto', width: '100%' }}>

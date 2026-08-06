@@ -21,6 +21,16 @@ export default function Hero() {
     { src: "/Carolina Caetano.png", name: "Carolina Caetano", countryCode: ["br"], position: "Head of Trademark Prosecution", company: "Licks Advogados" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,10 +39,16 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
-  const activeProfiles = [
-    profiles[currentIndex],
-    profiles[(currentIndex + 1) % profiles.length],
-  ];
+  const activeProfiles = isMounted && isMobile 
+    ? [
+        profiles[(currentIndex - 1 + profiles.length) % profiles.length], // Left
+        profiles[currentIndex],                                         // Center
+        profiles[(currentIndex + 1) % profiles.length],                 // Right
+      ]
+    : [
+        profiles[currentIndex],                                         // Center / Desktop Left
+        profiles[(currentIndex + 1) % profiles.length],                 // Right / Desktop Right
+      ];
 
   return (
     <section id="hero" className="section section-dark" style={{ backgroundColor: 'var(--color-black)', minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', zIndex: 0, overflow: 'hidden', padding: '120px 0 80px 0', position: 'relative' }}>
@@ -119,31 +135,47 @@ export default function Hero() {
               </FadeIn>
             </div>
 
-            <div className="mobile-stack" style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', pointerEvents: 'auto', minHeight: '480px' }}>
+            <div style={{ position: 'relative', width: isMounted && isMobile ? 'calc(100% + 40px)' : '100%', marginLeft: isMounted && isMobile ? '-20px' : '0px', marginRight: isMounted && isMobile ? '-20px' : '0px', marginTop: isMounted && isMobile ? '40px' : '0px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: isMounted && isMobile ? '0px' : '30px', pointerEvents: 'auto', minHeight: '480px', overflow: 'visible' }}>
             <AnimatePresence mode="popLayout">
               {activeProfiles.map((profile, index) => {
-                const isRight = index === 1;
+                const isMobileLeft = isMounted && isMobile && index === 0;
+                const isMobileCenter = isMounted && isMobile && index === 1;
+                const isMobileRight = isMounted && isMobile && index === 2;
+                const isDesktopRight = (!isMounted || !isMobile) && index === 1;
+                
+                let scale = 1;
+                let opacity = 1;
+                let x = 0;
+                let zIndex = 10;
+                
+                if (isMounted && isMobile) {
+                  scale = isMobileCenter ? 1 : 0.8;
+                  opacity = isMobileCenter ? 1 : 0.5;
+                  x = isMobileLeft ? '-65%' : (isMobileRight ? '65%' : '0%');
+                  zIndex = isMobileCenter ? 10 : 1;
+                }
+
                 return (
                   <motion.div
                     layout
                     key={profile.src}
-                    initial={{ opacity: 0, scale: 0.8, x: 100, rotate: 5 }}
-                    animate={{ opacity: 1, scale: 1, x: 0, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, x: -100, rotate: -5 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className={isRight ? 'mobile-mt-0' : ''}
+                    initial={isMounted && isMobile ? { opacity: 0, scale: 0.8, x: isMobileLeft ? '-65%' : '65%' } : { opacity: 0, scale: 0.8, x: 100, rotate: 5 }}
+                    animate={isMounted && isMobile ? { opacity, scale, x, rotate: 0 } : { opacity: 1, scale: 1, x: 0, rotate: 0 }}
+                    exit={isMounted && isMobile ? { opacity: 0, scale: 0.8, x: isMobileLeft ? '-65%' : '65%' } : { opacity: 0, scale: 0.8, x: -100, rotate: -5 }}
+                    transition={{ duration: 1.0, ease: "easeInOut" }}
+                    className={(!isMounted || !isMobile) && isDesktopRight ? 'mobile-mt-0' : ''}
                     style={{ 
-                      position: 'relative', 
+                      position: isMounted && isMobile ? 'absolute' : 'relative', 
                       width: '100%', 
                       maxWidth: '280px', 
-                      marginTop: isRight ? '80px' : '0px',
-                      zIndex: isRight ? 1 : 2,
+                      marginTop: (!isMounted || !isMobile) && isDesktopRight ? '80px' : '0px',
+                      zIndex,
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center'
                     }}
                   >
-                    <div style={{ width: '100%', height: '380px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: isRight ? 'var(--color-pastel-purple)' : 'var(--color-pastel-yellow)', position: 'relative' }}>
+                    <div style={{ width: '100%', height: '380px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: isDesktopRight ? 'var(--color-pastel-purple)' : 'var(--color-pastel-yellow)', position: 'relative' }}>
                       <img src={profile.src} alt={profile.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <div style={{ textAlign: 'center', marginTop: '16px', width: '100%' }}>
