@@ -23,15 +23,26 @@ const profiles = [
 
 export default function CommunityImpact() {
   const [startIndex, setStartIndex] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     const timer = setInterval(() => {
       setStartIndex((prev) => (prev + 1) % profiles.length);
     }, 3000);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
-  const visibleProfiles = Array.from({ length: 4 }).map((_, i) => profiles[(startIndex + i) % profiles.length]);
+  const visibleCount = isMounted && isMobile ? 1 : 4;
+  const visibleProfiles = Array.from({ length: visibleCount }).map((_, i) => profiles[(startIndex + i) % profiles.length]);
 
   return (
     <section className="section section-white" style={{ paddingBottom: '40px' }}>
@@ -46,17 +57,29 @@ export default function CommunityImpact() {
         </div>
 
         <div style={{ padding: '10px 0', overflow: 'hidden' }}>
-          <div className="mobile-carousel" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          <div style={{ display: isMounted && isMobile ? 'flex' : 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', position: 'relative', minHeight: isMounted && isMobile ? '500px' : 'auto', justifyContent: 'center' }}>
             <AnimatePresence mode="popLayout">
               {visibleProfiles.map((p) => (
                 <motion.div 
                   key={p.name}
                   layout
-                  initial={{ opacity: 0, x: 50, scale: 0.95 }}
+                  initial={{ opacity: 0, x: isMounted && isMobile ? 50 : 20, scale: 0.95 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: -50, scale: 0.95 }}
+                  exit={{ opacity: 0, x: isMounted && isMobile ? -50 : -20, scale: 0.95 }}
                   transition={{ duration: 0.8, ease: "easeInOut" }}
-                  style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center', textAlign: 'center' }}
+                  style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: '16px', 
+                    alignItems: 'center', 
+                    textAlign: 'center',
+                    position: isMounted && isMobile ? 'absolute' : 'relative',
+                    left: isMounted && isMobile ? 0 : 'auto',
+                    right: isMounted && isMobile ? 0 : 'auto',
+                    margin: isMounted && isMobile ? '0 auto' : '0',
+                    width: isMounted && isMobile ? '100%' : 'auto',
+                    maxWidth: isMounted && isMobile ? '320px' : 'none'
+                  }}
                 >
                   <div className={p.style} style={{ width: '100%', height: '320px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                     <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
