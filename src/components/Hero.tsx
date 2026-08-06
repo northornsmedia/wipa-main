@@ -118,12 +118,12 @@ export default function Hero() {
               <FadeIn direction="up" delay={0.3}>
                 <h2 className="mobile-no-tilt mobile-text-center" style={{ 
                   fontFamily: 'var(--font-display)', 
-                  fontSize: '2.2rem', 
+                  fontSize: 'clamp(1.0rem, 4.5vw, 2.2rem)', 
                   fontWeight: 900, 
                   textTransform: 'uppercase', 
                   color: 'var(--color-black)',
                   backgroundColor: 'var(--color-pastel-purple)',
-                  padding: '12px 28px',
+                  padding: 'clamp(8px, 2vw, 12px) clamp(16px, 4vw, 28px)',
                   borderRadius: '16px',
                   border: '3px solid var(--color-white)',
                   boxShadow: '6px 6px 0px rgba(255,255,255,0.9)',
