@@ -68,7 +68,7 @@ export default function Footer() {
       <div className="container footer-bottom-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid var(--color-black)', paddingTop: '40px', fontSize: '1rem', fontWeight: 600 }}>
         <span>© 2026 WIPA. All rights reserved.</span>
         <DoodleSocials />
-        <span>Product of Northon's Media PR & Marketing Ltd</span>
+        <span style={{ fontSize: '0.9rem', whiteSpace: 'nowrap' }}>Product of Northon's Media PR & Marketing Ltd</span>
       </div>
     </footer>
   );
