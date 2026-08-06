@@ -62,15 +62,15 @@ export default function CommunityImpact() {
                     <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ marginTop: 'auto', width: '100%' }}>
-                    <div style={{ color: 'var(--color-white)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
+                    <div style={{ color: 'var(--color-black)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
                       {p.countryCode?.map((code: string) => (
                         <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
                       ))}
                       {p.name}
                     </div>
-                    <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'rgba(255,255,255,0.7)' }}>{p.position}</h4>
+                    <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--color-charcoal)' }}>{p.position}</h4>
                     {p.company && (
-                      <p style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(255,255,255,0.5)' }}>{p.company}</p>
+                      <p style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)' }}>{p.company}</p>
                     )}
                   </div>
                 </motion.div>
