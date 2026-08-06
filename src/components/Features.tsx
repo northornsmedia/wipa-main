@@ -38,7 +38,7 @@ export default function Features() {
           text-align: center;
           backdrop-filter: blur(4px);
           z-index: 10;
-          border-radius: inherit;
+          border-radius: 30px;
         }
         .feature-card:hover .feature-card-hover {
           opacity: 1;
@@ -70,7 +70,7 @@ export default function Features() {
                 </div>
               )}
               
-              <div className="feature-card-hover" style={{ borderRadius: 'inherit' }}>
+              <div className="feature-card-hover">
                 <p style={{ fontSize: '1.2rem', lineHeight: 1.6, fontWeight: 500, textAlign: 'center' }}>
                   {f.hoverDetails}
                 </p>
