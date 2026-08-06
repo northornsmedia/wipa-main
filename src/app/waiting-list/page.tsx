@@ -42,7 +42,7 @@ const titleOptions = [
 
 const planOptions = [
   { value: "IP Professional Membership", label: "IP Professional Membership" },
-  { value: "Entrepreneur Membership", label: "Entrepreneur Membership" },
+  { value: "Entrepreneur Membership", label: "Entrepreneur Membership ( for startups only )" },
   { value: "Student Membership", label: "Student Membership" },
   { value: "Enterprise Membership", label: "Enterprise Membership" },
   { value: "Custom Plan", label: "Custom Plan" }
