@@ -48,6 +48,13 @@ const planOptions = [
   { value: "Custom Plan", label: "Custom Plan" }
 ];
 
+const seatsOptions = [
+  { value: "5", label: "5" },
+  { value: "10", label: "10" },
+  { value: "10-20", label: "10-20" },
+  { value: "20+", label: "20+" }
+];
+
 const selectStyles = {
   control: (base: any) => ({
     ...base,
@@ -97,6 +104,7 @@ export default function WaitingListPage() {
     dateOfIncorporation: "",
     collegeInstitute: "",
     studentId: "",
+    seats: "",
   });
   
   const selectedCountryOption = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "US");
@@ -211,7 +219,8 @@ export default function WaitingListPage() {
           businessRegistrationNumber: formData.plan === 'Entrepreneur Membership' ? formData.businessRegistrationNumber : null,
           dateOfIncorporation: formData.plan === 'Entrepreneur Membership' ? formData.dateOfIncorporation : null,
           collegeInstitute: formData.plan === 'Student Membership' ? formData.collegeInstitute : null,
-          studentId: formData.plan === 'Student Membership' ? formData.studentId : null
+          studentId: formData.plan === 'Student Membership' ? formData.studentId : null,
+          seats: formData.plan === 'Custom Plan' ? formData.seats : null
         })
       });
       const result = await res.json();
@@ -418,6 +427,23 @@ export default function WaitingListPage() {
                       />
                     </div>
                   </>
+                )}
+
+                {formData.plan === 'Custom Plan' && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>How many seats?</label>
+                    <Select
+                      options={seatsOptions}
+                      placeholder="Select seats"
+                      value={seatsOptions.find(s => s.value === formData.seats) || null}
+                      onChange={(selected: any) => {
+                        if (selected) {
+                          setFormData(prev => ({ ...prev, seats: selected.value }));
+                        }
+                      }}
+                      styles={selectStyles}
+                    />
+                  </div>
                 )}
 
                 {formData.plan !== 'Student Membership' && (

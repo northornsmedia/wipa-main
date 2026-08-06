@@ -16,7 +16,8 @@ export async function POST(req: Request) {
       businessRegistrationNumber,
       dateOfIncorporation,
       collegeInstitute,
-      studentId 
+      studentId,
+      seats
     } = data;
 
     if (!name || !email) {
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
           date_of_incorporation: dateOfIncorporation,
           college_institute: collegeInstitute,
           student_id: studentId,
+          seats: seats,
         },
       ]);
 
