@@ -91,6 +91,7 @@ const selectStyles = {
 };
 
 export default function WaitingListPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     name: "",
@@ -237,6 +238,27 @@ export default function WaitingListPage() {
 
   return (
     <div style={{ position: "relative", minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
+      <button 
+        onClick={() => router.push('/')}
+        style={{
+          position: "fixed",
+          top: "30px",
+          left: "30px",
+          padding: "10px 20px",
+          backgroundColor: "var(--color-white)",
+          border: "2px solid var(--color-black)",
+          borderRadius: "12px",
+          fontWeight: "bold",
+          cursor: "pointer",
+          zIndex: 100,
+          boxShadow: "4px 4px 0px var(--color-black)",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px"
+        }}
+      >
+        ← Back to Home
+      </button>
       <FloatingGrid />
       <FadeIn direction="up" style={{ width: "100%", maxWidth: "600px", position: "relative", zIndex: 10 }}>
         <motion.div 
