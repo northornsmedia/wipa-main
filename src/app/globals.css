@@ -637,3 +637,10 @@ a {
 @media (max-width: 768px) { .foundation-sticker { opacity: 0.15 !important; } }
 
 @media (max-width: 768px) { .mobile-carousel { display: flex !important; flex-direction: row !important; overflow-x: auto !important; scroll-snap-type: x mandatory !important; padding-bottom: 20px !important; -webkit-overflow-scrolling: touch; scrollbar-width: none; justify-content: flex-start !important; padding-left: 12.5% !important; padding-right: 12.5% !important; } .mobile-carousel::-webkit-scrollbar { display: none; } .mobile-carousel > * { min-width: 75% !important; scroll-snap-align: center !important; } }
+
+@media (max-width: 768px) {
+  .mobile-hide { display: none !important; }
+}
+@media (min-width: 769px) {
+  .desktop-hide { display: none !important; }
+}
