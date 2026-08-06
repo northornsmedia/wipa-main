@@ -34,7 +34,7 @@ export default function CommunityImpact() {
   const visibleProfiles = Array.from({ length: 4 }).map((_, i) => profiles[(startIndex + i) % profiles.length]);
 
   return (
-    <section className="section section-white">
+    <section className="section section-white" style={{ paddingBottom: '40px' }}>
       <div className="container">
         
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>

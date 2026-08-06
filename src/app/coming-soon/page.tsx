@@ -25,7 +25,6 @@ export default function ComingSoonPage() {
             maxWidth: '900px',
             width: '100%',
             textAlign: 'center',
-            boxShadow: '12px 12px 0px var(--color-black)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center'
@@ -43,7 +42,7 @@ export default function ComingSoonPage() {
               We're crafting an exceptional experience. This section is currently in development, but you can secure your spot in the Alliance today.
             </p>
             
-            <Link href="/plans" style={{ textDecoration: 'none' }}>
+            <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
               <button 
                 className="btn-wipa"
                 style={{ 
@@ -61,7 +60,7 @@ export default function ComingSoonPage() {
                   letterSpacing: '1px'
                 }}
               >
-                Join Now / View Pricing
+                Join the Waiting List
               </button>
             </Link>
 

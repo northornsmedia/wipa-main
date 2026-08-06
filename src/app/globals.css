@@ -631,3 +631,7 @@ a {
     height: 28px;
   }
 }
+
+@media (max-width: 768px) { .footer-bottom-bar { flex-direction: column !important; gap: 20px; text-align: center; } }
+
+@media (max-width: 768px) { .foundation-sticker { opacity: 0.15 !important; } }

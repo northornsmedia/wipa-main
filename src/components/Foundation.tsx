@@ -57,10 +57,10 @@ export default function Foundation() {
     <section ref={containerRef} className="section section-white" style={{ position: 'relative' }}>
       
       {/* Decorative Stickers */}
-      <img ref={sticker1Ref} src="/sticker (1).png" alt="WIPA global networking decorative sticker" style={{ position: 'absolute', top: '15%', left: '8%', width: '160px', zIndex: 0, objectFit: 'contain' }} />
-      <img ref={sticker2Ref} src="/sticker (4).png" alt="Empowering women in IP sticker" style={{ position: 'absolute', bottom: '35%', left: '12%', width: '220px', zIndex: 0, objectFit: 'contain' }} />
-      <img ref={sticker3Ref} src="/sticker (3).png" alt="Women's IP Alliance innovation sticker" style={{ position: 'absolute', top: '20%', right: '10%', width: '150px', zIndex: 0, objectFit: 'contain' }} />
-      <img ref={sticker4Ref} src="/sticker (2).png" alt="Patents and Trademarks decorative sticker" style={{ position: 'absolute', bottom: '40%', right: '5%', width: '180px', zIndex: 0, objectFit: 'contain' }} />
+      <img ref={sticker1Ref} src="/sticker (1).png" alt="WIPA global networking decorative sticker" style={{ position: 'absolute', top: '15%', left: '8%', width: '160px', zIndex: 0, objectFit: 'contain' }} className="foundation-sticker" />
+      <img ref={sticker2Ref} src="/sticker (4).png" alt="Empowering women in IP sticker" style={{ position: 'absolute', bottom: '35%', left: '12%', width: '220px', zIndex: 0, objectFit: 'contain' }} className="foundation-sticker" />
+      <img ref={sticker3Ref} src="/sticker (3).png" alt="Women's IP Alliance innovation sticker" style={{ position: 'absolute', top: '20%', right: '10%', width: '150px', zIndex: 0, objectFit: 'contain' }} className="foundation-sticker" />
+      <img ref={sticker4Ref} src="/sticker (2).png" alt="Patents and Trademarks decorative sticker" style={{ position: 'absolute', bottom: '40%', right: '5%', width: '180px', zIndex: 0, objectFit: 'contain' }} className="foundation-sticker" />
 
       <div className="container" style={{ position: 'relative', zIndex: 10 }}>
         

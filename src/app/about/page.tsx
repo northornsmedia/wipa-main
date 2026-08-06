@@ -16,13 +16,13 @@ export default function AboutPage() {
     <main style={{ backgroundColor: 'var(--color-white)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
       
-      <div style={{ flexGrow: 1, paddingTop: '100px' }}>
+      <div style={{ flexGrow: 1 }}>
         <section className="section section-white" style={{ position: 'relative' }}>
-          <div className="sticker" style={{ '--rot': '10deg', backgroundColor: 'var(--color-pastel-pink)', top: '10%', right: '15%' } as React.CSSProperties}>💡</div>
+          <div className="sticker mobile-hidden" style={{ '--rot': '10deg', backgroundColor: 'var(--color-pastel-pink)', top: '10%', right: '15%' } as React.CSSProperties}>💡</div>
 
           <div className="container grid-2" style={{ alignItems: 'center' }}>
             <div>
-              <h2 className="heading-lg" style={{ marginBottom: '30px' }}>
+              <h2 className="heading-lg" style={{ marginBottom: '30px', textAlign: 'center' }}>
                 More Than a Membership.<br/>
                 A Global Community Built for Women in <span style={{ color: 'var(--color-accent-purple)' }}>Intellectual Property.</span>
               </h2>

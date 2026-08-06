@@ -3,12 +3,17 @@ import React, { useState } from "react";
 import Link from "next/link";
 import FadeIn from "./animations/FadeIn";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  const isDarkHeader = pathname === "/";
+  const hamburgerColor = isOpen ? 'var(--color-white)' : (scrolled || !isDarkHeader ? 'var(--color-black)' : 'var(--color-white)');
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -62,17 +67,17 @@ export default function Navbar() {
             <motion.div 
               animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 9 : 0 }}
               transition={{ duration: 0.3 }}
-              style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px', transformOrigin: 'center' }}
+              style={{ width: '30px', height: '3px', backgroundColor: hamburgerColor, borderRadius: '3px', transformOrigin: 'center' }}
             ></motion.div>
             <motion.div 
               animate={{ opacity: isOpen ? 0 : 1 }}
               transition={{ duration: 0.3 }}
-              style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px' }}
+              style={{ width: '30px', height: '3px', backgroundColor: hamburgerColor, borderRadius: '3px' }}
             ></motion.div>
             <motion.div 
               animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -9 : 0 }}
               transition={{ duration: 0.3 }}
-              style={{ width: '30px', height: '3px', backgroundColor: 'var(--color-white)', borderRadius: '3px', transformOrigin: 'center' }}
+              style={{ width: '30px', height: '3px', backgroundColor: hamburgerColor, borderRadius: '3px', transformOrigin: 'center' }}
             ></motion.div>
           </button>
         </nav>

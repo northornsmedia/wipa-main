@@ -40,7 +40,7 @@ export default function About() {
 
   return (
     <section id="about" className="section section-white" style={{ position: 'relative', zIndex: 10 }}>
-      <div className="sticker" style={{ '--rot': '10deg', backgroundColor: 'var(--color-pastel-pink)', top: '10%', right: '15%' } as React.CSSProperties}>💡</div>
+      <div className="sticker mobile-hidden" style={{ '--rot': '10deg', backgroundColor: 'var(--color-pastel-pink)', top: '10%', right: '15%' } as React.CSSProperties}>💡</div>
 
       <div className="container" style={{ textAlign: 'center', maxWidth: '1200px', margin: '0 auto' }}>
         <h2 ref={ref} className="heading-lg" style={{ marginBottom: '30px' }}>
@@ -57,7 +57,7 @@ export default function About() {
             );
           })}
         </h2>
-        <p style={{ fontSize: '1.2rem', marginBottom: '40px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '1.2rem', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center' }}>
           Women have long played a vital role in shaping innovation, protecting brands, advancing technology, and driving the future of intellectual property. Yet opportunities to build lasting international relationships, exchange expertise, and collaborate beyond conferences remain limited. The Women's IP Alliance has been created to bridge that gap.
         </p>
         <Link href="/about" className="btn btn-accent">

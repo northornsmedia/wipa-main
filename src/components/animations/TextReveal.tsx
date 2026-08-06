@@ -39,7 +39,7 @@ export default function TextReveal({ text, lines, className = "", style }: { tex
       className={className}
     >
       {content.map((line, lineIndex) => (
-        <div key={lineIndex} style={{ overflow: "hidden", display: "flex", flexWrap: "wrap" }}>
+        <div key={lineIndex} style={{ overflow: "hidden", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
           {line.split(" ").map((word, wordIndex) => (
             <motion.span
               variants={child}

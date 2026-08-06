@@ -14,7 +14,7 @@ const events = [
 
 export default function EventsLearning() {
   return (
-    <section className="section section-dark">
+    <section className="section section-dark" style={{ paddingTop: '40px' }}>
       <div className="container">
         
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '60px' }}>

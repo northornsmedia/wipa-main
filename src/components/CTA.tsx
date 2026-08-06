@@ -5,9 +5,9 @@ import MagneticButton from "./animations/MagneticButton";
 
 export default function CTA() {
   return (
-    <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden', paddingTop: '40px', paddingBottom: '40px' }}>
 
-      <div className="container" style={{ padding: '120px 40px', position: 'relative', zIndex: 1, textAlign: 'center' }}>
+      <div className="container" style={{ padding: '0 40px', position: 'relative', zIndex: 1, textAlign: 'center' }}>
         <FadeIn direction="up">
           <h2 className="heading-huge" style={{ marginBottom: '40px' }}>Join the Women Shaping the <br/><span style={{ color: 'var(--color-pastel-pink)' }}>Future of IP</span></h2>
           <p style={{ fontSize: '1.2rem', margin: '0 auto 20px', opacity: 0.9, maxWidth: '900px', lineHeight: 1.6 }}>
