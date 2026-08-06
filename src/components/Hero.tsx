@@ -85,9 +85,8 @@ export default function Hero() {
           <motion.div 
             style={{ width: '100%' }}
             initial={{ y: -150, opacity: 0, scale: 0.7 }}
-            whileInView={{ y: 0, opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "50px" }}
-            transition={{ type: 'spring', stiffness: 150, damping: 12, mass: 1.2, delay: 0.1 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 150, damping: 12, mass: 1.2, delay: 1.5 }}
           >
             <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(2.1rem, 9vw, 4.2rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
               <span className="mobile-hide">
