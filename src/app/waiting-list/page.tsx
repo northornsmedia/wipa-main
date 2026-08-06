@@ -420,18 +420,20 @@ export default function WaitingListPage() {
                   </>
                 )}
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Company Name</label>
-                  <input 
-                    type="text" 
-                    name="company" 
-                    required
-                    placeholder="Where do you work?"
-                    value={formData.company} 
-                    onChange={handleChange}
-                    style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
-                  />
-                </div>
+                {formData.plan !== 'Student Membership' && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Company Name</label>
+                    <input 
+                      type="text" 
+                      name="company" 
+                      required={formData.plan !== 'Student Membership'}
+                      placeholder="Where do you work?"
+                      value={formData.company} 
+                      onChange={handleChange}
+                      style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                    />
+                  </div>
+                )}
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Who are you? (Role)</label>
