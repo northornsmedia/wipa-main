@@ -93,7 +93,7 @@ export default function CommunityImpact() {
                     </div>
                     <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--color-charcoal)' }}>{p.position}</h4>
                     {p.company && (
-                      <p style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)' }}>{p.company}</p>
+                      <div style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)', textAlign: 'center' }}>{p.company}</div>
                     )}
                   </div>
                 </motion.div>
