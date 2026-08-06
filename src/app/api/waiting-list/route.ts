@@ -4,7 +4,20 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { title, name, country, phone, email, company, profession, plan } = data;
+    const { 
+      title, 
+      name, 
+      country, 
+      phone, 
+      email, 
+      company, 
+      profession, 
+      plan,
+      businessRegistrationNumber,
+      dateOfIncorporation,
+      collegeInstitute,
+      studentId 
+    } = data;
 
     if (!name || !email) {
       return NextResponse.json(
@@ -30,6 +43,10 @@ export async function POST(req: Request) {
           company,
           profession,
           plan,
+          business_registration_number: businessRegistrationNumber,
+          date_of_incorporation: dateOfIncorporation,
+          college_institute: collegeInstitute,
+          student_id: studentId,
         },
       ]);
 

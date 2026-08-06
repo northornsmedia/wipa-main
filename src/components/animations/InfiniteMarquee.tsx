@@ -2,16 +2,20 @@
 
 import { motion } from "framer-motion";
 
-export default function InfiniteMarquee({ text, images }: { text?: string, images?: string[] }) {
+type MarqueeImage = string | { src: string, height?: string };
+
+export default function InfiniteMarquee({ text, images }: { text?: string, images?: MarqueeImage[] }) {
   // Duplicate text/images to ensure seamless scrolling
   const repeatedText = text ? Array(4).fill(text).join(" • ") : "";
   const repeatedImages = images ? [...images, ...images, ...images] : [];
 
   const content = images ? (
     <div style={{ display: 'flex', gap: '80px', paddingRight: '80px', alignItems: 'center' }}>
-      {repeatedImages.map((src, i) => (
-        <img key={i} src={src} alt={`Logo ${i}`} style={{ height: '50px', objectFit: 'contain' }} />
-      ))}
+      {repeatedImages.map((img, i) => {
+        const src = typeof img === 'string' ? img : img.src;
+        const height = typeof img === 'string' ? '50px' : (img.height || '50px');
+        return <img key={i} src={src} alt={`Logo ${i}`} style={{ height, objectFit: 'contain' }} />;
+      })}
     </div>
   ) : (
     <div style={{ paddingRight: "40px" }}>{repeatedText}</div>

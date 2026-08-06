@@ -26,13 +26,13 @@ export default function Home() {
       <div style={{ position: 'relative', zIndex: 10, backgroundColor: 'var(--color-charcoal)' }}>
         <InfiniteMarquee images={[
           "/LOGO - ALLIANCE USE (1).png",
-          "/LOGO - ALLIANCE USE (2).png",
+          { src: "/LOGO - ALLIANCE USE (2).png", height: "85px" },
           "/LOGO - ALLIANCE USE (8).png",
           "/LOGO - ALLIANCE USE (4).png",
           "/LOGO - ALLIANCE USE (5).png",
-          "/LOGO - ALLIANCE USE (6).png",
-          "/LOGO - ALLIANCE USE (7).png",
-          "/LOGO - ALLIANCE USE.png"
+          { src: "/LOGO - ALLIANCE USE (6).png", height: "85px" },
+          { src: "/LOGO - ALLIANCE USE (7).png", height: "85px" },
+          { src: "/LOGO - ALLIANCE USE.png", height: "85px" }
         ]} />
         <About />
         <MemberBenefits />

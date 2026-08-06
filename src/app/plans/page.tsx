@@ -25,11 +25,11 @@ const plans = [
     style: "bg-pastel-green"
   },
   { 
-    name: "Entrepreneur\nMembership", 
+    name: "Entrepreneur\nMembership\n(for Start Ups only)",
     price: "£295",
     monthlyPrice: "£42",
     limit: "Rate-limited for the first 200 founding members worldwide",
-    desc: "For founders, entrepreneurs, innovators, business owners, start-ups, and professionals commercialising intellectual property and innovation.", 
+    desc: "Open to law firms and IP businesses incorporated or registered within the past 24 months.",
     standardPrice: "Standard Membership Rate: £495/year (effective once all 200 Founding Membership places have been secured).",
     style: "bg-pastel-purple"
   },

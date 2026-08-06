@@ -107,7 +107,12 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
               <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', whiteSpace: 'pre-line' }}>
-                {t.name}
+                {t.name.replace('\n(for Start Ups only)', '')}
+                {t.name.includes('\n(for Start Ups only)') && (
+                  <span style={{ fontSize: '0.55em', fontWeight: 500, marginTop: '5px', opacity: 0.9 }}>
+                    (for Start Ups only)
+                  </span>
+                )}
               </h3>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', justifyContent: 'center' }}>
                 <div style={{ fontSize: '3.5rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>

@@ -93,6 +93,10 @@ export default function WaitingListPage() {
     company: "",
     profession: "",
     plan: "",
+    businessRegistrationNumber: "",
+    dateOfIncorporation: "",
+    collegeInstitute: "",
+    studentId: "",
   });
   
   const selectedCountryOption = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "US");
@@ -203,7 +207,11 @@ export default function WaitingListPage() {
           email: formData.email,
           company: formData.company,
           profession: formData.profession,
-          plan: formData.plan
+          plan: formData.plan,
+          businessRegistrationNumber: formData.plan === 'Entrepreneur Membership' ? formData.businessRegistrationNumber : null,
+          dateOfIncorporation: formData.plan === 'Entrepreneur Membership' ? formData.dateOfIncorporation : null,
+          collegeInstitute: formData.plan === 'Student Membership' ? formData.collegeInstitute : null,
+          studentId: formData.plan === 'Student Membership' ? formData.studentId : null
         })
       });
       const result = await res.json();
@@ -367,6 +375,63 @@ export default function WaitingListPage() {
                     styles={selectStyles}
                   />
                 </div>
+
+                {formData.plan === 'Entrepreneur Membership' && (
+                  <>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Business Registration Number</label>
+                      <input 
+                        type="text" 
+                        name="businessRegistrationNumber" 
+                        required
+                        placeholder="Registration Number"
+                        value={formData.businessRegistrationNumber} 
+                        onChange={handleChange}
+                        style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                      />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Date of Incorporation</label>
+                      <input 
+                        type="date" 
+                        name="dateOfIncorporation" 
+                        required
+                        value={formData.dateOfIncorporation} 
+                        onChange={handleChange}
+                        style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {formData.plan === 'Student Membership' && (
+                  <>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>College/Institute</label>
+                      <input 
+                        type="text" 
+                        name="collegeInstitute" 
+                        required
+                        placeholder="Where do you study?"
+                        value={formData.collegeInstitute} 
+                        onChange={handleChange}
+                        style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                      />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Student ID</label>
+                      <input 
+                        type="text" 
+                        name="studentId" 
+                        required
+                        placeholder="Your Student ID"
+                        value={formData.studentId} 
+                        onChange={handleChange}
+                        style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Who are you? (Role)</label>
