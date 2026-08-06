@@ -439,7 +439,7 @@ export default function WaitingListPage() {
                     type="text" 
                     name="profession" 
                     required
-                    placeholder="e.g. Patent Attorney, Founder..."
+                    placeholder="e.g. Patent Attorney, Founder, Student..."
                     value={formData.profession} 
                     onChange={handleChange}
                     style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
