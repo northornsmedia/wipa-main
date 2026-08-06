@@ -71,8 +71,13 @@ export default function Hero() {
                 border: '2px solid var(--color-black)', 
                 boxShadow: '4px 4px 0px var(--color-black)' 
               }}>
-                Launching January 2027 <br />
-                Become a Founding Member
+                <span className="desktop-hide">
+                  Launching January 2027 <br />
+                  Become a Founding Member
+                </span>
+                <span className="mobile-hide">
+                  Launching January 2027 | Become a Founding Member
+                </span>
               </div>
             </FadeIn>
           </div>
