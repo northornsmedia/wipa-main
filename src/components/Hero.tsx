@@ -82,8 +82,13 @@ export default function Hero() {
             </FadeIn>
           </div>
           
-          <FadeIn direction="up" delay={0.1} style={{ width: '100%' }}>
-            <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(1.8rem, 7vw, 3.5rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
+          <motion.div 
+            style={{ width: '100%', transformStyle: 'preserve-3d' }}
+            initial={{ y: -150, opacity: 0, scale: 0.7, rotateX: -30 }}
+            animate={{ y: 0, opacity: 1, scale: 1, rotateX: 0 }}
+            transition={{ type: 'spring', stiffness: 150, damping: 10, mass: 1.2, delay: 0.1 }}
+          >
+            <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(2.1rem, 9vw, 4.2rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
               <span className="mobile-hide">
                 <span style={{ whiteSpace: 'nowrap' }}>THE GLOBAL COMMUNITY</span> <br/>
                 <span style={{ whiteSpace: 'nowrap' }}>FOR WOMEN IN</span> <br/>
@@ -97,7 +102,7 @@ export default function Hero() {
                 PROPERTY
               </span>
             </h1>
-          </FadeIn>
+          </motion.div>
         </div>
 
         {/* Bottom Split Section: Text/Buttons vs Image */}
