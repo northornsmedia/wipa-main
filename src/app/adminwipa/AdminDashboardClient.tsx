@@ -542,7 +542,7 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
 
           {activeTab === 'enterprise' && <PaginatedTable title="All Enterprise Inquiries" data={enterpriseLeads} columns={['id', 'name', 'email', 'phone', 'company', 'seats', 'needs', 'created_at']} />}
 
-          {activeTab === 'waiting_list' && <PaginatedTable title="All Waiting List Leads" data={waitingListLeads} columns={['id', 'name', 'email', 'country', 'phone', 'company', 'profession', 'plan', 'seats', 'business_registration_number', 'date_of_incorporation', 'college_institute', 'student_id', 'created_at']} />}
+          {activeTab === 'waiting_list' && <PaginatedTable title="All Waiting List Leads" data={waitingListLeads} columns={['id', 'title', 'name', 'email', 'country', 'phone', 'company', 'profession', 'plan', 'seats', 'business_registration_number', 'date_of_incorporation', 'college_institute', 'student_id', 'created_at']} />}
 
           {activeTab === 'defense' && (
             <div style={{ backgroundColor: "#1c1f2e", borderRadius: "20px", padding: "25px", border: "1px solid #2d3142", marginTop: "25px" }}>
