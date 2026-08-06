@@ -118,7 +118,6 @@ export default function WaitingListPage() {
   const [nameStatus, setNameStatus] = useState("");
   const [phoneStatus, setPhoneStatus] = useState<{status: 'idle' | 'valid' | 'invalid', message: string}>({ status: 'idle', message: '' });
   
-  const router = useRouter();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
