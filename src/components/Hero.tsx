@@ -77,7 +77,7 @@ export default function Hero() {
           </div>
           
           <FadeIn direction="up" delay={0.1} style={{ width: '100%' }}>
-            <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(1.5rem, 6vw, 3.5rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
+            <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(1.8rem, 7vw, 3.5rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
               <span style={{ whiteSpace: 'nowrap' }}>THE GLOBAL COMMUNITY</span> <br/>
               <span style={{ whiteSpace: 'nowrap' }}>FOR WOMEN IN</span> <br/>
               <span style={{ whiteSpace: 'nowrap' }}>INTELLECTUAL PROPERTY</span>
