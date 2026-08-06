@@ -145,7 +145,7 @@ export default function Hero() {
                 
                 let scale = 1;
                 let opacity = 1;
-                let x = 0;
+                let x: string | number = 0;
                 let zIndex = 10;
                 
                 if (isMounted && isMobile) {
