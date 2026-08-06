@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 export default function TextReveal({ text, lines, className = "", style }: { text?: string; lines?: string[]; className?: string; style?: React.CSSProperties }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: false, margin: "-10%" });
 
   const content = lines || (text ? [text] : []);
 

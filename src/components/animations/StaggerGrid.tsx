@@ -27,7 +27,7 @@ const itemVariants: Variants = {
 
 export default function StaggerGrid({ children, className, style }: StaggerGridProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: false, margin: "-10%" });
 
   return (
     <motion.div
