@@ -122,7 +122,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   fontWeight: 700, 
                   opacity: 0.8, 
                   ...(t.price === 'FREE' && isYearly 
-                    ? { fontFamily: 'cursive', textTransform: 'lowercase', fontSize: '0.9rem', marginLeft: '5px', whiteSpace: 'nowrap' } 
+                    ? { fontFamily: 'cursive', textTransform: 'lowercase', fontSize: '1.25rem', marginLeft: '5px', whiteSpace: 'nowrap' } 
                     : { textTransform: 'uppercase', fontSize: '1.1rem' }) 
                 }}>
                   {t.price === 'FREE' && isYearly ? 'for 1st year' : `/ ${isYearly ? 'year' : 'month'}`}
@@ -138,7 +138,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                 <div style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>Monthly subscribers won't be counted/included as founding members</div>
               )}
               <div style={{ fontSize: '1.05rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px', textAlign: 'center' }}>{t.desc}</div>
-              {isYearly && <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>{t.standardPrice}</div>}
+              {isYearly && <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid rgba(0,0,0,0.1)', minHeight: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t.standardPrice}</div>}
             </div>
 
             <Link href="/waiting-list" style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>

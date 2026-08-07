@@ -39,7 +39,7 @@ const tiers = [
     price: "FREE",
     monthlyPrice: "FREE",
     limit: "COMPLIMENTARY FOR THE FIRST YEAR FOR THE FIRST 200 FOUNDING IN-HOUSE COUNSEL MEMBERS WORLDWIDE",
-    desc: "For women leading intellectual property within corporate legal departments, this membership provides access to a global community dedicated to professional development, meaningful networking, knowledge sharing, leadership growth, and collaboration with senior in-house counsel and leading IP professionals worldwide.", 
+    desc: "For women leading intellectual property within corporate legal departments, The Women's IP Alliance connects you with a global community of trusted peers, industry leaders, and IP experts.", 
     standardPrice: "Standard Membership & Annual Renewal: £99/year (Effective once all 200 Founding In-House Counsel Membership places have been allocated.)",
     style: "bg-pastel-orange"
   }
