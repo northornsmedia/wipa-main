@@ -15,6 +15,7 @@
   --color-pastel-green: #D1FAE5;
   --color-pastel-pink: #FCE7F3;
   --color-pastel-blue: #DBEAFE;
+  --color-pastel-orange: #FFD8B1;
   
   /* Playful Accents (WonderKids) */
   --color-accent-purple: #7645D9;
@@ -169,6 +170,8 @@ a {
 .bg-pastel-yellow { background-color: var(--color-pastel-yellow); color: var(--color-charcoal); }
 .bg-pastel-green { background-color: var(--color-pastel-green); color: var(--color-charcoal); }
 .bg-pastel-pink { background-color: var(--color-pastel-pink); color: var(--color-charcoal); }
+.bg-pastel-blue { background-color: var(--color-pastel-blue); color: var(--color-charcoal); }
+.bg-pastel-orange { background-color: var(--color-pastel-orange); color: var(--color-charcoal); }
 .bg-charcoal { background-color: var(--color-charcoal-light); color: var(--color-white); }
 
 /* Pill Shapes (Online School) */

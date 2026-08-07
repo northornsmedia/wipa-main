@@ -105,7 +105,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
               </div>
             )}
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)', minHeight: '180px' }}>
               <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', whiteSpace: 'pre-line' }}>
                 {t.name.replace('\n(for Start Ups only)', '')}
                 {t.name.includes('\n(for Start Ups only)') && (
@@ -114,12 +114,18 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   </span>
                 )}
               </h3>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', justifyContent: 'center' }}>
+              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'baseline', gap: '10px', justifyContent: 'center' }}>
                 <div style={{ fontSize: '3.5rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
                   {isYearly ? t.price : t.monthlyPrice}
                 </div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>
-                  / {isYearly ? 'year' : 'month'}
+                <div style={{ 
+                  fontWeight: 700, 
+                  opacity: 0.8, 
+                  ...(t.price === 'FREE' && isYearly 
+                    ? { fontFamily: 'cursive', textTransform: 'lowercase', fontSize: '0.9rem', marginLeft: '5px', whiteSpace: 'nowrap' } 
+                    : { textTransform: 'uppercase', fontSize: '1.1rem' }) 
+                }}>
+                  {t.price === 'FREE' && isYearly ? 'for 1st year' : `/ ${isYearly ? 'year' : 'month'}`}
                 </div>
               </div>
             </div>

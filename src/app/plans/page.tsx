@@ -54,6 +54,15 @@ const plans = [
     standardPrice: "Standard Price After Launch: £2,780/year",
     style: "bg-pastel-yellow"
   },
+  { 
+    name: "In-House Counsel\nMembership", 
+    price: "FREE",
+    monthlyPrice: "FREE",
+    limit: "COMPLIMENTARY FOR THE FIRST YEAR FOR THE FIRST 200 FOUNDING IN-HOUSE COUNSEL MEMBERS WORLDWIDE",
+    desc: "For women leading intellectual property within corporate legal departments, this membership provides access to a global community dedicated to professional development, meaningful networking, knowledge sharing, leadership growth, and collaboration with senior in-house counsel and leading IP professionals worldwide.", 
+    standardPrice: "Standard Membership & Annual Renewal: £99/year (Effective once all 200 Founding In-House Counsel Membership places have been allocated.)",
+    style: "bg-pastel-orange"
+  },
 ];
 
 export default function PlansPage() {

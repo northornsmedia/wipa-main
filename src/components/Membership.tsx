@@ -33,6 +33,15 @@ const tiers = [
     desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.", 
     standardPrice: "Standard Membership Rate: £149/year (effective once all 200 Founding Membership places have been secured).",
     style: "bg-pastel-pink"
+  },
+  { 
+    name: "In-House Counsel\nMembership", 
+    price: "FREE",
+    monthlyPrice: "FREE",
+    limit: "COMPLIMENTARY FOR THE FIRST YEAR FOR THE FIRST 200 FOUNDING IN-HOUSE COUNSEL MEMBERS WORLDWIDE",
+    desc: "For women leading intellectual property within corporate legal departments, this membership provides access to a global community dedicated to professional development, meaningful networking, knowledge sharing, leadership growth, and collaboration with senior in-house counsel and leading IP professionals worldwide.", 
+    standardPrice: "Standard Membership & Annual Renewal: £99/year (Effective once all 200 Founding In-House Counsel Membership places have been allocated.)",
+    style: "bg-pastel-orange"
   }
 ];
 
