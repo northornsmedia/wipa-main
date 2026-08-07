@@ -44,6 +44,7 @@ const planOptions = [
   { value: "IP Professional Membership", label: "IP Professional Membership" },
   { value: "Entrepreneur Membership", label: "Entrepreneur Membership ( for startups only )" },
   { value: "Student Membership", label: "Student Membership" },
+  { value: "In-House Counsel Membership", label: "In-House Counsel Membership" },
   { value: "Enterprise Membership", label: "Enterprise Membership" },
   { value: "Custom Plan", label: "Custom Plan" }
 ];
@@ -180,6 +181,23 @@ export default function WaitingListPage() {
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address format.");
       return;
+    }
+
+    if (formData.plan === 'In-House Counsel Membership') {
+      const personalDomains = [
+        'gmail.com', 'outlook.com', 'hotmail.com', 'live.com', 'yahoo.com', 
+        'icloud.com', 'me.com', 'mac.com', 'aol.com', 'proton.me', 
+        'protonmail.com', 'pm.me', 'gmx.com', 'gmx.net', 'mail.com', 
+        'zoho.com', 'zohomail.com', 'rediffmail.com', 'yandex.com', 
+        'mail.ru', 'qq.com', '163.com', '126.com', 'naver.com', 
+        'daum.net', 'web.de', 't-online.de', 'orange.fr', 'btinternet.com', 
+        'comcast.net', 'att.net', 'shaw.ca', 'telus.net', 'bigpond.com'
+      ];
+      const domain = formData.email.split('@')[1]?.toLowerCase();
+      if (domain && personalDomains.includes(domain)) {
+        setError("Please provide a valid company email address for the In-House Counsel Membership. Personal email addresses are not accepted for this plan.");
+        return;
+      }
     }
 
     // Phone validation based on selected country

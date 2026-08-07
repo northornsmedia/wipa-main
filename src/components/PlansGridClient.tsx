@@ -25,7 +25,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
   const visiblePlans = plans.filter(t => isYearly || !t.hideOnMonthly);
 
   return (
-    <div style={{ width: '100%', maxWidth: visiblePlans.length <= 3 ? '1200px' : '1600px', margin: '0 auto', transition: 'max-width 0.4s ease-in-out' }}>
+    <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', transition: 'max-width 0.4s ease-in-out' }}>
       
       <div style={{ display: 'none', justifyContent: 'center', marginBottom: '40px' }}>
         <div style={{ display: 'flex', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '50px', padding: '5px' }}>

@@ -48,7 +48,7 @@ const tiers = [
 export default function Membership({ hideExploreButton = false }: { hideExploreButton?: boolean }) {
   return (
     <section id="membership" className="section section-dark" style={{ paddingTop: '40px', paddingBottom: '20px' }}>
-      <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px' }}>
+      <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 40px' }}>
         
         <div style={{ textAlign: 'center', marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           <div style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 900, textTransform: 'uppercase', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
