@@ -36,7 +36,7 @@ export default function AboutPage() {
                 Launching in 2027, the Alliance transforms an annual publication into a year-round international community where members can connect with peers, access world-class learning opportunities, develop professionally, and become part of a collaborative global network designed specifically for women in IP.
               </p>
               <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
-                Whether you are an experienced practitioner, a rising professional, an entrepreneur, an academic, an in-house counsel, or a student beginning your journey, the Alliance provides the environment, opportunities, and connections to help you thrive.
+                Whether you are an experienced practitioner, a rising professional, an entrepreneur, an academic, or a student beginning your journey, the Alliance provides the environment, opportunities, and connections to help you thrive.
               </p>
             </div>
 

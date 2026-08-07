@@ -3,7 +3,7 @@ import FadeIn from "./animations/FadeIn";
 import FloatAnim from "./animations/FloatAnim";
 
 const personas = [
-  { title: "Legal & IP Practice", desc: "Patent Attorneys, Trademark Professionals, IP Lawyers, In-house Counsel, and Patent Engineers.", style: "bg-charcoal" },
+  { title: "Legal & IP Practice", desc: "Patent Attorneys, Trademark Professionals, IP Lawyers, and Patent Engineers.", style: "bg-charcoal" },
   { title: "Tech & Innovation", desc: "Technology Professionals, Innovation Leaders, Licensing Specialists, and Researchers.", style: "bg-pastel-pink" },
   { title: "Business & Academia", desc: "Entrepreneurs, Startup Founders, Business Leaders, Academics, University Professionals, and Government Reps.", style: "bg-pastel-yellow" },
   { title: "Emerging Talent", desc: "Students, Alumni, and Future IP Professionals beginning their journey.", style: "bg-pastel-purple" },

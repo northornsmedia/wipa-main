@@ -7,7 +7,7 @@ import StaggerGrid from "./animations/StaggerGrid";
 
 const faqs = [
   { q: "When does the Alliance launch?", a: "The Women's IP Alliance officially launches in January 2027. We are currently accepting applications for our exclusive Founding Membership tier." },
-  { q: "Who can become a member?", a: "Membership is open to all women professionals working in intellectual property, including patent practitioners, trade mark attorneys, academics, researchers, and in-house counsel." },
+  { q: "Who can become a member?", a: "Membership is open to all women professionals working in intellectual property, including patent practitioners, trade mark attorneys, academics, and researchers." },
   { q: "How does Founding Membership work?", a: "Founding Members join our inaugural cohort with lifetime priority status. This includes locked-in pricing, VIP access to all our global events, and special recognition on our platform." },
   { q: "When do memberships begin?", a: "All memberships will officially activate in January 2027. However, you can secure your Founding Membership today to lock in the exclusive Founding Member rate and benefits. Founding Members will also receive early access to the platform and exclusive pre-launch activities closer to the official launch in January 2027." },
   { q: "Is membership international?", a: "Yes! The Alliance is a truly global community. Our network spans across North America, Europe, Asia, and beyond, providing unparalleled opportunities for cross-border collaboration." },

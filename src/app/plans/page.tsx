@@ -20,7 +20,7 @@ const plans = [
     price: "£395",
     monthlyPrice: "£50",
     limit: "Rate-limited for the first 300 founding members worldwide",
-    desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, in-house counsel, and other intellectual property professionals.", 
+    desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, and other intellectual property professionals.", 
     standardPrice: "Standard Membership Rate: £695/year (effective once all 300 Founding Membership places have been secured).",
     style: "bg-pastel-green"
   },
@@ -49,7 +49,7 @@ const plans = [
     monthlyPrice: "£175",
     hideLimitOnMonthly: true,
     hideOnMonthly: true,
-    limit: "5 Founding Memberships + 1 FREE Membership – An Exclusive Saving of £625",
+    limit: "5 Founding Memberships at £349/per membership + 1 FREE Membership – An Exclusive Saving of £625",
     desc: "Perfect for law firms, corporate IP departments, universities, innovation teams, and organisations looking to provide membership benefits to multiple professionals while securing Founding Member status for their team.", 
     standardPrice: "Standard Price After Launch: £2,780/year",
     style: "bg-pastel-yellow"

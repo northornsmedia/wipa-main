@@ -135,7 +135,7 @@ export const faqSchema = {
       "name": "Who qualifies for IP Professional Membership?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "This tier is designed for women currently working in intellectual property roles, such as patent attorneys, trademark attorneys, IP paralegals, in-house counsel, and licensing professionals."
+        "text": "This tier is designed for women currently working in intellectual property roles, such as patent attorneys, trademark attorneys, IP paralegals, and licensing professionals."
       }
     },
     {
