@@ -111,7 +111,7 @@ export default function Hero() {
           {/* Left Side: Content */}
           <div className="hero-left" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none' }}>
             <FadeIn direction="up" delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start', width: '100%' }}>
-              <p style={{ maxWidth: '800px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, textAlign: 'center' }}>
+              <p className="mobile-text-center" style={{ maxWidth: '800px', fontSize: '1.0rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
                 <strong>WIPA (The Women's IP Alliance)</strong> is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, WIPA provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
               </p>
               

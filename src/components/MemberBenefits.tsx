@@ -27,7 +27,7 @@ export default function MemberBenefits() {
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
               Membership That Works <span style={{ color: 'var(--color-pastel-purple)' }}>Beyond Conferences</span>
             </h2>
-            <p style={{ fontSize: '1rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, opacity: 0.9, textAlign: 'center' }}>
+            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, opacity: 0.9, textAlign: 'center' }}>
               Membership provides continuous opportunities to learn, connect, collaborate, and grow through an extensive range of exclusive benefits designed specifically for women working across intellectual property.
             </p>
           </FadeIn>

@@ -23,10 +23,10 @@ export default function Features() {
         }
         .feature-card-hover {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          top: -2px;
+          left: -2px;
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
           background: rgba(0, 0, 0, 0.85);
           color: white;
           padding: 30px;
@@ -38,7 +38,7 @@ export default function Features() {
           text-align: center;
           backdrop-filter: blur(4px);
           z-index: 10;
-          border-radius: 30px;
+          border-radius: 32px;
         }
         .feature-card:hover .feature-card-hover {
           opacity: 1;
@@ -46,9 +46,9 @@ export default function Features() {
       `}} />
       <div className="container">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '80px', position: 'relative' }}>
-          <FadeIn direction="left">
+          <FadeIn direction="left" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h2 className="heading-huge">Your Community.<br/><span style={{ color: 'var(--color-pastel-pink)' }}>Connected</span> All Year Round.</h2>
-            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', marginTop: '20px', maxWidth: '700px', lineHeight: 1.6, textAlign: 'center' }}>
+            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', margin: '20px auto 0', maxWidth: '700px', lineHeight: 1.6, textAlign: 'center' }}>
               Designed exclusively for Alliance members, our digital platform keeps you connected wherever you are in the world, making networking, collaboration, learning, and professional development accessible throughout the year.
             </p>
           </FadeIn>

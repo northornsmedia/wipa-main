@@ -7,7 +7,7 @@ export default function WhyWipa() {
           <span style={{ backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '0 20px' }}>Founding Member</span>
         </h2>
         
-        <p style={{ textAlign: 'center', fontSize: '1rem', maxWidth: '800px', margin: '0 auto 60px auto', lineHeight: 1.6 }}>
+        <p style={{ textAlign: 'center', fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 60px auto', lineHeight: 1.6 }}>
           The launch of the Women's IP Alliance represents a unique opportunity to become part of something from the very beginning. As a Founding Member, you will not simply join a community—you will help shape it. You'll receive exclusive launch benefits, gain early access to the platform, and be recognised as one of the professionals who supported the creation of an international community dedicated to advancing women across intellectual property.
         </p>
 
