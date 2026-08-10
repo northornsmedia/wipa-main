@@ -47,8 +47,8 @@ export default function Features() {
       <div className="container">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '80px', position: 'relative' }}>
           <FadeIn direction="left" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 className="heading-huge">Your Community.<br/><span style={{ color: 'var(--color-pastel-pink)' }}>Connected</span> All Year Round.</h2>
-            <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', margin: '20px auto 0', maxWidth: '700px', lineHeight: 1.6, textAlign: 'center', transform: 'translateX(20px)' }}>
+            <h2 className="heading-huge mobile-text-center">Your Community.<br/><span style={{ color: 'var(--color-pastel-pink)' }}>Connected</span> All Year Round.</h2>
+            <p className="mobile-text-center" style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', margin: '20px auto 0', maxWidth: '700px', lineHeight: 1.6, textAlign: 'center' }}>
               Designed exclusively for Alliance members, our digital platform keeps you connected wherever you are in the world, making networking, collaboration, learning, and professional development accessible throughout the year.
             </p>
           </FadeIn>
