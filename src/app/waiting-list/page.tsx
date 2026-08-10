@@ -113,10 +113,9 @@ export default function WaitingListPage() {
   const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+1";
   
   const [submitted, setSubmitted] = useState(false);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [nameStatus, setNameStatus] = useState("");
   const [phoneStatus, setPhoneStatus] = useState<{status: 'idle' | 'valid' | 'invalid', message: string}>({ status: 'idle', message: '' });
   
 
@@ -135,15 +134,6 @@ export default function WaitingListPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) setError(""); // clear error on change
     if (name === 'phone') setPhoneStatus({ status: 'idle', message: '' });
-    if (name === 'name') setNameStatus("");
-  };
-
-  const handleNameBlur = () => {
-    if (formData.name && formData.name.trim().length > 1) {
-      setNameStatus(nameCompliments[Math.floor(Math.random() * nameCompliments.length)]);
-    } else {
-      setNameStatus("");
-    }
   };
 
   const handlePhoneBlur = () => {
@@ -156,18 +146,18 @@ export default function WaitingListPage() {
       if (!isValid) {
         setPhoneStatus({ 
           status: 'invalid', 
-          message: funnyErrorMessages[Math.floor(Math.random() * funnyErrorMessages.length)] 
+          message: "Wrong number entered, please enter correct number" 
         });
       } else {
         setPhoneStatus({ 
           status: 'valid', 
-          message: funnySuccessMessages[Math.floor(Math.random() * funnySuccessMessages.length)] 
+          message: "" 
         });
       }
     } catch (err) {
       setPhoneStatus({ 
         status: 'invalid', 
-        message: funnyErrorMessages[Math.floor(Math.random() * funnyErrorMessages.length)] 
+        message: "Wrong number entered, please enter correct number" 
       });
     }
   };
@@ -207,14 +197,14 @@ export default function WaitingListPage() {
       if (!isValid) {
         setPhoneStatus({ 
           status: 'invalid', 
-          message: funnyErrorMessages[Math.floor(Math.random() * funnyErrorMessages.length)] 
+          message: "Wrong number entered, please enter correct number" 
         });
         return;
       }
     } catch (err) {
       setPhoneStatus({ 
         status: 'invalid', 
-        message: funnyErrorMessages[Math.floor(Math.random() * funnyErrorMessages.length)] 
+        message: "Wrong number entered, please enter correct number" 
       });
       return;
     }
@@ -318,23 +308,8 @@ export default function WaitingListPage() {
                       placeholder="Enter your full name"
                       value={formData.name} 
                       onChange={handleChange}
-                      onBlur={handleNameBlur}
                       style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
                     />
-                    {nameStatus && (
-                      <div style={{ 
-                        color: 'var(--color-accent)', 
-                        fontSize: '0.75rem', 
-                        fontWeight: '600',
-                        marginTop: '4px',
-                        paddingLeft: '5px',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}>
-                        ✨ {nameStatus}
-                      </div>
-                    )}
                   </div>
                 </div>
 
@@ -383,15 +358,15 @@ export default function WaitingListPage() {
                       style={{ padding: "15px", border: "none", fontSize: "1.1rem", flex: 1, outline: "none" }}
                     />
                   </div>
-                  {phoneStatus.status !== 'idle' && (
+                  {phoneStatus.status === 'invalid' && (
                     <div style={{ 
-                      color: phoneStatus.status === 'valid' ? 'var(--color-accent)' : '#ef5350', 
+                      color: '#ef5350', 
                       fontSize: '0.95rem', 
                       fontWeight: 'bold',
                       marginTop: '4px',
                       paddingLeft: '5px'
                     }}>
-                      {phoneStatus.status === 'valid' ? '✨ ' : '❌ '}{phoneStatus.message}
+                      ❌ {phoneStatus.message}
                     </div>
                   )}
                 </div>
