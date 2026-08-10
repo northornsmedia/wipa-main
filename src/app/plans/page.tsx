@@ -112,7 +112,7 @@ export default function PlansPage() {
               />
             </div>
             <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-              <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300 }}>
+              <p className="mobile-text-center" style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300, textAlign: 'center' }}>
                 Choose the perfect plan for you or your organisation.
               </p>
               <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)' }}>
@@ -121,11 +121,11 @@ export default function PlansPage() {
             </FadeIn>
           </div>
           
-          <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 40px' }}>
+          <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 clamp(15px, 4vw, 40px)' }}>
             <FadeIn direction="up" delay={0.3}>
               <div style={{
                 margin: '20px auto 40px',
-                padding: '30px 40px',
+                padding: 'clamp(20px, 5vw, 30px) clamp(15px, 4vw, 40px)',
                 backgroundColor: 'transparent',
                 color: 'var(--color-white)',
                 border: '2px dotted rgba(255, 255, 255, 0.4)',
@@ -134,10 +134,10 @@ export default function PlansPage() {
                 textAlign: 'center',
                 position: 'relative'
               }}>
-                <h4 style={{ fontSize: '1.3rem', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: 'var(--color-pastel-purple)' }}>
+                <h4 className="mobile-text-center" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.3rem)', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: 'var(--color-pastel-purple)', textAlign: 'center' }}>
                   Your Founding Member Advantage
                 </h4>
-                <p style={{ fontSize: '1.0rem', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9 }}>
+                <p className="mobile-text-center" style={{ fontSize: '0.95rem', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9, textAlign: 'center' }}>
                   Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'var(--color-pastel-pink)', color: 'var(--color-black)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
                 </p>
               </div>

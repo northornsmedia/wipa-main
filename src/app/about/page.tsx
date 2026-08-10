@@ -26,16 +26,16 @@ export default function AboutPage() {
                 More Than a Membership.<br/>
                 A Global Community Built for Women in <span style={{ color: 'var(--color-accent-purple)' }}>Intellectual Property.</span>
               </h2>
-              <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
+              <p className="mobile-text-center" style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6, textAlign: 'center' }}>
                 Women have long played a vital role in shaping innovation, protecting brands, advancing technology, and driving the future of intellectual property. Yet opportunities to build lasting international relationships, exchange expertise, and collaborate beyond conferences remain limited.
               </p>
-              <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
+              <p className="mobile-text-center" style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6, textAlign: 'center' }}>
                 The Women's IP Alliance has been created to bridge that gap.
               </p>
-              <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
+              <p className="mobile-text-center" style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6, textAlign: 'center' }}>
                 Launching in 2027, the Alliance transforms an annual publication into a year-round international community where members can connect with peers, access world-class learning opportunities, develop professionally, and become part of a collaborative global network designed specifically for women in IP.
               </p>
-              <p style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6 }}>
+              <p className="mobile-text-center" style={{ fontSize: '1.2rem', marginBottom: '20px', lineHeight: 1.6, textAlign: 'center' }}>
                 Whether you are an experienced practitioner, a rising professional, an entrepreneur, an academic, or a student beginning your journey, the Alliance provides the environment, opportunities, and connections to help you thrive.
               </p>
             </div>

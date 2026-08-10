@@ -1,3 +1,5 @@
+"use client";
+import { useState, useEffect } from "react";
 import FadeIn from "./animations/FadeIn";
 
 const journeySteps = [
@@ -12,6 +14,17 @@ const journeySteps = [
 ];
 
 export default function MembershipJourney() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <section className="section section-white" style={{ paddingBottom: 0 }}>
       <div className="container" style={{ textAlign: 'center', paddingBottom: 0 }}>
@@ -24,7 +37,7 @@ export default function MembershipJourney() {
 
         <FadeIn direction="up" delay={0.2}>
           <div style={{ position: 'relative', width: '100%', maxWidth: '1400px', margin: '0 auto', padding: '40px 0 0 0', display: 'flex', justifyContent: 'center' }}>
-            <img src="/roadmap.png" alt="Membership Journey Roadmap" style={{ width: '100%', maxWidth: '1200px', height: 'auto', objectFit: 'contain' }} />
+            <img src="/roadmap.png" alt="Membership Journey Roadmap" style={{ width: '100%', maxWidth: '1200px', height: 'auto', objectFit: 'contain', transform: (isMounted && isMobile) ? 'scale(1.4)' : 'none', marginTop: (isMounted && isMobile) ? '30px' : '0', marginBottom: (isMounted && isMobile) ? '30px' : '0' }} />
           </div>
         </FadeIn>
 

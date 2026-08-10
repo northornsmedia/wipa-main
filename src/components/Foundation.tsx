@@ -72,13 +72,13 @@ export default function Foundation() {
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
               An International Legacy
             </h2>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6, textAlign: 'center' }}>
               The Women's IP Alliance has been developed by the team behind The Women's IP World Annual—the world's leading publication celebrating women across intellectual property.
             </p>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6, textAlign: 'center' }}>
               For years, the publication has connected outstanding professionals from every region, showcasing leadership, celebrating achievement, and promoting diversity across patents, trade marks, innovation, technology, academia, and law.
             </p>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, textAlign: 'center' }}>
               The Alliance extends this trusted global network beyond an annual publication, creating a vibrant year-round ecosystem where relationships continue to grow long after conferences and publications are complete.
             </p>
           </FadeIn>

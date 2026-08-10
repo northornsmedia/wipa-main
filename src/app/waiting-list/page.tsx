@@ -258,9 +258,9 @@ export default function WaitingListPage() {
       <button 
         onClick={() => router.push('/')}
         style={{
-          position: "fixed",
-          top: "30px",
-          left: "30px",
+          position: "absolute",
+          top: "20px",
+          left: "20px",
           padding: "10px 20px",
           backgroundColor: "var(--color-white)",
           border: "2px solid var(--color-black)",
@@ -281,7 +281,7 @@ export default function WaitingListPage() {
         <motion.div 
           animate={{ y: [0, -8, 0] }} 
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          style={{ backgroundColor: "var(--color-white)", padding: "50px", borderRadius: "32px", border: "3px solid var(--color-black)", boxShadow: "12px 12px 0px var(--color-black)", width: "100%" }}
+          style={{ backgroundColor: "var(--color-white)", padding: "clamp(20px, 6vw, 50px)", borderRadius: "32px", border: "3px solid var(--color-black)", width: "100%" }}
         >
           
           {!submitted ? (
@@ -293,7 +293,7 @@ export default function WaitingListPage() {
 
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 
-                <div style={{ display: "flex", gap: "20px" }}>
+                <div className="mobile-stack" style={{ display: "flex", gap: "20px" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1, minWidth: "140px" }}>
                     <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Title</label>
                     <Select

@@ -20,7 +20,7 @@ export default function Leadership() {
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
               Led by Respected <br/> <span style={{ backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '0 20px' }}>Global IP Leaders</span>
             </h2>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, textAlign: 'center' }}>
               The Alliance is guided by experienced professionals who share a common vision of empowering women through collaboration, education, and leadership.
             </p>
           </FadeIn>

@@ -23,9 +23,9 @@ export default function HowItHelps() {
 
         <StaggerGrid className="bento-grid">
           {stages.map((s, i) => (
-            <div key={i} className="bento-card span-2" style={{ backgroundColor: 'var(--color-white)', boxShadow: '8px 8px 0px var(--color-charcoal)' }}>
-              <h3 className="heading-md" style={{ marginBottom: '15px' }}>{s.title}</h3>
-              <p style={{ fontSize: '1.1rem' }}>{s.desc}</p>
+            <div key={i} className="bento-card span-2 mobile-text-center" style={{ backgroundColor: 'var(--color-white)', boxShadow: '8px 8px 0px var(--color-charcoal)' }}>
+              <h3 className="heading-md mobile-text-center" style={{ marginBottom: '15px' }}>{s.title}</h3>
+              <p className="mobile-text-center" style={{ fontSize: '1.1rem' }}>{s.desc}</p>
             </div>
           ))}
         </StaggerGrid>
