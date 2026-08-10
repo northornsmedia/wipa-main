@@ -102,7 +102,7 @@ export default function PlansPage() {
       <Navbar />
       
       <section className="section section-dark" style={{ paddingTop: '160px', paddingBottom: '100px' }}>
-        <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 40px' }}>
+        <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 clamp(10px, 3vw, 40px)' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <div style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 900, textTransform: 'uppercase', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
@@ -152,12 +152,12 @@ export default function PlansPage() {
       <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto 100px', padding: '0 40px' }}>
         <div style={{ backgroundColor: '#e6f2ff', padding: '50px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <h2 className="heading-huge" style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Custom Enterprise Plan</h2>
-          <p style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6 }}>
+          <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center' }}>
             Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team's needs.
           </p>
-          <Link href="/enterprise" style={{ textDecoration: 'none' }}>
-            <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', backgroundColor: 'var(--color-white)', padding: '15px 40px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}>
-              Inquire About Custom Plans
+          <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
+            <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', backgroundColor: 'var(--color-white)', padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
+              JOIN THE WAITING LIST
             </button>
           </Link>
         </div>

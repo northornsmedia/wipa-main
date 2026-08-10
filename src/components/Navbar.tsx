@@ -12,7 +12,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  const isDarkHeader = pathname === "/";
+  const isDarkHeader = pathname === "/" || pathname === "/community" || pathname === "/plans";
   const hamburgerColor = isOpen ? 'var(--color-white)' : (scrolled || !isDarkHeader ? 'var(--color-black)' : 'var(--color-white)');
 
   useMotionValueEvent(scrollY, "change", (latest) => {

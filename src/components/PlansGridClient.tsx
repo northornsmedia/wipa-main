@@ -97,13 +97,14 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
 
       <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '40px', alignItems: 'stretch' }}>
         {visiblePlans.map((t, i) => (
-          <TiltCard key={i} className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '30px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%', position: 'relative', marginTop: t.subtitle ? '40px' : '0' }}>
-            
-            {t.subtitle && (
-              <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#555', color: 'var(--color-white)', padding: '8px 24px', borderRadius: '24px', fontWeight: 'bold', fontSize: '1.05rem', whiteSpace: 'nowrap', zIndex: 10 }}>
-                {t.subtitle}
-              </div>
-            )}
+          <div key={i} style={{ paddingTop: t.subtitle ? '50px' : '0', height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <TiltCard className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '30px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', flexGrow: 1, width: '100%', position: 'relative' }}>
+              
+              {t.subtitle && (
+                <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#555', color: 'var(--color-white)', padding: '8px 24px', borderRadius: '24px', fontWeight: 'bold', fontSize: '1.05rem', whiteSpace: 'nowrap', zIndex: 10 }}>
+                  {t.subtitle}
+                </div>
+              )}
 
             <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)', minHeight: '180px' }}>
               <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', whiteSpace: 'pre-line' }}>
@@ -145,6 +146,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
               <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase', lineHeight: '1.2' }}>JOIN THE WAITING LIST</button>
             </Link>
           </TiltCard>
+          </div>
         ))}
       </StaggerGrid>
     </div>
