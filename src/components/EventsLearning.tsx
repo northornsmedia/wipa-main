@@ -22,7 +22,7 @@ export default function EventsLearning() {
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
               <span style={{ color: 'var(--color-pastel-pink)' }}>Learn.</span> <span style={{ color: 'var(--color-pastel-yellow)' }}>Connect.</span> <span style={{ color: 'var(--color-pastel-green)' }}>Collaborate.</span>
             </h2>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, opacity: 0.9 }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, opacity: 0.9, textAlign: 'center' }}>
               Members benefit from a year-round calendar of events designed to encourage continuous learning and meaningful international networking.
             </p>
           </FadeIn>

@@ -90,7 +90,7 @@ export default function Membership({ hideExploreButton = false }: { hideExploreB
 
       <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto', padding: '0 clamp(15px, 4vw, 40px)' }}>
         <FadeIn direction="up" delay={0.4} style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
-          <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)' }}>
+          <div className="mobile-text-center" style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)', textAlign: 'center' }}>
             Please note: All memberships purchased today will officially commence in January 2027.
           </div>
         </FadeIn>

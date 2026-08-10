@@ -11,7 +11,7 @@ export default function Footer() {
           <Link href="/" style={{ display: 'block', marginBottom: '20px' }}>
             <img src="/WIPALOGO.png" alt="WIPA (Women's IP Alliance) Official Logo" style={{ height: '60px', width: 'auto' }} />
           </Link>
-          <p style={{ fontSize: '1.1rem', opacity: 0.9, lineHeight: 1.6 }}>
+          <p className="mobile-text-center" style={{ fontSize: '1.1rem', opacity: 0.9, lineHeight: 1.6, textAlign: 'center' }}>
             Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
           </p>
           <div style={{ marginTop: '20px', fontWeight: 600, display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>

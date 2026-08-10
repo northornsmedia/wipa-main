@@ -60,7 +60,6 @@ export default function CommunityImpact() {
           <div style={{ display: isMounted && isMobile ? 'flex' : 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', position: 'relative', minHeight: isMounted && isMobile ? '500px' : 'auto', justifyContent: 'center', padding: (!isMounted || !isMobile) ? '20px' : '0' }}>
             <AnimatePresence mode="popLayout">
               {visibleProfiles.map((p) => {
-                const isDesktop = !isMounted || !isMobile;
                 return (
                 <motion.div 
                   key={p.name}
@@ -69,11 +68,11 @@ export default function CommunityImpact() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: isMounted && isMobile ? -50 : -20, scale: 0.95 }}
                   transition={{ duration: 0.8, ease: "easeInOut" }}
-                  className={isDesktop ? p.style : ""}
+                  className={p.style}
                   style={{ 
                     display: 'flex', 
                     flexDirection: 'column', 
-                    gap: isDesktop ? '20px' : '16px', 
+                    gap: (!isMounted || !isMobile) ? '20px' : '16px', 
                     alignItems: 'center', 
                     textAlign: 'center',
                     position: isMounted && isMobile ? 'absolute' : 'relative',
@@ -82,15 +81,13 @@ export default function CommunityImpact() {
                     margin: isMounted && isMobile ? '0 auto' : '0',
                     width: isMounted && isMobile ? '100%' : 'auto',
                     maxWidth: isMounted && isMobile ? '320px' : 'none',
-                    ...(isDesktop ? {
-                      border: '3px solid var(--color-black)',
-                      borderRadius: '24px',
-                      padding: '24px 24px 32px 24px',
-                      boxShadow: '6px 6px 0px var(--color-black)'
-                    } : {})
+                    border: '3px solid var(--color-black)',
+                    borderRadius: '24px',
+                    padding: (!isMounted || !isMobile) ? '24px 24px 32px 24px' : '20px 20px 24px 20px',
+                    boxShadow: '6px 6px 0px var(--color-black)'
                   }}
                 >
-                  <div className={!isDesktop ? p.style : ""} style={{ width: '100%', height: isDesktop ? '260px' : '320px', borderRadius: isDesktop ? '16px' : '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', ...(isDesktop ? { border: '3px solid var(--color-black)' } : {}) }}>
+                  <div style={{ width: '100%', height: (!isMounted || !isMobile) ? '260px' : '280px', borderRadius: '16px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', border: '3px solid var(--color-black)' }}>
                     <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ marginTop: 'auto', width: '100%' }}>
