@@ -20,6 +20,7 @@ export default function Hero() {
     { src: "/6.png", name: "Ximena Souza Ferreira", countryCode: ["pe"], position: "Partner", company: "Osterling Abogados" },
     { src: "/Carolina Caetano.png", name: "Carolina Caetano", countryCode: ["br"], position: "Head of Trademark Prosecution", company: "Licks Advogados" },
     { src: "/Maria khan.webp", name: "Maria Farrukh Irfan Khan", countryCode: ["ae"], position: "Managing Partner", company: "United Trademark & Patent Services" },
+    { src: "/Our Client Logos (3).png", name: "Sarah Dorner", countryCode: ["us"], position: "Assistant Dean for Graduate Admissions & International Outreach", company: "University of New Hampshire Franklin Pierce School of Law" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
