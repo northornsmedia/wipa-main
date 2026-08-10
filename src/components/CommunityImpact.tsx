@@ -45,7 +45,7 @@ export default function CommunityImpact() {
   const visibleProfiles = Array.from({ length: visibleCount }).map((_, i) => profiles[(startIndex + i) % profiles.length]);
 
   return (
-    <section className="section section-white" style={{ paddingBottom: '40px' }}>
+    <section className="section section-white" style={{ paddingBottom: (!isMounted || !isMobile) ? '' : '40px' }}>
       <div className="container">
         
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
@@ -57,9 +57,11 @@ export default function CommunityImpact() {
         </div>
 
         <div style={{ padding: '10px 0', overflow: 'hidden' }}>
-          <div style={{ display: isMounted && isMobile ? 'flex' : 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', position: 'relative', minHeight: isMounted && isMobile ? '500px' : 'auto', justifyContent: 'center' }}>
+          <div style={{ display: isMounted && isMobile ? 'flex' : 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', position: 'relative', minHeight: isMounted && isMobile ? '500px' : 'auto', justifyContent: 'center', padding: (!isMounted || !isMobile) ? '20px' : '0' }}>
             <AnimatePresence mode="popLayout">
-              {visibleProfiles.map((p) => (
+              {visibleProfiles.map((p) => {
+                const isDesktop = !isMounted || !isMobile;
+                return (
                 <motion.div 
                   key={p.name}
                   layout
@@ -67,10 +69,11 @@ export default function CommunityImpact() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: isMounted && isMobile ? -50 : -20, scale: 0.95 }}
                   transition={{ duration: 0.8, ease: "easeInOut" }}
+                  className={isDesktop ? p.style : ""}
                   style={{ 
                     display: 'flex', 
                     flexDirection: 'column', 
-                    gap: '16px', 
+                    gap: isDesktop ? '20px' : '16px', 
                     alignItems: 'center', 
                     textAlign: 'center',
                     position: isMounted && isMobile ? 'absolute' : 'relative',
@@ -78,10 +81,16 @@ export default function CommunityImpact() {
                     right: isMounted && isMobile ? 0 : 'auto',
                     margin: isMounted && isMobile ? '0 auto' : '0',
                     width: isMounted && isMobile ? '100%' : 'auto',
-                    maxWidth: isMounted && isMobile ? '320px' : 'none'
+                    maxWidth: isMounted && isMobile ? '320px' : 'none',
+                    ...(isDesktop ? {
+                      border: '3px solid var(--color-black)',
+                      borderRadius: '24px',
+                      padding: '24px 24px 32px 24px',
+                      boxShadow: '6px 6px 0px var(--color-black)'
+                    } : {})
                   }}
                 >
-                  <div className={p.style} style={{ width: '100%', height: '320px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  <div className={!isDesktop ? p.style : ""} style={{ width: '100%', height: isDesktop ? '260px' : '320px', borderRadius: isDesktop ? '16px' : '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', ...(isDesktop ? { border: '3px solid var(--color-black)' } : {}) }}>
                     <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ marginTop: 'auto', width: '100%' }}>
@@ -97,7 +106,8 @@ export default function CommunityImpact() {
                     )}
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </AnimatePresence>
           </div>
         </div>
