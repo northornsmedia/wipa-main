@@ -39,7 +39,7 @@ export default function Navbar() {
       >
         <nav className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ zIndex: 101, display: 'flex', alignItems: 'center' }}>
-            <img src="/WIPALOGO.png" alt="WIPA (Women's IP Alliance) Official Logo" className="navbar-logo" />
+            <img src="/WIPA-Logo.png" alt="WIPA (Women's IP Alliance) Official Logo" className="navbar-logo" />
           </Link>
 
           {/* Desktop Nav */}

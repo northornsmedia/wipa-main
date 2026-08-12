@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Logo & About */}
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Link href="/" style={{ display: 'block', marginBottom: '20px' }}>
-            <img src="/WIPALOGO.png" alt="WIPA (Women's IP Alliance) Official Logo" style={{ height: '60px', width: 'auto' }} />
+            <img src="/WIPA-Logo.png" alt="WIPA (Women's IP Alliance) Official Logo" style={{ height: '60px', width: 'auto' }} />
           </Link>
           <p className="mobile-text-center" style={{ fontSize: '1.1rem', opacity: 0.9, lineHeight: 1.6, textAlign: 'center' }}>
             Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
