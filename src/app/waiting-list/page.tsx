@@ -268,9 +268,7 @@ export default function WaitingListPage() {
       </button>
       <FloatingGrid />
       <FadeIn direction="up" style={{ width: "100%", maxWidth: "600px", position: "relative", zIndex: 10 }}>
-        <motion.div 
-          animate={{ y: [0, -8, 0] }} 
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        <div 
           style={{ backgroundColor: "var(--color-white)", padding: "clamp(20px, 6vw, 50px)", borderRadius: "32px", border: "3px solid var(--color-black)", width: "100%" }}
         >
           
@@ -530,7 +528,7 @@ export default function WaitingListPage() {
             </div>
           )}
 
-        </motion.div>
+        </div>
       </FadeIn>
     </div>
   );
