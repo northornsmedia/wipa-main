@@ -5,7 +5,7 @@ import About from "@/components/About";
 import MemberBenefits from "@/components/MemberBenefits";
 import WhyWipa from "@/components/WhyWipa";
 import Features from "@/components/Features";
-import Membership from "@/components/Membership";
+
 import EventsLearning from "@/components/EventsLearning";
 
 import CommunityImpact from "@/components/CommunityImpact";
@@ -39,7 +39,7 @@ export default function Home() {
         <MemberBenefits />
         <WhyWipa />
         <Features />
-        <Membership />
+
         <EventsLearning />
 
         <CommunityImpact />

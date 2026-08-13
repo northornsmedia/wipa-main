@@ -1,75 +1,312 @@
+"use client";
+import React, { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import DoodleSocials from "./DoodleSocials";
 
-export default function Footer() {
+export const TextHoverEffect = ({
+  text,
+  duration,
+  className,
+}: {
+  text: string;
+  duration?: number;
+  automatic?: boolean;
+  className?: string;
+}) => {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+  const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
+
+  useEffect(() => {
+    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
+      const svgRect = svgRef.current.getBoundingClientRect();
+      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
+      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
+      setMaskPosition({
+        cx: `${cxPercentage}%`,
+        cy: `${cyPercentage}%`,
+      });
+    }
+  }, [cursor]);
+
   return (
-    <footer className="section-white" style={{ padding: '40px 0 40px', borderBottom: 'none' }}>
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '60px', marginBottom: '80px' }}>
-        
-        {/* Logo & About */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Link href="/" style={{ display: 'block', marginBottom: '20px' }}>
-            <img src="/WIPA-Logo.png" alt="WIPA (Women's IP Alliance) Official Logo" style={{ height: '60px', width: 'auto' }} />
-          </Link>
-          <p className="mobile-text-center" style={{ fontSize: '1.1rem', opacity: 0.9, lineHeight: 1.6, textAlign: 'center' }}>
-            Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
+    <svg
+      ref={svgRef}
+      width="100%"
+      height="100%"
+      viewBox="0 0 300 100"
+      xmlns="http://www.w3.org/2000/svg"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
+      className={["select-none uppercase cursor-pointer", className].filter(Boolean).join(" ")}
+      style={{ userSelect: 'none', cursor: 'pointer', textTransform: 'uppercase' }}
+    >
+      <defs>
+        <linearGradient
+          id="textGradient"
+          gradientUnits="userSpaceOnUse"
+          cx="50%"
+          cy="50%"
+          r="25%"
+        >
+          {hovered && (
+            <>
+              <stop offset="0%" stopColor="#eab308" />
+              <stop offset="25%" stopColor="#ef4444" />
+              <stop offset="50%" stopColor="#80eeb4" />
+              <stop offset="75%" stopColor="#06b6d4" />
+              <stop offset="100%" stopColor="#8b5cf6" />
+            </>
+          )}
+        </linearGradient>
+
+        <motion.radialGradient
+          id="revealMask"
+          gradientUnits="userSpaceOnUse"
+          r="20%"
+          initial={{ cx: "50%", cy: "50%" }}
+          animate={maskPosition}
+          transition={{ duration: duration ?? 0, ease: "easeOut" }}
+        >
+          <stop offset="0%" stopColor="white" />
+          <stop offset="100%" stopColor="black" />
+        </motion.radialGradient>
+        <mask id="textMask">
+          <rect
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            fill="url(#revealMask)"
+          />
+        </mask>
+      </defs>
+      <text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        strokeWidth="0.3"
+        style={{
+          opacity: hovered ? 0.7 : 0,
+          fill: "transparent",
+          stroke: "#e5e5e5",
+          fontFamily: "var(--font-display), helvetica, sans-serif",
+          fontSize: "5rem",
+          fontWeight: "900",
+        }}
+      >
+        {text}
+      </text>
+      <motion.text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        strokeWidth="0.3"
+        style={{
+          fill: "transparent",
+          stroke: "#3ca2fa",
+          fontFamily: "var(--font-display), helvetica, sans-serif",
+          fontSize: "5rem",
+          fontWeight: "900",
+        }}
+        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
+        animate={{
+          strokeDashoffset: 0,
+          strokeDasharray: 1000,
+        }}
+        transition={{
+          duration: 4,
+          ease: "easeInOut",
+        }}
+      >
+        {text}
+      </motion.text>
+      <text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        stroke="url(#textGradient)"
+        strokeWidth="0.3"
+        mask="url(#textMask)"
+        style={{
+          fill: "transparent",
+          fontFamily: "var(--font-display), helvetica, sans-serif",
+          fontSize: "5rem",
+          fontWeight: "900",
+        }}
+      >
+        {text}
+      </text>
+    </svg>
+  );
+};
+
+export const FooterBackgroundGradient = () => {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 0,
+        background: "radial-gradient(125% 125% at 50% 10%, #0F0F1166 50%, #3ca2fa33 100%)",
+      }}
+    />
+  );
+};
+
+export default function Footer() {
+  const footerLinks = [
+    {
+      title: "Platform",
+      links: [
+        { label: "Social Feed", href: "#features" },
+        { label: "Members Directory", href: "#features" },
+        { label: "Job Board", href: "#features" },
+        { label: "Mentorship", href: "#features" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
+        { label: "Help Center", href: "#" },
+        { label: "Contact Us", href: "#" },
+        { label: "Privacy Policy", href: "#" },
+        { label: "Terms of Service", href: "#" },
+      ],
+    },
+  ];
+
+  return (
+    <footer style={{
+      backgroundColor: '#151515', // Slightly lighter than pure black to see the gradient better
+      position: 'relative',
+      height: 'fit-content',
+      borderRadius: '24px',
+      overflow: 'hidden',
+      margin: '32px',
+      color: 'white',
+      border: '1px solid rgba(255,255,255,0.1)'
+    }}>
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '56px',
+        position: 'relative',
+        zIndex: 40
+      }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '48px',
+          paddingBottom: '48px'
+        }}>
+          {/* Brand section */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <img src="/WIPA-Logo.png" alt="WIPA Logo" style={{ height: '48px', filter: 'brightness(0) invert(1)' }} />
+            </div>
+            <p style={{ fontSize: '0.875rem', lineHeight: '1.6', color: '#d1d5db' }}>
+              Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
+            </p>
+          </div>
+
+          {/* Footer link sections */}
+          {footerLinks.map((section) => (
+            <div key={section.title}>
+              <h4 style={{ color: 'white', fontSize: '1.125rem', fontWeight: '600', marginBottom: '24px' }}>
+                {section.title}
+              </h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {section.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                      onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'}
+                      onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Contact section */}
+          <div>
+            <h4 style={{ color: 'white', fontSize: '1.125rem', fontWeight: '600', marginBottom: '24px' }}>
+              Contact Us
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#d1d5db' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.875rem' }}>
+                  <a href="mailto:info@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>info@northonsprmarketing.com</a>
+                  <a href="mailto:dhruva@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>dhruva@northonsprmarketing.com</a>
+                </div>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#d1d5db' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.875rem' }}>
+                  <a href="tel:+4402038130457" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>+44 (0)203-813-0457 (UK)</a>
+                  <a href="tel:+919054575950" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>+91 90545 75950 (IN)</a>
+                </div>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#d1d5db' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.875rem' }}>
+                  <span>UK: Dover, CT16 1PJ</span>
+                  <span>IN: Ahmedabad, Gujarat</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr style={{ borderTop: '1px solid #374151', margin: '32px 0' }} />
+
+        {/* Footer bottom */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '16px',
+          fontSize: '0.875rem',
+          color: '#9ca3af'
+        }}>
+          {/* Copyright */}
+          <p style={{ margin: 0 }}>
+            &copy; {new Date().getFullYear()} WIPA. All rights reserved.
           </p>
-          <div style={{ marginTop: '20px', fontWeight: 600, display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-            <a href="mailto:info@northonsprmarketing.com" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>info@northonsprmarketing.com</a>
-            <a href="mailto:dhruva@northonsprmarketing.com" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>dhruva@northonsprmarketing.com</a>
-          </div>
+          
+          <DoodleSocials />
+          
+          <span style={{ fontSize: '0.875rem' }}>Product of Northon's Media PR & Marketing Ltd</span>
         </div>
-
-        {/* Links */}
-        <div style={{ display: 'flex', gap: '40px', justifyContent: 'center' }}>
-          <div>
-            <h4 style={{ marginBottom: '24px', fontWeight: 800, fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Platform</h4>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: 0, listStyle: 'none' }}>
-              <li><Link href="#features" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Social Feed</Link></li>
-              <li><Link href="#features" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Members Directory</Link></li>
-              <li><Link href="#features" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Job Board</Link></li>
-              <li><Link href="#features" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Mentorship</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 style={{ marginBottom: '24px', fontWeight: 800, fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Support</h4>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: 0, listStyle: 'none' }}>
-              <li><Link href="#" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Help Center</Link></li>
-              <li><Link href="#" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Contact Us</Link></li>
-              <li><Link href="#" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Privacy Policy</Link></li>
-              <li><Link href="#" style={{ fontSize: '1.1rem', fontWeight: 500 }}>Terms of Service</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* UK Office */}
-        <div style={{ textAlign: 'center' }}>
-          <h4 style={{ marginBottom: '24px', fontWeight: 800, fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>HEAD OFFICE<br/>UNITED KINGDOM OFFICE</h4>
-          <address style={{ fontStyle: 'normal', fontSize: '1.1rem', lineHeight: 1.6, opacity: 0.9 }}>
-            60 Castle Street, Dover,<br/>
-            CT16 1PJ, United Kingdom<br/><br/>
-            <a href="tel:+4402038130457" style={{ fontWeight: 600 }}>+ 44 (0)203-813-0457</a>
-          </address>
-        </div>
-
-        {/* India Office */}
-        <div style={{ textAlign: 'center' }}>
-          <h4 style={{ marginBottom: '24px', fontWeight: 800, fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>India Office</h4>
-          <address style={{ fontStyle: 'normal', fontSize: '1.1rem', lineHeight: 1.6, opacity: 0.9 }}>
-            E-606, Prahlad Nagar Trade Center (PNTC),<br/>
-            Times Of India Press Rd, Satellite, Shyamal,<br/>
-            Ahmedabad, Gujarat, India, 380015<br/><br/>
-            <a href="tel:+919054575950" style={{ fontWeight: 600 }}>+ 91 90545 75950</a>
-          </address>
-        </div>
-
       </div>
 
-      <div className="container footer-bottom-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid var(--color-black)', paddingTop: '40px', fontSize: '1rem', fontWeight: 600 }}>
-        <span>© 2026 WIPA. All rights reserved.</span>
-        <DoodleSocials />
-        <span style={{ fontSize: '0.9rem', whiteSpace: 'nowrap' }}>Product of Northon's Media PR & Marketing Ltd</span>
+      {/* Text hover effect */}
+      <div style={{
+        display: 'flex',
+        height: '400px',
+        marginTop: '-120px',
+        marginBottom: '-120px',
+        position: 'relative',
+        zIndex: 50
+      }}>
+        <TextHoverEffect text="WIPA" />
       </div>
+
+      <FooterBackgroundGradient />
     </footer>
   );
 }
