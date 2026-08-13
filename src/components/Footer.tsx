@@ -187,11 +187,12 @@ export default function Footer() {
       backgroundColor: '#151515', // Slightly lighter than pure black to see the gradient better
       position: 'relative',
       height: 'fit-content',
-      borderRadius: '24px',
+      borderRadius: '24px 24px 0 0',
       overflow: 'hidden',
-      margin: '32px',
+      margin: '32px 32px 0 32px',
       color: 'white',
-      border: '1px solid rgba(255,255,255,0.1)'
+      border: '1px solid rgba(255,255,255,0.1)',
+      borderBottom: 'none'
     }}>
       <div style={{
         maxWidth: '1280px',
@@ -209,7 +210,7 @@ export default function Footer() {
           {/* Brand section */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <img src="/WIPA-Logo.png" alt="WIPA Logo" style={{ height: '48px', filter: 'brightness(0) invert(1)' }} />
+              <img src="/WIPA-Logo.png" alt="WIPA Logo" style={{ height: '48px' }} />
             </div>
             <p style={{ fontSize: '0.875rem', lineHeight: '1.6', color: '#d1d5db' }}>
               Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
