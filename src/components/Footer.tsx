@@ -252,6 +252,7 @@ export default function Footer() {
               .footer-bottom {
                 flex-direction: row;
                 justify-content: space-between;
+                margin-bottom: 80px;
               }
             }
             .footer-links-container {
