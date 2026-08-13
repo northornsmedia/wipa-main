@@ -319,7 +319,7 @@ export default function Footer() {
               <li className="contact-item" style={{ gap: '12px', color: '#d1d5db' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 <div className="contact-item-content" style={{ gap: '4px', fontSize: '0.875rem' }}>
-                  <a href="mailto:info@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>info@northonsprmarketing.com</a>
+                  <a href="mailto:wipa@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>wipa@northonsprmarketing.com</a>
                   <a href="mailto:dhruva@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>dhruva@northonsprmarketing.com</a>
                 </div>
               </li>

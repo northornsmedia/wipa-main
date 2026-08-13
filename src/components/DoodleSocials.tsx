@@ -95,7 +95,7 @@ export default function DoodleSocials() {
 
         <li className="doodle-icon-content">
           <a
-            href="mailto:info@northonsprmarketing.com"
+            href="mailto:wipa@northonsprmarketing.com"
             aria-label="Mail"
             className="doodle-link link-mail"
           >
