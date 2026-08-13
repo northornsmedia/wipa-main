@@ -122,6 +122,9 @@ export const TextHoverEffect = ({
         transition={{
           duration: 4,
           ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+          repeatDelay: 0.5,
         }}
       >
         {text}
@@ -183,16 +186,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer style={{
+    <footer className="w-full sm:px-0" style={{
       backgroundColor: '#151515', // Slightly lighter than pure black to see the gradient better
       position: 'relative',
       height: 'fit-content',
-      borderRadius: '24px 24px 0 0',
       overflow: 'hidden',
-      margin: '32px 32px 0 32px',
+      marginTop: '32px',
       color: 'white',
-      border: '1px solid rgba(255,255,255,0.1)',
-      borderBottom: 'none'
+      borderTop: '1px solid rgba(255,255,255,0.1)',
     }}>
       <div style={{
         maxWidth: '1280px',
@@ -208,37 +209,106 @@ export default function Footer() {
           paddingBottom: '48px'
         }}>
           {/* Brand section */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="brand-section">
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <img src="/WIPA-Logo.png" alt="WIPA Logo" style={{ height: '48px' }} />
             </div>
-            <p style={{ fontSize: '0.875rem', lineHeight: '1.6', color: '#d1d5db' }}>
+            <p className="brand-text" style={{ fontSize: '0.875rem', lineHeight: '1.6', color: '#d1d5db' }}>
               Women's IP Alliance — Empowering women in Patents, Trademarks, Copyright, and Innovation.
             </p>
           </div>
 
           {/* Footer link sections */}
-          {footerLinks.map((section) => (
-            <div key={section.title}>
-              <h4 style={{ color: 'white', fontSize: '1.125rem', fontWeight: '600', marginBottom: '24px' }}>
-                {section.title}
-              </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s ease' }}
-                      onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'}
-                      onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <style dangerouslySetInnerHTML={{__html: `
+            .brand-section {
+              display: flex;
+              flex-direction: column;
+              gap: 16px;
+              align-items: center;
+            }
+            .brand-text {
+              text-align: center;
+            }
+            .footer-bottom {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 16px;
+              font-size: 0.875rem;
+              color: #9ca3af;
+              text-align: center;
+            }
+            .product-line {
+              white-space: nowrap;
+              font-size: 0.875rem;
+            }
+            @media (min-width: 768px) {
+              .brand-section {
+                align-items: flex-start;
+              }
+              .brand-text {
+                text-align: left;
+              }
+              .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+              }
+            }
+            .footer-links-container {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 24px;
+            }
+            @media (min-width: 768px) {
+              .footer-links-container {
+                display: contents;
+              }
+            }
+            .contact-item {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+            }
+            .contact-item-content {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            @media (min-width: 768px) {
+              .contact-item {
+                flex-direction: row;
+                align-items: flex-start;
+                text-align: left;
+              }
+              .contact-item-content {
+                align-items: flex-start;
+              }
+            }
+          `}} />
+          <div className="footer-links-container">
+            {footerLinks.map((section) => (
+              <div key={section.title}>
+                <h4 style={{ color: 'white', fontSize: '1.125rem', fontWeight: '600', marginBottom: '24px' }}>
+                  {section.title}
+                </h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                        onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'}
+                        onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
 
           {/* Contact section */}
           <div>
@@ -246,25 +316,37 @@ export default function Footer() {
               Contact Us
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#d1d5db' }}>
+              <li className="contact-item" style={{ gap: '12px', color: '#d1d5db' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.875rem' }}>
+                <div className="contact-item-content" style={{ gap: '4px', fontSize: '0.875rem' }}>
                   <a href="mailto:info@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>info@northonsprmarketing.com</a>
                   <a href="mailto:dhruva@northonsprmarketing.com" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>dhruva@northonsprmarketing.com</a>
                 </div>
               </li>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#d1d5db' }}>
+              <li className="contact-item" style={{ gap: '12px', color: '#d1d5db' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.875rem' }}>
+                <div className="contact-item-content" style={{ gap: '4px', fontSize: '0.875rem' }}>
                   <a href="tel:+4402038130457" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>+44 (0)203-813-0457 (UK)</a>
                   <a href="tel:+919054575950" style={{ color: '#d1d5db', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>+91 90545 75950 (IN)</a>
                 </div>
               </li>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#d1d5db' }}>
+              <li className="contact-item" style={{ gap: '12px', color: '#d1d5db' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.875rem' }}>
-                  <span>UK: Dover, CT16 1PJ</span>
-                  <span>IN: Ahmedabad, Gujarat</span>
+                <div className="contact-item-content" style={{ gap: '12px', fontSize: '0.875rem' }}>
+                  <div className="contact-item-content" style={{ gap: '2px' }}>
+                    <span className="block md:hidden text-white font-semibold" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
+                      <img src="https://flagcdn.com/w20/gb.png" srcSet="https://flagcdn.com/w40/gb.png 2x" width="20" alt="UK" />
+                      United Kingdom Office
+                    </span>
+                    <span>UK: 60 Castle Street, Dover, CT16 1PJ, United Kingdom</span>
+                  </div>
+                  <div className="contact-item-content" style={{ gap: '2px' }}>
+                    <span className="block md:hidden text-white font-semibold" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
+                      <img src="https://flagcdn.com/w20/in.png" srcSet="https://flagcdn.com/w40/in.png 2x" width="20" alt="India" />
+                      India Office
+                    </span>
+                    <span>IN: E-606, Prahlad Nagar Trade Center(PNTC), Times Of India Press Rd, Satellite, Shyamal, Ahmedabad, Gujarat, India, 380015</span>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -274,16 +356,7 @@ export default function Footer() {
         <hr style={{ borderTop: '1px solid #374151', margin: '32px 0' }} />
 
         {/* Footer bottom */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '16px',
-          fontSize: '0.875rem',
-          color: '#9ca3af'
-        }}>
+        <div className="footer-bottom">
           {/* Copyright */}
           <p style={{ margin: 0 }}>
             &copy; {new Date().getFullYear()} WIPA. All rights reserved.
@@ -291,7 +364,7 @@ export default function Footer() {
           
           <DoodleSocials />
           
-          <span style={{ fontSize: '0.875rem' }}>Product of Northon's Media PR & Marketing Ltd</span>
+          <span className="product-line">Product of Northon's Media PR & Marketing Ltd</span>
         </div>
       </div>
 
@@ -302,7 +375,7 @@ export default function Footer() {
         marginTop: '-120px',
         marginBottom: '-120px',
         position: 'relative',
-        zIndex: 50
+        zIndex: 0
       }}>
         <TextHoverEffect text="WIPA" />
       </div>

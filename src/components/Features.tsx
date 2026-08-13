@@ -59,10 +59,10 @@ export default function Features() {
 
         <StaggerGrid className="bento-grid">
           {features.map((f, i) => (
-            <TiltCard key={i} className={`bento-card ${f.style} feature-card`} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <TiltCard key={i} className={`bento-card ${f.style} feature-card`} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', textAlign: 'center' }}>
               <div style={{ zIndex: 2, position: 'relative' }}>
-                <h3 className="heading-md" style={{ marginBottom: '15px' }}>{f.title}</h3>
-                <p style={{ fontSize: '1.1rem', opacity: 0.9 }}>{f.desc}</p>
+                <h3 className="heading-md" style={{ marginBottom: '15px', textAlign: 'center' }}>{f.title}</h3>
+                <p style={{ fontSize: '1.1rem', opacity: 0.9, textAlign: 'center' }}>{f.desc}</p>
               </div>
               {f.img && (
                 <div style={{ marginTop: '25px', flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '2px solid var(--color-black)', minHeight: '140px', position: 'relative', zIndex: 1 }}>
