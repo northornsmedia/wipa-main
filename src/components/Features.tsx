@@ -11,7 +11,8 @@ const features = [
   { title: "Resource Library", desc: "Explore the Resource Library with Future AI-Powered Search.", hoverDetails: "Access exclusive templates, legal updates, and research papers powered by an intelligent search engine.", style: "bg-pastel-pink span-2", img: "/images/mentorship_mockup_1785398688205.png" },
   { title: "Job Board", desc: "Discover career opportunities and Member Notifications.", hoverDetails: "Find top-tier opportunities in patents, trademarks, and copyright, or recruit the brightest minds in IP.", style: "bg-pastel-yellow span-2 row-span-2", img: "/jobs-board.png" },
   { title: "Events & Webinars", desc: "Access the Events Calendar and Webinar Centre.", hoverDetails: "RSVP to exclusive roundtables, masterclasses, and local chapter meetups directly from your dashboard.", style: "bg-charcoal span-2", img: "/events.png" },
-  { title: "Mobile Access", desc: "Stay connected wherever you are in the world.", hoverDetails: "Take the entire WIPA network with you. Seamlessly connect on iOS and Android devices.", style: "bg-pastel-purple span-2" },
+  { title: "Mobile Access", desc: "Stay connected wherever you are in the world.", hoverDetails: "Take the entire WIPA network with you. Seamlessly connect on iOS and Android devices.", style: "bg-pastel-purple span-2 row-span-2", img: "/new mac.png" },
+  { title: "Build Your Profile", desc: "Create a standout profile to showcase your expertise.", hoverDetails: "Highlight your achievements, showcase your experience, and build your personal brand within the IP community.", style: "bg-pastel-pink span-2", img: "https://pixlr-promos.s3.amazonaws.com/seo-contents/one-profile-picture-all-social-media-platforms.webp" },
 ];
 
 export default function Features() {
