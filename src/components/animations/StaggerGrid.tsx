@@ -14,20 +14,20 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
     },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: -150, scale: 0.9 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 120, damping: 12 } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 14 } },
 };
 
 export default function StaggerGrid({ children, className, style }: StaggerGridProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-10%" });
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -40px 0px" });
 
   return (
     <motion.div
