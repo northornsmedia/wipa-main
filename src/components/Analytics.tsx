@@ -63,7 +63,13 @@ export default function Analytics() {
         const sessionId = generateSessionId();
         const userAgent = window.navigator.userAgent;
         
-        // Don't track if they are on the admin page
+        // Don't track if on localhost, 127.0.0.1, or admin page
+        if (typeof window !== "undefined") {
+          const hostname = window.location.hostname;
+          if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".local") || hostname === "") {
+            return;
+          }
+        }
         if (pathname?.startsWith('/adminwipa')) return;
 
         let country = "Unknown";
