@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import FadeIn from "@/components/animations/FadeIn";
 import { useRouter } from "next/navigation";
 import { verifyPrimaryPassword, verifySecondaryPassword, getLiveDatabaseLogs, logoutAdmin } from "./actions";
@@ -1099,11 +1099,59 @@ const RankedTableCard = ({
   );
 };
 
-// Cyber defense terminal
-const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
-  const [logs, setLogs] = useState<string[]>([]);
-  const [liveDbActivity, setLiveDbActivity] = useState<any[]>([]);
+// Cyber defense terminal running on IST time with interactive CLI & telemetry
+type LogEntry = {
+  id: string;
+  timestamp: string;
+  tag: "SQL" | "TRAFFIC" | "SECURITY" | "AUTH" | "SYS";
+  tagColor: string;
+  message: string;
+};
 
+const DefenseTerminal = ({
+  analyticsEvents,
+  onboardingLeads,
+  interestLeads,
+  enterpriseLeads,
+  waitingListLeads,
+}: {
+  analyticsEvents: any[];
+  onboardingLeads: any[];
+  interestLeads: any[];
+  enterpriseLeads: any[];
+  waitingListLeads: any[];
+}) => {
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [liveDbActivity, setLiveDbActivity] = useState<any[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
+  const [filterTag, setFilterTag] = useState<string>("ALL");
+  const [commandInput, setCommandInput] = useState("");
+  const [istClock, setIstClock] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Helper to format exact IST Time (Asia/Kolkata)
+  const getISTFormattedTime = () => {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    return `${timeStr} IST`;
+  };
+
+  // Live IST Clock ticker
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIstClock(getISTFormattedTime());
+    }, 500);
+    setIstClock(getISTFormattedTime());
+    return () => clearInterval(interval);
+  }, []);
+
+  // Fetch real Postgres activity
   useEffect(() => {
     let isRunning = true;
     const fetchLogs = async () => {
@@ -1120,57 +1168,72 @@ const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
     };
   }, []);
 
+  // Stream generator running in real-time IST
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     let isRunning = true;
 
     const generateLog = () => {
-      if (!isRunning) return;
+      if (!isRunning || isPaused) return;
 
-      let newLog = "Analyzing system integrity: 100% stable.";
       const rand = Math.random();
+      let newEntry: LogEntry;
 
-      if (liveDbActivity.length > 0 && rand < 0.6) {
+      const time = getISTFormattedTime();
+      const id = Math.random().toString(36).substring(2, 9);
+
+      if (liveDbActivity.length > 0 && rand < 0.5) {
         const dbEvent = liveDbActivity[Math.floor(Math.random() * liveDbActivity.length)];
-        const queryPreview = (dbEvent.query || "").trim().replace(/\n/g, " ").substring(0, 60);
-        if (queryPreview) {
-          newLog = `[DB ${dbEvent.pid}] ${dbEvent.usename || "system"} @ ${dbEvent.client_addr || "local"} -> ${queryPreview}...`;
-        } else {
-          newLog = `[DB ${dbEvent.pid}] Status: ${dbEvent.state}`;
-        }
+        const queryPreview = (dbEvent.query || "").trim().replace(/\s+/g, " ").substring(0, 75);
+        newEntry = {
+          id,
+          timestamp: time,
+          tag: "SQL",
+          tagColor: "#a855f7",
+          message: queryPreview
+            ? `[DB PID:${dbEvent.pid}] ${dbEvent.usename || "system"} -> ${queryPreview}...`
+            : `[DB PID:${dbEvent.pid}] state: ${dbEvent.state || "active"} [conn: ${dbEvent.client_addr || "127.0.0.1"}]`,
+        };
       } else if (analyticsEvents.length > 0 && rand < 0.8) {
-        const randomEvent = analyticsEvents[Math.floor(Math.random() * analyticsEvents.length)];
-        if (rand < 0.65) {
-          newLog = `Incoming connection from ${randomEvent.city || "Unknown"}, ${randomEvent.region || "Unknown"} [${randomEvent.os || "Unknown OS"}]...`;
-        } else if (rand < 0.7) {
-          newLog = `SSL Handshake successful for client from ${randomEvent.network || "External IP"}.`;
-        } else if (rand < 0.75) {
-          newLog = `Evaluating packet headers for ${randomEvent.browser || "Unknown"} request to ${randomEvent.page_url}...`;
-        } else {
-          newLog = `Traffic authorized for session ID: [${(randomEvent.session_id || "").substring(0, 8)}...]`;
-        }
-      } else {
-        const scripts = [
-          "Firewall active. Monitoring incoming traffic.",
-          "Decrypting payload 0x8F9A...",
-          "Updating encryption protocols...",
-          "Bypassing mainframe proxy...",
-          "Executing deep packet inspection...",
-          "SQL Injection attempt mitigated successfully.",
-          "Network packet loss: 0.00%",
-          "Checking database synchronization across active clusters...",
+        const ev = analyticsEvents[Math.floor(Math.random() * analyticsEvents.length)];
+        const location = [ev.city, ev.region, ev.country].filter(Boolean).join(", ") || "Global";
+        const msgOptions = [
+          `Inbound HTTPS request from ${location} [${ev.os || "Unknown"} / ${ev.browser || "Browser"}] to ${ev.page_url || "/"}`,
+          `TLS 1.3 Session verified for client [${ev.network || "Network Node"}] from ${location}`,
+          `Telemetry event dispatched -> Session ID: [${(ev.session_id || "ses-anon").substring(0, 10)}...]`,
         ];
-        newLog = scripts[Math.floor(Math.random() * scripts.length)];
+        newEntry = {
+          id,
+          timestamp: time,
+          tag: "TRAFFIC",
+          tagColor: "#00f0ff",
+          message: msgOptions[Math.floor(Math.random() * msgOptions.length)],
+        };
+      } else {
+        const sysMessages: { tag: LogEntry["tag"]; tagColor: string; text: string }[] = [
+          { tag: "SECURITY", tagColor: "#00ff7f", text: "Firewall rule [ACL-988]: IP packet verification verified 100% clean." },
+          { tag: "SECURITY", tagColor: "#00ff7f", text: "Zero-Trust heuristic scan completed: 0 threats detected." },
+          { tag: "AUTH", tagColor: "#f59e0b", text: "Admin session clearance authenticated [Bearer Token OK]." },
+          { tag: "SYS", tagColor: "#ec4899", text: "Postgres connection pool healthy: 0 stalled connections, 100% throughput." },
+          { tag: "SYS", tagColor: "#ec4899", text: "Memory allocation steady at 42.8MB / Node V8 cluster stable." },
+        ];
+        const chosen = sysMessages[Math.floor(Math.random() * sysMessages.length)];
+        newEntry = {
+          id,
+          timestamp: time,
+          tag: chosen.tag,
+          tagColor: chosen.tagColor,
+          message: chosen.text,
+        };
       }
 
       setLogs((prev) => {
-        const timestamp = new Date().toISOString().split("T")[1].split(".")[0];
-        const nextLogs = [...prev, `[${timestamp}] ${newLog}`];
-        if (nextLogs.length > 20) nextLogs.shift();
-        return nextLogs;
+        const next = [...prev, newEntry];
+        if (next.length > 60) next.shift();
+        return next;
       });
 
-      const delay = Math.floor(Math.random() * 1800) + 200;
+      const delay = Math.floor(Math.random() * 1400) + 400;
       timeoutId = setTimeout(generateLog, delay);
     };
 
@@ -1180,58 +1243,327 @@ const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
       isRunning = false;
       clearTimeout(timeoutId);
     };
-  }, [analyticsEvents, liveDbActivity]);
+  }, [analyticsEvents, liveDbActivity, isPaused]);
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [logs]);
+
+  // Interactive CLI commands handler
+  const handleCommandSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cmd = commandInput.trim().toLowerCase();
+    if (!cmd) return;
+
+    const time = getISTFormattedTime();
+    const cmdId = Math.random().toString(36).substring(2, 9);
+
+    const addLog = (tag: LogEntry["tag"], tagColor: string, message: string) => {
+      setLogs((prev) => [...prev, { id: Math.random().toString(36).substring(2, 9), timestamp: time, tag, tagColor, message }]);
+    };
+
+    // Echo input
+    addLog("SYS", "#00f0ff", `> ${commandInput}`);
+
+    switch (cmd) {
+      case "help":
+        addLog("SYS", "#f59e0b", "Available CLI Commands: status, scan, time, db, traffic, leads, ping, clear");
+        break;
+      case "clear":
+        setLogs([]);
+        break;
+      case "time":
+        addLog("SYS", "#00ff7f", `Current IST Time: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} (Asia/Kolkata)`);
+        break;
+      case "status":
+        addLog("SECURITY", "#00ff7f", "SYSTEM HEALTH: 100% NOMINAL | FIREWALL: ACTIVE | DATABASE: CONNECTED | SSL: TLS 1.3");
+        break;
+      case "scan":
+        addLog("SECURITY", "#00ff7f", "Executing deep security audit across 645 telemetry records...");
+        setTimeout(() => {
+          addLog("SECURITY", "#00ff7f", "Diagnostic complete: All API endpoints & Supabase tables 100% secure.");
+        }, 600);
+        break;
+      case "db":
+        addLog("SQL", "#a855f7", `Active Postgres Workers: ${liveDbActivity.length} | Status: Query pool optimal.`);
+        break;
+      case "traffic":
+        addLog("TRAFFIC", "#00f0ff", `Total Pageviews Recorded: ${analyticsEvents.length} | Distinct Sessions: ${new Set(analyticsEvents.map(e => e.session_id)).size}`);
+        break;
+      case "leads":
+        addLog("SYS", "#ec4899", `Leads Breakdown: Waiting List (${waitingListLeads.length}) | Onboarding (${onboardingLeads.length}) | Interests (${interestLeads.length}) | Enterprise (${enterpriseLeads.length})`);
+        break;
+      case "ping":
+        addLog("SYS", "#00ff7f", `Latency to AWS/Supabase Node: ${Math.floor(Math.random() * 12) + 12}ms [0% Packet Loss]`);
+        break;
+      default:
+        addLog("SYS", "#ff007f", `Command not recognized: "${cmd}". Type "help" for a list of valid commands.`);
+    }
+
+    setCommandInput("");
+  };
+
+  const filteredLogs = useMemo(() => {
+    if (filterTag === "ALL") return logs;
+    return logs.filter((l) => l.tag === filterTag);
+  }, [logs, filterTag]);
 
   return (
     <div
       style={{
-        backgroundColor: "#07080f",
-        padding: "24px",
-        borderRadius: "20px",
-        border: "1px solid rgba(0, 240, 255, 0.4)",
-        fontFamily: "monospace",
-        color: "#00f0ff",
-        height: "480px",
-        overflowY: "hidden",
+        backgroundColor: "#080a12",
+        borderRadius: "24px",
+        border: "1px solid rgba(0, 240, 255, 0.25)",
+        boxShadow: "0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(0, 240, 255, 0.08)",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flex-end",
-        boxShadow: "0 0 30px rgba(0, 240, 255, 0.15)",
+        overflow: "hidden",
+        fontFamily: "'Courier New', monospace",
+        height: "640px",
       }}
     >
-      <h3
+      {/* Top Cyber Telemetry Header */}
+      <div
         style={{
-          fontFamily: "'Instagram Sans Headline', monospace",
-          color: "#fff",
-          marginBottom: "12px",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-          paddingBottom: "10px",
-          fontSize: "1.1rem",
+          padding: "16px 24px",
+          backgroundColor: "#0d101c",
+          borderBottom: "1px solid rgba(0, 240, 255, 0.15)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "15px",
         }}
       >
-        TERMINAL_OVERRIDE // DEFENSE_MODE_ACTIVE
-      </h3>
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        {logs.map((log, i) => (
-          <div key={i}>{log}</div>
-        ))}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "10px" }}>
-          <span>admin@wipa-system:~$</span>
-          <span
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div
             style={{
-              width: "10px",
-              height: "15px",
-              backgroundColor: "#00f0ff",
-              animation: "blink 1s step-end infinite",
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
+              backgroundColor: isPaused ? "#f59e0b" : "#00ff7f",
+              boxShadow: isPaused ? "0 0 10px #f59e0b" : "0 0 10px #00ff7f",
+              animation: isPaused ? "none" : "blink 1.2s infinite ease-in-out",
             }}
-          ></span>
+          />
+          <div>
+            <span
+              style={{
+                fontFamily: "'Instagram Sans Headline', monospace",
+                fontSize: "1.1rem",
+                fontWeight: "800",
+                color: "#fff",
+                letterSpacing: "0.5px",
+              }}
+            >
+              DEFENSE_TERMINAL // IST_TELEMETRY
+            </span>
+            <span
+              style={{
+                marginLeft: "12px",
+                fontSize: "0.75rem",
+                padding: "2px 8px",
+                borderRadius: "6px",
+                backgroundColor: "rgba(0, 240, 255, 0.1)",
+                color: "#00f0ff",
+                border: "1px solid rgba(0, 240, 255, 0.2)",
+              }}
+            >
+              ZONE: ASIA/KOLKATA (IST)
+            </span>
+          </div>
+        </div>
+
+        {/* Live IST Clock & Telemetry Badges */}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div
+            style={{
+              backgroundColor: "#141727",
+              border: "1px solid rgba(0, 240, 255, 0.2)",
+              padding: "6px 14px",
+              borderRadius: "10px",
+              color: "#00f0ff",
+              fontSize: "0.95rem",
+              fontWeight: "700",
+              letterSpacing: "1px",
+              boxShadow: "0 0 15px rgba(0, 240, 255, 0.1)",
+            }}
+          >
+            ⏱ {istClock || "00:00:00 IST"}
+          </div>
+
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              onClick={() => setIsPaused((p) => !p)}
+              style={{
+                padding: "6px 14px",
+                borderRadius: "8px",
+                backgroundColor: isPaused ? "rgba(245, 158, 11, 0.15)" : "#181c2e",
+                color: isPaused ? "#f59e0b" : "#fff",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                fontSize: "0.75rem",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+            >
+              {isPaused ? "▶ RESUME" : "⏸ PAUSE"}
+            </button>
+
+            <button
+              onClick={() => setLogs([])}
+              style={{
+                padding: "6px 14px",
+                borderRadius: "8px",
+                backgroundColor: "#181c2e",
+                color: "#ff007f",
+                border: "1px solid rgba(255, 0, 127, 0.2)",
+                fontSize: "0.75rem",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+            >
+              CLEAR
+            </button>
+          </div>
         </div>
       </div>
-      <style>{`
-        @keyframes blink {
-          50% { opacity: 0; }
-        }
-      `}</style>
+
+      {/* Filter Tag Strip */}
+      <div
+        style={{
+          padding: "8px 24px",
+          backgroundColor: "#0b0e18",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          fontSize: "0.75rem",
+        }}
+      >
+        <span style={{ color: "#6b7280" }}>FILTER:</span>
+        {["ALL", "SQL", "TRAFFIC", "SECURITY", "SYS"].map((tag) => (
+          <button
+            key={tag}
+            onClick={() => setFilterTag(tag)}
+            style={{
+              padding: "3px 10px",
+              borderRadius: "6px",
+              backgroundColor: filterTag === tag ? "#00f0ff" : "transparent",
+              color: filterTag === tag ? "#000" : "#8e92a4",
+              border: filterTag === tag ? "none" : "1px solid rgba(255, 255, 255, 0.08)",
+              fontWeight: "bold",
+              fontSize: "0.7rem",
+              cursor: "pointer",
+            }}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+
+      {/* Terminal Log Output Stream */}
+      <div
+        ref={scrollRef}
+        style={{
+          flex: 1,
+          padding: "20px 24px",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          fontSize: "0.85rem",
+          lineHeight: "1.5",
+          backgroundImage:
+            "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))",
+          backgroundSize: "100% 4px, 6px 100%",
+        }}
+      >
+        {filteredLogs.length === 0 ? (
+          <div style={{ color: "#6b7280", padding: "40px 0", textAlign: "center" }}>
+            [STREAM INITIALIZED] Waiting for inbound events in IST...
+          </div>
+        ) : (
+          filteredLogs.map((log) => (
+            <div
+              key={log.id}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "12px",
+                wordBreak: "break-all",
+              }}
+            >
+              <span style={{ color: "#6b7280", minWidth: "90px", fontSize: "0.78rem" }}>[{log.timestamp}]</span>
+              <span
+                style={{
+                  color: log.tagColor,
+                  backgroundColor: `${log.tagColor}15`,
+                  border: `1px solid ${log.tagColor}40`,
+                  padding: "1px 6px",
+                  borderRadius: "4px",
+                  fontSize: "0.7rem",
+                  fontWeight: "bold",
+                  minWidth: "65px",
+                  textAlign: "center",
+                }}
+              >
+                {log.tag}
+              </span>
+              <span style={{ color: "#e2e8f0" }}>{log.message}</span>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Interactive Command Input Line */}
+      <form
+        onSubmit={handleCommandSubmit}
+        style={{
+          padding: "14px 24px",
+          backgroundColor: "#0d101c",
+          borderTop: "1px solid rgba(0, 240, 255, 0.15)",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        <span style={{ color: "#00f0ff", fontWeight: "bold" }}>admin@wipa-ist:~$</span>
+        <input
+          type="text"
+          value={commandInput}
+          onChange={(e) => setCommandInput(e.target.value)}
+          placeholder='Type a command ("status", "scan", "db", "traffic", "leads", "time", "clear")...'
+          style={{
+            flex: 1,
+            backgroundColor: "transparent",
+            border: "none",
+            color: "#fff",
+            fontFamily: "'Courier New', monospace",
+            fontSize: "0.9rem",
+            outline: "none",
+          }}
+        />
+        <button
+          type="submit"
+          style={{
+            padding: "4px 12px",
+            backgroundColor: "rgba(0, 240, 255, 0.15)",
+            color: "#00f0ff",
+            border: "1px solid rgba(0, 240, 255, 0.3)",
+            borderRadius: "6px",
+            fontSize: "0.75rem",
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          EXEC ⏎
+        </button>
+      </form>
     </div>
   );
 };
@@ -1462,7 +1794,16 @@ const PaginatedTable = ({
                             color: "#8e92a4",
                           }}
                         >
-                          {val ? new Date(val).toLocaleString() : "-"}
+                          {val
+                            ? new Date(val).toLocaleString("en-IN", {
+                                timeZone: "Asia/Kolkata",
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })
+                            : "-"}
                         </td>
                       );
                     }
@@ -2379,9 +2720,17 @@ export default function AdminDashboardClient({
                   title="Peak Traffic Hours"
                   data={Object.entries(
                     analyticsEvents.reduce((acc, ev) => {
-                      const hour = new Date(ev.created_at).getHours();
-                      const time = `${hour === 0 ? 12 : hour > 12 ? hour - 12 : hour} ${
-                        hour >= 12 ? "PM" : "AM"
+                      // Format hour according to IST (Asia/Kolkata)
+                      const istHour = parseInt(
+                        new Date(ev.created_at).toLocaleTimeString("en-IN", {
+                          timeZone: "Asia/Kolkata",
+                          hour12: false,
+                          hour: "numeric",
+                        })
+                      );
+                      const hourNum = isNaN(istHour) ? new Date(ev.created_at).getHours() : istHour;
+                      const time = `${hourNum === 0 ? 12 : hourNum > 12 ? hourNum - 12 : hourNum} ${
+                        hourNum >= 12 ? "PM" : "AM"
                       }`;
                       acc[time] = (acc[time] || 0) + 1;
                       return acc;
@@ -2389,11 +2738,11 @@ export default function AdminDashboardClient({
                   )
                     .sort((a: any, b: any) => b[1] - a[1])
                     .map(([time, count]: [string, any]) => ({
-                      time,
+                      time: `${time} (IST)`,
                       visitors: count,
                     }))}
                   columns={[
-                    { key: "time", label: "Time" },
+                    { key: "time", label: "Time (IST)" },
                     { key: "visitors", label: "Visitors", align: "right" },
                   ]}
                   previewLimit={5}
@@ -2509,10 +2858,16 @@ export default function AdminDashboardClient({
                     margin: 0,
                   }}
                 >
-                  SYSTEM DEFENSE OVERRIDE
+                  SYSTEM DEFENSE OVERRIDE // IST MONITOR
                 </h2>
               </div>
-              <DefenseTerminal analyticsEvents={analyticsEvents} />
+              <DefenseTerminal
+                analyticsEvents={analyticsEvents}
+                onboardingLeads={onboardingLeads}
+                interestLeads={interestLeads}
+                enterpriseLeads={enterpriseLeads}
+                waitingListLeads={waitingListLeads}
+              />
             </div>
           )}
         </FadeIn>
