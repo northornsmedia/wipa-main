@@ -528,6 +528,533 @@ const BreakdownCard = ({
   );
 };
 
+const RankedTableCard = ({
+  title,
+  data,
+  columns,
+  previewLimit = 5,
+}: {
+  title: string;
+  data: any[];
+  columns: { key: string; label: string; align?: "left" | "right" | "center" }[];
+  previewLimit?: number;
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const previewData = data.slice(0, previewLimit);
+  const hasMore = data.length > previewLimit;
+
+  const filteredData = data.filter((row) =>
+    Object.values(row).some((val) =>
+      String(val).toLowerCase().includes(searchQuery.toLowerCase().trim())
+    )
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+    if (isModalOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen]);
+
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: "#1c1f2e",
+          borderRadius: "20px",
+          padding: "25px",
+          border: "1px solid #2d3142",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+          minHeight: "400px",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "18px",
+            }}
+          >
+            <h3
+              style={{
+                color: "#fff",
+                fontSize: "1.15rem",
+                fontWeight: "600",
+                margin: 0,
+              }}
+            >
+              {title}
+            </h3>
+            {data.length > 0 && (
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  color: "#00f0ff",
+                  backgroundColor: "rgba(0, 240, 255, 0.1)",
+                  padding: "4px 10px",
+                  borderRadius: "20px",
+                  fontWeight: "bold",
+                  border: "1px solid rgba(0, 240, 255, 0.2)",
+                }}
+              >
+                {data.length} records
+              </span>
+            )}
+          </div>
+
+          {data.length === 0 ? (
+            <p
+              style={{
+                color: "#7a7e93",
+                textAlign: "center",
+                padding: "40px 0",
+                fontSize: "0.9rem",
+              }}
+            >
+              No data available yet.
+            </p>
+          ) : (
+            <div style={{ overflowX: "auto" }}>
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  color: "#b3b7c6",
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th
+                      style={{
+                        padding: "10px 8px",
+                        textAlign: "left",
+                        borderBottom: "1px solid #2d3142",
+                        color: "#7a7e93",
+                        fontSize: "0.75rem",
+                        textTransform: "uppercase",
+                        letterSpacing: "1px",
+                        width: "35px",
+                      }}
+                    >
+                      #
+                    </th>
+                    {columns.map((col) => (
+                      <th
+                        key={col.key}
+                        style={{
+                          padding: "10px 12px",
+                          textAlign: col.align || "left",
+                          borderBottom: "1px solid #2d3142",
+                          color: "#fff",
+                          fontSize: "0.75rem",
+                          textTransform: "uppercase",
+                          letterSpacing: "1px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {col.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {previewData.map((row, i) => (
+                    <tr
+                      key={i}
+                      style={{
+                        borderBottom: "1px solid rgba(45, 49, 66, 0.6)",
+                        transition: "background-color 0.15s",
+                      }}
+                      onMouseOver={(e) =>
+                        (e.currentTarget.style.backgroundColor = "#24283b")
+                      }
+                      onMouseOut={(e) =>
+                        (e.currentTarget.style.backgroundColor = "transparent")
+                      }
+                    >
+                      <td
+                        style={{
+                          padding: "12px 8px",
+                          fontSize: "0.8rem",
+                          color: "#7a7e93",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {i + 1}
+                      </td>
+                      {columns.map((col) => (
+                        <td
+                          key={col.key}
+                          style={{
+                            padding: "12px",
+                            fontSize: "0.85rem",
+                            textAlign: col.align || "left",
+                            color:
+                              col.key === "views" || col.key === "visitors"
+                                ? "#00f0ff"
+                                : "#fff",
+                            fontWeight:
+                              col.key === "views" || col.key === "visitors"
+                                ? "bold"
+                                : "normal",
+                            maxWidth: "220px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {row[col.key]}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {hasMore && (
+          <button
+            onClick={() => {
+              setSearchQuery("");
+              setIsModalOpen(true);
+            }}
+            style={{
+              marginTop: "20px",
+              width: "100%",
+              padding: "10px 16px",
+              backgroundColor: "#24283b",
+              color: "#00f0ff",
+              border: "1px solid #2d3142",
+              borderRadius: "10px",
+              fontWeight: "bold",
+              fontSize: "0.85rem",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              transition: "all 0.2s ease",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "#2d324d";
+              e.currentTarget.style.borderColor = "#00f0ff";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "#24283b";
+              e.currentTarget.style.borderColor = "#2d3142";
+              e.currentTarget.style.transform = "none";
+            }}
+          >
+            <span>See All ({data.length})</span>
+            <span style={{ fontSize: "1.1rem" }}>→</span>
+          </button>
+        )}
+      </div>
+
+      {/* Modal Popup */}
+      {isModalOpen && (
+        <div
+          onClick={() => setIsModalOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(5, 7, 10, 0.85)",
+            backdropFilter: "blur(8px)",
+            zIndex: 99999,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "20px",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: "#161926",
+              border: "1px solid #2d3142",
+              borderRadius: "24px",
+              boxShadow:
+                "0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.15)",
+              width: "100%",
+              maxWidth: "750px",
+              maxHeight: "85vh",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            {/* Modal Header */}
+            <div
+              style={{
+                padding: "20px 25px",
+                borderBottom: "1px solid #2d3142",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                backgroundColor: "#1c1f2e",
+              }}
+            >
+              <div>
+                <h2
+                  style={{
+                    color: "#fff",
+                    fontSize: "1.3rem",
+                    fontWeight: "700",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  {title}
+                  <span
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "#00f0ff",
+                      backgroundColor: "rgba(0, 240, 255, 0.12)",
+                      padding: "3px 10px",
+                      borderRadius: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {data.length} total
+                  </span>
+                </h2>
+                <p
+                  style={{
+                    color: "#7a7e93",
+                    fontSize: "0.85rem",
+                    margin: "4px 0 0 0",
+                  }}
+                >
+                  Complete breakdown and rankings
+                </p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  backgroundColor: "#24283b",
+                  border: "1px solid #2d3142",
+                  color: "#fff",
+                  fontSize: "1.1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#ff007f";
+                  e.currentTarget.style.borderColor = "#ff007f";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#24283b";
+                  e.currentTarget.style.borderColor = "#2d3142";
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div
+              style={{
+                padding: "15px 25px",
+                borderBottom: "1px solid #24283b",
+                backgroundColor: "#121420",
+              }}
+            >
+              <input
+                type="text"
+                placeholder={`Search in ${title.toLowerCase()}...`}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  backgroundColor: "#1c1f2e",
+                  border: "1px solid #2d3142",
+                  color: "#fff",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "#00f0ff")}
+                onBlur={(e) => (e.target.style.borderColor = "#2d3142")}
+              />
+            </div>
+
+            {/* Modal Body */}
+            <div
+              style={{
+                padding: "20px 25px",
+                overflowY: "auto",
+                flex: 1,
+              }}
+            >
+              {filteredData.length === 0 ? (
+                <div
+                  style={{
+                    padding: "40px 20px",
+                    textAlign: "center",
+                    color: "#7a7e93",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  No results found for "{searchQuery}".
+                </div>
+              ) : (
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    color: "#b3b7c6",
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        style={{
+                          padding: "10px 8px",
+                          textAlign: "left",
+                          borderBottom: "2px solid #2d3142",
+                          color: "#7a7e93",
+                          fontSize: "0.75rem",
+                          textTransform: "uppercase",
+                          letterSpacing: "1px",
+                          width: "35px",
+                        }}
+                      >
+                        #
+                      </th>
+                      {columns.map((col) => (
+                        <th
+                          key={col.key}
+                          style={{
+                            padding: "10px 12px",
+                            textAlign: col.align || "left",
+                            borderBottom: "2px solid #2d3142",
+                            color: "#fff",
+                            fontSize: "0.75rem",
+                            textTransform: "uppercase",
+                            letterSpacing: "1px",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {col.label}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((row, i) => (
+                      <tr
+                        key={i}
+                        style={{
+                          borderBottom: "1px solid #2d3142",
+                          transition: "background-color 0.15s",
+                        }}
+                        onMouseOver={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#24283b")
+                        }
+                        onMouseOut={(e) =>
+                          (e.currentTarget.style.backgroundColor = "transparent")
+                        }
+                      >
+                        <td
+                          style={{
+                            padding: "12px 8px",
+                            fontSize: "0.8rem",
+                            color: "#7a7e93",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {i + 1}
+                        </td>
+                        {columns.map((col) => (
+                          <td
+                            key={col.key}
+                            style={{
+                              padding: "12px",
+                              fontSize: "0.85rem",
+                              textAlign: col.align || "left",
+                              color:
+                                col.key === "views" || col.key === "visitors"
+                                  ? "#00f0ff"
+                                  : "#fff",
+                              fontWeight:
+                                col.key === "views" || col.key === "visitors"
+                                  ? "bold"
+                                  : "normal",
+                            }}
+                          >
+                            {row[col.key]}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div
+              style={{
+                padding: "15px 25px",
+                borderTop: "1px solid #2d3142",
+                display: "flex",
+                justifyContent: "flex-end",
+                backgroundColor: "#1c1f2e",
+              }}
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                style={{
+                  padding: "8px 20px",
+                  backgroundColor: "#24283b",
+                  border: "1px solid #2d3142",
+                  color: "#fff",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "0.85rem",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#2d324d")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#24283b")
+                }
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
 const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
   const [logs, setLogs] = useState<string[]>([]);
   const [liveDbActivity, setLiveDbActivity] = useState<any[]>([]);
@@ -949,27 +1476,53 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
 
               </div>
               
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px", marginBottom: "40px" }}>
-                <PaginatedTable title="Top Landing Pages" data={Object.entries(analyticsEvents.reduce((acc, ev) => {
-                  if (!acc[ev.page_url]) acc[ev.page_url] = { views: 0, sessions: new Set<string>() };
-                  acc[ev.page_url].views++;
-                  acc[ev.page_url].sessions.add(ev.session_id);
-                  return acc;
-                }, {} as Record<string, { views: number, sessions: Set<string> }>)).sort((a: any, b: any) => b[1].views - a[1].views).map(([url, data]: [string, any]) => ({
-                  page_url: url.replace(typeof window !== "undefined" ? window.location.origin : "", ""),
-                  views: data.views,
-                  unique_visitors: data.sessions.size
-                }))} columns={['page_url', 'views', 'unique_visitors']} />
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "25px", marginBottom: "40px" }}>
+                <RankedTableCard 
+                  title="Top Landing Pages" 
+                  data={Object.entries(analyticsEvents.reduce((acc, ev) => {
+                    let url = ev.page_url || "/";
+                    try {
+                      if (url.startsWith("http://") || url.startsWith("https://")) {
+                        const parsed = new URL(url);
+                        url = parsed.pathname || "/";
+                      }
+                    } catch (e) {}
+                    url = url.replace(/^https?:\/\/[^\/]+/, "").split("?")[0] || "/";
+                    
+                    if (!acc[url]) acc[url] = { views: 0, sessions: new Set<string>() };
+                    acc[url].views++;
+                    acc[url].sessions.add(ev.session_id);
+                    return acc;
+                  }, {} as Record<string, { views: number, sessions: Set<string> }>)).sort((a: any, b: any) => b[1].views - a[1].views).map(([url, data]: [string, any]) => ({
+                    page_url: url,
+                    views: data.views,
+                    unique_visitors: data.sessions.size
+                  }))} 
+                  columns={[
+                    { key: 'page_url', label: 'Page URL' },
+                    { key: 'views', label: 'Views', align: 'right' },
+                    { key: 'unique_visitors', label: 'Unique Visitors', align: 'right' }
+                  ]}
+                  previewLimit={5}
+                />
                 
-                <PaginatedTable title="Peak Traffic Hours" data={Object.entries(analyticsEvents.reduce((acc, ev) => {
-                  const hour = new Date(ev.created_at).getHours();
-                  const time = `${hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour)} ${hour >= 12 ? 'PM' : 'AM'}`;
-                  acc[time] = (acc[time] || 0) + 1;
-                  return acc;
-                }, {} as Record<string, number>)).sort((a: any, b: any) => b[1] - a[1]).map(([time, count]: [string, any]) => ({
-                  time,
-                  visitors: count
-                }))} columns={['time', 'visitors']} />
+                <RankedTableCard 
+                  title="Peak Traffic Hours" 
+                  data={Object.entries(analyticsEvents.reduce((acc, ev) => {
+                    const hour = new Date(ev.created_at).getHours();
+                    const time = `${hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour)} ${hour >= 12 ? 'PM' : 'AM'}`;
+                    acc[time] = (acc[time] || 0) + 1;
+                    return acc;
+                  }, {} as Record<string, number>)).sort((a: any, b: any) => b[1] - a[1]).map(([time, count]: [string, any]) => ({
+                    time,
+                    visitors: count
+                  }))} 
+                  columns={[
+                    { key: 'time', label: 'Time' },
+                    { key: 'visitors', label: 'Visitors', align: 'right' }
+                  ]}
+                  previewLimit={5}
+                />
               </div>
 
               <PaginatedTable title="Recent Traffic Events" data={analyticsEvents} columns={['session_id', 'page_url', 'city', 'region', 'country', 'network', 'os', 'created_at']} />
