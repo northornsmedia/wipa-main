@@ -12,19 +12,23 @@ import { funnyErrorMessages, funnySuccessMessages } from "@/data/phoneMessages";
 import FloatingGrid from "@/components/animations/FloatingGrid";
 
 const countryOptions = allCountries
-  .map(c => ({
-    value: c.iso2.toUpperCase(),
-    label: c.name,
-    dialCode: `+${c.dialCode}`,
-  }))
-  .sort((a, b) => a.label.localeCompare(b.label));
+  .map(c => {
+    const cleanName = c.name.replace(/\s*\([^)]*\)/g, '').trim();
+    return {
+      value: c.iso2.toUpperCase(),
+      name: cleanName,
+      label: `${cleanName} (+${c.dialCode})`,
+      dialCode: `+${c.dialCode}`,
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 const formatOptionLabel = ({ value, label }: any) => (
   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
     <img 
       src={`https://flagcdn.com/w20/${value.toLowerCase()}.png`} 
       alt={value} 
-      style={{ width: "20px", height: "15px", objectFit: "cover", border: "1px solid rgba(0,0,0,0.1)" }} 
+      style={{ width: "20px", height: "15px", objectFit: "cover", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "2px" }} 
     />
     <span>{label}</span>
   </div>
@@ -212,14 +216,23 @@ export default function WaitingListPage() {
     setIsLoading(true);
     
     try {
+      const countryObj = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "US");
+      const fullCountryName = countryObj ? `${countryObj.name} (${countryObj.dialCode})` : formData.country;
+      const currentDialCode = countryObj ? countryObj.dialCode : "+1";
+
+      let formattedPhone = formData.phone.trim();
+      if (!formattedPhone.startsWith('+')) {
+        formattedPhone = `${currentDialCode} ${formattedPhone}`;
+      }
+
       const res = await fetch("/api/waiting-list", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: formData.title,
           name: formData.name,
-          country: formData.country,
-          phone: formData.phone,
+          country: fullCountryName,
+          phone: formattedPhone,
           email: formData.email,
           company: formData.company,
           profession: formData.profession,
@@ -370,6 +383,32 @@ export default function WaitingListPage() {
                 </div>
                 
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Company Name</label>
+                  <input 
+                    type="text" 
+                    name="company" 
+                    required={formData.plan !== 'Student Membership'}
+                    placeholder="Where do you work?"
+                    value={formData.company} 
+                    onChange={handleChange}
+                    style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                  />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Who are you? (Role)</label>
+                  <input 
+                    type="text" 
+                    name="profession" 
+                    required
+                    placeholder="e.g. Patent Attorney, Founder, Student..."
+                    value={formData.profession} 
+                    onChange={handleChange}
+                    style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                  />
+                </div>
+                
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Which plan are you interested in?</label>
                   <Select
                     options={planOptions}
@@ -457,34 +496,6 @@ export default function WaitingListPage() {
                     />
                   </div>
                 )}
-
-                {formData.plan !== 'Student Membership' && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Company Name</label>
-                    <input 
-                      type="text" 
-                      name="company" 
-                      required={formData.plan !== 'Student Membership'}
-                      placeholder="Where do you work?"
-                      value={formData.company} 
-                      onChange={handleChange}
-                      style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
-                    />
-                  </div>
-                )}
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Who are you? (Role)</label>
-                  <input 
-                    type="text" 
-                    name="profession" 
-                    required
-                    placeholder="e.g. Patent Attorney, Founder, Student..."
-                    value={formData.profession} 
-                    onChange={handleChange}
-                    style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
-                  />
-                </div>
 
                 {error && (
                   <div style={{ padding: "15px", backgroundColor: "#ffebee", border: "2px solid #ef5350", color: "#c62828", borderRadius: "12px", fontWeight: "bold", textAlign: "center" }}>

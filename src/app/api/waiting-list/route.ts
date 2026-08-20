@@ -1,5 +1,29 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { allCountries } from "country-telephone-data";
+
+function formatCountryAndPhone(countryInput?: string, phoneInput?: string) {
+  let formattedCountry = countryInput?.trim() || "";
+  let formattedPhone = phoneInput?.trim() || "";
+
+  // Check if countryInput matches an iso2 code or country name
+  const match = allCountries.find(
+    c => c.iso2.toUpperCase() === (countryInput || "").toUpperCase().trim() ||
+         c.name.toLowerCase() === (countryInput || "").toLowerCase().trim() ||
+         c.name.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase() === (countryInput || "").toLowerCase().trim()
+  );
+
+  if (match) {
+    const cleanName = match.name.replace(/\s*\([^)]*\)/g, '').trim();
+    formattedCountry = `${cleanName} (+${match.dialCode})`;
+
+    if (formattedPhone && !formattedPhone.startsWith("+")) {
+      formattedPhone = `+${match.dialCode} ${formattedPhone}`;
+    }
+  }
+
+  return { formattedCountry, formattedPhone };
+}
 
 export async function POST(req: Request) {
   try {
@@ -27,6 +51,8 @@ export async function POST(req: Request) {
       );
     }
 
+    const { formattedCountry, formattedPhone } = formatCountryAndPhone(country, phone);
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
     
@@ -38,8 +64,8 @@ export async function POST(req: Request) {
         {
           title,
           name,
-          country,
-          phone,
+          country: formattedCountry || country,
+          phone: formattedPhone || phone,
           email,
           company,
           profession,

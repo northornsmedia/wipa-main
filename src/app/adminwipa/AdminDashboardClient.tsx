@@ -44,6 +44,490 @@ const CircularProgress = ({ percentage, color, label, value }: { percentage: num
   );
 };
 
+const BreakdownCard = ({
+  title,
+  data,
+  totalEvents,
+  colors,
+  previewLimit = 4,
+}: {
+  title: string;
+  data: Record<string, number>;
+  totalEvents: number;
+  colors: string[];
+  previewLimit?: number;
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const sortedEntries = Object.entries(data).sort(
+    (a, b) => (b[1] as number) - (a[1] as number)
+  );
+
+  const previewEntries = sortedEntries.slice(0, previewLimit);
+  const hasMore = sortedEntries.length > previewLimit;
+
+  const filteredEntries = sortedEntries.filter(([label]) =>
+    label.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+    if (isModalOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen]);
+
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: "#1c1f2e",
+          padding: "25px",
+          borderRadius: "20px",
+          border: "1px solid #2d3142",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          minHeight: "380px",
+          position: "relative",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "20px",
+            }}
+          >
+            <h3
+              style={{
+                color: "#fff",
+                fontSize: "1.15rem",
+                fontWeight: "600",
+                margin: 0,
+              }}
+            >
+              {title}
+            </h3>
+            {sortedEntries.length > 0 && (
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  color: "#00f0ff",
+                  backgroundColor: "rgba(0, 240, 255, 0.1)",
+                  padding: "4px 10px",
+                  borderRadius: "20px",
+                  fontWeight: "bold",
+                  border: "1px solid rgba(0, 240, 255, 0.2)",
+                }}
+              >
+                {sortedEntries.length} total
+              </span>
+            )}
+          </div>
+
+          {sortedEntries.length === 0 ? (
+            <p
+              style={{
+                color: "#7a7e93",
+                textAlign: "center",
+                padding: "40px 0",
+                fontSize: "0.9rem",
+              }}
+            >
+              No data recorded yet.
+            </p>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: previewEntries.length === 1 ? "1fr" : "1fr 1fr",
+                gap: "15px",
+                justifyItems: "center",
+                alignItems: "center",
+              }}
+            >
+              {previewEntries.map(([label, count], index) => {
+                const percentage = Math.round(
+                  ((count as number) / Math.max(1, totalEvents)) * 100
+                );
+                return (
+                  <CircularProgress
+                    key={label}
+                    percentage={percentage}
+                    color={colors[index % colors.length]}
+                    label={label}
+                    value={String(count)}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {hasMore && (
+          <button
+            onClick={() => {
+              setSearchQuery("");
+              setIsModalOpen(true);
+            }}
+            style={{
+              marginTop: "20px",
+              width: "100%",
+              padding: "10px 16px",
+              backgroundColor: "#24283b",
+              color: "#00f0ff",
+              border: "1px solid #2d3142",
+              borderRadius: "10px",
+              fontWeight: "bold",
+              fontSize: "0.85rem",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              transition: "all 0.2s ease",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "#2d324d";
+              e.currentTarget.style.borderColor = "#00f0ff";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "#24283b";
+              e.currentTarget.style.borderColor = "#2d3142";
+              e.currentTarget.style.transform = "none";
+            }}
+          >
+            <span>See All ({sortedEntries.length})</span>
+            <span style={{ fontSize: "1.1rem" }}>→</span>
+          </button>
+        )}
+      </div>
+
+      {/* Modal Popup */}
+      {isModalOpen && (
+        <div
+          onClick={() => setIsModalOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(5, 7, 10, 0.85)",
+            backdropFilter: "blur(8px)",
+            zIndex: 99999,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "20px",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: "#161926",
+              border: "1px solid #2d3142",
+              borderRadius: "24px",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.15)",
+              width: "100%",
+              maxWidth: "720px",
+              maxHeight: "85vh",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            {/* Modal Header */}
+            <div
+              style={{
+                padding: "20px 25px",
+                borderBottom: "1px solid #2d3142",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                backgroundColor: "#1c1f2e",
+              }}
+            >
+              <div>
+                <h2
+                  style={{
+                    color: "#fff",
+                    fontSize: "1.3rem",
+                    fontWeight: "700",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  {title}
+                  <span
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "#00f0ff",
+                      backgroundColor: "rgba(0, 240, 255, 0.12)",
+                      padding: "3px 10px",
+                      borderRadius: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {sortedEntries.length} items
+                  </span>
+                </h2>
+                <p
+                  style={{
+                    color: "#7a7e93",
+                    fontSize: "0.85rem",
+                    margin: "4px 0 0 0",
+                  }}
+                >
+                  Complete breakdown based on {totalEvents} total traffic events
+                </p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  backgroundColor: "#24283b",
+                  border: "1px solid #2d3142",
+                  color: "#fff",
+                  fontSize: "1.1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#ff007f";
+                  e.currentTarget.style.borderColor = "#ff007f";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#24283b";
+                  e.currentTarget.style.borderColor = "#2d3142";
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div
+              style={{
+                padding: "15px 25px",
+                borderBottom: "1px solid #24283b",
+                backgroundColor: "#121420",
+              }}
+            >
+              <input
+                type="text"
+                placeholder={`Search ${title.toLowerCase()}...`}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  backgroundColor: "#1c1f2e",
+                  border: "1px solid #2d3142",
+                  color: "#fff",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "#00f0ff")}
+                onBlur={(e) => (e.target.style.borderColor = "#2d3142")}
+              />
+            </div>
+
+            {/* Modal Body */}
+            <div
+              style={{
+                padding: "20px 25px",
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+                flex: 1,
+              }}
+            >
+              {filteredEntries.length === 0 ? (
+                <div
+                  style={{
+                    padding: "40px 20px",
+                    textAlign: "center",
+                    color: "#7a7e93",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  No matches found for "{searchQuery}".
+                </div>
+              ) : (
+                filteredEntries.map(([label, count], index) => {
+                  const originalIndex = sortedEntries.findIndex(
+                    (e) => e[0] === label
+                  );
+                  const percentage = Math.round(
+                    ((count as number) / Math.max(1, totalEvents)) * 100
+                  );
+                  const barColor = colors[originalIndex % colors.length];
+
+                  return (
+                    <div
+                      key={label}
+                      style={{
+                        backgroundColor: "#1c1f2e",
+                        border: "1px solid #2d3142",
+                        borderRadius: "14px",
+                        padding: "14px 18px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
+                        transition: "transform 0.15s, border-color 0.15s",
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.borderColor = barColor;
+                        e.currentTarget.style.transform = "translateX(2px)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.borderColor = "#2d3142";
+                        e.currentTarget.style.transform = "none";
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "12px",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: "0.75rem",
+                              fontWeight: "bold",
+                              color: "#7a7e93",
+                              width: "24px",
+                            }}
+                          >
+                            #{originalIndex + 1}
+                          </span>
+                          <span
+                            style={{
+                              color: "#fff",
+                              fontWeight: "600",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            {label}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "15px",
+                          }}
+                        >
+                          <span
+                            style={{
+                              color: "#7a7e93",
+                              fontSize: "0.9rem",
+                            }}
+                          >
+                            <strong style={{ color: "#fff" }}>{count}</strong>{" "}
+                            visitors
+                          </span>
+                          <span
+                            style={{
+                              color: barColor,
+                              fontWeight: "bold",
+                              fontSize: "0.95rem",
+                              minWidth: "45px",
+                              textAlign: "right",
+                            }}
+                          >
+                            {percentage}%
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Visual progress bar */}
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "6px",
+                          backgroundColor: "#0f111a",
+                          borderRadius: "3px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: `${Math.max(percentage, 2)}%`,
+                            height: "100%",
+                            backgroundColor: barColor,
+                            borderRadius: "3px",
+                            transition: "width 0.4s ease-out",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div
+              style={{
+                padding: "15px 25px",
+                borderTop: "1px solid #2d3142",
+                display: "flex",
+                justifyContent: "flex-end",
+                backgroundColor: "#1c1f2e",
+              }}
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                style={{
+                  padding: "8px 20px",
+                  backgroundColor: "#24283b",
+                  border: "1px solid #2d3142",
+                  color: "#fff",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "0.85rem",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#2d324d")}
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#24283b")}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
 const DefenseTerminal = ({ analyticsEvents }: { analyticsEvents: any[] }) => {
   const [logs, setLogs] = useState<string[]>([]);
   const [liveDbActivity, setLiveDbActivity] = useState<any[]>([]);
@@ -203,7 +687,7 @@ const PaginatedTable = ({ title, data, columns }: { title: string, data: any[], 
           <tr>
             {columns.map(col => (
               <th key={col} style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #2d3142", color: "#fff", textTransform: "uppercase", fontSize: "0.8rem", letterSpacing: "1px", whiteSpace: "nowrap" }}>
-                {col}
+                {col.replace(/_/g, ' ')}
               </th>
             ))}
           </tr>
@@ -425,87 +909,43 @@ export default function AdminDashboardClient({ onboardingLeads, interestLeads, e
               </StaggerGrid>
 
               {/* Analytics Breakdowns */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "25px", marginBottom: "40px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "25px", marginBottom: "40px" }}>
                 
                 {/* Devices */}
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
-                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Device Demographics</h3>
-                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
-                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.device_type] = (acc[ev.device_type] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([device, count], index) => {
-                      const colors = ["#00f0ff", "#bc00ff", "#ffaa00"];
-                      return (
-                        <CircularProgress 
-                          key={device} 
-                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
-                          color={colors[index % colors.length]} 
-                          label={device} 
-                          value={String(count)} 
-                        />
-                      );
-                    })}
-                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
-                  </div>
-                </div>
+                <BreakdownCard 
+                  title="Device Demographics" 
+                  data={analyticsEvents.reduce((acc, ev) => { acc[ev.device_type || "Unknown"] = (acc[ev.device_type || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#00f0ff", "#bc00ff", "#ffaa00"]}
+                  previewLimit={4}
+                />
 
                 {/* Browsers */}
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
-                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Browser Popularity</h3>
-                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
-                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.browser] = (acc[ev.browser] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([browser, count], index) => {
-                      const colors = ["#ff007f", "#00f0ff", "#ffaa00", "#bc00ff"];
-                      return (
-                        <CircularProgress 
-                          key={browser} 
-                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
-                          color={colors[index % colors.length]} 
-                          label={browser} 
-                          value={String(count)} 
-                        />
-                      );
-                    })}
-                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
-                  </div>
-                </div>
+                <BreakdownCard 
+                  title="Browser Popularity" 
+                  data={analyticsEvents.reduce((acc, ev) => { acc[ev.browser || "Unknown"] = (acc[ev.browser || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#ff007f", "#00f0ff", "#ffaa00", "#bc00ff"]}
+                  previewLimit={4}
+                />
 
                 {/* Countries */}
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
-                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Country Distribution</h3>
-                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
-                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.country || "Unknown"] = (acc[ev.country || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([country, count], index) => {
-                      const colors = ["#ffaa00", "#00f0ff", "#bc00ff", "#ff007f"];
-                      return (
-                        <CircularProgress 
-                          key={country} 
-                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
-                          color={colors[index % colors.length]} 
-                          label={country} 
-                          value={String(count)} 
-                        />
-                      );
-                    })}
-                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
-                  </div>
-                </div>
+                <BreakdownCard 
+                  title="Country Distribution" 
+                  data={analyticsEvents.reduce((acc, ev) => { acc[ev.country || "Unknown"] = (acc[ev.country || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#ffaa00", "#00f0ff", "#bc00ff", "#ff007f", "#00ff7f"]}
+                  previewLimit={4}
+                />
 
                 {/* Operating Systems */}
-                <div style={{ backgroundColor: "#1c1f2e", padding: "30px", borderRadius: "20px", border: "1px solid #2d3142" }}>
-                  <h3 style={{ color: "#fff", fontSize: "1.2rem", marginBottom: "30px", fontWeight: "600", textAlign: "center" }}>Operating Systems</h3>
-                  <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: "20px" }}>
-                    {Object.entries(analyticsEvents.reduce((acc, ev) => { acc[ev.os || "Unknown"] = (acc[ev.os || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([os, count], index) => {
-                      const colors = ["#00ff7f", "#bc00ff", "#00f0ff", "#ff007f", "#ffaa00"];
-                      return (
-                        <CircularProgress 
-                          key={os} 
-                          percentage={Math.round(((count as number) / Math.max(1, analyticsEvents.length)) * 100)} 
-                          color={colors[index % colors.length]} 
-                          label={os} 
-                          value={String(count)} 
-                        />
-                      );
-                    })}
-                    {analyticsEvents.length === 0 && <p style={{ color: "#7a7e93" }}>No data yet.</p>}
-                  </div>
-                </div>
+                <BreakdownCard 
+                  title="Operating Systems" 
+                  data={analyticsEvents.reduce((acc, ev) => { acc[ev.os || "Unknown"] = (acc[ev.os || "Unknown"] || 0) + 1; return acc; }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#00ff7f", "#bc00ff", "#00f0ff", "#ff007f", "#ffaa00"]}
+                  previewLimit={4}
+                />
 
               </div>
               
