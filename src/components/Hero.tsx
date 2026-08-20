@@ -20,6 +20,7 @@ export default function Hero() {
     { src: "/6.png", name: "Ximena Souza Ferreira", countryCode: ["pe"], position: "Partner", company: "Osterling Abogados" },
     { src: "/Carolina Caetano.png", name: "Carolina Caetano", countryCode: ["br"], position: "Head of Trademark Prosecution", company: "Licks Advogados" },
     { src: "/Maria khan.webp", name: "Maria Farrukh Irfan Khan", countryCode: ["ae"], position: "Managing Partner", company: "United Trademark & Patent Services" },
+    { src: "/Anomi Wanigasekera.jpg", name: "Anomi I. Wanigasekera", countryCode: ["lk"], position: "Senior Partner", company: "Julius & Creasy" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
