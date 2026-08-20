@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import FadeIn from "@/components/animations/FadeIn";
-import StaggerGrid from "@/components/animations/StaggerGrid";
 import { useRouter } from "next/navigation";
 import { verifyPrimaryPassword, verifySecondaryPassword, getLiveDatabaseLogs, logoutAdmin } from "./actions";
 
@@ -1275,6 +1274,7 @@ const PaginatedTable = ({
         border: "1px solid rgba(255, 255, 255, 0.07)",
         marginTop: "25px",
         boxShadow: "0 12px 32px rgba(0, 0, 0, 0.25)",
+        width: "100%",
       }}
     >
       <div
@@ -1397,7 +1397,7 @@ const PaginatedTable = ({
         </div>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "auto", width: "100%" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", color: "#b3b7c6" }}>
           <thead>
             <tr>
@@ -1550,7 +1550,7 @@ const PaginatedTable = ({
                           padding: "14px 12px",
                           fontSize: "0.85rem",
                           whiteSpace: "nowrap",
-                          maxWidth: "280px",
+                          maxWidth: "320px",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           color: col === "email" || col === "phone" ? "#e2e8f0" : "inherit",
@@ -1628,6 +1628,7 @@ export default function AdminDashboardClient({
       <div
         style={{
           minHeight: "100vh",
+          width: "100vw",
           backgroundColor: "#090a10",
           backgroundImage: "radial-gradient(ellipse at 50% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 60%)",
           display: "flex",
@@ -1752,773 +1753,760 @@ export default function AdminDashboardClient({
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#07080f",
-        padding: "20px",
+        height: "100vh",
+        width: "100vw",
+        backgroundColor: "#0d0f18",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "stretch",
         fontFamily: "'Instagram Sans', sans-serif",
         color: "#fff",
+        overflow: "hidden",
       }}
     >
-      {/* Outer Dashboard Shell (Inspired by reference UI) */}
-      <div
+      {/* Left Full-Height Floating Navigation Rail */}
+      <aside
         style={{
-          width: "100%",
-          maxWidth: "1680px",
-          backgroundColor: "#0d0f18",
-          borderRadius: "32px",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          boxShadow: "0 25px 60px rgba(0, 0, 0, 0.6)",
+          width: "88px",
+          height: "100vh",
+          backgroundColor: "#131520",
+          borderRight: "1px solid rgba(255, 255, 255, 0.06)",
+          padding: "24px 14px",
           display: "flex",
-          minHeight: "calc(100vh - 40px)",
-          overflow: "hidden",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexShrink: 0,
+          zIndex: 10,
         }}
       >
-        {/* Left Floating Navigation Rail */}
-        <aside
-          style={{
-            width: "88px",
-            backgroundColor: "#131520",
-            borderRight: "1px solid rgba(255, 255, 255, 0.06)",
-            padding: "28px 14px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexShrink: 0,
-          }}
-        >
-          {/* Logo Badge */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "25px" }}>
-            <div
-              onClick={() => setActiveTab("overview")}
-              title="WIPA Admin Console"
-              style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "16px",
-                background: "linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f59e0b 100%)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontFamily: "'Instagram Sans Headline', sans-serif",
-                fontWeight: "900",
-                fontSize: "1.4rem",
-                color: "#fff",
-                cursor: "pointer",
-                boxShadow: "0 8px 20px rgba(168, 85, 247, 0.35)",
-              }}
-            >
-              W
-            </div>
-
-            {/* Nav Icons */}
-            <nav style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              {navItems.map((item) => {
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    title={item.label}
-                    style={{
-                      position: "relative",
-                      width: "52px",
-                      height: "52px",
-                      borderRadius: "16px",
-                      backgroundColor: isActive ? "#272a3e" : "transparent",
-                      color: isActive ? "#00f0ff" : "#8e92a4",
-                      border: isActive ? "1px solid rgba(0, 240, 255, 0.3)" : "1px solid transparent",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontSize: "1.3rem",
-                      cursor: "pointer",
-                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-                      boxShadow: isActive ? "0 4px 16px rgba(0, 240, 255, 0.2)" : "none",
-                    }}
-                    onMouseOver={(e) => {
-                      if (!isActive) {
-                        e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
-                        e.currentTarget.style.color = "#fff";
-                      }
-                    }}
-                    onMouseOut={(e) => {
-                      if (!isActive) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                        e.currentTarget.style.color = "#8e92a4";
-                      }
-                    }}
-                  >
-                    <span>{item.icon}</span>
-                    {item.badge !== null && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "4px",
-                          right: "4px",
-                          backgroundColor: item.badge === "LIVE" ? "#ff007f" : "#a855f7",
-                          color: "#fff",
-                          fontSize: "0.65rem",
-                          fontWeight: "bold",
-                          padding: "2px 5px",
-                          borderRadius: "10px",
-                          minWidth: "16px",
-                          textAlign: "center",
-                          lineHeight: "1",
-                        }}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-
-          {/* Bottom Logout */}
-          <button
-            onClick={handleLogout}
-            title="Logout Admin Clearance"
+        {/* Logo Badge */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "25px" }}>
+          <div
+            onClick={() => setActiveTab("overview")}
+            title="WIPA Admin Console"
             style={{
               width: "48px",
               height: "48px",
               borderRadius: "16px",
-              backgroundColor: "#1a1d2c",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              color: "#8e92a4",
+              background: "linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f59e0b 100%)",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.2rem",
+              fontFamily: "'Instagram Sans Headline', sans-serif",
+              fontWeight: "900",
+              fontSize: "1.4rem",
+              color: "#fff",
               cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "#ff007f";
-              e.currentTarget.style.color = "#fff";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = "#1a1d2c";
-              e.currentTarget.style.color = "#8e92a4";
+              boxShadow: "0 8px 20px rgba(168, 85, 247, 0.35)",
             }}
           >
-            🔒
-          </button>
-        </aside>
+            W
+          </div>
 
-        {/* Main Content Area */}
-        <main
-          style={{
-            flex: 1,
-            padding: "36px 40px",
-            overflowY: "auto",
-            height: "calc(100vh - 40px)",
-            backgroundColor: "#0d0f18",
-          }}
-        >
-          {/* Top Bar Header */}
-          <header
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "20px",
-              marginBottom: "36px",
-            }}
-          >
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <h1
+          {/* Nav Icons */}
+          <nav style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            {navItems.map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  title={item.label}
                   style={{
-                    fontFamily: "'Instagram Sans Headline', sans-serif",
-                    fontSize: "2rem",
-                    fontWeight: "800",
-                    margin: 0,
-                    letterSpacing: "-0.03em",
-                    color: "#fff",
+                    position: "relative",
+                    width: "52px",
+                    height: "52px",
+                    borderRadius: "16px",
+                    backgroundColor: isActive ? "#272a3e" : "transparent",
+                    color: isActive ? "#00f0ff" : "#8e92a4",
+                    border: isActive ? "1px solid rgba(0, 240, 255, 0.3)" : "1px solid transparent",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "1.3rem",
+                    cursor: "pointer",
+                    transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                    boxShadow: isActive ? "0 4px 16px rgba(0, 240, 255, 0.2)" : "none",
+                  }}
+                  onMouseOver={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                      e.currentTarget.style.color = "#fff";
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                      e.currentTarget.style.color = "#8e92a4";
+                    }
                   }}
                 >
-                  {activeTab === "overview" && "Platform Statistics"}
-                  {activeTab === "waiting_list" && "Waiting List Leads"}
-                  {activeTab === "onboarding" && "Onboarding Leads"}
-                  {activeTab === "interests" && "Checkout Tracking"}
-                  {activeTab === "enterprise" && "Enterprise Inquiries"}
-                  {activeTab === "defense" && "Defense Terminal"}
-                </h1>
-                <span
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    backgroundColor: "#00ff7f",
-                    boxShadow: "0 0 10px #00ff7f",
-                  }}
-                ></span>
-              </div>
-              <p
+                  <span>{item.icon}</span>
+                  {item.badge !== null && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "4px",
+                        right: "4px",
+                        backgroundColor: item.badge === "LIVE" ? "#ff007f" : "#a855f7",
+                        color: "#fff",
+                        fontSize: "0.65rem",
+                        fontWeight: "bold",
+                        padding: "2px 5px",
+                        borderRadius: "10px",
+                        minWidth: "16px",
+                        textAlign: "center",
+                        lineHeight: "1",
+                      }}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Bottom Logout */}
+        <button
+          onClick={handleLogout}
+          title="Logout Admin Clearance"
+          style={{
+            width: "48px",
+            height: "48px",
+            borderRadius: "16px",
+            backgroundColor: "#1a1d2c",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+            color: "#8e92a4",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "1.2rem",
+            cursor: "pointer",
+            transition: "all 0.2s",
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = "#ff007f";
+            e.currentTarget.style.color = "#fff";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = "#1a1d2c";
+            e.currentTarget.style.color = "#8e92a4";
+          }}
+        >
+          🔒
+        </button>
+      </aside>
+
+      {/* Main Full-Width Content Area */}
+      <main
+        style={{
+          flex: 1,
+          height: "100vh",
+          padding: "32px 40px",
+          overflowY: "auto",
+          backgroundColor: "#0d0f18",
+        }}
+      >
+        {/* Top Bar Header */}
+        <header
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "20px",
+            marginBottom: "36px",
+          }}
+        >
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <h1
                 style={{
-                  fontFamily: "'Instagram Sans', sans-serif",
-                  color: "#8e92a4",
-                  marginTop: "4px",
+                  fontFamily: "'Instagram Sans Headline', sans-serif",
+                  fontSize: "2rem",
+                  fontWeight: "800",
+                  margin: 0,
+                  letterSpacing: "-0.03em",
+                  color: "#fff",
+                }}
+              >
+                {activeTab === "overview" && "Platform Statistics"}
+                {activeTab === "waiting_list" && "Waiting List Leads"}
+                {activeTab === "onboarding" && "Onboarding Leads"}
+                {activeTab === "interests" && "Checkout Tracking"}
+                {activeTab === "enterprise" && "Enterprise Inquiries"}
+                {activeTab === "defense" && "Defense Terminal"}
+              </h1>
+              <span
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  backgroundColor: "#00ff7f",
+                  boxShadow: "0 0 10px #00ff7f",
+                }}
+              ></span>
+            </div>
+            <p
+              style={{
+                fontFamily: "'Instagram Sans', sans-serif",
+                color: "#8e92a4",
+                marginTop: "4px",
+                fontSize: "0.9rem",
+              }}
+            >
+              Real-time telemetry, lead management, and live traffic sync.
+            </p>
+          </div>
+
+          {/* Topbar Controls & Admin Capsule */}
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+            {/* Status capsule */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "#161824",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                padding: "8px 16px",
+                borderRadius: "20px",
+                fontSize: "0.85rem",
+                color: "#8e92a4",
+              }}
+            >
+              <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#00ff7f" }}></span>
+              <span>Live Sync Active</span>
+            </div>
+
+            {/* Time Switcher */}
+            <div
+              style={{
+                display: "flex",
+                backgroundColor: "#161824",
+                borderRadius: "20px",
+                padding: "4px",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+              }}
+            >
+              {["Days", "Weeks", "Months", "All Time"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setTimeRange(tab)}
+                  style={{
+                    fontFamily: "'Instagram Sans', sans-serif",
+                    padding: "6px 14px",
+                    borderRadius: "16px",
+                    backgroundColor: timeRange === tab ? "#25293d" : "transparent",
+                    color: timeRange === tab ? "#fff" : "#8e92a4",
+                    border: "none",
+                    fontSize: "0.8rem",
+                    fontWeight: timeRange === tab ? "600" : "400",
+                    cursor: "pointer",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Admin Profile Capsule */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                backgroundColor: "#161824",
+                padding: "6px 16px 6px 8px",
+                borderRadius: "24px",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+              }}
+            >
+              <div
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "bold",
                   fontSize: "0.9rem",
                 }}
               >
-                Real-time telemetry, lead management, and live traffic sync.
-              </p>
-            </div>
-
-            {/* Topbar Controls & Admin Capsule */}
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-              {/* Status capsule */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  backgroundColor: "#161824",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  padding: "8px 16px",
-                  borderRadius: "20px",
-                  fontSize: "0.85rem",
-                  color: "#8e92a4",
-                }}
-              >
-                <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#00ff7f" }}></span>
-                <span>Live Sync Active</span>
+                ⚡
               </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span
+                  style={{
+                    fontFamily: "'Instagram Sans Headline', sans-serif",
+                    fontSize: "0.85rem",
+                    fontWeight: "700",
+                  }}
+                >
+                  WIPA Clearance
+                </span>
+                <span style={{ fontSize: "0.75rem", color: "#00f0ff" }}>Level 2 Admin</span>
+              </div>
+            </div>
+          </div>
+        </header>
 
-              {/* Time Switcher */}
+        {/* Tab Content Render */}
+        <FadeIn direction="up" key={activeTab}>
+          {activeTab === "overview" && (
+            <>
+              {/* Hero Stat Cards Row (Inspired by +278k card in reference UI) */}
               <div
                 style={{
-                  display: "flex",
-                  backgroundColor: "#161824",
-                  borderRadius: "20px",
-                  padding: "4px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: "20px",
+                  marginBottom: "36px",
                 }}
               >
-                {["Days", "Weeks", "Months", "All Time"].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setTimeRange(tab)}
+                {/* Big Gradient Leads Card */}
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #8b5cf6 0%, #d946ef 50%, #f59e0b 100%)",
+                    borderRadius: "28px",
+                    padding: "26px 28px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    minHeight: "160px",
+                    boxShadow: "0 15px 35px rgba(217, 70, 239, 0.3)",
+                    color: "#fff",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <div
+                      style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        borderRadius: "20px",
+                        padding: "4px 10px",
+                        fontSize: "0.75rem",
+                        fontWeight: "700",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      All Channels
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "'Instagram Sans Headline', sans-serif",
+                        fontSize: "2.8rem",
+                        fontWeight: "900",
+                        lineHeight: "1.1",
+                        letterSpacing: "-0.03em",
+                      }}
+                    >
+                      +{totalLeads}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "'Instagram Sans', sans-serif",
+                        fontSize: "0.9rem",
+                        fontWeight: "500",
+                        opacity: 0.9,
+                        marginTop: "4px",
+                      }}
+                    >
+                      Total Acquired Leads & Inquiries
+                    </div>
+                  </div>
+                </div>
+
+                {/* Total Pageviews */}
+                <div
+                  style={{
+                    backgroundColor: "#161824",
+                    borderRadius: "28px",
+                    padding: "24px",
+                    border: "1px solid rgba(255, 255, 255, 0.07)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Total Pageviews
+                  </div>
+                  <div
                     style={{
-                      fontFamily: "'Instagram Sans', sans-serif",
-                      padding: "6px 14px",
-                      borderRadius: "16px",
-                      backgroundColor: timeRange === tab ? "#25293d" : "transparent",
-                      color: timeRange === tab ? "#fff" : "#8e92a4",
-                      border: "none",
-                      fontSize: "0.8rem",
-                      fontWeight: timeRange === tab ? "600" : "400",
-                      cursor: "pointer",
-                      transition: "all 0.15s",
+                      fontFamily: "'Instagram Sans Headline', sans-serif",
+                      fontSize: "2.4rem",
+                      fontWeight: "800",
+                      color: "#00f0ff",
+                      letterSpacing: "-0.02em",
                     }}
                   >
-                    {tab}
-                  </button>
-                ))}
+                    {analyticsEvents.length}
+                  </div>
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Recorded telemetry hits</div>
+                </div>
+
+                {/* Unique Sessions */}
+                <div
+                  style={{
+                    backgroundColor: "#161824",
+                    borderRadius: "28px",
+                    padding: "24px",
+                    border: "1px solid rgba(255, 255, 255, 0.07)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Unique Visitors
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Instagram Sans Headline', sans-serif",
+                      fontSize: "2.4rem",
+                      fontWeight: "800",
+                      color: "#ec4899",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {new Set(analyticsEvents.map((e) => e.session_id)).size}
+                  </div>
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Distinct client fingerprints</div>
+                </div>
+
+                {/* Conversion Rate */}
+                <div
+                  style={{
+                    backgroundColor: "#161824",
+                    borderRadius: "28px",
+                    padding: "24px",
+                    border: "1px solid rgba(255, 255, 255, 0.07)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Conversion Rate
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Instagram Sans Headline', sans-serif",
+                      fontSize: "2.4rem",
+                      fontWeight: "800",
+                      color: "#00ff7f",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {new Set(analyticsEvents.map((e) => e.session_id)).size
+                      ? (
+                          (interestLeads.filter(
+                            (l) => l.payment_status === "Payment success, subscription purchased"
+                          ).length /
+                            new Set(analyticsEvents.map((e) => e.session_id)).size) *
+                          100
+                        ).toFixed(2)
+                      : "0.00"}
+                    %
+                  </div>
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Checkout success ratio</div>
+                </div>
+
+                {/* Bounce Rate */}
+                <div
+                  style={{
+                    backgroundColor: "#161824",
+                    borderRadius: "28px",
+                    padding: "24px",
+                    border: "1px solid rgba(255, 255, 255, 0.07)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Bounce Rate
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Instagram Sans Headline', sans-serif",
+                      fontSize: "2.4rem",
+                      fontWeight: "800",
+                      color: "#f59e0b",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {new Set(analyticsEvents.map((e) => e.session_id)).size
+                      ? Math.round(
+                          (Object.values(
+                            analyticsEvents.reduce((acc, ev) => {
+                              acc[ev.session_id] = (acc[ev.session_id] || 0) + 1;
+                              return acc;
+                            }, {} as Record<string, number>)
+                          ).filter((count) => count === 1).length /
+                            new Set(analyticsEvents.map((e) => e.session_id)).size) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </div>
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Single-page sessions</div>
+                </div>
               </div>
 
-              {/* Admin Profile Capsule */}
+              {/* 4 Demographics Breakdown Cards (Limited preview + See All modal) */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "24px",
+                  marginBottom: "36px",
+                }}
+              >
+                {/* Devices */}
+                <BreakdownCard
+                  title="Device Demographics"
+                  data={analyticsEvents.reduce((acc, ev) => {
+                    acc[ev.device_type || "Unknown"] = (acc[ev.device_type || "Unknown"] || 0) + 1;
+                    return acc;
+                  }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#00f0ff", "#bc00ff", "#ffaa00"]}
+                  previewLimit={4}
+                />
+
+                {/* Browsers */}
+                <BreakdownCard
+                  title="Browser Popularity"
+                  data={analyticsEvents.reduce((acc, ev) => {
+                    acc[ev.browser || "Unknown"] = (acc[ev.browser || "Unknown"] || 0) + 1;
+                    return acc;
+                  }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#ff007f", "#00f0ff", "#ffaa00", "#bc00ff"]}
+                  previewLimit={4}
+                />
+
+                {/* Countries */}
+                <BreakdownCard
+                  title="Country Distribution"
+                  data={analyticsEvents.reduce((acc, ev) => {
+                    acc[ev.country || "Unknown"] = (acc[ev.country || "Unknown"] || 0) + 1;
+                    return acc;
+                  }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#ffaa00", "#00f0ff", "#bc00ff", "#ff007f", "#00ff7f"]}
+                  previewLimit={4}
+                />
+
+                {/* Operating Systems */}
+                <BreakdownCard
+                  title="Operating Systems"
+                  data={analyticsEvents.reduce((acc, ev) => {
+                    acc[ev.os || "Unknown"] = (acc[ev.os || "Unknown"] || 0) + 1;
+                    return acc;
+                  }, {} as Record<string, number>)}
+                  totalEvents={analyticsEvents.length}
+                  colors={["#00ff7f", "#bc00ff", "#00f0ff", "#ff007f", "#ffaa00"]}
+                  previewLimit={4}
+                />
+              </div>
+
+              {/* Top Landing Pages & Peak Traffic Hours Cards */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+                  gap: "24px",
+                  marginBottom: "36px",
+                }}
+              >
+                <RankedTableCard
+                  title="Top Landing Pages"
+                  data={Object.entries(
+                    analyticsEvents.reduce((acc, ev) => {
+                      let url = ev.page_url || "/";
+                      try {
+                        if (url.startsWith("http://") || url.startsWith("https://")) {
+                          const parsed = new URL(url);
+                          url = parsed.pathname || "/";
+                        }
+                      } catch (e) {}
+                      url = url.replace(/^https?:\/\/[^\/]+/, "").split("?")[0] || "/";
+
+                      if (!acc[url]) acc[url] = { views: 0, sessions: new Set<string>() };
+                      acc[url].views++;
+                      acc[url].sessions.add(ev.session_id);
+                      return acc;
+                    }, {} as Record<string, { views: number; sessions: Set<string> }>)
+                  )
+                    .sort((a: any, b: any) => b[1].views - a[1].views)
+                    .map(([url, data]: [string, any]) => ({
+                      page_url: url,
+                      views: data.views,
+                      unique_visitors: data.sessions.size,
+                    }))}
+                  columns={[
+                    { key: "page_url", label: "Page URL" },
+                    { key: "views", label: "Views", align: "right" },
+                    { key: "unique_visitors", label: "Unique Visitors", align: "right" },
+                  ]}
+                  previewLimit={5}
+                />
+
+                <RankedTableCard
+                  title="Peak Traffic Hours"
+                  data={Object.entries(
+                    analyticsEvents.reduce((acc, ev) => {
+                      const hour = new Date(ev.created_at).getHours();
+                      const time = `${hour === 0 ? 12 : hour > 12 ? hour - 12 : hour} ${
+                        hour >= 12 ? "PM" : "AM"
+                      }`;
+                      acc[time] = (acc[time] || 0) + 1;
+                      return acc;
+                    }, {} as Record<string, number>)
+                  )
+                    .sort((a: any, b: any) => b[1] - a[1])
+                    .map(([time, count]: [string, any]) => ({
+                      time,
+                      visitors: count,
+                    }))}
+                  columns={[
+                    { key: "time", label: "Time" },
+                    { key: "visitors", label: "Visitors", align: "right" },
+                  ]}
+                  previewLimit={5}
+                />
+              </div>
+
+              {/* Recent Events Full Stream */}
+              <PaginatedTable
+                title="Recent Traffic Events"
+                data={analyticsEvents}
+                columns={["session_id", "page_url", "city", "region", "country", "network", "os", "created_at"]}
+              />
+            </>
+          )}
+
+          {/* Waiting List Leads Tab */}
+          {activeTab === "waiting_list" && (
+            <PaginatedTable
+              title="All Waiting List Leads"
+              data={waitingListLeads}
+              columns={[
+                "id",
+                "title",
+                "name",
+                "email",
+                "country",
+                "phone",
+                "company",
+                "profession",
+                "plan",
+                "seats",
+                "business_registration_number",
+                "date_of_incorporation",
+                "college_institute",
+                "student_id",
+                "created_at",
+              ]}
+            />
+          )}
+
+          {/* Onboarding Leads Tab */}
+          {activeTab === "onboarding" && (
+            <PaginatedTable
+              title="All Onboarding Leads"
+              data={onboardingLeads}
+              columns={["id", "name", "email", "phone", "country", "journey_stage", "created_at"]}
+            />
+          )}
+
+          {/* Checkout Tracking / Interests Tab */}
+          {activeTab === "interests" && (
+            <PaginatedTable
+              title="Detailed Checkout Tracking"
+              data={interestLeads}
+              columns={[
+                "name",
+                "email",
+                "profession",
+                "plan",
+                "amount_paid",
+                "paid_at",
+                "payment_status",
+                "invoice",
+                "created_at",
+              ]}
+            />
+          )}
+
+          {/* Enterprise Inquiries Tab */}
+          {activeTab === "enterprise" && (
+            <PaginatedTable
+              title="All Enterprise Inquiries"
+              data={enterpriseLeads}
+              columns={["id", "name", "email", "phone", "company", "seats", "needs", "created_at"]}
+            />
+          )}
+
+          {/* Defense Override Tab */}
+          {activeTab === "defense" && (
+            <div
+              style={{
+                backgroundColor: "#161824",
+                borderRadius: "28px",
+                padding: "28px",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                boxShadow: "0 12px 32px rgba(0, 0, 0, 0.25)",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "12px",
-                  backgroundColor: "#161824",
-                  padding: "6px 16px 6px 8px",
-                  borderRadius: "24px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  marginBottom: "20px",
                 }}
               >
                 <div
                   style={{
-                    width: "36px",
-                    height: "36px",
+                    width: "12px",
+                    height: "12px",
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontWeight: "bold",
-                    fontSize: "0.9rem",
+                    backgroundColor: "#ff007f",
+                    boxShadow: "0 0 10px #ff007f",
+                    animation: "blink 1s step-end infinite",
+                  }}
+                ></div>
+                <h2
+                  style={{
+                    fontFamily: "'Instagram Sans Headline', sans-serif",
+                    color: "#00f0ff",
+                    fontSize: "1.4rem",
+                    fontWeight: "700",
+                    margin: 0,
                   }}
                 >
-                  ⚡
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <span
-                    style={{
-                      fontFamily: "'Instagram Sans Headline', sans-serif",
-                      fontSize: "0.85rem",
-                      fontWeight: "700",
-                    }}
-                  >
-                    WIPA Clearance
-                  </span>
-                  <span style={{ fontSize: "0.75rem", color: "#00f0ff" }}>Level 2 Admin</span>
-                </div>
+                  SYSTEM DEFENSE OVERRIDE
+                </h2>
               </div>
+              <DefenseTerminal analyticsEvents={analyticsEvents} />
             </div>
-          </header>
-
-          {/* Tab Content Render */}
-          <FadeIn direction="up" key={activeTab}>
-            {activeTab === "overview" && (
-              <>
-                {/* Hero Stat Cards Row (Inspired by +278k card in reference UI) */}
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                    gap: "20px",
-                    marginBottom: "36px",
-                  }}
-                >
-                  {/* Big Gradient Leads Card */}
-                  <div
-                    style={{
-                      background: "linear-gradient(135deg, #8b5cf6 0%, #d946ef 50%, #f59e0b 100%)",
-                      borderRadius: "28px",
-                      padding: "26px 28px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      minHeight: "160px",
-                      boxShadow: "0 15px 35px rgba(217, 70, 239, 0.3)",
-                      color: "#fff",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <div
-                        style={{
-                          backgroundColor: "rgba(255, 255, 255, 0.2)",
-                          borderRadius: "20px",
-                          padding: "4px 10px",
-                          fontSize: "0.75rem",
-                          fontWeight: "700",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.5px",
-                        }}
-                      >
-                        All Channels
-                      </div>
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          fontFamily: "'Instagram Sans Headline', sans-serif",
-                          fontSize: "2.8rem",
-                          fontWeight: "900",
-                          lineHeight: "1.1",
-                          letterSpacing: "-0.03em",
-                        }}
-                      >
-                        +{totalLeads}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "'Instagram Sans', sans-serif",
-                          fontSize: "0.9rem",
-                          fontWeight: "500",
-                          opacity: 0.9,
-                          marginTop: "4px",
-                        }}
-                      >
-                        Total Acquired Leads & Inquiries
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Total Pageviews */}
-                  <div
-                    style={{
-                      backgroundColor: "#161824",
-                      borderRadius: "28px",
-                      padding: "24px",
-                      border: "1px solid rgba(255, 255, 255, 0.07)",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Total Pageviews
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Instagram Sans Headline', sans-serif",
-                        fontSize: "2.4rem",
-                        fontWeight: "800",
-                        color: "#00f0ff",
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      {analyticsEvents.length}
-                    </div>
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Recorded telemetry hits</div>
-                  </div>
-
-                  {/* Unique Sessions */}
-                  <div
-                    style={{
-                      backgroundColor: "#161824",
-                      borderRadius: "28px",
-                      padding: "24px",
-                      border: "1px solid rgba(255, 255, 255, 0.07)",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Unique Visitors
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Instagram Sans Headline', sans-serif",
-                        fontSize: "2.4rem",
-                        fontWeight: "800",
-                        color: "#ec4899",
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      {new Set(analyticsEvents.map((e) => e.session_id)).size}
-                    </div>
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Distinct client fingerprints</div>
-                  </div>
-
-                  {/* Conversion Rate */}
-                  <div
-                    style={{
-                      backgroundColor: "#161824",
-                      borderRadius: "28px",
-                      padding: "24px",
-                      border: "1px solid rgba(255, 255, 255, 0.07)",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Conversion Rate
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Instagram Sans Headline', sans-serif",
-                        fontSize: "2.4rem",
-                        fontWeight: "800",
-                        color: "#00ff7f",
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      {new Set(analyticsEvents.map((e) => e.session_id)).size
-                        ? (
-                            (interestLeads.filter(
-                              (l) => l.payment_status === "Payment success, subscription purchased"
-                            ).length /
-                              new Set(analyticsEvents.map((e) => e.session_id)).size) *
-                            100
-                          ).toFixed(2)
-                        : "0.00"}
-                      %
-                    </div>
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Checkout success ratio</div>
-                  </div>
-
-                  {/* Bounce Rate */}
-                  <div
-                    style={{
-                      backgroundColor: "#161824",
-                      borderRadius: "28px",
-                      padding: "24px",
-                      border: "1px solid rgba(255, 255, 255, 0.07)",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Bounce Rate
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Instagram Sans Headline', sans-serif",
-                        fontSize: "2.4rem",
-                        fontWeight: "800",
-                        color: "#f59e0b",
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      {new Set(analyticsEvents.map((e) => e.session_id)).size
-                        ? Math.round(
-                            (Object.values(
-                              analyticsEvents.reduce((acc, ev) => {
-                                acc[ev.session_id] = (acc[ev.session_id] || 0) + 1;
-                                return acc;
-                              }, {} as Record<string, number>)
-                            ).filter((count) => count === 1).length /
-                              new Set(analyticsEvents.map((e) => e.session_id)).size) *
-                              100
-                          )
-                        : 0}
-                      %
-                    </div>
-                    <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Single-page sessions</div>
-                  </div>
-                </div>
-
-                {/* 4 Demographics Breakdown Cards (Limited preview + See All modal) */}
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                    gap: "24px",
-                    marginBottom: "36px",
-                  }}
-                >
-                  {/* Devices */}
-                  <BreakdownCard
-                    title="Device Demographics"
-                    data={analyticsEvents.reduce((acc, ev) => {
-                      acc[ev.device_type || "Unknown"] = (acc[ev.device_type || "Unknown"] || 0) + 1;
-                      return acc;
-                    }, {} as Record<string, number>)}
-                    totalEvents={analyticsEvents.length}
-                    colors={["#00f0ff", "#bc00ff", "#ffaa00"]}
-                    previewLimit={4}
-                  />
-
-                  {/* Browsers */}
-                  <BreakdownCard
-                    title="Browser Popularity"
-                    data={analyticsEvents.reduce((acc, ev) => {
-                      acc[ev.browser || "Unknown"] = (acc[ev.browser || "Unknown"] || 0) + 1;
-                      return acc;
-                    }, {} as Record<string, number>)}
-                    totalEvents={analyticsEvents.length}
-                    colors={["#ff007f", "#00f0ff", "#ffaa00", "#bc00ff"]}
-                    previewLimit={4}
-                  />
-
-                  {/* Countries */}
-                  <BreakdownCard
-                    title="Country Distribution"
-                    data={analyticsEvents.reduce((acc, ev) => {
-                      acc[ev.country || "Unknown"] = (acc[ev.country || "Unknown"] || 0) + 1;
-                      return acc;
-                    }, {} as Record<string, number>)}
-                    totalEvents={analyticsEvents.length}
-                    colors={["#ffaa00", "#00f0ff", "#bc00ff", "#ff007f", "#00ff7f"]}
-                    previewLimit={4}
-                  />
-
-                  {/* Operating Systems */}
-                  <BreakdownCard
-                    title="Operating Systems"
-                    data={analyticsEvents.reduce((acc, ev) => {
-                      acc[ev.os || "Unknown"] = (acc[ev.os || "Unknown"] || 0) + 1;
-                      return acc;
-                    }, {} as Record<string, number>)}
-                    totalEvents={analyticsEvents.length}
-                    colors={["#00ff7f", "#bc00ff", "#00f0ff", "#ff007f", "#ffaa00"]}
-                    previewLimit={4}
-                  />
-                </div>
-
-                {/* Top Landing Pages & Peak Traffic Hours Cards */}
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-                    gap: "24px",
-                    marginBottom: "36px",
-                  }}
-                >
-                  <RankedTableCard
-                    title="Top Landing Pages"
-                    data={Object.entries(
-                      analyticsEvents.reduce((acc, ev) => {
-                        let url = ev.page_url || "/";
-                        try {
-                          if (url.startsWith("http://") || url.startsWith("https://")) {
-                            const parsed = new URL(url);
-                            url = parsed.pathname || "/";
-                          }
-                        } catch (e) {}
-                        url = url.replace(/^https?:\/\/[^\/]+/, "").split("?")[0] || "/";
-
-                        if (!acc[url]) acc[url] = { views: 0, sessions: new Set<string>() };
-                        acc[url].views++;
-                        acc[url].sessions.add(ev.session_id);
-                        return acc;
-                      }, {} as Record<string, { views: number; sessions: Set<string> }>)
-                    )
-                      .sort((a: any, b: any) => b[1].views - a[1].views)
-                      .map(([url, data]: [string, any]) => ({
-                        page_url: url,
-                        views: data.views,
-                        unique_visitors: data.sessions.size,
-                      }))}
-                    columns={[
-                      { key: "page_url", label: "Page URL" },
-                      { key: "views", label: "Views", align: "right" },
-                      { key: "unique_visitors", label: "Unique Visitors", align: "right" },
-                    ]}
-                    previewLimit={5}
-                  />
-
-                  <RankedTableCard
-                    title="Peak Traffic Hours"
-                    data={Object.entries(
-                      analyticsEvents.reduce((acc, ev) => {
-                        const hour = new Date(ev.created_at).getHours();
-                        const time = `${hour === 0 ? 12 : hour > 12 ? hour - 12 : hour} ${
-                          hour >= 12 ? "PM" : "AM"
-                        }`;
-                        acc[time] = (acc[time] || 0) + 1;
-                        return acc;
-                      }, {} as Record<string, number>)
-                    )
-                      .sort((a: any, b: any) => b[1] - a[1])
-                      .map(([time, count]: [string, any]) => ({
-                        time,
-                        visitors: count,
-                      }))}
-                    columns={[
-                      { key: "time", label: "Time" },
-                      { key: "visitors", label: "Visitors", align: "right" },
-                    ]}
-                    previewLimit={5}
-                  />
-                </div>
-
-                {/* Recent Events Full Stream */}
-                <PaginatedTable
-                  title="Recent Traffic Events"
-                  data={analyticsEvents}
-                  columns={["session_id", "page_url", "city", "region", "country", "network", "os", "created_at"]}
-                />
-              </>
-            )}
-
-            {/* Waiting List Leads Tab */}
-            {activeTab === "waiting_list" && (
-              <PaginatedTable
-                title="All Waiting List Leads"
-                data={waitingListLeads}
-                columns={[
-                  "id",
-                  "title",
-                  "name",
-                  "email",
-                  "country",
-                  "phone",
-                  "company",
-                  "profession",
-                  "plan",
-                  "seats",
-                  "business_registration_number",
-                  "date_of_incorporation",
-                  "college_institute",
-                  "student_id",
-                  "created_at",
-                ]}
-              />
-            )}
-
-            {/* Onboarding Leads Tab */}
-            {activeTab === "onboarding" && (
-              <PaginatedTable
-                title="All Onboarding Leads"
-                data={onboardingLeads}
-                columns={["id", "name", "email", "phone", "country", "journey_stage", "created_at"]}
-              />
-            )}
-
-            {/* Checkout Tracking / Interests Tab */}
-            {activeTab === "interests" && (
-              <PaginatedTable
-                title="Detailed Checkout Tracking"
-                data={interestLeads}
-                columns={[
-                  "name",
-                  "email",
-                  "profession",
-                  "plan",
-                  "amount_paid",
-                  "paid_at",
-                  "payment_status",
-                  "invoice",
-                  "created_at",
-                ]}
-              />
-            )}
-
-            {/* Enterprise Inquiries Tab */}
-            {activeTab === "enterprise" && (
-              <PaginatedTable
-                title="All Enterprise Inquiries"
-                data={enterpriseLeads}
-                columns={["id", "name", "email", "phone", "company", "seats", "needs", "created_at"]}
-              />
-            )}
-
-            {/* Defense Override Tab */}
-            {activeTab === "defense" && (
-              <div
-                style={{
-                  backgroundColor: "#161824",
-                  borderRadius: "28px",
-                  padding: "28px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 12px 32px rgba(0, 0, 0, 0.25)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      borderRadius: "50%",
-                      backgroundColor: "#ff007f",
-                      boxShadow: "0 0 10px #ff007f",
-                      animation: "blink 1s step-end infinite",
-                    }}
-                  ></div>
-                  <h2
-                    style={{
-                      fontFamily: "'Instagram Sans Headline', sans-serif",
-                      color: "#00f0ff",
-                      fontSize: "1.4rem",
-                      fontWeight: "700",
-                      margin: 0,
-                    }}
-                  >
-                    SYSTEM DEFENSE OVERRIDE
-                  </h2>
-                </div>
-                <DefenseTerminal analyticsEvents={analyticsEvents} />
-              </div>
-            )}
-          </FadeIn>
-        </main>
-      </div>
+          )}
+        </FadeIn>
+      </main>
     </div>
   );
 }
