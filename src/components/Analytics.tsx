@@ -4,30 +4,44 @@ import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 function getBrowser(userAgent: string) {
-  if (userAgent.includes("Firefox")) return "Firefox";
-  if (userAgent.includes("SamsungBrowser")) return "Samsung Internet";
-  if (userAgent.includes("Opera") || userAgent.includes("OPR")) return "Opera";
-  if (userAgent.includes("Trident")) return "Internet Explorer";
-  if (userAgent.includes("Edge")) return "Edge (Legacy)";
-  if (userAgent.includes("Edg")) return "Edge";
-  if (userAgent.includes("Chrome")) return "Chrome";
-  if (userAgent.includes("Safari")) return "Safari";
+  const ua = userAgent.toLowerCase();
+  if (ua.includes("firefox")) return "Firefox";
+  if (ua.includes("samsungbrowser")) return "Samsung Internet";
+  if (ua.includes("opera") || ua.includes("opr")) return "Opera";
+  if (ua.includes("trident")) return "Internet Explorer";
+  if (ua.includes("edg/")) return "Edge";
+  if (ua.includes("edge")) return "Edge (Legacy)";
+  if (ua.includes("chrome") || ua.includes("crios")) return "Chrome";
+  if (ua.includes("safari") && !ua.includes("chrome")) return "Safari";
   return "Unknown";
 }
 
 function getOS(userAgent: string) {
-  if (userAgent.includes("Win")) return "Windows";
-  if (userAgent.includes("Mac") && !userAgent.includes("like Mac")) return "macOS";
-  if (userAgent.includes("like Mac")) return "iOS";
-  if (userAgent.includes("Android")) return "Android";
-  if (userAgent.includes("Linux")) return "Linux";
+  const ua = userAgent.toLowerCase();
+  if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod")) return "iOS";
+  if (ua.includes("android")) return "Android";
+  if (ua.includes("win")) return "Windows";
+  if (ua.includes("mac") && !ua.includes("like mac")) {
+    if (typeof window !== "undefined" && window.navigator && window.navigator.maxTouchPoints > 1) {
+      return "iOS"; // iPad Desktop Mode
+    }
+    return "macOS";
+  }
+  if (ua.includes("linux")) return "Linux";
   return "Unknown";
 }
 
 function getDeviceType(userAgent: string) {
   const ua = userAgent.toLowerCase();
-  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
-  if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return "Mobile";
+  // Check for tablets first
+  if (/(ipad|tablet|(android(?!.*mobile))|(android.*tab)|playbook|silk)/i.test(ua)) return "Tablet";
+  if (typeof window !== "undefined" && window.navigator && window.navigator.maxTouchPoints > 1 && ua.includes("macintosh")) {
+    return "Tablet"; // iPad requesting desktop site
+  }
+  // Check for mobile phones
+  if (/(mobile|iphone|ipod|android.*mobile|blackberry|iemobile|kindle|silk-accelerated|webos|opera mobi|opera mini)/i.test(ua)) {
+    return "Mobile";
+  }
   return "Desktop";
 }
 

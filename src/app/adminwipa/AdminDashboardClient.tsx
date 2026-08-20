@@ -2278,11 +2278,21 @@ export default function AdminDashboardClient({
                 <BreakdownCard
                   title="Device Demographics"
                   data={analyticsEvents.reduce((acc, ev) => {
-                    acc[ev.device_type || "Unknown"] = (acc[ev.device_type || "Unknown"] || 0) + 1;
+                    let device = ev.device_type;
+                    if (!device || device === "Unknown") {
+                      if (ev.os === "Android" || ev.os === "iOS") {
+                        device = "Mobile";
+                      } else if (ev.os === "Windows" || ev.os === "macOS" || ev.os === "Linux") {
+                        device = "Desktop";
+                      } else {
+                        device = "Unknown";
+                      }
+                    }
+                    acc[device] = (acc[device] || 0) + 1;
                     return acc;
                   }, {} as Record<string, number>)}
                   totalEvents={analyticsEvents.length}
-                  colors={["#00f0ff", "#bc00ff", "#ffaa00"]}
+                  colors={["#00f0ff", "#bc00ff", "#ffaa00", "#00ff7f"]}
                   previewLimit={4}
                 />
 
