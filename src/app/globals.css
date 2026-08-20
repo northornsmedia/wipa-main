@@ -1,5 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Elms+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
+@font-face {
+  font-family: 'Instagram Sans Headline';
+  src: url('/fonts/Instagram Sans Headline.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instagram Sans';
+  src: url('/fonts/Instagram Sans.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instagram Sans';
+  src: url('/fonts/Instagram Sans Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instagram Sans';
+  src: url('/fonts/Instagram Sans Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instagram Sans';
+  src: url('/fonts/Instagram Sans Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Dark Mode (Online School) */
   --color-charcoal: #121212;
@@ -23,6 +63,8 @@
   
   --font-display: 'Elms Sans', sans-serif;
   --font-body: 'Inter', sans-serif;
+  --font-headline: 'Instagram Sans Headline', sans-serif;
+  --font-sans: 'Instagram Sans', sans-serif;
 }
 
 * {
