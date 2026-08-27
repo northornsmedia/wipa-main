@@ -53,7 +53,7 @@ export default function Hero() {
       ];
 
   return (
-    <section id="hero" className="section section-dark" style={{ backgroundColor: 'var(--color-black)', minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', zIndex: 0, overflow: 'hidden', padding: '120px 0 80px 0', position: 'relative' }}>
+    <section id="hero" className="section section-dark" style={{ backgroundColor: 'var(--bg-primary)', minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', zIndex: 0, overflow: 'hidden', padding: '120px 0 80px 0', position: 'relative' }}>
 
       <div className="mobile-padding" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 60px' }}>
         
@@ -63,15 +63,15 @@ export default function Hero() {
             <FadeIn direction="up" delay={0.1}>
               <div style={{ 
                 display: 'inline-block', 
-                backgroundColor: 'var(--color-pastel-blue)', 
-                color: 'var(--color-black)', 
-                padding: '8px 16px', 
+                backgroundColor: 'rgba(236, 72, 153, 0.12)', 
+                color: 'var(--text-heading)', 
+                padding: '8px 20px', 
                 borderRadius: '30px', 
                 fontWeight: 700, 
                 fontSize: '0.9rem', 
                 marginBottom: '40px', 
-                border: '2px solid var(--color-black)', 
-                boxShadow: '4px 4px 0px var(--color-black)' 
+                border: '1px solid rgba(236, 72, 153, 0.35)', 
+                boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' 
               }}>
                 <span className="desktop-hide">
                   Launching January 2027 <br />
@@ -93,13 +93,13 @@ export default function Hero() {
             <h1 className="heading-huge" style={{ margin: '20px 0 0 0', fontSize: 'clamp(2.1rem, 9vw, 4.2rem)', lineHeight: 1.1, maxWidth: '100%', textTransform: 'uppercase' }}>
               <span className="mobile-hide">
                 <span style={{ whiteSpace: 'nowrap' }}>THE GLOBAL COMMUNITY</span> <br/>
-                <span style={{ whiteSpace: 'nowrap' }}>FOR WOMEN IN</span> <br/>
+                <span style={{ whiteSpace: 'nowrap', background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>FOR WOMEN IN</span> <br/>
                 <span style={{ whiteSpace: 'nowrap' }}>INTELLECTUAL PROPERTY</span>
               </span>
               <span className="desktop-hide" style={{ lineHeight: 1.2 }}>
                 THE GLOBAL <br/>
                 COMMUNITY <br/>
-                FOR WOMEN IN <br/>
+                <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>FOR WOMEN IN</span> <br/>
                 INTELLECTUAL <br/>
                 PROPERTY
               </span>
@@ -113,7 +113,7 @@ export default function Hero() {
           {/* Left Side: Content */}
           <div className="hero-left" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left', pointerEvents: 'none' }}>
             <FadeIn direction="up" delay={0.2} style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'flex-start', width: '100%' }}>
-              <p className="mobile-text-center" style={{ maxWidth: '800px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.4 }}>
+              <p className="mobile-text-center" style={{ maxWidth: '800px', fontSize: '1.15rem', color: 'var(--text-body)', lineHeight: 1.4 }}>
                 <strong>WIPA (The Women's IP Alliance)</strong> is an international membership community bringing together women across intellectual property, innovation, technology, law, academia, research, and entrepreneurship. Developed by the team behind <i>The Women's IP World Annual</i>, WIPA provides year-round opportunities to connect, collaborate, develop professionally, and lead globally.
               </p>
               
@@ -124,10 +124,10 @@ export default function Hero() {
               </div>
             </FadeIn>
 
-            <FadeIn direction="up" delay={0.4} className="mobile-grid-2 mobile-gap-sm" style={{ marginTop: '50px', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '25px', display: 'flex', gap: '25px', flexWrap: 'wrap', width: '100%' }}>
+            <FadeIn direction="up" delay={0.4} className="mobile-grid-2 mobile-gap-sm" style={{ marginTop: '50px', borderTop: '1px solid var(--border-subtle)', paddingTop: '25px', display: 'flex', gap: '25px', flexWrap: 'wrap', width: '100%' }}>
               {["Global Community", "Exclusive Events", "International Networking", "Educational Webinars"].map((highlight, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.9)', fontSize: '1rem', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--color-pastel-green)' }}>✓</span> {highlight}
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-heading)', fontSize: '1rem', fontWeight: 600 }}>
+                  <span style={{ color: '#10b981' }}>✓</span> {highlight}
                 </div>
               ))}
             </FadeIn>
@@ -143,12 +143,12 @@ export default function Hero() {
                   fontSize: 'clamp(1.0rem, 4.5vw, 2.2rem)', 
                   fontWeight: 900, 
                   textTransform: 'uppercase', 
-                  color: 'var(--color-black)',
-                  backgroundColor: 'var(--color-pastel-purple)',
+                  color: 'var(--text-heading)',
+                  backgroundColor: 'rgba(168, 85, 247, 0.15)',
                   padding: 'clamp(8px, 2vw, 12px) clamp(16px, 4vw, 28px)',
                   borderRadius: '16px',
-                  border: '3px solid var(--color-white)',
-                  boxShadow: '6px 6px 0px rgba(255,255,255,0.9)',
+                  border: '1px solid rgba(168, 85, 247, 0.35)',
+                  boxShadow: '0 0 25px rgba(168, 85, 247, 0.25)',
                   margin: 0,
                   transform: 'rotate(2deg)'
                 }}>
@@ -197,26 +197,26 @@ export default function Hero() {
                       alignItems: 'center'
                     }}
                   >
-                    <div style={{ width: '100%', height: '380px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: isDesktopRight ? 'var(--color-pastel-purple)' : 'var(--color-pastel-yellow)', position: 'relative' }}>
+                    <div style={{ width: '100%', height: '380px', borderRadius: '32px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', position: 'relative' }}>
                       <img src={profile.src} alt={profile.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <div style={{ textAlign: 'center', marginTop: '16px', width: '100%' }}>
-                      <div style={{ color: 'var(--color-white)', fontSize: '1.2rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <div style={{ color: 'var(--text-heading)', fontSize: '1.2rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                         {profile.countryCode?.map(code => (
                           <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
                         ))}
                         {profile.name}
                       </div>
-                      <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginTop: '4px', lineHeight: 1.3 }}>{profile.position}</div>
+                      <div style={{ color: 'var(--text-body)', fontSize: '0.9rem', marginTop: '4px', lineHeight: 1.3 }}>{profile.position}</div>
                       {profile.company && (
-                        <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginTop: '4px', fontStyle: 'italic' }}>{profile.company}</div>
+                        <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '4px', fontStyle: 'italic' }}>{profile.company}</div>
                       )}
                     </div>
                   </motion.div>
                 );
               })}
             </AnimatePresence>
-          </div>
+            </div>
           </div>
         </div>
       </div>

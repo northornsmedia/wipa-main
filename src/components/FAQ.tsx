@@ -58,11 +58,12 @@ export default function FAQ() {
             {faqs.map((faq, i) => (
               <div 
                 key={i} 
-                className="pill-container bg-white" 
+                className="pill-container" 
                 style={{ 
                   padding: '20px 30px', 
-                  border: '2px solid var(--color-black)', 
-                  boxShadow: '4px 4px 0px var(--color-black)',
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border-card)', 
+                  boxShadow: 'var(--shadow-card)',
                   cursor: 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
@@ -71,8 +72,8 @@ export default function FAQ() {
                 onClick={() => toggleFaq(i)}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4 className="heading-md" style={{ fontSize: '1.3rem', margin: 0 }}>{faq.q}</h4>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, marginLeft: '20px' }}>
+                  <h4 className="heading-md" style={{ fontSize: '1.3rem', margin: 0, color: 'var(--text-heading)' }}>{faq.q}</h4>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, marginLeft: '20px', color: '#f472b6' }}>
                     {openIndex === i ? '−' : '+'}
                   </div>
                 </div>
@@ -85,7 +86,7 @@ export default function FAQ() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       style={{ overflow: 'hidden' }}
                     >
-                      <div style={{ fontSize: '1.1rem', color: 'rgba(0,0,0,0.8)', lineHeight: 1.6, paddingRight: '40px', paddingBottom: '10px' }}>
+                      <div style={{ fontSize: '1.1rem', color: 'var(--text-body)', lineHeight: 1.6, paddingRight: '40px', paddingBottom: '10px' }}>
                         {faq.a}
                       </div>
                     </motion.div>

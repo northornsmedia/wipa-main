@@ -25,9 +25,9 @@ export default function MemberBenefits() {
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
-              Membership That Works <span style={{ color: 'var(--color-pastel-purple)' }}>Beyond Conferences</span>
+              Membership That Works <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>Beyond Conferences</span>
             </h2>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, opacity: 0.9, textAlign: 'center' }}>
+            <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, color: 'var(--text-body)', textAlign: 'center' }}>
               Membership provides continuous opportunities to learn, connect, collaborate, and grow through an extensive range of exclusive benefits designed specifically for women working across intellectual property.
             </p>
           </FadeIn>
@@ -37,9 +37,9 @@ export default function MemberBenefits() {
       <div className="marquee-container" style={{ padding: '10px 0 50px' }}>
         <div className="marquee-content" style={{ animationDuration: '40s', gap: '24px' }}>
           {[...benefits, ...benefits].map((b, i) => (
-            <TiltCard key={i} className={`pill-container ${b.style}`} style={{ width: '280px', flexShrink: 0, padding: '25px 35px', border: '2px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)' }}>
-              <h4 className="heading-md" style={{ textAlign: 'center', marginBottom: '15px', fontSize: '1.25rem', color: b.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{b.title}</h4>
-              <p style={{ textAlign: 'center', fontSize: '0.95rem', color: b.style === 'bg-charcoal' ? 'rgba(255,255,255,0.8)' : 'var(--color-black)' }}>{b.desc}</p>
+            <TiltCard key={i} className={`pill-container ${b.style}`} style={{ width: '280px', flexShrink: 0, padding: '25px 35px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)' }}>
+              <h4 className="heading-md" style={{ textAlign: 'center', marginBottom: '15px', fontSize: '1.25rem', color: 'var(--text-heading)' }}>{b.title}</h4>
+              <p style={{ textAlign: 'center', fontSize: '0.95rem', color: 'var(--text-body)' }}>{b.desc}</p>
             </TiltCard>
           ))}
         </div>

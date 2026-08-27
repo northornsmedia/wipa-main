@@ -31,7 +31,7 @@ export default function MembershipJourney() {
         
         <FadeIn direction="up">
           <h2 className="heading-huge" style={{ marginBottom: '80px' }}>
-            Your Journey <br/> <span style={{ color: 'var(--color-accent-purple)' }}>Begins Here</span>
+            Your Journey <br/> <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>Begins Here</span>
           </h2>
         </FadeIn>
 

@@ -34,16 +34,16 @@ export default function About() {
     { text: "for", color: "inherit" },
     { text: "Women", color: "inherit" },
     { text: "in", color: "inherit" },
-    { text: "Intellectual", color: "var(--color-accent-purple)" },
-    { text: "Property.", color: "var(--color-accent-purple)" }
+    { text: "Intellectual", color: "#f472b6" },
+    { text: "Property.", color: "#d946ef" }
   ];
 
   return (
     <section id="about" className="section section-white" style={{ position: 'relative', zIndex: 10 }}>
-      <div className="sticker mobile-hidden" style={{ '--rot': '10deg', backgroundColor: 'var(--color-pastel-pink)', top: '10%', right: '15%' } as React.CSSProperties}>💡</div>
+      <div className="sticker mobile-hidden" style={{ '--rot': '10deg', backgroundColor: 'rgba(236, 72, 153, 0.15)', border: '1px solid rgba(236, 72, 153, 0.35)', boxShadow: '0 0 20px rgba(236, 72, 153, 0.25)', top: '10%', right: '15%' } as React.CSSProperties}>💡</div>
 
       <div className="container" style={{ textAlign: 'center', maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 ref={ref} className="heading-lg" style={{ marginBottom: '30px' }}>
+        <h2 ref={ref} className="heading-lg" style={{ marginBottom: '30px', color: 'var(--text-heading)' }}>
           {words.map((word, i) => {
             const start = i / words.length;
             const end = start + (1 / words.length);
@@ -57,7 +57,7 @@ export default function About() {
             );
           })}
         </h2>
-        <p style={{ fontSize: '1.2rem', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center' }}>
+        <p style={{ fontSize: '1.2rem', marginBottom: '40px', lineHeight: 1.6, color: 'var(--text-body)', textAlign: 'center' }}>
           Women have long played a vital role in shaping innovation, protecting brands, advancing technology, and driving the future of intellectual property. Yet opportunities to build lasting international relationships, exchange expertise, and collaborate beyond conferences remain limited. The Women's IP Alliance has been created to bridge that gap.
         </p>
         <Link href="/about" className="btn btn-accent">

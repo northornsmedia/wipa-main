@@ -43,10 +43,10 @@ export default function Preloader() {
             style={{ textAlign: 'center' }}
           >
             <div className="heading-huge" style={{ color: 'var(--color-white)', margin: 0, fontSize: '6rem' }}>
-              WIPA<span style={{ color: 'var(--color-pastel-purple)' }}>.</span>
+              WIPA<span style={{ color: '#ff3b5c' }}>.</span>
             </div>
             <motion.div 
-              style={{ width: '0%', height: '4px', backgroundColor: 'var(--color-pastel-purple)', marginTop: '20px', borderRadius: '2px' }}
+              style={{ width: '0%', height: '4px', background: 'linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)', marginTop: '20px', borderRadius: '2px', boxShadow: '0 0 15px rgba(236, 72, 153, 0.5)' }}
               animate={{ width: '100%' }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
             />

@@ -40,31 +40,90 @@
   font-display: swap;
 }
 
-:root {
-  /* Dark Mode (Online School) */
-  --color-charcoal: #121212;
-  --color-charcoal-light: #1A1A1A;
+:root, [data-theme="light"] {
+  /* Light Canvas & Card System (Default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-navbar: rgba(255, 255, 255, 0.9);
   
-  /* Brutalist Editorial (Deep^style) */
-  --color-white: #FFFFFF;
-  --color-black: #000000;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-card: rgba(0, 0, 0, 0.08);
+  --border-input: rgba(0, 0, 0, 0.15);
   
-  /* Pastels (ReelUp) */
-  --color-pastel-purple: #E6E1FA;
-  --color-pastel-yellow: #FEF3C7;
-  --color-pastel-green: #D1FAE5;
-  --color-pastel-pink: #FCE7F3;
-  --color-pastel-blue: #DBEAFE;
-  --color-pastel-orange: #FFD8B1;
+  --text-heading: #0f172a;
+  --text-body: #475569;
+  --text-muted: #64748b;
+  --text-light: #334155;
   
-  /* Playful Accents (WonderKids) */
-  --color-accent-purple: #7645D9;
-  --color-accent-yellow: #FFB703;
+  --color-charcoal: #ffffff;
+  --color-charcoal-light: #f8fafc;
+  --color-white: #0f172a;
+  --color-black: #ffffff;
+  
+  /* Tint Accents for Light Mode */
+  --color-pastel-purple: rgba(168, 85, 247, 0.08);
+  --color-pastel-yellow: rgba(245, 158, 11, 0.08);
+  --color-pastel-green: rgba(16, 185, 129, 0.08);
+  --color-pastel-pink: rgba(236, 72, 153, 0.08);
+  --color-pastel-blue: rgba(56, 189, 248, 0.08);
+  --color-pastel-orange: rgba(249, 115, 22, 0.08);
+  
+  /* Vibrant Gradients & Accents */
+  --color-accent-purple: #d946ef;
+  --color-accent-yellow: #f59e0b;
+  --color-neon-pink: #ff2d55;
+  --color-neon-green: #10b981;
+  --color-neon-cyan: #38bdf8;
+  
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.12);
+  --shadow-featured: 0 10px 35px rgba(255, 45, 85, 0.18);
+  --grid-line-color: rgba(0, 0, 0, 0.04);
   
   --font-display: 'Elms Sans', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-headline: 'Instagram Sans Headline', sans-serif;
   --font-sans: 'Instagram Sans', sans-serif;
+}
+
+[data-theme="dark"] {
+  /* Dark Canvas & Card System Override */
+  --bg-primary: #07090e;
+  --bg-secondary: #0a0d14;
+  --bg-surface: #0d111c;
+  --bg-surface-elevated: #131826;
+  --bg-card: #0d111c;
+  --bg-navbar: rgba(7, 9, 14, 0.85);
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.1);
+  --border-input: rgba(255, 255, 255, 0.15);
+  
+  --text-heading: #ffffff;
+  --text-body: #94a3b8;
+  --text-muted: #64748b;
+  --text-light: #cbd5e1;
+  
+  --color-charcoal: #07090e;
+  --color-charcoal-light: #0d111c;
+  --color-white: #ffffff;
+  --color-black: #07090e;
+  
+  /* Neon Glass Tint Accents */
+  --color-pastel-purple: rgba(168, 85, 247, 0.12);
+  --color-pastel-yellow: rgba(245, 158, 11, 0.12);
+  --color-pastel-green: rgba(16, 185, 129, 0.12);
+  --color-pastel-pink: rgba(236, 72, 153, 0.12);
+  --color-pastel-blue: rgba(56, 189, 248, 0.12);
+  --color-pastel-orange: rgba(249, 115, 22, 0.12);
+  
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 14px 40px rgba(0, 0, 0, 0.6);
+  --shadow-featured: 0 0 30px rgba(255, 45, 85, 0.25);
+  --grid-line-color: rgba(255, 255, 255, 0.04);
 }
 
 * {
@@ -77,12 +136,15 @@ html, body {
   max-width: 100%;
   width: 100%;
   overflow-x: clip;
+  background-color: var(--bg-primary);
+  color: var(--text-heading);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: var(--bg-primary);
+  color: var(--text-heading);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -91,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.04em;
-  color: inherit;
+  color: var(--text-heading);
 }
 
 a {
@@ -112,14 +174,16 @@ a {
 
 /* Base Sections */
 .section-dark {
-  background-color: var(--color-charcoal);
-  color: var(--color-white);
+  background-color: var(--bg-primary);
+  color: var(--text-heading);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .section-white {
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border-bottom: 2px solid var(--color-black);
+  background-color: var(--bg-secondary);
+  color: var(--text-heading);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Typography */
@@ -128,16 +192,19 @@ a {
   line-height: 0.95;
   text-transform: uppercase;
   font-weight: 900;
+  color: var(--text-heading);
 }
 
 .heading-lg {
   font-size: clamp(3rem, 6vw, 5rem);
   line-height: 1.05;
+  color: var(--text-heading);
 }
 
 .heading-md {
   font-size: 2rem;
   font-weight: 600;
+  color: var(--text-heading);
 }
 
 /* Playful Elements */
@@ -151,8 +218,8 @@ a {
   justify-content: center;
   font-size: 2rem;
   z-index: 10;
-  box-shadow: 4px 4px 0px rgba(0,0,0,1);
-  border: 2px solid var(--color-black);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.25);
+  border: 1px solid rgba(236, 72, 153, 0.35);
   animation: float 6s ease-in-out infinite;
 }
 
@@ -167,22 +234,23 @@ a {
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 2px solid var(--color-black);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: none;
   text-transform: uppercase;
 }
 
 .btn-accent {
-  background-color: var(--color-accent-yellow);
-  color: var(--color-black);
-  box-shadow: 4px 4px 0px var(--color-black);
+  background: linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%);
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35);
 }
 
 .btn-accent:hover {
-  transform: translate(-2px, -2px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(236, 72, 153, 0.5);
 }
 
-/* Bento Box Grid (ReelUp) */
+/* Bento Box Grid */
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -193,34 +261,44 @@ a {
 .bento-card {
   padding: 32px;
   border-radius: 32px;
-  border: 2px solid var(--color-charcoal);
-  transition: transform 0.3s ease;
+  border: 1px solid var(--border-card);
+  background-color: var(--bg-card);
+  color: var(--text-heading);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-card);
 }
 
 .bento-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
+  border-color: rgba(236, 72, 153, 0.35);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .span-2 { grid-column: span 2; }
 .span-3 { grid-column: span 3; }
 .row-span-2 { grid-row: span 2; }
 
-/* Pastels for Bento */
-.bg-pastel-purple { background-color: var(--color-pastel-purple); color: var(--color-charcoal); }
-.bg-pastel-yellow { background-color: var(--color-pastel-yellow); color: var(--color-charcoal); }
-.bg-pastel-green { background-color: var(--color-pastel-green); color: var(--color-charcoal); }
-.bg-pastel-pink { background-color: var(--color-pastel-pink); color: var(--color-charcoal); }
-.bg-pastel-blue { background-color: var(--color-pastel-blue); color: var(--color-charcoal); }
-.bg-pastel-orange { background-color: var(--color-pastel-orange); color: var(--color-charcoal); }
-.bg-charcoal { background-color: var(--color-charcoal-light); color: var(--color-white); }
+/* Tint Accents for Bento & Cards */
+.bg-pastel-purple { background-color: var(--color-pastel-purple) !important; color: var(--text-heading) !important; border: 1px solid rgba(168, 85, 247, 0.25) !important; }
+.bg-pastel-yellow { background-color: var(--color-pastel-yellow) !important; color: var(--text-heading) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; }
+.bg-pastel-green { background-color: var(--color-pastel-green) !important; color: var(--text-heading) !important; border: 1px solid rgba(16, 185, 129, 0.25) !important; }
+.bg-pastel-pink { background-color: var(--color-pastel-pink) !important; color: var(--text-heading) !important; border: 1px solid rgba(236, 72, 153, 0.25) !important; }
+.bg-pastel-blue { background-color: var(--color-pastel-blue) !important; color: var(--text-heading) !important; border: 1px solid rgba(56, 189, 248, 0.25) !important; }
+.bg-pastel-orange { background-color: var(--color-pastel-orange) !important; color: var(--text-heading) !important; border: 1px solid rgba(249, 115, 22, 0.25) !important; }
+.bg-charcoal { background-color: var(--bg-surface) !important; color: var(--text-heading) !important; border: 1px solid var(--border-card) !important; }
 
-/* Pill Shapes (Online School) */
+/* Pill Shapes */
 .pill-container {
   border-radius: 32px;
   overflow: hidden;
   position: relative;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  color: var(--text-heading);
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -610,21 +688,24 @@ a {
 
 /* Pricing Card Button Animation */
 .pricing-btn {
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: pointer;
+  background: var(--bg-surface-elevated) !important;
+  color: var(--text-heading) !important;
+  border: 1px solid var(--border-input) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 .pricing-btn:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 4px 6px 0px var(--color-black) !important;
-  background-color: var(--color-black) !important;
-  color: var(--color-white) !important;
+  transform: translateY(-4px) scale(1.02);
+  background: linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%) !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4) !important;
+  color: #ffffff !important;
 }
 
 .pricing-btn:active {
   transform: translateY(0) scale(0.98);
-  box-shadow: 0px 0px 0px var(--color-black) !important;
-  transition: all 0.1s ease;
 }
 
 /* --- NAVBAR STYLES --- */
@@ -633,13 +714,19 @@ a {
   top: 0;
   z-index: 1000;
   padding: 20px 0;
-  transition: padding 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
+  transition: padding 0.3s ease, background 0.3s ease, border-bottom 0.3s ease;
+  background: var(--bg-navbar);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-heading);
 }
 
 .navbar-header.scrolled {
-  padding: 10px 0;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 12px 0;
+  background: var(--bg-navbar);
+  border-bottom: 1px solid var(--border-card);
+  box-shadow: var(--shadow-nav);
 }
 
 .navbar-logo {

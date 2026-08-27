@@ -16,16 +16,16 @@ export default function HowItHelps() {
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <FadeIn direction="up">
           <h2 className="heading-huge" style={{ textAlign: 'center', marginBottom: '80px' }}>
-            Supporting <span style={{ backgroundColor: 'var(--color-pastel-yellow)', padding: '0 20px' }}>Every Stage</span><br/>
+            Supporting <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block', padding: '0 10px' }}>Every Stage</span><br/>
             of Your Journey
           </h2>
         </FadeIn>
 
         <StaggerGrid className="bento-grid">
           {stages.map((s, i) => (
-            <div key={i} className="bento-card span-2 mobile-text-center" style={{ backgroundColor: 'var(--color-white)', boxShadow: '8px 8px 0px var(--color-charcoal)' }}>
-              <h3 className="heading-md mobile-text-center" style={{ marginBottom: '15px' }}>{s.title}</h3>
-              <p className="mobile-text-center" style={{ fontSize: '1.1rem' }}>{s.desc}</p>
+            <div key={i} className="bento-card span-2 mobile-text-center" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)' }}>
+              <h3 className="heading-md mobile-text-center" style={{ marginBottom: '15px', color: 'var(--text-heading)' }}>{s.title}</h3>
+              <p className="mobile-text-center" style={{ fontSize: '1.1rem', color: 'var(--text-body)' }}>{s.desc}</p>
             </div>
           ))}
         </StaggerGrid>

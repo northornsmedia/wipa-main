@@ -54,8 +54,9 @@ export default function CustomCursor() {
         width: 32,
         height: 32,
         borderRadius: '50%',
-        border: '2px solid var(--color-black)',
-        backgroundColor: 'var(--color-pastel-purple)',
+        border: '1px solid rgba(255, 255, 255, 0.4)',
+        backgroundColor: 'rgba(236, 72, 153, 0.3)',
+        backdropFilter: 'blur(4px)',
         pointerEvents: 'none',
         zIndex: 9999,
         x: cursorXSpring,
@@ -65,14 +66,14 @@ export default function CustomCursor() {
         alignItems: 'center',
       }}
       animate={{
-        scale: isHovering ? 2.5 : 1,
-        opacity: isHovering ? 0.5 : 0.8,
-        backgroundColor: isHovering ? 'var(--color-pastel-yellow)' : 'var(--color-pastel-purple)'
+        scale: isHovering ? 2.2 : 1,
+        opacity: isHovering ? 0.8 : 0.6,
+        backgroundColor: isHovering ? 'rgba(249, 115, 22, 0.4)' : 'rgba(236, 72, 153, 0.3)'
       }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <motion.div 
-        style={{ width: 4, height: 4, backgroundColor: 'var(--color-black)', borderRadius: '50%' }}
+        style={{ width: 4, height: 4, backgroundColor: '#ffffff', borderRadius: '50%' }}
         animate={{ opacity: isHovering ? 0 : 1 }}
       />
     </motion.div>

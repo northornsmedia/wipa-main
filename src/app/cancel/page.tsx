@@ -20,19 +20,16 @@ function CancelContent() {
   }, [interestId]);
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "var(--color-pastel-pink)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
       <FadeIn direction="up">
-        <div style={{ backgroundColor: "var(--color-white)", padding: "60px", borderRadius: "32px", border: "4px solid var(--color-black)", boxShadow: "16px 16px 0px var(--color-black)", maxWidth: "600px", textAlign: "center" }}>
+        <div style={{ backgroundColor: "var(--bg-card)", padding: "60px", borderRadius: "32px", border: "1px solid var(--border-card)", boxShadow: "var(--shadow-card)", maxWidth: "600px", textAlign: "center" }}>
           <div style={{ fontSize: "5rem", marginBottom: "20px" }}>⚠️</div>
-          <h1 className="heading-lg" style={{ marginBottom: "20px" }}>Payment Cancelled</h1>
-          <p style={{ fontSize: "1.2rem", lineHeight: 1.6, marginBottom: "40px", fontWeight: 500, opacity: 0.9 }}>
+          <h1 className="heading-lg" style={{ marginBottom: "20px", color: "var(--text-heading)" }}>Payment Cancelled</h1>
+          <p style={{ fontSize: "1.2rem", lineHeight: 1.6, marginBottom: "40px", fontWeight: 500, color: "var(--text-light)" }}>
             Your checkout session was cancelled. If you experienced an issue or need assistance, please feel free to reach out to our support team.
           </p>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <button style={{ padding: "20px 40px", borderRadius: "50px", border: "3px solid var(--color-black)", backgroundColor: "var(--color-black)", color: "var(--color-white)", fontSize: "1.2rem", fontWeight: "bold", cursor: "pointer", transition: "transform 0.2s" }}
-              onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-              onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-            >
+            <button className="btn btn-accent" style={{ padding: "20px 40px", borderRadius: "50px", fontSize: "1.2rem", fontWeight: "bold", cursor: "pointer" }}>
               Return to Homepage
             </button>
           </Link>

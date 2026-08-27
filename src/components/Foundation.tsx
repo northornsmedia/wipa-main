@@ -66,19 +66,19 @@ export default function Foundation() {
         
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
-            <div style={{ display: 'inline-block', backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '8px 16px', borderRadius: '30px', fontWeight: 700, fontSize: '0.9rem', marginBottom: '20px' }}>
+            <div style={{ display: 'inline-block', backgroundColor: 'rgba(236, 72, 153, 0.12)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '8px 20px', borderRadius: '30px', fontWeight: 700, fontSize: '0.9rem', marginBottom: '20px', boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' }}>
               Powered by The Women's IP World
             </div>
-            <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
+            <h2 className="heading-huge" style={{ marginBottom: '30px', color: 'var(--text-heading)' }}>
               An International Legacy
             </h2>
-            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6, textAlign: 'center' }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6, color: 'var(--text-body)', textAlign: 'center' }}>
               The Women's IP Alliance has been developed by the team behind The Women's IP World Annual—the world's leading publication celebrating women across intellectual property.
             </p>
-            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6, textAlign: 'center' }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto 20px', lineHeight: 1.6, color: 'var(--text-body)', textAlign: 'center' }}>
               For years, the publication has connected outstanding professionals from every region, showcasing leadership, celebrating achievement, and promoting diversity across patents, trade marks, innovation, technology, academia, and law.
             </p>
-            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, textAlign: 'center' }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, color: 'var(--text-body)', textAlign: 'center' }}>
               The Alliance extends this trusted global network beyond an annual publication, creating a vibrant year-round ecosystem where relationships continue to grow long after conferences and publications are complete.
             </p>
           </FadeIn>
@@ -89,8 +89,8 @@ export default function Foundation() {
       <div style={{ width: '100%', maxWidth: '1800px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 10 }}>
         <StaggerGrid className="foundation-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', width: '100%' }}>
           {highlights.map((h, i) => (
-            <div key={i} className={`pill-container ${h.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1, minWidth: '220px' }}>
-              <h4 className="heading-md foundation-pill-text" style={{ color: h.style === 'bg-charcoal' ? 'var(--color-white)' : 'var(--color-black)' }}>{h.title}</h4>
+            <div key={i} className={`pill-container ${h.style}`} style={{ padding: '40px 20px', textAlign: 'center', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1, minWidth: '220px' }}>
+              <h4 className="heading-md foundation-pill-text" style={{ color: 'var(--text-heading)' }}>{h.title}</h4>
             </div>
           ))}
         </StaggerGrid>

@@ -53,7 +53,7 @@ export default function CommunityImpact() {
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
-              Meet the Women Building the <br/> <span style={{ color: 'var(--color-accent-purple)' }}>Future of IP</span>
+              Meet the Women Building the <br/> <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>Future of IP</span>
             </h2>
           </FadeIn>
         </div>
@@ -83,25 +83,25 @@ export default function CommunityImpact() {
                     margin: isMounted && isMobile ? '0 auto' : '0',
                     width: isMounted && isMobile ? '100%' : 'auto',
                     maxWidth: isMounted && isMobile ? '320px' : 'none',
-                    border: '3px solid var(--color-black)',
+                    border: '1px solid var(--border-card)',
                     borderRadius: '24px',
                     padding: (!isMounted || !isMobile) ? '24px 24px 32px 24px' : '20px 20px 24px 20px',
-                    boxShadow: '6px 6px 0px var(--color-black)'
+                    boxShadow: 'var(--shadow-card)'
                   }}
                 >
-                  <div style={{ width: '100%', height: (!isMounted || !isMobile) ? '260px' : '280px', borderRadius: '16px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', border: '3px solid var(--color-black)' }}>
+                  <div style={{ width: '100%', height: (!isMounted || !isMobile) ? '260px' : '280px', borderRadius: '16px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', border: '1px solid var(--border-subtle)' }}>
                     <img src={p.src} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ marginTop: 'auto', width: '100%' }}>
-                    <div style={{ color: 'var(--color-black)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
+                    <div style={{ color: 'var(--text-heading)', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px', lineHeight: 1.2 }}>
                       {p.countryCode?.map((code: string) => (
                         <img key={code} src={`https://flagcdn.com/w20/${code}.png`} width="20" alt={code} style={{ borderRadius: '2px' }} />
                       ))}
                       {p.name}
                     </div>
-                    <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--color-charcoal)' }}>{p.position}</h4>
+                    <h4 className="heading-md" style={{ fontSize: '0.9rem', marginBottom: '4px', lineHeight: 1.3, color: 'var(--text-body)' }}>{p.position}</h4>
                     {p.company && (
-                      <div style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)', textAlign: 'center' }}>{p.company}</div>
+                      <div style={{ fontSize: '0.8rem', margin: 0, fontStyle: 'italic', color: 'var(--text-muted)', textAlign: 'center' }}>{p.company}</div>
                     )}
                   </div>
                 </motion.div>

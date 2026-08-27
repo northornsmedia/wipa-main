@@ -54,14 +54,16 @@ const expertiseCategories = [
 
 export default function ExpertisePage() {
   return (
-    <main style={{ backgroundColor: 'var(--color-white)', minHeight: '100vh' }}>
+    <main style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh' }}>
       <Navbar />
       
       <section className="section" style={{ paddingTop: '160px', paddingBottom: '100px' }}>
         <div className="container">
           <FadeIn direction="up">
-            <h1 className="heading-huge" style={{ marginBottom: '20px' }}>Areas of Expertise</h1>
-            <p style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '60px', lineHeight: 1.6 }}>
+            <h1 className="heading-huge" style={{ marginBottom: '20px', color: 'var(--text-heading)' }}>
+              Areas of <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Expertise</span>
+            </h1>
+            <p style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '60px', lineHeight: 1.6, color: 'var(--text-body)' }}>
               The Women's IP Alliance encompasses a broad spectrum of disciplines within the intellectual property ecosystem. Our community supports professionals across these specialized domains, providing networking, mentorship, and career acceleration.
             </p>
           </FadeIn>
@@ -69,12 +71,12 @@ export default function ExpertisePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
             {expertiseCategories.map((category, index) => (
               <FadeIn key={index} direction="up" delay={0.1 * index}>
-                <div style={{ padding: '30px', backgroundColor: 'var(--color-pastel-purple)', borderRadius: '24px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', height: '100%' }}>
-                  <h2 className="heading-md" style={{ marginBottom: '20px' }}>{category.title}</h2>
+                <div style={{ padding: '30px', backgroundColor: 'var(--bg-card)', borderRadius: '24px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', height: '100%' }}>
+                  <h2 className="heading-md" style={{ marginBottom: '20px', color: 'var(--text-heading)' }}>{category.title}</h2>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {category.keywords.map((keyword, kIndex) => (
-                      <li key={kIndex} style={{ display: 'flex', alignItems: 'flex-start', fontSize: '1.05rem', fontWeight: 500 }}>
-                        <span style={{ color: 'var(--color-primary)', marginRight: '10px' }}>✦</span>
+                      <li key={kIndex} style={{ display: 'flex', alignItems: 'flex-start', fontSize: '1.05rem', fontWeight: 500, color: 'var(--text-light)' }}>
+                        <span style={{ color: '#f472b6', marginRight: '10px' }}>✦</span>
                         <span style={{ textTransform: 'capitalize' }}>{keyword}</span>
                       </li>
                     ))}

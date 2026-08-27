@@ -146,17 +146,19 @@ export default function OnboardingPage() {
     width: "100%",
     padding: "15px 20px",
     fontSize: "1.1rem",
-    border: "3px solid var(--color-black)",
+    border: "1px solid var(--border-input)",
+    backgroundColor: "var(--bg-primary)",
+    color: "var(--text-heading)",
     borderRadius: "16px",
     marginBottom: "20px",
     fontFamily: "inherit",
-    boxShadow: "4px 4px 0px rgba(0,0,0,0.1)",
+    boxShadow: "var(--shadow-card)",
     outline: "none",
-    transition: "box-shadow 0.2s"
+    transition: "border-color 0.2s, box-shadow 0.2s"
   };
 
   return (
-    <main onClick={(e) => { if ((e.target as Element).closest('.country-dropdown') === null) setDropdownOpen(false); }} style={{ backgroundColor: 'var(--color-pastel-purple)', backgroundImage: 'radial-gradient(var(--color-black) 1px, transparent 1px)', backgroundSize: '40px 40px', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <main onClick={(e) => { if ((e.target as Element).closest('.country-dropdown') === null) setDropdownOpen(false); }} style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
       <section style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '100px 20px', position: 'relative' }}>
@@ -171,45 +173,45 @@ export default function OnboardingPage() {
               transition={{ duration: 0.4 }}
               style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             >
-              <div style={{ display: 'inline-block', backgroundColor: 'var(--color-white)', color: 'var(--color-black)', padding: '8px 24px', borderRadius: '30px', fontWeight: 900, fontSize: '1rem', marginBottom: '20px', textTransform: 'uppercase', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+              <div style={{ display: 'inline-block', backgroundColor: 'rgba(236, 72, 153, 0.12)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '8px 24px', borderRadius: '30px', fontWeight: 900, fontSize: '0.9rem', marginBottom: '20px', textTransform: 'uppercase', boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' }}>
                 Step 1 of 2
               </div>
-              <h1 className="heading-huge" style={{ textAlign: 'center', marginBottom: '10px', color: 'var(--color-black)', lineHeight: 1.1, fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
-                LET'S GET <br/> ACQUAINTED
+              <h1 className="heading-huge" style={{ textAlign: 'center', marginBottom: '10px', color: 'var(--text-heading)', lineHeight: 1.1, fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
+                LET'S GET <br/> <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>ACQUAINTED</span>
               </h1>
-              <p style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--color-charcoal)', marginBottom: '40px', textAlign: 'center' }}>
+              <p style={{ fontSize: '1.2rem', fontWeight: 500, color: 'var(--text-body)', marginBottom: '40px', textAlign: 'center' }}>
                 Please share a few details so we can tailor your experience.
               </p>
 
-              <form onSubmit={handleSubmit} style={{ width: '100%', backgroundColor: 'var(--color-white)', padding: '50px', borderRadius: '32px', border: '4px solid var(--color-black)', boxShadow: '16px 16px 0px var(--color-black)', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative' }}>
+              <form onSubmit={handleSubmit} style={{ width: '100%', backgroundColor: 'var(--bg-card)', padding: '50px', borderRadius: '32px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px' }}>Full Name *</label>
-                  <input type="text" placeholder="Jane Doe" required style={inputStyle} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} onFocus={e => e.target.style.boxShadow = "6px 6px 0px var(--color-black)"} onBlur={e => e.target.style.boxShadow = "4px 4px 0px rgba(0,0,0,0.1)"} />
+                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px', color: 'var(--text-heading)' }}>Full Name *</label>
+                  <input type="text" placeholder="Jane Doe" required style={inputStyle} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} onFocus={e => e.target.style.borderColor = "#ec4899"} onBlur={e => e.target.style.borderColor = "var(--border-input)"} />
                 </div>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px' }}>Email Address *</label>
-                  <input type="email" placeholder="jane@example.com" required style={inputStyle} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} onFocus={e => e.target.style.boxShadow = "6px 6px 0px var(--color-black)"} onBlur={e => e.target.style.boxShadow = "4px 4px 0px rgba(0,0,0,0.1)"} />
+                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px', color: 'var(--text-heading)' }}>Email Address *</label>
+                  <input type="email" placeholder="jane@example.com" required style={inputStyle} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} onFocus={e => e.target.style.borderColor = "#ec4899"} onBlur={e => e.target.style.borderColor = "var(--border-input)"} />
                 </div>
 
                 <div className="country-dropdown" style={{ display: 'flex', flexDirection: 'column', gap: '5px', position: 'relative', marginBottom: '20px' }}>
-                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px' }}>Country *</label>
+                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px', color: 'var(--text-heading)' }}>Country *</label>
                   
                   <div 
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    style={{...inputStyle, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'var(--color-white)', marginBottom: 0}}
+                    style={{...inputStyle, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'var(--bg-primary)', marginBottom: 0}}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       {selectedCountryObj ? (
                         <>
-                          <img src={`https://flagcdn.com/w20/${selectedCountryObj.c}.png`} width="20" alt="" style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: '2px' }} />
-                          <span>{selectedCountryObj.n}</span>
+                          <img src={`https://flagcdn.com/w20/${selectedCountryObj.c}.png`} width="20" alt="" style={{ border: '1px solid var(--border-subtle)', borderRadius: '2px' }} />
+                          <span style={{ color: 'var(--text-heading)' }}>{selectedCountryObj.n}</span>
                         </>
                       ) : (
-                        <span style={{ color: '#666' }}>Select your country</span>
+                        <span style={{ color: 'var(--text-muted)' }}>Select your country</span>
                       )}
                     </div>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </div>
 
                   <AnimatePresence>
@@ -218,17 +220,17 @@ export default function OnboardingPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: 'var(--color-white)', border: '3px solid var(--color-black)', borderRadius: '16px', maxHeight: '300px', overflowY: 'auto', zIndex: 50, boxShadow: '6px 6px 0px var(--color-black)', marginTop: '5px' }}
+                        style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-input)', borderRadius: '16px', maxHeight: '300px', overflowY: 'auto', zIndex: 50, boxShadow: 'var(--shadow-card)', marginTop: '5px' }}
                       >
                         {countries.map(c => (
                           <div 
                             key={c.c}
                             onClick={() => { setFormData({...formData, country: c.n}); setDropdownOpen(false); }}
-                            style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', borderBottom: '1px solid rgba(0,0,0,0.05)', backgroundColor: formData.country === c.n ? 'rgba(0,0,0,0.05)' : 'transparent' }}
-                            onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.05)'}
-                            onMouseOut={e => e.currentTarget.style.backgroundColor = formData.country === c.n ? 'rgba(0,0,0,0.05)' : 'transparent'}
+                            style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', borderBottom: '1px solid var(--border-subtle)', backgroundColor: formData.country === c.n ? 'rgba(236, 72, 153, 0.2)' : 'transparent', color: 'var(--text-heading)' }}
+                            onMouseOver={e => e.currentTarget.style.backgroundColor = 'var(--bg-surface-elevated)'}
+                            onMouseOut={e => e.currentTarget.style.backgroundColor = formData.country === c.n ? 'rgba(236, 72, 153, 0.2)' : 'transparent'}
                           >
-                            <img src={`https://flagcdn.com/w20/${c.c}.png`} width="20" alt="" style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: '2px' }} />
+                            <img src={`https://flagcdn.com/w20/${c.c}.png`} width="20" alt="" style={{ border: '1px solid var(--border-subtle)', borderRadius: '2px' }} />
                             <span style={{ fontWeight: formData.country === c.n ? 700 : 500 }}>{c.n}</span>
                           </div>
                         ))}
@@ -238,17 +240,18 @@ export default function OnboardingPage() {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '20px' }}>
-                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px' }}>Phone Number *</label>
+                  <label style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '0.9rem', paddingLeft: '5px', color: 'var(--text-heading)' }}>Phone Number *</label>
                   <div style={{ display: 'flex', gap: '10px' }}>
                     <div style={{ 
                       ...inputStyle, 
                       width: 'auto', 
                       marginBottom: 0, 
-                      backgroundColor: 'var(--color-pastel-yellow)', 
+                      backgroundColor: 'var(--bg-surface-elevated)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       fontWeight: 'bold',
+                      color: 'var(--text-heading)',
                       opacity: selectedCountryObj ? 1 : 0.5
                     }}>
                       {selectedCountryObj ? selectedCountryObj.d : '+'}
@@ -260,13 +263,13 @@ export default function OnboardingPage() {
                       style={{ ...inputStyle, marginBottom: 0, flexGrow: 1 }} 
                       value={formData.phone} 
                       onChange={e => setFormData({...formData, phone: e.target.value})} 
-                      onFocus={e => e.target.style.boxShadow = "6px 6px 0px var(--color-black)"} 
-                      onBlur={e => e.target.style.boxShadow = "4px 4px 0px rgba(0,0,0,0.1)"} 
+                      onFocus={e => e.target.style.borderColor = "#ec4899"} 
+                      onBlur={e => e.target.style.borderColor = "var(--border-input)"} 
                     />
                   </div>
                 </div>
 
-                <button type="submit" disabled={isLoading} className="btn-wipa" style={{ width: '100%', backgroundColor: 'var(--color-pastel-green)', color: 'var(--color-black)', padding: '20px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 900, border: '3px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)', cursor: 'pointer', textTransform: 'uppercase', marginTop: '10px', opacity: isLoading ? 0.7 : 1 }}>
+                <button type="submit" disabled={isLoading} className="btn btn-accent" style={{ width: '100%', padding: '18px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 900, cursor: 'pointer', textTransform: 'uppercase', marginTop: '10px', opacity: isLoading ? 0.7 : 1 }}>
                   {isLoading ? 'Saving...' : 'Continue →'}
                 </button>
               </form>
@@ -282,23 +285,23 @@ export default function OnboardingPage() {
               transition={{ duration: 0.4 }}
               style={{ width: '100%', maxWidth: '1200px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             >
-              <div style={{ display: 'inline-block', backgroundColor: 'var(--color-white)', color: 'var(--color-black)', padding: '8px 24px', borderRadius: '30px', fontWeight: 900, fontSize: '1rem', marginBottom: '30px', textTransform: 'uppercase', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+              <div style={{ display: 'inline-block', backgroundColor: 'rgba(236, 72, 153, 0.12)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '8px 24px', borderRadius: '30px', fontWeight: 900, fontSize: '0.9rem', marginBottom: '30px', textTransform: 'uppercase', boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' }}>
                 Step 2 of 2
               </div>
-              <h1 className="heading-huge" style={{ textAlign: 'center', marginBottom: '60px', color: 'var(--color-black)', lineHeight: 1.1 }}>
-                WHERE ARE YOU IN <br/> YOUR IP JOURNEY?
+              <h1 className="heading-huge" style={{ textAlign: 'center', marginBottom: '60px', color: 'var(--text-heading)', lineHeight: 1.1 }}>
+                WHERE ARE YOU IN <br/> <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>YOUR IP JOURNEY?</span>
               </h1>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', width: '100%' }}>
                 {options.map((opt) => (
                   <TiltCard 
                     key={opt.id} 
-                    className="btn-wipa"
-                    style={{ backgroundColor: 'var(--color-white)', border: '3px solid var(--color-black)', borderRadius: '24px', padding: '30px', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: '8px 8px 0px var(--color-black)', transition: 'transform 0.2s, box-shadow 0.2s', height: '100%' }}
+                    className="bento-card"
+                    style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-card)', borderRadius: '24px', padding: '30px', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: 'var(--shadow-card)', height: '100%' }}
                   >
                     <div onClick={() => handleOptionSelect(opt)} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                      <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', textTransform: 'uppercase', marginBottom: '15px', color: 'var(--color-black)' }}>{opt.title}</h3>
-                      <p style={{ fontSize: '1.05rem', color: 'var(--color-charcoal)', fontWeight: 500, lineHeight: 1.5, marginTop: 'auto' }}>{opt.desc}</p>
+                      <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', textTransform: 'uppercase', marginBottom: '15px', color: 'var(--text-heading)' }}>{opt.title}</h3>
+                      <p style={{ fontSize: '1.05rem', color: 'var(--text-body)', fontWeight: 500, lineHeight: 1.5, marginTop: 'auto' }}>{opt.desc}</p>
                     </div>
                   </TiltCard>
                 ))}
@@ -306,7 +309,7 @@ export default function OnboardingPage() {
 
               <button 
                 onClick={() => setStep(1)}
-                style={{ background: 'none', border: 'none', color: 'var(--color-black)', fontWeight: 800, textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'underline', fontSize: '1.1rem', marginTop: '50px' }}
+                style={{ background: 'none', border: 'none', color: '#f472b6', fontWeight: 800, textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'underline', fontSize: '1.1rem', marginTop: '50px' }}
               >
                 ← Back to Details
               </button>
@@ -321,23 +324,23 @@ export default function OnboardingPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
             >
-              <div style={{ display: 'inline-block', backgroundColor: 'var(--color-white)', color: 'var(--color-black)', padding: '8px 24px', borderRadius: '30px', fontWeight: 900, fontSize: '1rem', marginBottom: '30px', textTransform: 'uppercase', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
+              <div style={{ display: 'inline-block', backgroundColor: 'rgba(236, 72, 153, 0.12)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '8px 24px', borderRadius: '30px', fontWeight: 900, fontSize: '0.9rem', marginBottom: '30px', textTransform: 'uppercase', boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' }}>
                 Recommended For You
               </div>
               
-              <div className={selectedOption.planStyle} style={{ border: '3px solid var(--color-black)', borderRadius: '40px', padding: '50px 30px', width: '100%', boxShadow: '12px 12px 0px var(--color-black)', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '40px' }}>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '20px', lineHeight: 1.1 }}>
+              <div className={selectedOption.planStyle} style={{ border: '2px solid #ff2d55', borderRadius: '40px', padding: '50px 30px', width: '100%', backgroundColor: 'var(--bg-card)', boxShadow: 'var(--shadow-featured)', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '40px' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '20px', lineHeight: 1.1, color: 'var(--text-heading)' }}>
                   {selectedOption.planName}
                 </h2>
-                <div style={{ fontSize: '2rem', fontWeight: 900, fontFamily: 'var(--font-display)', marginBottom: '15px' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 900, fontFamily: 'var(--font-display)', marginBottom: '15px', color: 'var(--text-heading)' }}>
                   {selectedOption.planPrice}
                 </div>
-                <div style={{ fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '30px', opacity: 0.9 }}>
+                <div style={{ fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '30px', color: '#f472b6' }}>
                   {selectedOption.planLimit}
                 </div>
                 
                 <Link href={`/interest?plan=${encodeURIComponent(selectedOption.planName.replace('\n', ' '))}&name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}&phone=${encodeURIComponent((selectedCountryObj ? selectedCountryObj.d + ' ' : '') + formData.phone)}&country=${encodeURIComponent(formData.country)}`} style={{ textDecoration: 'none', width: '100%' }}>
-                  <button className="btn-wipa" style={{ width: '100%', backgroundColor: 'var(--color-white)', color: 'var(--color-black)', padding: '20px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 900, border: '3px solid var(--color-black)', boxShadow: '6px 6px 0px var(--color-black)', cursor: 'pointer', textTransform: 'uppercase' }}>
+                  <button className="btn btn-accent" style={{ width: '100%', padding: '20px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 900, cursor: 'pointer', textTransform: 'uppercase' }}>
                     Continue to Registration
                   </button>
                 </Link>
@@ -345,7 +348,7 @@ export default function OnboardingPage() {
 
               <button 
                 onClick={() => setStep(2)}
-                style={{ background: 'none', border: 'none', color: 'var(--color-black)', fontWeight: 800, textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'underline', fontSize: '1.1rem' }}
+                style={{ background: 'none', border: 'none', color: '#f472b6', fontWeight: 800, textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'underline', fontSize: '1.1rem' }}
               >
                 ← Wait, let me change my answer
               </button>
@@ -355,17 +358,6 @@ export default function OnboardingPage() {
       </section>
 
       <Footer />
-
-      <style dangerouslySetInnerHTML={{__html: `
-        .btn-wipa:hover {
-          transform: translate(-4px, -4px);
-          box-shadow: 10px 10px 0px var(--color-black) !important;
-        }
-        .btn-wipa:active {
-          transform: translate(4px, 4px);
-          box-shadow: 2px 2px 0px var(--color-black) !important;
-        }
-      `}} />
     </main>
   );
 }

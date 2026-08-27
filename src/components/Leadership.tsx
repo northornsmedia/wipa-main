@@ -18,9 +18,9 @@ export default function Leadership() {
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <FadeIn direction="up">
             <h2 className="heading-huge" style={{ marginBottom: '30px' }}>
-              Led by Respected <br/> <span style={{ backgroundColor: 'var(--color-black)', color: 'var(--color-white)', padding: '0 20px' }}>Global IP Leaders</span>
+              Led by Respected <br/> <span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block', padding: '0 10px' }}>Global IP Leaders</span>
             </h2>
-            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, textAlign: 'center' }}>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6, color: 'var(--text-body)', textAlign: 'center' }}>
               The Alliance is guided by experienced professionals who share a common vision of empowering women through collaboration, education, and leadership.
             </p>
           </FadeIn>
@@ -29,16 +29,16 @@ export default function Leadership() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
           <StaggerGrid style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '800px' }}>
             {leaders.slice(0, 2).map((l, i) => (
-              <div key={i} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', flex: '1 1 300px', padding: '20px 40px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
-                <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3, fontSize: '1.4rem', fontWeight: 800 }}>{l.role}</h4>
+              <div key={i} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', flex: '1 1 300px', padding: '20px 40px', textAlign: 'center', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)' }}>
+                <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3, fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-heading)' }}>{l.role}</h4>
               </div>
             ))}
           </StaggerGrid>
           
           <StaggerGrid style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '1000px' }}>
             {leaders.slice(2, 5).map((l, i) => (
-              <div key={i + 2} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', flex: '1 1 250px', padding: '20px 40px', textAlign: 'center', border: '2px solid var(--color-black)', boxShadow: '4px 4px 0px var(--color-black)' }}>
-                <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3, fontSize: '1.4rem', fontWeight: 800 }}>{l.role}</h4>
+              <div key={i + 2} className={`pill-container ${l.style}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', flex: '1 1 250px', padding: '20px 40px', textAlign: 'center', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)' }}>
+                <h4 className="heading-sm" style={{ margin: 0, lineHeight: 1.3, fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-heading)' }}>{l.role}</h4>
               </div>
             ))}
           </StaggerGrid>

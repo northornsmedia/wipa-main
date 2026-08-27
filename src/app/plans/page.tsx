@@ -112,10 +112,10 @@ export default function PlansPage() {
               />
             </div>
             <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-              <p className="mobile-text-center" style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300, textAlign: 'center' }}>
+              <p className="mobile-text-center" style={{ fontSize: '1.2rem', color: 'var(--text-heading)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300, textAlign: 'center' }}>
                 Choose the perfect plan for you or your organisation.
               </p>
-              <div style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)' }}>
+              <div style={{ display: 'inline-block', backgroundColor: 'rgba(168, 85, 247, 0.12)', color: 'var(--text-heading)', border: '1px solid rgba(168, 85, 247, 0.3)', padding: '6px 18px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem' }}>
                 Please note: All memberships purchased today will officially commence in January 2027.
               </div>
             </FadeIn>
@@ -126,19 +126,20 @@ export default function PlansPage() {
               <div style={{
                 margin: '20px auto 40px',
                 padding: 'clamp(20px, 5vw, 30px) clamp(15px, 4vw, 40px)',
-                backgroundColor: 'transparent',
-                color: 'var(--color-white)',
-                border: '2px dotted rgba(255, 255, 255, 0.4)',
+                backgroundColor: 'rgba(236, 72, 153, 0.05)',
+                color: 'var(--text-heading)',
+                border: '1px solid rgba(236, 72, 153, 0.3)',
+                boxShadow: '0 0 30px rgba(236, 72, 153, 0.1)',
                 borderRadius: '16px',
                 maxWidth: '100%',
                 textAlign: 'center',
                 position: 'relative'
               }}>
-                <h4 className="mobile-text-center" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.3rem)', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: 'var(--color-pastel-purple)', textAlign: 'center' }}>
+                <h4 className="mobile-text-center" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.3rem)', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: '#f472b6', textAlign: 'center' }}>
                   Your Founding Member Advantage
                 </h4>
-                <p className="mobile-text-center" style={{ fontSize: '0.95rem', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9, textAlign: 'center' }}>
-                  Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'var(--color-pastel-pink)', color: 'var(--color-black)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
+                <p className="mobile-text-center" style={{ fontSize: '0.95rem', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9, textAlign: 'center', color: 'var(--text-light)' }}>
+                  Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'rgba(236, 72, 153, 0.15)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
                 </p>
               </div>
             </FadeIn>
@@ -150,13 +151,13 @@ export default function PlansPage() {
       </section>
 
       <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto 100px', padding: '0 40px' }}>
-        <div style={{ backgroundColor: '#e6f2ff', padding: '50px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <h2 className="heading-huge" style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Custom Enterprise Plan</h2>
-          <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '50px', borderRadius: '32px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <h2 className="heading-huge" style={{ fontSize: '2.5rem', marginBottom: '20px', color: 'var(--text-heading)' }}>Custom Enterprise Plan</h2>
+          <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center', color: 'var(--text-body)' }}>
             Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team's needs.
           </p>
           <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
-            <button className="btn btn-outline" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', backgroundColor: 'var(--color-white)', padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
+            <button className="btn btn-accent" style={{ padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
               JOIN THE WAITING LIST
             </button>
           </Link>

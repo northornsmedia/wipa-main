@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function FAQsPage() {
   return (
-    <main style={{ backgroundColor: 'var(--color-white)', minHeight: '100vh' }}>
+    <main style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh' }}>
       <Navbar />
       
       <div style={{ paddingTop: '120px', paddingBottom: '60px' }}>

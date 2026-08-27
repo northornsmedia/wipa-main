@@ -102,28 +102,28 @@ function InterestForm() {
   return (
     <>
       <FadeIn direction="up">
-        <div style={{ backgroundColor: "var(--color-white)", padding: "50px", borderRadius: "32px", border: "3px solid var(--color-black)", boxShadow: "12px 12px 0px var(--color-black)", width: "100%", maxWidth: "600px" }}>
+        <div style={{ backgroundColor: "var(--bg-card)", padding: "50px", borderRadius: "32px", border: "1px solid var(--border-card)", boxShadow: "var(--shadow-card)", width: "100%", maxWidth: "600px" }}>
           
-          <h1 className="heading-lg" style={{ marginBottom: "20px", textAlign: "center" }}>Reserve Your Membership</h1>
-          <p style={{ fontSize: "1.1rem", marginBottom: "40px", textAlign: "center", opacity: 0.8 }}>
+          <h1 className="heading-lg" style={{ marginBottom: "20px", textAlign: "center", color: "var(--text-heading)" }}>Reserve Your Membership</h1>
+          <p style={{ fontSize: "1.1rem", marginBottom: "40px", textAlign: "center", color: "var(--text-body)" }}>
             Fill out the form below to secure your founding membership.
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Selected Plan</label>
+              <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Selected Plan</label>
               <input 
                 type="text" 
                 name="plan" 
                 value={formData.plan} 
                 readOnly
-                style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", backgroundColor: "var(--color-pastel-yellow)", fontSize: "1.1rem", fontWeight: "bold" }}
+                style={{ padding: "15px", borderRadius: "12px", border: "1px solid rgba(236, 72, 153, 0.35)", backgroundColor: "rgba(236, 72, 153, 0.1)", color: "#f472b6", fontSize: "1.1rem", fontWeight: "bold" }}
               />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Full Name</label>
+              <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Full Name</label>
               <input 
                 type="text" 
                 name="name" 
@@ -131,12 +131,12 @@ function InterestForm() {
                 placeholder="Enter your full name"
                 value={formData.name} 
                 onChange={handleChange}
-                style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
               />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Email Address</label>
+              <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Email Address</label>
               <input 
                 type="email" 
                 name="email" 
@@ -144,12 +144,12 @@ function InterestForm() {
                 placeholder="you@example.com"
                 value={formData.email} 
                 onChange={handleChange}
-                style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
               />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Phone Number</label>
+              <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Phone Number</label>
               <input 
                 type="tel" 
                 name="phone" 
@@ -157,12 +157,12 @@ function InterestForm() {
                 placeholder="+1 234 567 8900"
                 value={formData.phone} 
                 onChange={handleChange}
-                style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
               />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <label style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Who are you? (Profession/Role)</label>
+              <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Who are you? (Profession/Role)</label>
               <input 
                 type="text" 
                 name="profession" 
@@ -170,16 +170,15 @@ function InterestForm() {
                 placeholder="e.g. Patent Attorney, Founder, Student..."
                 value={formData.profession} 
                 onChange={handleChange}
-                style={{ padding: "15px", borderRadius: "12px", border: "2px solid var(--color-black)", fontSize: "1.1rem" }}
+                style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
               />
             </div>
 
             {step === 1 && (
               <button 
                 type="submit" 
-                style={{ padding: "20px", marginTop: "10px", borderRadius: "50px", border: "2px solid var(--color-black)", backgroundColor: "var(--color-black)", color: "var(--color-white)", fontSize: "1.2rem", fontWeight: "bold", cursor: "pointer", transition: "transform 0.2s" }}
-                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.02)"}
-                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                className="btn btn-accent"
+                style={{ padding: "18px", marginTop: "10px", borderRadius: "50px", fontSize: "1.2rem", fontWeight: "bold", cursor: "pointer" }}
               >
                 Submit Details
               </button>
@@ -188,9 +187,9 @@ function InterestForm() {
 
           {step === 2 && (
             <FadeIn direction="up">
-              <div style={{ marginTop: "30px", padding: "20px", borderRadius: "16px", backgroundColor: "var(--color-pastel-purple)", border: "2px solid var(--color-black)" }}>
-                <h3 className="heading-md" style={{ marginBottom: "15px", fontSize: "1.5rem" }}>Review Your Details</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "20px", fontSize: "1.1rem" }}>
+              <div style={{ marginTop: "30px", padding: "20px", borderRadius: "16px", backgroundColor: "var(--color-pastel-purple)", border: "1px solid var(--border-card)", color: "var(--text-heading)" }}>
+                <h3 className="heading-md" style={{ marginBottom: "15px", fontSize: "1.5rem", color: "var(--text-heading)" }}>Review Your Details</h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "20px", fontSize: "1.1rem", color: "var(--text-body)" }}>
                   <p><strong>Plan:</strong> {formData.plan}</p>
                   <p><strong>Name:</strong> {formData.name}</p>
                   <p><strong>Email:</strong> {formData.email}</p>
@@ -201,16 +200,15 @@ function InterestForm() {
                 <div style={{ display: "flex", gap: "15px" }}>
                   <button 
                     onClick={() => setStep(1)}
-                    style={{ flex: 1, padding: "15px", borderRadius: "50px", border: "2px solid var(--color-black)", backgroundColor: "var(--color-white)", color: "var(--color-black)", fontSize: "1.1rem", fontWeight: "bold", cursor: "pointer" }}
+                    style={{ flex: 1, padding: "15px", borderRadius: "50px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-surface-elevated)", color: "var(--text-heading)", fontSize: "1.1rem", fontWeight: "bold", cursor: "pointer" }}
                   >
                     Edit Details
                   </button>
                   <button 
                     onClick={handlePayNow}
                     disabled={isLoading}
-                    style={{ flex: 2, padding: "15px", borderRadius: "50px", border: "2px solid var(--color-black)", backgroundColor: isLoading ? "var(--color-charcoal)" : "var(--color-pastel-green)", color: isLoading ? "var(--color-white)" : "var(--color-black)", fontSize: "1.1rem", fontWeight: "bold", cursor: isLoading ? "not-allowed" : "pointer", transition: "transform 0.2s" }}
-                    onMouseOver={(e) => !isLoading && (e.currentTarget.style.transform = "scale(1.02)")}
-                    onMouseOut={(e) => !isLoading && (e.currentTarget.style.transform = "scale(1)")}
+                    className="btn btn-accent"
+                    style={{ flex: 2, padding: "15px", borderRadius: "50px", fontSize: "1.1rem", fontWeight: "bold", cursor: isLoading ? "not-allowed" : "pointer" }}
                   >
                     {isLoading ? "Redirecting to Stripe..." : "Pay Now"}
                   </button>
@@ -227,8 +225,8 @@ function InterestForm() {
 
 export default function InterestPage() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "var(--color-pastel-purple)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
-      <Suspense fallback={<div>Loading form...</div>}>
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", display: "flex", justifyContent: "center", alignItems: "center", padding: "100px 20px" }}>
+      <Suspense fallback={<div style={{ color: "var(--text-heading)" }}>Loading form...</div>}>
         <InterestForm />
       </Suspense>
     </div>

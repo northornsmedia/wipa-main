@@ -48,8 +48,8 @@ export default function Features() {
       <div className="container">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '80px', position: 'relative' }}>
           <FadeIn direction="left" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 className="heading-huge mobile-text-center">Your Community.<br/><span style={{ color: 'var(--color-pastel-pink)' }}>Connected</span> All Year Round.</h2>
-            <p className="mobile-text-center" style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', margin: '20px auto 0', maxWidth: '700px', lineHeight: 1.6, textAlign: 'center' }}>
+            <h2 className="heading-huge mobile-text-center">Your Community.<br/><span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>Connected</span> All Year Round.</h2>
+            <p className="mobile-text-center" style={{ fontSize: '1.15rem', color: 'var(--text-body)', margin: '20px auto 0', maxWidth: '700px', lineHeight: 1.6, textAlign: 'center' }}>
               Designed exclusively for Alliance members, our digital platform keeps you connected wherever you are in the world, making networking, collaboration, learning, and professional development accessible throughout the year.
             </p>
           </FadeIn>
@@ -62,11 +62,11 @@ export default function Features() {
           {features.map((f, i) => (
             <TiltCard key={i} className={`bento-card ${f.style} feature-card`} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', textAlign: 'center' }}>
               <div style={{ zIndex: 2, position: 'relative' }}>
-                <h3 className="heading-md" style={{ marginBottom: '15px', textAlign: 'center' }}>{f.title}</h3>
-                <p style={{ fontSize: '1.1rem', opacity: 0.9, textAlign: 'center' }}>{f.desc}</p>
+                <h3 className="heading-md" style={{ marginBottom: '15px', textAlign: 'center', color: 'var(--text-heading)' }}>{f.title}</h3>
+                <p style={{ fontSize: '1.1rem', color: 'var(--text-body)', textAlign: 'center' }}>{f.desc}</p>
               </div>
               {f.img && (
-                <div style={{ marginTop: '25px', flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '2px solid var(--color-black)', minHeight: '140px', position: 'relative', zIndex: 1 }}>
+                <div style={{ marginTop: '25px', flexGrow: 1, borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-subtle)', minHeight: '140px', position: 'relative', zIndex: 1 }}>
                   <img src={f.img} alt={`Women's IP Alliance feature: ${f.title}`} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
                 </div>
               )}

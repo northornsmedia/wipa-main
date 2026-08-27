@@ -19,8 +19,8 @@ export default function Audience() {
           <img src="/sticker (5).png" alt="WIPA members collaboration sticker" className="desktop-hidden" style={{ position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%) rotate(15deg)', width: '300px', opacity: 0.15, zIndex: 0, objectFit: 'contain' }} />
 
           <FadeIn direction="right" style={{ position: 'relative', zIndex: 10 }}>
-            <h2 className="heading-huge mobile-text-center">Designed for <br/><span style={{ color: 'var(--color-pastel-pink)' }}>Every Woman</span><br/><span style={{ fontSize: '3rem' }}>in Intellectual Property</span></h2>
-            <p className="mobile-text-center" style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', marginTop: '20px', maxWidth: '600px', lineHeight: 1.6, textAlign: 'center' }}>
+            <h2 className="heading-huge mobile-text-center">Designed for <br/><span style={{ background: 'linear-gradient(90deg, #ff3b5c 0%, #f97316 38%, #d946ef 75%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>Every Woman</span><br/><span style={{ fontSize: '3rem', color: 'var(--text-heading)' }}>in Intellectual Property</span></h2>
+            <p className="mobile-text-center" style={{ fontSize: '1.2rem', color: 'var(--text-body)', marginTop: '20px', maxWidth: '600px', lineHeight: 1.6, textAlign: 'center' }}>
               Whether you're just beginning your career or leading an international practice, the Alliance has been designed to support every stage of your professional journey.
             </p>
           </FadeIn>
@@ -34,9 +34,9 @@ export default function Audience() {
 
         <StaggerGrid className="bento-grid">
           {personas.map((p, i) => (
-            <div key={i} className={`bento-card span-2 ${p.style} mobile-text-center`} style={{ border: p.style === 'bg-charcoal' ? '2px solid rgba(255,255,255,0.2)' : '2px solid var(--color-black)' }}>
-              <h4 className="heading-md mobile-text-center" style={{ marginBottom: '15px' }}>{p.title}</h4>
-              <p className="mobile-text-center" style={{ fontSize: '1.1rem', opacity: p.style === 'bg-charcoal' ? 0.8 : 1 }}>{p.desc}</p>
+            <div key={i} className={`bento-card span-2 ${p.style} mobile-text-center`} style={{ border: '1px solid var(--border-card)' }}>
+              <h4 className="heading-md mobile-text-center" style={{ marginBottom: '15px', color: 'var(--text-heading)' }}>{p.title}</h4>
+              <p className="mobile-text-center" style={{ fontSize: '1.1rem', color: 'var(--text-body)' }}>{p.desc}</p>
             </div>
           ))}
         </StaggerGrid>

@@ -52,19 +52,18 @@ export default function FloatingGrid() {
       height: '100%',
       overflow: 'hidden',
       zIndex: 0,
-      backgroundColor: 'var(--color-pastel-blue)', // fallback
+      backgroundColor: 'var(--bg-primary)',
     }}>
       {/* Animated Grid Pattern */}
       <div style={{
         position: 'absolute',
-        inset: -200, // extend past screen significantly to avoid clipping
+        inset: -200,
         backgroundImage: `
-          linear-gradient(to right, rgba(0,0,0,0.03) 2px, transparent 2px),
-          linear-gradient(to bottom, rgba(0,0,0,0.03) 2px, transparent 2px)
+          linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px)
         `,
         backgroundSize: '50px 50px',
         zIndex: 1,
-        // Make the grid slowly drift
         animation: 'grid-drift 25s linear infinite',
       }} />
 
@@ -84,8 +83,8 @@ export default function FloatingGrid() {
           animate={{ opacity: [0, 0.4, 0], y: [`${sq.y}vh`, `${sq.y - 30}vh`], rotate: sq.rotation + 90 }}
           transition={{ duration: sq.duration, delay: sq.delay, repeat: Infinity, ease: "linear" }}
           style={{
-            position: 'absolute', width: sq.size, height: sq.size, border: '2px solid rgba(0,0,0,0.1)',
-            backgroundColor: 'transparent', zIndex: 2, boxShadow: '4px 4px 0px rgba(0,0,0,0.05)',
+            position: 'absolute', width: sq.size, height: sq.size, border: '1px solid var(--border-subtle)',
+            backgroundColor: 'transparent', zIndex: 2, boxShadow: 'var(--shadow-card)',
           }}
         />
       ))}
@@ -95,11 +94,11 @@ export default function FloatingGrid() {
         <motion.div
           key={c.id}
           initial={{ opacity: 0, y: `${c.y}vh`, x: `${c.x}vw` }}
-          animate={{ opacity: [0, 0.5, 0], y: [`${c.y}vh`, `${c.y + 30}vh`] }}
+          animate={{ opacity: [0, 0.3, 0], y: [`${c.y}vh`, `${c.y + 30}vh`] }}
           transition={{ duration: c.duration, delay: c.delay, repeat: Infinity, ease: "easeInOut" }}
           style={{
             position: 'absolute', width: c.size, height: c.size, borderRadius: '50%',
-            backgroundColor: 'rgba(255, 255, 255, 0.4)', zIndex: 2, backdropFilter: 'blur(4px)',
+            backgroundColor: 'var(--color-pastel-purple)', zIndex: 2, backdropFilter: 'blur(4px)',
           }}
         />
       ))}
@@ -109,10 +108,10 @@ export default function FloatingGrid() {
         <motion.div
           key={p.id}
           initial={{ opacity: 0, y: `${p.y}vh`, x: `${p.x}vw`, rotate: p.rotation }}
-          animate={{ opacity: [0, 0.6, 0], y: [`${p.y}vh`, `${p.y - 40}vh`], rotate: p.rotation - 180 }}
+          animate={{ opacity: [0, 0.4, 0], y: [`${p.y}vh`, `${p.y - 40}vh`], rotate: p.rotation - 180 }}
           transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "linear" }}
           style={{
-            position: 'absolute', zIndex: 2, color: 'rgba(0,0,0,0.15)', fontSize: '2rem', fontWeight: 'bold'
+            position: 'absolute', zIndex: 2, color: 'var(--text-muted)', opacity: 0.3, fontSize: '2rem', fontWeight: 'bold'
           }}
         >
           +
@@ -121,30 +120,21 @@ export default function FloatingGrid() {
 
       {/* Big blurry accent blobs */}
       <motion.div 
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3], x: [0, 50, 0], y: [0, 30, 0] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2], x: [0, 50, 0], y: [0, 30, 0] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         style={{
           position: 'absolute', top: '20%', left: '10%', width: '40vw', height: '40vw',
-          borderRadius: '50%', background: 'radial-gradient(circle, var(--color-pastel-purple) 0%, transparent 70%)',
+          borderRadius: '50%', background: 'radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%)',
           filter: 'blur(60px)', zIndex: 1,
         }}
       />
       <motion.div 
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2], x: [0, -60, 0], y: [0, -40, 0] }}
+        animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15], x: [0, -60, 0], y: [0, -40, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         style={{
           position: 'absolute', bottom: '10%', right: '5%', width: '50vw', height: '50vw',
-          borderRadius: '50%', background: 'radial-gradient(circle, var(--color-pastel-pink) 0%, transparent 70%)',
+          borderRadius: '50%', background: 'radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)',
           filter: 'blur(80px)', zIndex: 1,
-        }}
-      />
-      
-      {/* Pulse overlay */}
-      <motion.div
-        animate={{ opacity: [0, 0.05, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: 'absolute', inset: 0, backgroundColor: 'var(--color-pastel-yellow)', zIndex: 1, mixBlendMode: 'overlay'
         }}
       />
     </div>

@@ -58,8 +58,8 @@ export default function Membership({ hideExploreButton = false }: { hideExploreB
             />
           </div>
           <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px' }}>
-            <p style={{ fontSize: '1.2rem', color: 'var(--color-white)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto 25px', lineHeight: 1.8, fontWeight: 300, textAlign: 'center' }}>
-              Your membership is an investment in <span style={{ color: 'var(--color-pastel-purple)', fontWeight: 600 }}>lifelong professional development</span>, international networking, leadership opportunities, and meaningful global connections.
+            <p style={{ fontSize: '1.2rem', color: 'var(--text-heading)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto 25px', lineHeight: 1.8, fontWeight: 300, textAlign: 'center' }}>
+              Your membership is an investment in <span style={{ color: '#f472b6', fontWeight: 600 }}>lifelong professional development</span>, international networking, leadership opportunities, and meaningful global connections.
             </p>
           </FadeIn>
         </div>
@@ -70,19 +70,20 @@ export default function Membership({ hideExploreButton = false }: { hideExploreB
           <div style={{
             margin: '20px auto 60px',
             padding: 'clamp(20px, 4vw, 30px) clamp(15px, 4vw, 40px)',
-            backgroundColor: 'transparent',
-            color: 'var(--color-white)',
-            border: '2px dotted rgba(255, 255, 255, 0.4)',
+            backgroundColor: 'rgba(236, 72, 153, 0.05)',
+            color: 'var(--text-heading)',
+            border: '1px solid rgba(236, 72, 153, 0.3)',
+            boxShadow: '0 0 30px rgba(236, 72, 153, 0.1)',
             borderRadius: '16px',
             maxWidth: '100%',
             textAlign: 'center',
             position: 'relative'
           }}>
-            <h4 style={{ fontSize: '1.3rem', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: 'var(--color-pastel-purple)' }}>
+            <h4 style={{ fontSize: '1.3rem', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: '#f472b6' }}>
               Your Founding Member Advantage
             </h4>
-            <p style={{ fontSize: 'clamp(0.9rem, 2.5vw, 1.0rem)', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9, textAlign: 'center' }}>
-              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'var(--color-pastel-pink)', color: 'var(--color-black)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
+            <p style={{ fontSize: 'clamp(0.9rem, 2.5vw, 1.0rem)', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9, textAlign: 'center', color: 'var(--text-light)' }}>
+              Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'rgba(236, 72, 153, 0.15)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
             </p>
           </div>
         </FadeIn>
@@ -90,7 +91,7 @@ export default function Membership({ hideExploreButton = false }: { hideExploreB
 
       <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto', padding: '0 clamp(15px, 4vw, 40px)' }}>
         <FadeIn direction="up" delay={0.4} style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
-          <div className="mobile-text-center" style={{ display: 'inline-block', backgroundColor: 'var(--color-pastel-purple)', color: 'var(--color-black)', padding: '6px 16px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '2px solid var(--color-black)', textAlign: 'center' }}>
+          <div className="mobile-text-center" style={{ display: 'inline-block', backgroundColor: 'rgba(168, 85, 247, 0.12)', color: 'var(--text-heading)', padding: '6px 18px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem', border: '1px solid rgba(168, 85, 247, 0.3)', textAlign: 'center' }}>
             Please note: All memberships purchased today will officially commence in January 2027.
           </div>
         </FadeIn>
@@ -99,7 +100,7 @@ export default function Membership({ hideExploreButton = false }: { hideExploreB
       {!hideExploreButton && (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px', paddingBottom: '20px' }}>
           <Link href="/plans" style={{ textDecoration: 'none' }}>
-            <button className="btn btn-outline" style={{ borderColor: 'var(--color-white)', color: 'var(--color-black)', backgroundColor: 'var(--color-white)', padding: '15px 40px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}>
+            <button className="btn btn-accent" style={{ padding: '15px 40px', fontSize: '1.2rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}>
               Explore More Plans
             </button>
           </Link>

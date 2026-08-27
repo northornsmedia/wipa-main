@@ -50,14 +50,29 @@ export const metadata: Metadata = {
   }
 };
 
+import { ThemeProvider } from "@/context/ThemeContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('wipa-theme');
+                  var theme = saved === 'light' || saved === 'dark' ? saved : 'light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {}
+              })();
+            `
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -110,18 +125,18 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SchemaBreadcrumbs />
-        <DisableImageContextMenu />
-        <Suspense fallback={null}>
-          <Analytics />
-        </Suspense>
-        <Preloader />
-        <ScrollProgress />
-        <CustomCursor />
-        
-        
-
-        {children}
+        <ThemeProvider>
+          <SchemaBreadcrumbs />
+          <DisableImageContextMenu />
+          <Suspense fallback={null}>
+            <Analytics />
+          </Suspense>
+          <Preloader />
+          <ScrollProgress />
+          <CustomCursor />
+          
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

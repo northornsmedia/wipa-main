@@ -95,59 +95,129 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
         </div>
       </div>
 
-      <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '40px', alignItems: 'stretch' }}>
-        {visiblePlans.map((t, i) => (
-          <div key={i} style={{ paddingTop: t.subtitle ? '50px' : '0', height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <TiltCard className={`${t.style}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '30px', borderRadius: '32px', border: '2px solid var(--color-black)', boxShadow: '8px 8px 0px var(--color-black)', flexGrow: 1, width: '100%', position: 'relative' }}>
-              
-              {t.subtitle && (
-                <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#555', color: 'var(--color-white)', padding: '8px 24px', borderRadius: '24px', fontWeight: 'bold', fontSize: '1.05rem', whiteSpace: 'nowrap', zIndex: 10 }}>
-                  {t.subtitle}
+      <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', alignItems: 'stretch' }}>
+        {visiblePlans.map((t, i) => {
+          const isFeatured = t.name.includes("IP Professional");
+          return (
+          <div key={i} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            {/* Top Pill Badge slot (outside the card) */}
+            <div style={{ height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
+              {(t.subtitle || isFeatured) ? (
+                <div style={{ 
+                  background: 'linear-gradient(90deg, #ff2d55 0%, #ff7a00 100%)', 
+                  color: '#ffffff', 
+                  padding: '5px 18px', 
+                  borderRadius: '9999px', 
+                  fontWeight: 800, 
+                  fontSize: '0.8rem', 
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase', 
+                  whiteSpace: 'nowrap', 
+                  boxShadow: '0 4px 15px rgba(255, 45, 85, 0.4)'
+                }}>
+                  {t.subtitle || "MOST POPULAR"}
                 </div>
-              )}
+              ) : null}
+            </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '25px', paddingBottom: '25px', borderBottom: '2px solid rgba(0,0,0,0.1)', minHeight: '180px' }}>
-              <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', whiteSpace: 'pre-line' }}>
+            <TiltCard className={`${t.style}`} style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              textAlign: 'center', 
+              padding: '34px 24px 28px', 
+              borderRadius: '32px', 
+              backgroundColor: 'var(--bg-card)',
+              border: isFeatured ? '2px solid #ff2d55' : '1px solid var(--border-card)', 
+              boxShadow: isFeatured ? 'var(--shadow-featured)' : 'var(--shadow-card)', 
+              flexGrow: 1, 
+              width: '100%', 
+              position: 'relative' 
+            }}>
+
+            {/* Header: Title + Subtitle + Price */}
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid var(--border-subtle)', minHeight: '165px', justifyContent: 'space-between' }}>
+              <h3 className="heading-md" style={{ lineHeight: 1.2, minHeight: '65px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', whiteSpace: 'pre-line', color: 'var(--text-heading)', margin: 0 }}>
                 {t.name.replace('\n(for Start Ups only)', '')}
                 {t.name.includes('\n(for Start Ups only)') && (
-                  <span style={{ fontSize: '0.55em', fontWeight: 500, marginTop: '5px', opacity: 0.9 }}>
+                  <span style={{ fontSize: '0.55em', fontWeight: 500, marginTop: '4px', color: 'var(--text-muted)' }}>
                     (for Start Ups only)
                   </span>
                 )}
               </h3>
-              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'baseline', gap: '10px', justifyContent: 'center' }}>
-                <div style={{ fontSize: '3.5rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', justifyContent: 'center', minHeight: '55px' }}>
+                <div style={{ fontSize: '3.2rem', fontWeight: 900, fontFamily: 'var(--font-display)', lineHeight: 1, color: 'var(--text-heading)' }}>
                   {isYearly ? t.price : t.monthlyPrice}
                 </div>
                 <div style={{ 
                   fontWeight: 700, 
-                  opacity: 0.8, 
+                  color: 'var(--text-muted)', 
                   ...(t.price === 'FREE' && isYearly 
                     ? { fontFamily: 'cursive', textTransform: 'lowercase', fontSize: '1.25rem', marginLeft: '5px', whiteSpace: 'nowrap' } 
-                    : { textTransform: 'uppercase', fontSize: '1.1rem' }) 
+                    : { textTransform: 'uppercase', fontSize: '1.05rem' }) 
                 }}>
                   {t.price === 'FREE' && isYearly ? 'for 1st year' : `/ ${isYearly ? 'year' : 'month'}`}
                 </div>
               </div>
             </div>
 
-            <div style={{ flexGrow: 1, marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-              {t.extra && isYearly && <div style={{ fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' }}>{t.extra}</div>}
-              {isYearly ? (
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>{t.limit}</div>
-              ) : (
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--color-black)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'center' }}>Monthly subscribers won't be counted/included as founding members</div>
+            {/* Body Section */}
+            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
+              
+              {/* Rate-Limited / Special badge */}
+              <div style={{ minHeight: '85px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '15px' }}>
+                {isYearly ? (
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#f472b6', textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center', lineHeight: 1.35 }}>
+                    {t.limit}
+                  </div>
+                ) : (
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center', lineHeight: 1.35 }}>
+                    Monthly subscribers won't be counted/included as founding members
+                  </div>
+                )}
+              </div>
+
+              {/* Description */}
+              <div style={{ fontSize: '0.98rem', color: 'var(--text-body)', lineHeight: 1.6, textAlign: 'center', minHeight: '135px', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', marginBottom: '20px' }}>
+                {t.desc}
+              </div>
+
+              {/* Standard Price / Footnote */}
+              {isYearly && (
+                <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', paddingTop: '15px', borderTop: '1px solid var(--border-subtle)', minHeight: '85px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', marginBottom: '25px' }}>
+                  {t.standardPrice}
+                </div>
               )}
-              <div style={{ fontSize: '1.05rem', opacity: 0.9, lineHeight: 1.6, marginBottom: '20px', textAlign: 'center' }}>{t.desc}</div>
-              {isYearly && <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid rgba(0,0,0,0.1)', minHeight: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t.standardPrice}</div>}
             </div>
 
+            {/* CTA Button */}
             <Link href="/waiting-list" style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
-              <button className="btn btn-outline pricing-btn" style={{ borderColor: 'var(--color-black)', color: 'var(--color-black)', width: '100%', backgroundColor: 'var(--color-white)', padding: '15px', fontSize: '1.1rem', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', textTransform: 'uppercase', lineHeight: '1.2' }}>JOIN THE WAITING LIST</button>
+              <button 
+                className="btn pricing-btn" 
+                style={{ 
+                  width: '100%', 
+                  padding: '15px', 
+                  fontSize: '1.05rem', 
+                  borderRadius: '50px', 
+                  fontWeight: 'bold', 
+                  cursor: 'pointer', 
+                  textTransform: 'uppercase', 
+                  lineHeight: '1.2',
+                  ...(isFeatured ? {
+                    background: 'linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    boxShadow: '0 8px 24px rgba(236, 72, 153, 0.35)'
+                  } : {})
+                }}
+              >
+                JOIN THE WAITING LIST
+              </button>
             </Link>
           </TiltCard>
           </div>
-        ))}
+        );
+        })}
       </StaggerGrid>
     </div>
   );
