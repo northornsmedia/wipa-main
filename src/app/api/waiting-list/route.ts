@@ -6,7 +6,6 @@ function formatCountryAndPhone(countryInput?: string, phoneInput?: string) {
   let formattedCountry = countryInput?.trim() || "";
   let formattedPhone = phoneInput?.trim() || "";
 
-  // Check if countryInput matches an iso2 code or country name
   const match = allCountries.find(
     c => c.iso2.toUpperCase() === (countryInput || "").toUpperCase().trim() ||
          c.name.toLowerCase() === (countryInput || "").toLowerCase().trim() ||
@@ -37,6 +36,8 @@ export async function POST(req: Request) {
       company, 
       profession, 
       plan,
+      fingerprint,
+      device_info,
       businessRegistrationNumber,
       dateOfIncorporation,
       collegeInstitute,
@@ -53,12 +54,18 @@ export async function POST(req: Request) {
 
     const { formattedCountry, formattedPhone } = formatCountryAndPhone(country, phone);
 
+    // Extract client IP
+    const forwardedFor = req.headers.get("x-forwarded-for");
+    const realIp = req.headers.get("x-real-ip");
+    const cfIp = req.headers.get("cf-connecting-ip");
+    const ipAddress = (forwardedFor ? forwardedFor.split(",")[0].trim() : "") || realIp || cfIp || "Unknown";
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+    const supabaseKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
     
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { error } = await supabase
+    const { data: insertedData, error } = await supabase
       .from("waiting_list")
       .insert([
         {
@@ -69,24 +76,36 @@ export async function POST(req: Request) {
           email,
           company,
           profession,
-          plan,
-          business_registration_number: businessRegistrationNumber,
-          date_of_incorporation: dateOfIncorporation,
-          college_institute: collegeInstitute,
-          student_id: studentId,
-          seats: seats,
+          plan: plan || null,
+          fingerprint: fingerprint || null,
+          ip_address: ipAddress,
+          device_info: device_info || null,
+          business_registration_number: businessRegistrationNumber || null,
+          date_of_incorporation: dateOfIncorporation || null,
+          college_institute: collegeInstitute || null,
+          student_id: studentId || null,
+          seats: seats || null,
         },
-      ]);
+      ])
+      .select("id, name, email, plan");
 
     if (error) {
       console.error("Supabase insert error:", error);
       return NextResponse.json(
-        { success: false, error: "Failed to save waiting list lead" },
+        { success: false, error: error.message || "Failed to save waiting list lead" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ success: true });
+    const lead = insertedData && insertedData[0];
+
+    return NextResponse.json({ 
+      success: true, 
+      id: lead?.id,
+      name: lead?.name || name,
+      email: lead?.email || email,
+      plan: lead?.plan || null
+    });
   } catch (err: any) {
     console.error("Waiting list API error:", err);
     return NextResponse.json(

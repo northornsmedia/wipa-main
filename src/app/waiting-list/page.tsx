@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import FadeIn from "@/components/animations/FadeIn";
 import Select from "react-select";
 import { allCountries } from "country-telephone-data";
 import { isValidPhoneNumber, CountryCode } from "libphonenumber-js";
-import { nameCompliments } from "@/data/compliments";
-import { funnyErrorMessages, funnySuccessMessages } from "@/data/phoneMessages";
 import FloatingGrid from "@/components/animations/FloatingGrid";
+import { getDeviceFingerprint } from "@/lib/fingerprint";
 
 const countryOptions = allCountries
   .map(c => {
@@ -42,22 +41,6 @@ const titleOptions = [
   { value: "Prof.", label: "Prof." },
   { value: "Adv.", label: "Adv." },
   { value: "Other", label: "Other" }
-];
-
-const planOptions = [
-  { value: "IP Professional Membership", label: "IP Professional Membership" },
-  { value: "Entrepreneur Membership", label: "Entrepreneur Membership ( for startups only )" },
-  { value: "Student Membership", label: "Student Membership" },
-  { value: "In-House Counsel Membership", label: "In-House Counsel Membership" },
-  { value: "Enterprise Membership", label: "Enterprise Membership" },
-  { value: "Custom Plan", label: "Custom Plan" }
-];
-
-const seatsOptions = [
-  { value: "5", label: "5" },
-  { value: "10", label: "10" },
-  { value: "10-20", label: "10-20" },
-  { value: "20+", label: "20+" }
 ];
 
 const selectStyles = {
@@ -101,7 +84,7 @@ const selectStyles = {
     backgroundColor: "var(--bg-card)",
     boxShadow: "var(--shadow-card)",
     overflow: "hidden",
-    zIndex: 10
+    zIndex: 50
   })
 };
 
@@ -110,43 +93,28 @@ export default function WaitingListPage() {
   const [formData, setFormData] = useState({
     title: "",
     name: "",
-    country: "US",
+    country: "GB",
     phone: "",
     email: "",
     company: "",
-    profession: "",
-    plan: "",
-    businessRegistrationNumber: "",
-    dateOfIncorporation: "",
-    collegeInstitute: "",
-    studentId: "",
-    seats: "",
+    profession: ""
   });
   
-  const selectedCountryOption = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "US");
-  const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+1";
+  const selectedCountryOption = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "GB") || countryOptions[0];
+  const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+44";
   
   const [submitted, setSubmitted] = useState(false);
-  const [countdown, setCountdown] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [phoneStatus, setPhoneStatus] = useState<{status: 'idle' | 'valid' | 'invalid', message: string}>({ status: 'idle', message: '' });
-  
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (submitted && countdown > 0) {
-      timer = setTimeout(() => setCountdown(c => c - 1), 1000);
-    } else if (submitted && countdown === 0) {
-      router.push("/");
-    }
-    return () => clearTimeout(timer);
-  }, [submitted, countdown, router]);
+  const [phoneStatus, setPhoneStatus] = useState<{ status: 'idle' | 'valid' | 'invalid'; message: string }>({
+    status: 'idle',
+    message: ''
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (error) setError(""); // clear error on change
+    if (error) setError("");
     if (name === 'phone') setPhoneStatus({ status: 'idle', message: '' });
   };
 
@@ -160,7 +128,7 @@ export default function WaitingListPage() {
       if (!isValid) {
         setPhoneStatus({ 
           status: 'invalid', 
-          message: "Wrong number entered, please enter correct number" 
+          message: "Please enter a valid phone number for selected country" 
         });
       } else {
         setPhoneStatus({ 
@@ -171,7 +139,7 @@ export default function WaitingListPage() {
     } catch (err) {
       setPhoneStatus({ 
         status: 'invalid', 
-        message: "Wrong number entered, please enter correct number" 
+        message: "Please enter a valid phone number" 
       });
     }
   };
@@ -187,51 +155,38 @@ export default function WaitingListPage() {
       return;
     }
 
-    if (formData.plan === 'In-House Counsel Membership') {
-      const personalDomains = [
-        'gmail.com', 'outlook.com', 'hotmail.com', 'live.com', 'yahoo.com', 
-        'icloud.com', 'me.com', 'mac.com', 'aol.com', 'proton.me', 
-        'protonmail.com', 'pm.me', 'gmx.com', 'gmx.net', 'mail.com', 
-        'zoho.com', 'zohomail.com', 'rediffmail.com', 'yandex.com', 
-        'mail.ru', 'qq.com', '163.com', '126.com', 'naver.com', 
-        'daum.net', 'web.de', 't-online.de', 'orange.fr', 'btinternet.com', 
-        'comcast.net', 'att.net', 'shaw.ca', 'telus.net', 'bigpond.com'
-      ];
-      const domain = formData.email.split('@')[1]?.toLowerCase();
-      if (domain && personalDomains.includes(domain)) {
-        setError("Please provide a valid company email address for the In-House Counsel Membership. Personal email addresses are not accepted for this plan.");
-        return;
-      }
-    }
-
     // Phone validation based on selected country
-    try {
-      // libphonenumber-js handles the validation using the country code (e.g., 'US', 'GB')
-      const isValid = isValidPhoneNumber(formData.phone, formData.country.toUpperCase() as CountryCode);
-      if (!isValid) {
+    if (formData.phone) {
+      try {
+        const isValid = isValidPhoneNumber(formData.phone, formData.country.toUpperCase() as CountryCode);
+        if (!isValid) {
+          setPhoneStatus({ 
+            status: 'invalid', 
+            message: "Wrong number entered, please enter correct number" 
+          });
+          return;
+        }
+      } catch (err) {
         setPhoneStatus({ 
           status: 'invalid', 
           message: "Wrong number entered, please enter correct number" 
         });
         return;
       }
-    } catch (err) {
-      setPhoneStatus({ 
-        status: 'invalid', 
-        message: "Wrong number entered, please enter correct number" 
-      });
-      return;
     }
 
     setIsLoading(true);
     
     try {
-      const countryObj = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "US");
+      // Capture device fingerprint and internet telemetry
+      const { fingerprint, deviceInfo } = await getDeviceFingerprint();
+
+      const countryObj = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "GB");
       const fullCountryName = countryObj ? `${countryObj.name} (${countryObj.dialCode})` : formData.country;
-      const currentDialCode = countryObj ? countryObj.dialCode : "+1";
+      const currentDialCode = countryObj ? countryObj.dialCode : "+44";
 
       let formattedPhone = formData.phone.trim();
-      if (!formattedPhone.startsWith('+')) {
+      if (formattedPhone && !formattedPhone.startsWith('+')) {
         formattedPhone = `${currentDialCode} ${formattedPhone}`;
       }
 
@@ -246,22 +201,35 @@ export default function WaitingListPage() {
           email: formData.email,
           company: formData.company,
           profession: formData.profession,
-          plan: formData.plan,
-          businessRegistrationNumber: formData.plan === 'Entrepreneur Membership' ? formData.businessRegistrationNumber : null,
-          dateOfIncorporation: formData.plan === 'Entrepreneur Membership' ? formData.dateOfIncorporation : null,
-          collegeInstitute: formData.plan === 'Student Membership' ? formData.collegeInstitute : null,
-          studentId: formData.plan === 'Student Membership' ? formData.studentId : null,
-          seats: formData.plan === 'Custom Plan' ? formData.seats : null
+          plan: null,
+          fingerprint,
+          device_info: deviceInfo
         })
       });
+
       const result = await res.json();
       if (!res.ok || !result.success) {
         throw new Error(result.error || "Failed to submit form");
       }
+
+      // Save identity & unlock flags in localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("wipa_waitlist_unlocked", "true");
+        localStorage.setItem("wipa_from_waiting_list", "true");
+        if (result.id) localStorage.setItem("wipa_user_id", result.id);
+        if (result.name || formData.name) localStorage.setItem("wipa_user_name", result.name || formData.name);
+        if (result.email || formData.email) localStorage.setItem("wipa_user_email", result.email || formData.email);
+      }
+
       setSubmitted(true);
+
+      // Smoothly redirect to /plans to choose their plan
+      setTimeout(() => {
+        router.push(`/plans?from_waiting_list=true&lead_id=${result.id || ''}`);
+      }, 1200);
+
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred. Please try again.");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -291,23 +259,29 @@ export default function WaitingListPage() {
         ← Back to Home
       </button>
       <FloatingGrid />
-      <FadeIn direction="up" style={{ width: "100%", maxWidth: "600px", position: "relative", zIndex: 10 }}>
+      <FadeIn direction="up" style={{ width: "100%", maxWidth: "620px", position: "relative", zIndex: 10 }}>
         <div 
-          style={{ backgroundColor: "var(--bg-card)", padding: "clamp(20px, 6vw, 50px)", borderRadius: "32px", border: "1px solid var(--border-card)", boxShadow: "var(--shadow-card)", width: "100%" }}
+          style={{ backgroundColor: "var(--bg-card)", padding: "clamp(24px, 6vw, 48px)", borderRadius: "32px", border: "1px solid var(--border-card)", boxShadow: "var(--shadow-card)", width: "100%" }}
         >
           
           {!submitted ? (
             <>
-              <h1 className="heading-lg" style={{ marginBottom: "20px", textAlign: "center", color: "var(--text-heading)" }}>Join the Waiting List</h1>
-              <p style={{ fontSize: "1.1rem", marginBottom: "40px", textAlign: "center", color: "var(--text-body)" }}>
-                Be the first to know when memberships open. Secure your spot on the list today!
-              </p>
+              <div style={{ textAlign: "center", marginBottom: "30px" }}>
+                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "4px 14px", borderRadius: "20px", fontSize: "0.8rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "12px" }}>
+                  Step 1 of 2
+                </div>
+                <h1 className="heading-lg" style={{ marginBottom: "12px", textAlign: "center", color: "var(--text-heading)" }}>Join the Waiting List</h1>
+                <p style={{ fontSize: "1.05rem", textAlign: "center", color: "var(--text-body)", margin: 0, lineHeight: 1.5 }}>
+                  Enter your details to secure your spot. On the next step, you will be invited to select your founding plan.
+                </p>
+              </div>
 
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
                 
-                <div className="mobile-stack" style={{ display: "flex", gap: "20px" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1, minWidth: "140px" }}>
-                    <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Title</label>
+                {/* Title & Name */}
+                <div className="mobile-stack" style={{ display: "flex", gap: "15px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1, minWidth: "120px" }}>
+                    <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>Title</label>
                     <Select
                       options={titleOptions}
                       placeholder="Title"
@@ -322,7 +296,7 @@ export default function WaitingListPage() {
                   </div>
 
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 3 }}>
-                    <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Full Name</label>
+                    <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>Full Name <span style={{ color: "#ec4899" }}>*</span></label>
                     <input 
                       type="text" 
                       name="name" 
@@ -330,13 +304,14 @@ export default function WaitingListPage() {
                       placeholder="Enter your full name"
                       value={formData.name} 
                       onChange={handleChange}
-                      style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
+                      style={{ padding: "14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1rem" }}
                     />
                   </div>
                 </div>
 
+                {/* Email */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Email Address</label>
+                  <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>Email Address <span style={{ color: "#ec4899" }}>*</span></label>
                   <input 
                     type="email" 
                     name="email" 
@@ -344,12 +319,13 @@ export default function WaitingListPage() {
                     placeholder="you@example.com"
                     value={formData.email} 
                     onChange={handleChange}
-                    style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
+                    style={{ padding: "14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1rem" }}
                   />
                 </div>
 
+                {/* Country */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Country</label>
+                  <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>Country <span style={{ color: "#ec4899" }}>*</span></label>
                   <Select 
                     options={countryOptions}
                     value={countryOptions.find(c => c.value === formData.country)}
@@ -363,153 +339,62 @@ export default function WaitingListPage() {
                   />
                 </div>
 
+                {/* Phone */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Phone Number</label>
-                  <div style={{ display: "flex", border: "1px solid var(--border-input)", borderRadius: "12px", overflow: "hidden", backgroundColor: "var(--bg-primary)" }}>
-                    <div style={{ padding: "15px", backgroundColor: "var(--bg-surface-elevated)", color: "var(--text-heading)", fontWeight: "bold", borderRight: "1px solid var(--border-input)", minWidth: "60px", textAlign: "center" }}>
+                  <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>Phone Number <span style={{ color: "#ec4899" }}>*</span></label>
+                  <div style={{ display: "flex", border: `1px solid ${phoneStatus.status === 'invalid' ? '#ef4444' : phoneStatus.status === 'valid' ? '#10b981' : 'var(--border-input)'}`, borderRadius: "12px", overflow: "hidden", backgroundColor: "var(--bg-primary)" }}>
+                    <div style={{ padding: "14px", backgroundColor: "var(--bg-surface-elevated)", color: "var(--text-heading)", fontWeight: "bold", borderRight: "1px solid var(--border-input)", minWidth: "65px", textAlign: "center" }}>
                       {dialCode}
                     </div>
                     <input 
                       type="tel" 
                       name="phone" 
                       required
-                      placeholder="e.g. 234 567 8900"
+                      placeholder="e.g. 7123456789"
                       value={formData.phone} 
                       onChange={handleChange}
                       onBlur={handlePhoneBlur}
-                      style={{ padding: "15px", border: "none", fontSize: "1.1rem", flex: 1, outline: "none", backgroundColor: "transparent", color: "var(--text-heading)" }}
+                      style={{ padding: "14px", border: "none", fontSize: "1rem", flex: 1, outline: "none", backgroundColor: "transparent", color: "var(--text-heading)" }}
                     />
                   </div>
                   {phoneStatus.status === 'invalid' && (
-                    <div style={{ 
-                      color: '#ef5350', 
-                      fontSize: '0.95rem', 
-                      fontWeight: 'bold',
-                      marginTop: '4px',
-                      paddingLeft: '5px'
-                    }}>
+                    <div style={{ color: '#ef4444', fontSize: '0.88rem', fontWeight: 600, marginTop: '2px' }}>
                       ❌ {phoneStatus.message}
                     </div>
                   )}
                 </div>
                 
+                {/* Company Name */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Company Name</label>
+                  <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>
+                    Company / Law Firm / Organisation <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "normal" }}>(Optional)</span>
+                  </label>
                   <input 
                     type="text" 
                     name="company" 
-                    required={formData.plan !== 'Student Membership'}
-                    placeholder="Where do you work?"
+                    placeholder="Where do you work / study?"
                     value={formData.company} 
                     onChange={handleChange}
-                    style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
+                    style={{ padding: "14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1rem" }}
                   />
                 </div>
 
+                {/* Role / Profession */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Who are you? (Role)</label>
+                  <label style={{ fontWeight: "bold", fontSize: "1rem", color: "var(--text-heading)" }}>Who are you? (Role / Profession) <span style={{ color: "#ec4899" }}>*</span></label>
                   <input 
                     type="text" 
                     name="profession" 
                     required
-                    placeholder="e.g. Patent Attorney, Founder, Student..."
+                    placeholder="e.g. IP Attorney, Patent Attorney, Founder, Student..."
                     value={formData.profession} 
                     onChange={handleChange}
-                    style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
+                    style={{ padding: "14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1rem" }}
                   />
                 </div>
-                
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Which plan are you interested in?</label>
-                  <Select
-                    options={planOptions}
-                    placeholder="Select a Plan"
-                    value={planOptions.find(p => p.value === formData.plan) || null}
-                    onChange={(selected: any) => {
-                      if (selected) {
-                        setFormData(prev => ({ ...prev, plan: selected.value }));
-                      }
-                    }}
-                    styles={selectStyles}
-                  />
-                </div>
-
-                {formData.plan === 'Entrepreneur Membership' && (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Business Registration Number</label>
-                      <input 
-                        type="text" 
-                        name="businessRegistrationNumber" 
-                        required
-                        placeholder="Registration Number"
-                        value={formData.businessRegistrationNumber} 
-                        onChange={handleChange}
-                        style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
-                      />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Date of Incorporation</label>
-                      <input 
-                        type="date" 
-                        name="dateOfIncorporation" 
-                        required
-                        value={formData.dateOfIncorporation} 
-                        onChange={handleChange}
-                        style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
-                      />
-                    </div>
-                  </>
-                )}
-
-                {formData.plan === 'Student Membership' && (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>College/Institute</label>
-                      <input 
-                        type="text" 
-                        name="collegeInstitute" 
-                        required
-                        placeholder="Where do you study?"
-                        value={formData.collegeInstitute} 
-                        onChange={handleChange}
-                        style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
-                      />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>Student ID</label>
-                      <input 
-                        type="text" 
-                        name="studentId" 
-                        required
-                        placeholder="Your Student ID"
-                        value={formData.studentId} 
-                        onChange={handleChange}
-                        style={{ padding: "15px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "1.1rem" }}
-                      />
-                    </div>
-                  </>
-                )}
-
-                {formData.plan === 'Custom Plan' && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <label style={{ fontWeight: "bold", fontSize: "1.1rem", color: "var(--text-heading)" }}>How many seats?</label>
-                    <Select
-                      options={seatsOptions}
-                      placeholder="Select seats"
-                      value={seatsOptions.find(s => s.value === formData.seats) || null}
-                      onChange={(selected: any) => {
-                        if (selected) {
-                          setFormData(prev => ({ ...prev, seats: selected.value }));
-                        }
-                      }}
-                      styles={selectStyles}
-                    />
-                  </div>
-                )}
 
                 {error && (
-                  <div style={{ padding: "15px", backgroundColor: "rgba(239, 83, 80, 0.1)", border: "1px solid #ef5350", color: "#ef5350", borderRadius: "12px", fontWeight: "bold", textAlign: "center" }}>
+                  <div style={{ backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#ef4444", padding: "12px 16px", borderRadius: "12px", fontSize: "0.95rem", textAlign: "center" }}>
                     {error}
                   </div>
                 )}
@@ -517,23 +402,28 @@ export default function WaitingListPage() {
                 <motion.button 
                   type="submit" 
                   disabled={isLoading}
-                  whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                  whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="btn btn-accent" 
                   style={{ 
-                    padding: "18px", 
                     marginTop: "10px", 
+                    padding: "16px", 
+                    fontSize: "1.1rem", 
                     borderRadius: "50px", 
-                    border: "none", 
-                    background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)", 
-                    color: "#ffffff", 
-                    fontSize: "1.2rem", 
                     fontWeight: "bold", 
                     cursor: isLoading ? "not-allowed" : "pointer", 
-                    boxShadow: "0 8px 24px rgba(236, 72, 153, 0.35)",
-                    transition: "all 0.2s" 
+                    width: "100%", 
+                    boxShadow: "0 8px 25px rgba(236, 72, 153, 0.4)",
+                    background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
+                    color: "#ffffff",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px"
                   }}
                 >
-                  {isLoading ? "Submitting..." : "JOIN THE WAITING LIST NOW !"}
+                  {isLoading ? "Saving Details..." : "CONTINUE ➔"}
                 </motion.button>
               </form>
             </>
@@ -541,30 +431,39 @@ export default function WaitingListPage() {
             <div style={{ textAlign: "center", padding: "40px 0" }}>
               <div style={{ fontSize: "4rem", marginBottom: "20px" }}>🎉</div>
               <h2 className="heading-md" style={{ marginBottom: "15px", color: "var(--text-heading)" }}>
-                {formData.title} {formData.name}
+                Details Saved, {formData.name}!
               </h2>
-              <p style={{ fontSize: "1.2rem", color: "var(--text-body)", marginBottom: "30px", fontWeight: "500" }}>
-                Your interest has been submitted. We will be back to you!
+              <p style={{ fontSize: "1.15rem", color: "var(--text-body)", marginBottom: "30px", fontWeight: "500" }}>
+                Taking you to the pricing plans to choose your membership...
               </p>
               
               <div style={{ 
-                display: "inline-block", 
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
                 backgroundColor: "rgba(56, 189, 248, 0.15)", 
                 color: "#38bdf8",
-                padding: "15px 30px", 
+                padding: "14px 28px", 
                 borderRadius: "50px", 
                 border: "1px solid rgba(56, 189, 248, 0.3)", 
                 fontWeight: "bold",
-                fontSize: "1.2rem",
+                fontSize: "1.1rem",
                 boxShadow: "0 0 20px rgba(56, 189, 248, 0.2)"
               }}>
-                Returning to home in {countdown}...
+                <span style={{ display: "inline-block", width: "16px", height: "16px", border: "2px solid #38bdf8", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+                Redirecting to Plans...
               </div>
             </div>
           )}
 
         </div>
       </FadeIn>
+
+      <style jsx global>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

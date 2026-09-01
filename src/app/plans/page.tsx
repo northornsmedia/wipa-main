@@ -6,6 +6,7 @@ import FadeIn from "@/components/animations/FadeIn";
 import TextReveal from "@/components/animations/TextReveal";
 import Link from "next/link";
 import PlansGridClient from "@/components/PlansGridClient";
+import PricingGateWrapper from "@/components/PricingGateWrapper";
 
 import { Metadata } from "next";
 
@@ -145,24 +146,26 @@ export default function PlansPage() {
             </FadeIn>
           </div>
 
-          <PlansGridClient plans={plans} />
+          <PricingGateWrapper>
+            <PlansGridClient plans={plans} />
+
+            <div style={{ width: '100%', maxWidth: '1200px', margin: '80px auto 0', padding: '0 clamp(10px, 3vw, 20px)' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '50px 30px', borderRadius: '32px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <h2 className="heading-huge" style={{ fontSize: '2.5rem', marginBottom: '20px', color: 'var(--text-heading)' }}>Custom Enterprise Plan</h2>
+                <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center', color: 'var(--text-body)' }}>
+                  Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team's needs.
+                </p>
+                <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
+                  <button className="btn btn-accent" style={{ padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
+                    JOIN THE WAITING LIST NOW
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </PricingGateWrapper>
 
         </div>
       </section>
-
-      <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto 100px', padding: '0 40px' }}>
-        <div style={{ backgroundColor: 'var(--bg-card)', padding: '50px', borderRadius: '32px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <h2 className="heading-huge" style={{ fontSize: '2.5rem', marginBottom: '20px', color: 'var(--text-heading)' }}>Custom Enterprise Plan</h2>
-          <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center', color: 'var(--text-body)' }}>
-            Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team's needs.
-          </p>
-          <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
-            <button className="btn btn-accent" style={{ padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
-              JOIN THE WAITING LIST
-            </button>
-          </Link>
-        </div>
-      </div>
 
       <Footer />
     </main>
