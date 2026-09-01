@@ -328,41 +328,24 @@ export default function PricingGateWrapper({ children }: PricingGateWrapperProps
             boxShadow: isFromWaitingList ? "0 4px 25px rgba(236, 72, 153, 0.2)" : "0 4px 20px rgba(16, 185, 129, 0.15)"
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span style={{ fontSize: "1.4rem" }}>{isFromWaitingList ? "🎯" : "✨"}</span>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flex: 1 }}>
+            <span style={{ fontSize: "1.4rem", marginTop: "2px" }}>{isFromWaitingList ? "🎯" : "✨"}</span>
             <div>
               <div style={{ fontSize: "1.05rem", color: isFromWaitingList ? "#ec4899" : "#10b981", fontWeight: 800 }}>
                 {userName ? `Welcome, ${userName}! ` : ""}
-                {isFromWaitingList ? "Step 2: Choose Your Founding Plan Below" : "Founding Member Rates are Unlocked"}
+                {isFromWaitingList ? "Step 2: Select Your Preferred Founding Member Plan" : "Founding Member Rates are Unlocked"}
               </div>
               {isFromWaitingList && (
-                <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "2px" }}>
-                  Click <strong>&ldquo;SELECT THE PLAN AND JOIN WAITING LIST&rdquo;</strong> on any plan card below to confirm your membership selection.
+                <div style={{ fontSize: "0.88rem", color: "var(--text-muted)", marginTop: "6px", lineHeight: 1.5 }}>
+                  <div style={{ marginBottom: "3px" }}>
+                    Choose the Founding Member plan you are most interested in and click <strong>&ldquo;SELECT PLAN &amp; JOIN WAITING LIST&rdquo;</strong> to confirm your interest.
+                  </div>
+                  <div>
+                    Once submitted, a member of our team will get back to you with the next steps and further membership details.
+                  </div>
                 </div>
               )}
             </div>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-            <button
-              onClick={handleRegisterAnotherPerson}
-              title="Register another colleague on this device"
-              style={{
-                background: "rgba(236, 72, 153, 0.15)",
-                border: "1px solid rgba(236, 72, 153, 0.4)",
-                color: "var(--text-heading)",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                padding: "6px 14px",
-                borderRadius: "10px",
-                cursor: "pointer",
-                transition: "all 0.2s",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px"
-              }}
-            >
-              <span>➕</span> Register Another Person
-            </button>
           </div>
         </motion.div>
       )}

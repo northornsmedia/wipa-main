@@ -438,7 +438,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   })
                 }}
               >
-                {isCurrentSelected ? "✓ SELECTED" : isBlockedOther ? "SELECTION LOCKED" : "SELECT THE PLAN AND JOIN WAITING LIST"}
+                {isCurrentSelected ? "✓ SELECTED" : isBlockedOther ? "SELECTION LOCKED" : "SELECT PLAN & JOIN WAITING LIST"}
               </button>
             ) : (
               <Link href="/waiting-list" style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
@@ -680,7 +680,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                     border: "none"
                   }}
                 >
-                  {isSubmitting ? "CONFIRMING PLAN..." : "SELECT THE PLAN & JOIN WAITING LIST NOW ➔"}
+                  {isSubmitting ? "CONFIRMING PLAN..." : "SELECT PLAN & JOIN WAITING LIST NOW ➔"}
                 </motion.button>
               </form>
             </motion.div>
