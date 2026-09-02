@@ -33,7 +33,8 @@ export default function Home() {
           { src: "/LOGO - ALLIANCE USE (6).png", height: "85px" },
           { src: "/LOGO - ALLIANCE USE (7).png", height: "85px" },
           { src: "/LOGO - ALLIANCE USE.png", height: "85px" },
-          { src: "/footerlogo.svg", height: "72px" }
+          { src: "/footerlogo.svg", height: "72px" },
+          { src: "/GenieAI.png", height: "60px" }
         ]} />
         <About />
         <MemberBenefits />
