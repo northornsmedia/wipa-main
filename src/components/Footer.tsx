@@ -117,6 +117,13 @@ export default function Footer() {
                 display: contents;
               }
             }
+            .contact-icon {
+              width: 20px;
+              height: 20px;
+              min-width: 20px;
+              min-height: 20px;
+              flex-shrink: 0;
+            }
             .contact-item {
               display: flex;
               flex-direction: column;
@@ -127,12 +134,16 @@ export default function Footer() {
               display: flex;
               flex-direction: column;
               align-items: center;
+              word-break: break-word;
             }
             @media (min-width: 768px) {
               .contact-item {
                 flex-direction: row;
                 align-items: flex-start;
                 text-align: left;
+              }
+              .contact-icon {
+                margin-top: 2px;
               }
               .contact-item-content {
                 align-items: flex-start;
@@ -170,21 +181,21 @@ export default function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <li className="contact-item" style={{ gap: '12px', color: 'var(--text-body)' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <svg className="contact-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, minWidth: '20px', minHeight: '20px' }}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 <div className="contact-item-content" style={{ gap: '4px', fontSize: '0.875rem' }}>
                   <a href="mailto:wipa@northonsprmarketing.com" style={{ color: 'var(--text-body)', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-body)'}>wipa@northonsprmarketing.com</a>
                   <a href="mailto:dhruva@northonsprmarketing.com" style={{ color: 'var(--text-body)', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-body)'}>dhruva@northonsprmarketing.com</a>
                 </div>
               </li>
               <li className="contact-item" style={{ gap: '12px', color: 'var(--text-body)' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <svg className="contact-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, minWidth: '20px', minHeight: '20px' }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                 <div className="contact-item-content" style={{ gap: '4px', fontSize: '0.875rem' }}>
                   <a href="tel:+4402038130457" style={{ color: 'var(--text-body)', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-body)'}>+44 (0)203-813-0457 (UK)</a>
                   <a href="tel:+919054575950" style={{ color: 'var(--text-body)', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.color = '#3ca2fa'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-body)'}>+91 90545 75950 (IN)</a>
                 </div>
               </li>
               <li className="contact-item" style={{ gap: '12px', color: 'var(--text-body)' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <svg className="contact-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3ca2fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, minWidth: '20px', minHeight: '20px' }}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                 <div className="contact-item-content" style={{ gap: '12px', fontSize: '0.875rem' }}>
                   <div className="contact-item-content" style={{ gap: '2px' }}>
                     <span className="block md:hidden font-semibold" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px', color: 'var(--text-heading)' }}>
