@@ -6,6 +6,7 @@ import MagneticButton from "./animations/MagneticButton";
 
 export default function Hero() {
   const profiles = [
+    { src: "/mrinali-menon.png", name: "Mrinali Menon", countryCode: ["ky"], position: "Senior IP Manager", company: "HSM" },
     { src: "/Dr Shweta_AIPPI (1).png", name: "Dr. Shweta Singh", countryCode: ["in"], position: "Founder & CEO, Inaugural WIPA Chair - South Asia", company: "Ennoble IP" },
     { src: "/1.png", name: "Michele S. Katz", countryCode: ["us"], position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
     { src: "/Rafaella Oliveira.png", name: "Rafaella Oliveira", countryCode: ["br"], position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
