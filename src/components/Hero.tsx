@@ -23,6 +23,10 @@ export default function Hero() {
     { src: "/Carolina Caetano.png", name: "Carolina Caetano", countryCode: ["br"], position: "Head of Trademark Prosecution", company: "Licks Advogados" },
     { src: "/Maria khan.webp", name: "Maria Farrukh Irfan Khan", countryCode: ["ae"], position: "Managing Partner", company: "United Trademark & Patent Services" },
     { src: "/Anomi Wanigasekera.jpg", name: "Anomi I. Wanigasekera", countryCode: ["lk"], position: "Senior Partner", company: "Julius & Creasy" },
+    { src: "/dr-claudia-m-duffy.png", name: "Dr Claudia M. Duffy", countryCode: ["gb"], position: "Founder", company: "Innovare IP" },
+    { src: "/nadine-stuttle.png", name: "Nadine Stuttle", countryCode: ["ch"], position: "CEO", company: "PSS Solutions" },
+    { src: "/rashi-rastogi.png", name: "Rashi Rastogi", countryCode: ["in"], position: "Founder", company: "Lexorant" },
+    { src: "/adriana-barrera.png", name: "Adriana Barrera", countryCode: ["pe"], position: "Founder and Managing Partner", company: "BARLAW – Barrera & Asociados" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
