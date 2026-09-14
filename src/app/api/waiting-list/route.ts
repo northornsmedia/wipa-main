@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { allCountries } from "country-telephone-data";
+import { syncLeadToGoogleSheet } from "@/lib/googleSheets";
 
 function formatCountryAndPhone(countryInput?: string, phoneInput?: string) {
   let formattedCountry = countryInput?.trim() || "";
@@ -65,29 +66,29 @@ export async function POST(req: Request) {
     
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    const leadPayload = {
+      title,
+      name,
+      country: formattedCountry || country,
+      phone: formattedPhone || phone,
+      email,
+      company,
+      profession,
+      plan: plan || null,
+      fingerprint: fingerprint || null,
+      ip_address: ipAddress,
+      device_info: device_info || null,
+      business_registration_number: businessRegistrationNumber || null,
+      date_of_incorporation: dateOfIncorporation || null,
+      college_institute: collegeInstitute || null,
+      student_id: studentId || null,
+      seats: seats || null,
+    };
+
     const { data: insertedData, error } = await supabase
       .from("waiting_list")
-      .insert([
-        {
-          title,
-          name,
-          country: formattedCountry || country,
-          phone: formattedPhone || phone,
-          email,
-          company,
-          profession,
-          plan: plan || null,
-          fingerprint: fingerprint || null,
-          ip_address: ipAddress,
-          device_info: device_info || null,
-          business_registration_number: businessRegistrationNumber || null,
-          date_of_incorporation: dateOfIncorporation || null,
-          college_institute: collegeInstitute || null,
-          student_id: studentId || null,
-          seats: seats || null,
-        },
-      ])
-      .select("id, name, email, plan");
+      .insert([leadPayload])
+      .select("id, name, email, plan, created_at");
 
     if (error) {
       console.error("Supabase insert error:", error);
@@ -98,6 +99,13 @@ export async function POST(req: Request) {
     }
 
     const lead = insertedData && insertedData[0];
+
+    // Synchronize to Google Sheet (non-blocking for resilience)
+    syncLeadToGoogleSheet({
+      id: lead?.id,
+      created_at: lead?.created_at,
+      ...leadPayload
+    }).catch(err => console.error("Google Sheet background sync error:", err));
 
     return NextResponse.json({ 
       success: true, 

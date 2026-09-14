@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { syncLeadToGoogleSheet } from "@/lib/googleSheets";
 
 export async function POST(req: Request) {
   try {
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
       query = query.eq("fingerprint", fingerprint);
     }
 
-    const { data: updatedRows, error } = await query.select("id, name, email, plan");
+    const { data: updatedRows, error } = await query.select("id, name, email, plan, country, phone, company, profession, created_at, business_registration_number, date_of_incorporation, college_institute, student_id, seats, ip_address");
 
     if (error) {
       console.error("Supabase select-plan update error:", error);
@@ -67,6 +68,28 @@ export async function POST(req: Request) {
     }
 
     const updatedUser = updatedRows && updatedRows[0];
+
+    // Synchronize updated plan to Google Sheet
+    if (updatedUser) {
+      syncLeadToGoogleSheet({
+        action: 'update_plan',
+        id: updatedUser.id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        plan: updatedUser.plan,
+        country: updatedUser.country,
+        phone: updatedUser.phone,
+        company: updatedUser.company,
+        profession: updatedUser.profession,
+        created_at: updatedUser.created_at,
+        business_registration_number: updatedUser.business_registration_number,
+        date_of_incorporation: updatedUser.date_of_incorporation,
+        college_institute: updatedUser.college_institute,
+        student_id: updatedUser.student_id,
+        seats: updatedUser.seats,
+        ip_address: updatedUser.ip_address
+      }).catch(err => console.error("Google Sheet plan update sync error:", err));
+    }
 
     return NextResponse.json({ 
       success: true, 
