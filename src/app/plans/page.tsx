@@ -1,12 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import StaggerGrid from "@/components/animations/StaggerGrid";
-import TiltCard from "@/components/animations/TiltCard";
-import FadeIn from "@/components/animations/FadeIn";
-import TextReveal from "@/components/animations/TextReveal";
-import Link from "next/link";
-import PlansGridClient from "@/components/PlansGridClient";
-import PricingGateWrapper from "@/components/PricingGateWrapper";
+import PlansPageContent from "@/components/PlansPageContent";
 
 import { Metadata } from "next";
 
@@ -101,72 +95,7 @@ export default function PlansPage() {
         }}
       />
       <Navbar />
-      
-      <section className="section section-dark" style={{ paddingTop: '160px', paddingBottom: '100px' }}>
-        <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 clamp(10px, 3vw, 40px)' }}>
-          
-          <div style={{ textAlign: 'center', marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <div style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 900, textTransform: 'uppercase', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
-              <TextReveal 
-                lines={["ALL MEMBERSHIP PLANS"]} 
-                style={{ marginBottom: '10px' }} 
-              />
-            </div>
-            <FadeIn direction="up" delay={0.2} style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-              <p className="mobile-text-center" style={{ fontSize: '1.2rem', color: 'var(--text-heading)', opacity: 0.9, maxWidth: '1200px', margin: '0 auto', lineHeight: 1.8, fontWeight: 300, textAlign: 'center' }}>
-                Choose the perfect plan for you or your organisation.
-              </p>
-              <div style={{ display: 'inline-block', backgroundColor: 'rgba(168, 85, 247, 0.12)', color: 'var(--text-heading)', border: '1px solid rgba(168, 85, 247, 0.3)', padding: '6px 18px', borderRadius: '20px', fontWeight: 700, fontSize: '0.95rem' }}>
-                Please note: All memberships purchased today will officially commence in January 2027.
-              </div>
-            </FadeIn>
-          </div>
-          
-          <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 clamp(15px, 4vw, 40px)' }}>
-            <FadeIn direction="up" delay={0.3}>
-              <div style={{
-                margin: '20px auto 40px',
-                padding: 'clamp(20px, 5vw, 30px) clamp(15px, 4vw, 40px)',
-                backgroundColor: 'rgba(236, 72, 153, 0.05)',
-                color: 'var(--text-heading)',
-                border: '1px solid rgba(236, 72, 153, 0.3)',
-                boxShadow: '0 0 30px rgba(236, 72, 153, 0.1)',
-                borderRadius: '16px',
-                maxWidth: '100%',
-                textAlign: 'center',
-                position: 'relative'
-              }}>
-                <h4 className="mobile-text-center" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.3rem)', marginBottom: '12px', fontFamily: 'var(--font-display)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.02em', color: '#f472b6', textAlign: 'center' }}>
-                  Your Founding Member Advantage
-                </h4>
-                <p className="mobile-text-center" style={{ fontSize: '0.95rem', margin: 0, lineHeight: 1.6, fontWeight: 400, fontStyle: 'italic', opacity: 0.9, textAlign: 'center', color: 'var(--text-light)' }}>
-                  Joining as a Founding Member not only secures your place within the Alliance's inaugural community, but also <span style={{ backgroundColor: 'rgba(236, 72, 153, 0.15)', color: 'var(--text-heading)', border: '1px solid rgba(236, 72, 153, 0.35)', padding: '2px 8px', borderRadius: '4px', fontStyle: 'normal', fontWeight: 600 }}>locks in your exclusive Founding Member rate</span> for future renewals. Once all Founding Memberships have been allocated, new members will join at the standard annual rates, while existing Founding Members will continue to benefit from their protected introductory pricing, provided their membership remains active.
-                </p>
-              </div>
-            </FadeIn>
-          </div>
-
-          <PricingGateWrapper>
-            <PlansGridClient plans={plans} />
-
-            <div style={{ width: '100%', maxWidth: '1200px', margin: '80px auto 0', padding: '0 clamp(10px, 3vw, 20px)' }}>
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '50px 30px', borderRadius: '32px', border: '1px solid var(--border-card)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <h2 className="heading-huge" style={{ fontSize: '2.5rem', marginBottom: '20px', color: 'var(--text-heading)' }}>Custom Enterprise Plan</h2>
-                <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center', color: 'var(--text-body)' }}>
-                  Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team's needs.
-                </p>
-                <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
-                  <button className="btn btn-accent" style={{ padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
-                    JOIN THE WAITING LIST NOW
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </PricingGateWrapper>
-
-        </div>
-      </section>
-
+      <PlansPageContent plans={plans} />
       <Footer />
     </main>
   );

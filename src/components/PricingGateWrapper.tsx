@@ -9,6 +9,7 @@ import { getDeviceFingerprint } from "@/lib/fingerprint";
 
 interface PricingGateWrapperProps {
   children: React.ReactNode;
+  hideBanner?: boolean;
 }
 
 const countryOptions = allCountries
@@ -101,7 +102,7 @@ const selectStyles = {
   })
 };
 
-export default function PricingGateWrapper({ children }: PricingGateWrapperProps) {
+export default function PricingGateWrapper({ children, hideBanner = false }: PricingGateWrapperProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isFromWaitingList, setIsFromWaitingList] = useState(false);
@@ -308,7 +309,7 @@ export default function PricingGateWrapper({ children }: PricingGateWrapperProps
   return (
     <div style={{ position: "relative", width: "100%" }}>
       {/* Unlocked banner if already unlocked */}
-      {isUnlocked && (
+      {isUnlocked && !hideBanner && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}

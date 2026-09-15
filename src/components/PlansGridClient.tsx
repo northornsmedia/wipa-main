@@ -183,6 +183,9 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
       // Success
       localStorage.setItem("wipa_selected_plan", planToSubmit);
       setSelectedPlan(planToSubmit);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("wipa_plan_selected", { detail: { plan: planToSubmit } }));
+      }
       setConfirmedPlanName(planToSubmit);
       setActiveModalPlan(null);
       setShowSuccessModal(true);
