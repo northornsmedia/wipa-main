@@ -468,6 +468,9 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                 maxWidth: "620px",
                 maxHeight: "min(92vh, 92dvh)",
                 overflowY: "auto",
+                overflowX: "hidden",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
                 WebkitOverflowScrolling: "touch",
                 backgroundColor: "var(--bg-card)",
                 borderRadius: "20px",
@@ -479,31 +482,65 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                 boxSizing: "border-box"
               }}
             >
-              {/* Glowing decorative accent */}
-              <div
+              {/* Close / Return to Homepage Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = "/";
+                }}
+                aria-label="Close and return to homepage"
+                title="Return to homepage"
+                className="gate-close-btn"
                 style={{
                   position: "absolute",
-                  top: "-70px",
-                  right: "-70px",
-                  width: "140px",
-                  height: "140px",
+                  top: "14px",
+                  right: "14px",
+                  zIndex: 30,
+                  width: "32px",
+                  height: "32px",
                   borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(236,72,153,0.3) 0%, rgba(0,0,0,0) 70%)",
-                  pointerEvents: "none"
+                  border: "1px solid var(--border-input)",
+                  backgroundColor: "var(--bg-surface-elevated)",
+                  color: "var(--text-heading)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  padding: 0
                 }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "-70px",
-                  left: "-70px",
-                  width: "140px",
-                  height: "140px",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(0,0,0,0) 70%)",
-                  pointerEvents: "none"
-                }}
-              />
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+
+              {/* Glowing decorative accent (strictly contained to avoid scrollbars) */}
+              <div style={{ position: "absolute", inset: 0, overflow: "hidden", borderRadius: "20px", pointerEvents: "none" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-60px",
+                    right: "-60px",
+                    width: "140px",
+                    height: "140px",
+                    borderRadius: "50%",
+                    background: "radial-gradient(circle, rgba(236,72,153,0.3) 0%, rgba(0,0,0,0) 70%)"
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "-60px",
+                    left: "-60px",
+                    width: "140px",
+                    height: "140px",
+                    borderRadius: "50%",
+                    background: "radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(0,0,0,0) 70%)"
+                  }}
+                />
+              </div>
 
               {/* Gate Header */}
               <div style={{ textAlign: "center", marginBottom: "12px", position: "relative", zIndex: 1 }}>
@@ -796,6 +833,22 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
+        /* Completely hide scrollbars on the gate modal card */
+        .gate-modal-card {
+          scrollbar-width: none !important; /* Firefox */
+          -ms-overflow-style: none !important; /* IE & Edge */
+          overflow-x: hidden !important;
+        }
+        .gate-modal-card::-webkit-scrollbar {
+          display: none !important; /* Chrome, Safari & Opera */
+          width: 0 !important;
+          height: 0 !important;
+        }
+        .gate-close-btn:hover {
+          background-color: rgba(236, 72, 153, 0.25) !important;
+          border-color: rgba(236, 72, 153, 0.5) !important;
+          transform: scale(1.08);
+        }
         @media (max-width: 640px) {
           .gate-row-2col {
             grid-template-columns: 1fr !important;
@@ -805,6 +858,12 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
             padding: 16px 14px !important;
             border-radius: 16px !important;
             max-height: calc(100dvh - 20px) !important;
+          }
+          .gate-close-btn {
+            top: 10px !important;
+            right: 10px !important;
+            width: 34px !important;
+            height: 34px !important;
           }
           .gate-input, .gate-phone-input {
             font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
