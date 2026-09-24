@@ -115,31 +115,35 @@ export async function POST(req: Request) {
       console.error("Error updating pricing_unlock_leads status:", err);
     }
 
-    // Synchronize to Google Sheet (non-blocking for resilience)
-    syncLeadToGoogleSheet({
-      id: lead?.id,
-      created_at: lead?.created_at,
-      ...leadPayload
-    }).catch(err => console.error("Google Sheet background sync error:", err));
-
-    // Send Slack Notification to manager (non-blocking for resilience)
-    sendSlackLeadNotification({
-      title,
-      name,
-      email,
-      phone: formattedPhone || phone,
-      country: formattedCountry || country,
-      company,
-      profession,
-      plan: plan || null,
-      seats,
-      businessRegistrationNumber,
-      dateOfIncorporation,
-      collegeInstitute,
-      studentId,
-      createdAt: lead?.created_at,
-      source: "waiting_list"
-    }).catch(err => console.error("Slack notification error:", err));
+    // Synchronize to Google Sheet & Slack (awaited with Promise.allSettled so Vercel Serverless Function does not terminate before completion)
+    try {
+      await Promise.allSettled([
+        syncLeadToGoogleSheet({
+          id: lead?.id,
+          created_at: lead?.created_at,
+          ...leadPayload
+        }),
+        sendSlackLeadNotification({
+          title,
+          name,
+          email,
+          phone: formattedPhone || phone,
+          country: formattedCountry || country,
+          company,
+          profession,
+          plan: plan || null,
+          seats,
+          businessRegistrationNumber,
+          dateOfIncorporation,
+          collegeInstitute,
+          studentId,
+          createdAt: lead?.created_at,
+          source: "waiting_list"
+        })
+      ]);
+    } catch (notifyErr) {
+      console.error("[WaitingList] Notification dispatch error:", notifyErr);
+    }
 
     return NextResponse.json({ 
       success: true, 

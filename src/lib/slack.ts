@@ -24,11 +24,13 @@ export interface LeadNotificationData {
 const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/174cg1j5JKWj6w4pfIC8YSe-TuaZduUU3n-uUWKGoJ1I/edit";
 
 export async function sendSlackLeadNotification(lead: LeadNotificationData): Promise<boolean> {
-  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL?.trim().replace(/^["']|["']$/g, '');
   if (!webhookUrl) {
-    // Slack notifications not configured yet
+    console.warn("[SlackNotification] SLACK_WEBHOOK_URL is not set. Skipping Slack notification.");
     return false;
   }
+
+  console.log(`[SlackNotification] Sending alert to webhook: ${webhookUrl.substring(0, 45)}...`);
 
   try {
     const fullName = [lead.title, lead.name].filter(Boolean).join(" ");

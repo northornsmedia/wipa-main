@@ -25,12 +25,14 @@ export interface WaitingListLead {
 }
 
 export async function syncLeadToGoogleSheet(lead: WaitingListLead): Promise<{ success: boolean; error?: string }> {
-  const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL;
+  const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL?.trim().replace(/^["']|["']$/g, '');
 
   if (!webhookUrl) {
     console.warn("GOOGLE_SHEET_WEBHOOK_URL is not configured in environment variables. Skipping Google Sheet sync.");
     return { success: false, error: "GOOGLE_SHEET_WEBHOOK_URL missing" };
   }
+
+  console.log(`[GoogleSheetSync] Sending lead to webhook: ${webhookUrl.substring(0, 45)}...`);
 
   try {
     const payload = {

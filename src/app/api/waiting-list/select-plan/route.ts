@@ -70,44 +70,48 @@ export async function POST(req: Request) {
 
     const updatedUser = updatedRows && updatedRows[0];
 
-    // Synchronize updated plan to Google Sheet
+    // Synchronize updated plan to Google Sheet & Slack (awaited so Vercel Serverless Function does not terminate early)
     if (updatedUser) {
-      syncLeadToGoogleSheet({
-        action: 'update_plan',
-        id: updatedUser.id,
-        email: updatedUser.email,
-        name: updatedUser.name,
-        plan: updatedUser.plan,
-        country: updatedUser.country,
-        phone: updatedUser.phone,
-        company: updatedUser.company,
-        profession: updatedUser.profession,
-        created_at: updatedUser.created_at,
-        business_registration_number: updatedUser.business_registration_number,
-        date_of_incorporation: updatedUser.date_of_incorporation,
-        college_institute: updatedUser.college_institute,
-        student_id: updatedUser.student_id,
-        seats: updatedUser.seats,
-        ip_address: updatedUser.ip_address
-      }).catch(err => console.error("Google Sheet plan update sync error:", err));
-
-      // Send Slack notification to manager for selected plan
-      sendSlackLeadNotification({
-        name: updatedUser.name,
-        email: updatedUser.email,
-        phone: updatedUser.phone,
-        country: updatedUser.country,
-        company: updatedUser.company,
-        profession: updatedUser.profession,
-        plan: updatedUser.plan,
-        seats: updatedUser.seats,
-        businessRegistrationNumber: updatedUser.business_registration_number,
-        dateOfIncorporation: updatedUser.date_of_incorporation,
-        collegeInstitute: updatedUser.college_institute,
-        studentId: updatedUser.student_id,
-        createdAt: updatedUser.created_at,
-        source: "plan_selection"
-      }).catch(err => console.error("Slack plan update notification error:", err));
+      try {
+        await Promise.allSettled([
+          syncLeadToGoogleSheet({
+            action: 'update_plan',
+            id: updatedUser.id,
+            email: updatedUser.email,
+            name: updatedUser.name,
+            plan: updatedUser.plan,
+            country: updatedUser.country,
+            phone: updatedUser.phone,
+            company: updatedUser.company,
+            profession: updatedUser.profession,
+            created_at: updatedUser.created_at,
+            business_registration_number: updatedUser.business_registration_number,
+            date_of_incorporation: updatedUser.date_of_incorporation,
+            college_institute: updatedUser.college_institute,
+            student_id: updatedUser.student_id,
+            seats: updatedUser.seats,
+            ip_address: updatedUser.ip_address
+          }),
+          sendSlackLeadNotification({
+            name: updatedUser.name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            country: updatedUser.country,
+            company: updatedUser.company,
+            profession: updatedUser.profession,
+            plan: updatedUser.plan,
+            seats: updatedUser.seats,
+            businessRegistrationNumber: updatedUser.business_registration_number,
+            dateOfIncorporation: updatedUser.date_of_incorporation,
+            collegeInstitute: updatedUser.college_institute,
+            studentId: updatedUser.student_id,
+            createdAt: updatedUser.created_at,
+            source: "plan_selection"
+          })
+        ]);
+      } catch (notifyErr) {
+        console.error("[SelectPlan] Notification dispatch error:", notifyErr);
+      }
     }
 
     return NextResponse.json({ 
