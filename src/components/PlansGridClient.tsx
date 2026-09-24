@@ -284,30 +284,12 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
         {visiblePlans.map((t, i) => {
           const isFeatured = t.name.includes("IP Professional");
           const planNameClean = t.name.replace(/\n/g, ' ').replace('(for Start Ups only)', '').trim();
-          const hasPlanSelected = Boolean(selectedPlan);
-          const isCurrentSelected = selectedPlan === planNameClean;
-          const isBlockedOther = hasPlanSelected && !isCurrentSelected;
 
           return (
           <div key={i} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             {/* Top Pill Badge slot */}
             <div style={{ height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-              {isCurrentSelected ? (
-                <div style={{ 
-                  background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)', 
-                  color: '#ffffff', 
-                  padding: '5px 18px', 
-                  borderRadius: '9999px', 
-                  fontWeight: 800, 
-                  fontSize: '0.8rem', 
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase', 
-                  whiteSpace: 'nowrap', 
-                  boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)'
-                }}>
-                  ✓ YOUR SELECTED PLAN
-                </div>
-              ) : (t.subtitle || isFeatured) ? (
+              {(t.subtitle || isFeatured) ? (
                 <div style={{ 
                   background: 'linear-gradient(90deg, #ff2d55 0%, #ff7a00 100%)', 
                   color: '#ffffff', 
@@ -315,11 +297,10 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   borderRadius: '9999px', 
                   fontWeight: 800, 
                   fontSize: '0.8rem', 
-                  letterSpacing: '0.05em',
+                  letterSpacing: '0.05em', 
                   textTransform: 'uppercase', 
                   whiteSpace: 'nowrap', 
-                  boxShadow: '0 4px 15px rgba(255, 45, 85, 0.4)',
-                  opacity: isBlockedOther ? 0.35 : 1
+                  boxShadow: '0 4px 15px rgba(255, 45, 85, 0.4)'
                 }}>
                   {t.subtitle || "MOST POPULAR"}
                 </div>
@@ -334,13 +315,13 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
               padding: '34px 24px 28px', 
               borderRadius: '32px', 
               backgroundColor: 'var(--bg-card)',
-              border: isCurrentSelected ? '2px solid #10b981' : isFeatured ? '2px solid #ff2d55' : '1px solid var(--border-card)', 
-              boxShadow: isCurrentSelected ? '0 0 35px rgba(16, 185, 129, 0.35)' : isFeatured ? 'var(--shadow-featured)' : 'var(--shadow-card)', 
+              border: isFeatured ? '2px solid #ff2d55' : '1px solid var(--border-card)', 
+              boxShadow: isFeatured ? 'var(--shadow-featured)' : 'var(--shadow-card)', 
               flexGrow: 1, 
               width: '100%', 
               position: 'relative',
-              opacity: isBlockedOther ? 0.45 : 1,
-              filter: isBlockedOther ? 'grayscale(40%)' : 'none',
+              opacity: 1,
+              filter: 'none',
               transition: 'all 0.4s ease'
             }}>
 
@@ -399,37 +380,32 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
               )}
             </div>
 
-            {/* CTA Button */}
-            {isFromWaitingList ? (
+            {/* CTA Button: Links directly to /waiting-list with plan pre-selected */}
+            <Link 
+              href={`/waiting-list?plan=${encodeURIComponent(planNameClean)}`}
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  localStorage.setItem("wipa_preferred_plan", planNameClean);
+                  localStorage.setItem("wipa_selected_plan", planNameClean);
+                }
+              }}
+              style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}
+            >
               <button 
-                onClick={() => handlePlanClick(t.name)}
-                disabled={isSubmitting || hasPlanSelected}
                 className="btn pricing-btn" 
                 style={{ 
                   width: '100%', 
-                  padding: '14px 12px', 
-                  fontSize: isBlockedOther ? '0.82rem' : '0.9rem', 
+                  padding: '15px 12px', 
+                  fontSize: '0.98rem', 
                   borderRadius: '50px', 
                   fontWeight: 'bold', 
-                  cursor: isCurrentSelected ? 'default' : isBlockedOther ? 'not-allowed' : isSubmitting ? 'not-allowed' : 'pointer', 
+                  cursor: 'pointer', 
                   textTransform: 'uppercase', 
                   lineHeight: '1.2',
                   marginTop: 'auto',
                   letterSpacing: '0.02em',
                   transition: 'all 0.3s ease',
-                  ...(isCurrentSelected ? {
-                    background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
-                    color: '#ffffff',
-                    border: 'none',
-                    boxShadow: '0 8px 25px rgba(16, 185, 129, 0.4)'
-                  } : isBlockedOther ? {
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    color: 'var(--text-muted)',
-                    border: '1px solid var(--border-subtle)',
-                    boxShadow: 'none',
-                    opacity: 0.4,
-                    pointerEvents: 'none'
-                  } : isFeatured ? {
+                  ...(isFeatured ? {
                     background: 'linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)',
                     color: '#ffffff',
                     border: 'none',
@@ -441,33 +417,9 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   })
                 }}
               >
-                {isCurrentSelected ? "✓ SELECTED" : isBlockedOther ? "SELECTION LOCKED" : "SELECT PLAN & JOIN WAITING LIST"}
+                JOIN THE WAITING LIST NOW
               </button>
-            ) : (
-              <Link href="/waiting-list" style={{ textDecoration: 'none', width: '100%', marginTop: 'auto' }}>
-                <button 
-                  className="btn pricing-btn" 
-                  style={{ 
-                    width: '100%', 
-                    padding: '15px', 
-                    fontSize: '1.05rem', 
-                    borderRadius: '50px', 
-                    fontWeight: 'bold', 
-                    cursor: 'pointer', 
-                    textTransform: 'uppercase', 
-                    lineHeight: '1.2',
-                    ...(isFeatured ? {
-                      background: 'linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)',
-                      color: '#ffffff',
-                      border: 'none',
-                      boxShadow: '0 8px 24px rgba(236, 72, 153, 0.35)'
-                    } : {})
-                  }}
-                >
-                  JOIN THE WAITING LIST NOW
-                </button>
-              </Link>
-            )}
+            </Link>
           </TiltCard>
           </div>
         );

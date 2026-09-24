@@ -142,14 +142,49 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
       setIsFromWaitingList(true);
       setIsUnlocked(true);
       localStorage.setItem("wipa_waitlist_unlocked", "true");
-      localStorage.setItem("wipa_from_waiting_list", "true");
     } else if (unlocked === "true") {
       setIsUnlocked(true);
     }
 
-    if (storedName) {
-      setUserName(storedName);
-    }
+    // Pre-populate form fields from browser cache
+    try {
+      let cached: any = {};
+      const rawCache = localStorage.getItem("wipa_form_cache");
+      if (rawCache) {
+        cached = JSON.parse(rawCache);
+      }
+      const title = cached.title || localStorage.getItem("wipa_user_title") || "";
+      const name = cached.name || localStorage.getItem("wipa_user_name") || "";
+      const country = cached.country || localStorage.getItem("wipa_user_country") || "GB";
+      let phone = cached.phone || localStorage.getItem("wipa_user_phone") || "";
+      const email = cached.email || localStorage.getItem("wipa_user_email") || "";
+      const company = cached.company || localStorage.getItem("wipa_user_company") || "";
+      const profession = cached.profession || localStorage.getItem("wipa_user_profession") || "";
+
+      if (phone && phone.startsWith("+")) {
+        const parts = phone.split(/\s+/);
+        if (parts.length > 1) {
+          phone = parts.slice(1).join(" ");
+        }
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        title: title || prev.title,
+        name: name || prev.name,
+        country: country || prev.country,
+        phone: phone || prev.phone,
+        email: email || prev.email,
+        company: company || prev.company,
+        profession: profession || prev.profession
+      }));
+
+      if (name) {
+        setUserName(name);
+      } else if (storedName) {
+        setUserName(storedName);
+      }
+    } catch {}
   }, []);
 
   const selectedCountryOption =
@@ -159,9 +194,26 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
 
   const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+44";
 
+  const saveToBrowserCache = (updated: typeof formData) => {
+    try {
+      localStorage.setItem("wipa_form_cache", JSON.stringify(updated));
+      if (updated.title) localStorage.setItem("wipa_user_title", updated.title);
+      if (updated.name) localStorage.setItem("wipa_user_name", updated.name);
+      if (updated.country) localStorage.setItem("wipa_user_country", updated.country);
+      if (updated.phone) localStorage.setItem("wipa_user_phone", updated.phone);
+      if (updated.email) localStorage.setItem("wipa_user_email", updated.email);
+      if (updated.company) localStorage.setItem("wipa_user_company", updated.company);
+      if (updated.profession) localStorage.setItem("wipa_user_profession", updated.profession);
+    } catch {}
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => {
+      const updated = { ...prev, [name]: value };
+      saveToBrowserCache(updated);
+      return updated;
+    });
     if (error) setError("");
     if (name === 'phone') setPhoneStatus({ status: 'idle', message: '' });
   };
@@ -231,7 +283,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         formattedPhone = `${currentDialCode} ${formattedPhone}`;
       }
 
-      const res = await fetch("/api/waiting-list", {
+      const res = await fetch("/api/pricing-unlock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -242,7 +294,6 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
           email: formData.email,
           company: formData.company,
           profession: formData.profession,
-          plan: null,
           fingerprint,
           device_info: deviceInfo
         })
@@ -253,9 +304,9 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         throw new Error(result.error || "Failed to submit form");
       }
 
-      // Unlock pricing & persist identity
+      // Unlock pricing & persist identity in browser cache
+      saveToBrowserCache(formData);
       localStorage.setItem("wipa_waitlist_unlocked", "true");
-      localStorage.setItem("wipa_from_waiting_list", "true");
       if (result.id) localStorage.setItem("wipa_user_id", result.id);
       if (formData.name) {
         localStorage.setItem("wipa_user_name", formData.name);
@@ -265,7 +316,6 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         localStorage.setItem("wipa_user_email", formData.email);
       }
       
-      setIsFromWaitingList(true);
       setIsUnlocked(true);
 
       if (typeof window !== "undefined") {
@@ -291,6 +341,8 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
     localStorage.removeItem("wipa_user_name");
     localStorage.removeItem("wipa_user_email");
     localStorage.removeItem("wipa_selected_plan");
+    localStorage.removeItem("wipa_preferred_plan");
+    localStorage.removeItem("wipa_form_cache");
     localStorage.removeItem("wipa_device_fingerprint");
     window.location.href = "/waiting-list";
   };
@@ -318,34 +370,26 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
             maxWidth: "1100px",
             margin: "0 auto 35px",
             padding: "16px 24px",
-            backgroundColor: isFromWaitingList ? "rgba(236, 72, 153, 0.12)" : "rgba(16, 185, 129, 0.1)",
-            border: `1px solid ${isFromWaitingList ? "rgba(236, 72, 153, 0.4)" : "rgba(16, 185, 129, 0.35)"}`,
+            backgroundColor: "rgba(16, 185, 129, 0.1)",
+            border: "1px solid rgba(16, 185, 129, 0.35)",
             borderRadius: "18px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
             gap: "12px",
-            boxShadow: isFromWaitingList ? "0 4px 25px rgba(236, 72, 153, 0.2)" : "0 4px 20px rgba(16, 185, 129, 0.15)"
+            boxShadow: "0 4px 20px rgba(16, 185, 129, 0.15)"
           }}
         >
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flex: 1 }}>
-            <span style={{ fontSize: "1.4rem", marginTop: "2px" }}>{isFromWaitingList ? "🎯" : "✨"}</span>
+            <span style={{ fontSize: "1.4rem", marginTop: "2px" }}>✨</span>
             <div>
-              <div style={{ fontSize: "1.05rem", color: isFromWaitingList ? "#ec4899" : "#10b981", fontWeight: 800 }}>
-                {userName ? `Welcome, ${userName}! ` : ""}
-                {isFromWaitingList ? "Step 2: Select Your Preferred Founding Member Plan" : "Founding Member Rates are Unlocked"}
+              <div style={{ fontSize: "1.05rem", color: "#10b981", fontWeight: 800 }}>
+                {userName ? `Welcome, ${userName}! ` : ""}Founding Member Rates Unlocked
               </div>
-              {isFromWaitingList && (
-                <div style={{ fontSize: "0.88rem", color: "var(--text-muted)", marginTop: "6px", lineHeight: 1.5 }}>
-                  <div style={{ marginBottom: "3px" }}>
-                    Choose the Founding Member plan you are most interested in and click <strong>&ldquo;SELECT PLAN &amp; JOIN WAITING LIST&rdquo;</strong> to confirm your interest.
-                  </div>
-                  <div>
-                    Once submitted, a member of our team will get back to you with the next steps and further membership details.
-                  </div>
-                </div>
-              )}
+              <div style={{ fontSize: "0.88rem", color: "var(--text-muted)", marginTop: "4px", lineHeight: 1.5 }}>
+                Browse our Founding Member packages below. Click &ldquo;JOIN THE WAITING LIST NOW&rdquo; on any plan to select your plan and complete your registration.
+              </div>
             </div>
           </div>
         </motion.div>
@@ -489,7 +533,11 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                       value={titleOptions.find(t => t.value === formData.title) || null}
                       onChange={(selected: any) => {
                         if (selected) {
-                          setFormData(prev => ({ ...prev, title: selected.value }));
+                          setFormData(prev => {
+                            const updated = { ...prev, title: selected.value };
+                            saveToBrowserCache(updated);
+                            return updated;
+                          });
                         }
                       }}
                       styles={selectStyles}
@@ -554,7 +602,11 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                     value={countryOptions.find(c => c.value === formData.country)}
                     onChange={(selected: any) => {
                       if (selected) {
-                        setFormData(prev => ({ ...prev, country: selected.value }));
+                        setFormData(prev => {
+                          const updated = { ...prev, country: selected.value };
+                          saveToBrowserCache(updated);
+                          return updated;
+                        });
                       }
                     }}
                     formatOptionLabel={formatOptionLabel}
@@ -627,7 +679,11 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                     value={professionOptions.find(p => p.value === formData.profession) || null}
                     onChange={(selected: any) => {
                       if (selected) {
-                        setFormData(prev => ({ ...prev, profession: selected.value }));
+                        setFormData(prev => {
+                          const updated = { ...prev, profession: selected.value };
+                          saveToBrowserCache(updated);
+                          return updated;
+                        });
                       }
                     }}
                     styles={selectStyles}

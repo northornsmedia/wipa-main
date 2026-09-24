@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { allCountries } from "country-telephone-data";
 import { syncLeadToGoogleSheet } from "@/lib/googleSheets";
+import { sendSlackLeadNotification } from "@/lib/slack";
 
 function formatCountryAndPhone(countryInput?: string, phoneInput?: string) {
   let formattedCountry = countryInput?.trim() || "";
@@ -100,12 +101,45 @@ export async function POST(req: Request) {
 
     const lead = insertedData && insertedData[0];
 
+    // Mark matching pricing unlock lead as converted to waiting list
+    try {
+      await supabase
+        .from("pricing_unlock_leads")
+        .update({
+          has_joined_waiting_list: true,
+          waiting_list_plan: plan || null,
+          updated_at: new Date().toISOString()
+        })
+        .eq("email", email.trim().toLowerCase());
+    } catch (err) {
+      console.error("Error updating pricing_unlock_leads status:", err);
+    }
+
     // Synchronize to Google Sheet (non-blocking for resilience)
     syncLeadToGoogleSheet({
       id: lead?.id,
       created_at: lead?.created_at,
       ...leadPayload
     }).catch(err => console.error("Google Sheet background sync error:", err));
+
+    // Send Slack Notification to manager (non-blocking for resilience)
+    sendSlackLeadNotification({
+      title,
+      name,
+      email,
+      phone: formattedPhone || phone,
+      country: formattedCountry || country,
+      company,
+      profession,
+      plan: plan || null,
+      seats,
+      businessRegistrationNumber,
+      dateOfIncorporation,
+      collegeInstitute,
+      studentId,
+      createdAt: lead?.created_at,
+      source: "waiting_list"
+    }).catch(err => console.error("Slack notification error:", err));
 
     return NextResponse.json({ 
       success: true, 

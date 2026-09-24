@@ -10,6 +10,7 @@ type AdminDashboardProps = {
   interestLeads: any[];
   enterpriseLeads: any[];
   waitingListLeads: any[];
+  pricingUnlockLeads: any[];
   analyticsEvents: any[];
   initialAuthStep: number;
 };
@@ -1114,12 +1115,14 @@ const DefenseTerminal = ({
   interestLeads,
   enterpriseLeads,
   waitingListLeads,
+  pricingUnlockLeads,
 }: {
   analyticsEvents: any[];
   onboardingLeads: any[];
   interestLeads: any[];
   enterpriseLeads: any[];
   waitingListLeads: any[];
+  pricingUnlockLeads: any[];
 }) => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [liveDbActivity, setLiveDbActivity] = useState<any[]>([]);
@@ -1294,7 +1297,7 @@ const DefenseTerminal = ({
         addLog("TRAFFIC", "#00f0ff", `Total Pageviews Recorded: ${analyticsEvents.length} | Distinct Sessions: ${new Set(analyticsEvents.map(e => e.session_id)).size}`);
         break;
       case "leads":
-        addLog("SYS", "#ec4899", `Leads Breakdown: Waiting List (${waitingListLeads.length}) | Onboarding (${onboardingLeads.length}) | Interests (${interestLeads.length}) | Enterprise (${enterpriseLeads.length})`);
+        addLog("SYS", "#ec4899", `Leads Breakdown: Waiting List (${waitingListLeads.length}) | Plan Views (${pricingUnlockLeads?.length || 0}) | Onboarding (${onboardingLeads.length}) | Interests (${interestLeads.length}) | Enterprise (${enterpriseLeads.length})`);
         break;
       case "ping":
         addLog("SYS", "#00ff7f", `Latency to AWS/Supabase Node: ${Math.floor(Math.random() * 12) + 12}ms [0% Packet Loss]`);
@@ -1855,6 +1858,33 @@ const PaginatedTable = ({
                         </td>
                       );
                     }
+                    if (col === "has_joined_waiting_list") {
+                      const joined = Boolean(val);
+                      return (
+                        <td key={col} style={{ padding: "14px 12px", whiteSpace: "nowrap" }}>
+                          <span
+                            style={{
+                              fontFamily: "'Instagram Sans', sans-serif",
+                              fontSize: "0.75rem",
+                              fontWeight: "600",
+                              padding: "4px 10px",
+                              borderRadius: "20px",
+                              backgroundColor: joined
+                                ? "rgba(0, 255, 127, 0.12)"
+                                : "rgba(255, 170, 0, 0.12)",
+                              color: joined ? "#00ff7f" : "#ffaa00",
+                              border: `1px solid ${
+                                joined
+                                  ? "rgba(0, 255, 127, 0.25)"
+                                  : "rgba(255, 170, 0, 0.3)"
+                              }`,
+                            }}
+                          >
+                            {joined ? "✓ Converted to Waiting List" : "⚠️ Dropped Off (Viewing Only)"}
+                          </span>
+                        </td>
+                      );
+                    }
                     if (col === "invoice") {
                       return (
                         <td key={col} style={{ padding: "14px 12px", whiteSpace: "nowrap" }}>
@@ -1916,6 +1946,7 @@ export default function AdminDashboardClient({
   interestLeads,
   enterpriseLeads,
   waitingListLeads,
+  pricingUnlockLeads = [],
   analyticsEvents,
   initialAuthStep,
 }: AdminDashboardProps) {
@@ -2079,11 +2110,12 @@ export default function AdminDashboardClient({
     );
   }
 
-  const totalLeads = onboardingLeads.length + interestLeads.length + enterpriseLeads.length + waitingListLeads.length;
+  const totalLeads = onboardingLeads.length + interestLeads.length + enterpriseLeads.length + waitingListLeads.length + pricingUnlockLeads.length;
 
   const navItems = [
     { id: "overview", label: "Statistics", icon: "📊", badge: null },
     { id: "waiting_list", label: "Waiting List", icon: "⏳", badge: waitingListLeads.length },
+    { id: "pricing_unlock", label: "Plan View Leads", icon: "🔓", badge: pricingUnlockLeads.length },
     { id: "onboarding", label: "Onboarding", icon: "🚀", badge: onboardingLeads.length },
     { id: "interests", label: "Checkout Tracking", icon: "💳", badge: interestLeads.length },
     { id: "enterprise", label: "Enterprise Inquiries", icon: "🏢", badge: enterpriseLeads.length },
@@ -2274,6 +2306,7 @@ export default function AdminDashboardClient({
               >
                 {activeTab === "overview" && "Platform Statistics"}
                 {activeTab === "waiting_list" && "Waiting List Leads"}
+                {activeTab === "pricing_unlock" && "Plan View & Pricing Unlock Leads"}
                 {activeTab === "onboarding" && "Onboarding Leads"}
                 {activeTab === "interests" && "Checkout Tracking"}
                 {activeTab === "enterprise" && "Enterprise Inquiries"}
@@ -2604,6 +2637,40 @@ export default function AdminDashboardClient({
                   </div>
                   <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>Single-page sessions</div>
                 </div>
+
+                {/* Plan View Leads */}
+                <div
+                  onClick={() => setActiveTab("pricing_unlock")}
+                  style={{
+                    backgroundColor: "#161824",
+                    borderRadius: "28px",
+                    padding: "24px",
+                    border: "1px solid rgba(255, 255, 255, 0.07)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Plan View Leads
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Instagram Sans Headline', sans-serif",
+                      fontSize: "2.4rem",
+                      fontWeight: "800",
+                      color: "#f472b6",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {pricingUnlockLeads.length}
+                  </div>
+                  <div style={{ color: "#8e92a4", fontSize: "0.8rem" }}>
+                    {pricingUnlockLeads.filter(l => !l.has_joined_waiting_list).length} dropped off · {pricingUnlockLeads.filter(l => l.has_joined_waiting_list).length} joined waiting list
+                  </div>
+                </div>
               </div>
 
               {/* 4 Demographics Breakdown Cards (Limited preview + See All modal) */}
@@ -2783,6 +2850,27 @@ export default function AdminDashboardClient({
             />
           )}
 
+          {/* Plan View Leads Tab */}
+          {activeTab === "pricing_unlock" && (
+            <PaginatedTable
+              title="All Plan View & Pricing Unlock Leads (Dropped Off vs Converted)"
+              data={pricingUnlockLeads}
+              columns={[
+                "id",
+                "title",
+                "name",
+                "email",
+                "country",
+                "phone",
+                "company",
+                "profession",
+                "has_joined_waiting_list",
+                "waiting_list_plan",
+                "created_at",
+              ]}
+            />
+          )}
+
           {/* Onboarding Leads Tab */}
           {activeTab === "onboarding" && (
             <PaginatedTable
@@ -2867,6 +2955,7 @@ export default function AdminDashboardClient({
                 interestLeads={interestLeads}
                 enterpriseLeads={enterpriseLeads}
                 waitingListLeads={waitingListLeads}
+                pricingUnlockLeads={pricingUnlockLeads}
               />
             </div>
           )}

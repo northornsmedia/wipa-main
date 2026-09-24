@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { syncLeadToGoogleSheet } from "@/lib/googleSheets";
+import { sendSlackLeadNotification } from "@/lib/slack";
 
 export async function POST(req: Request) {
   try {
@@ -89,6 +90,24 @@ export async function POST(req: Request) {
         seats: updatedUser.seats,
         ip_address: updatedUser.ip_address
       }).catch(err => console.error("Google Sheet plan update sync error:", err));
+
+      // Send Slack notification to manager for selected plan
+      sendSlackLeadNotification({
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        country: updatedUser.country,
+        company: updatedUser.company,
+        profession: updatedUser.profession,
+        plan: updatedUser.plan,
+        seats: updatedUser.seats,
+        businessRegistrationNumber: updatedUser.business_registration_number,
+        dateOfIncorporation: updatedUser.date_of_incorporation,
+        collegeInstitute: updatedUser.college_institute,
+        studentId: updatedUser.student_id,
+        createdAt: updatedUser.created_at,
+        source: "plan_selection"
+      }).catch(err => console.error("Slack plan update notification error:", err));
     }
 
     return NextResponse.json({ 

@@ -81,7 +81,16 @@ export default function PlansPageContent({ plans }: { plans: Plan[] }) {
         <p className="mobile-text-center" style={{ fontSize: '1.2rem', maxWidth: '800px', marginBottom: '40px', lineHeight: 1.6, textAlign: 'center', color: 'var(--text-body)' }}>
           Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team&apos;s needs.
         </p>
-        <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
+        <Link 
+          href="/waiting-list?plan=Enterprise%20Membership" 
+          onClick={() => {
+            if (typeof window !== "undefined") {
+              localStorage.setItem("wipa_preferred_plan", "Enterprise Membership");
+              localStorage.setItem("wipa_selected_plan", "Enterprise Membership");
+            }
+          }}
+          style={{ textDecoration: 'none' }}
+        >
           <button className="btn btn-accent" style={{ padding: '15px clamp(15px, 4vw, 40px)', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
             JOIN THE WAITING LIST NOW
           </button>
@@ -125,178 +134,8 @@ export default function PlansPageContent({ plans }: { plans: Plan[] }) {
     </div>
   );
 
-  // =========================================================================
-  // VIEW A: When user is coming from the waiting list form (CARDS ON TOP!)
-  // =========================================================================
-  if (isMounted && isFromWaitingList) {
-    return (
-      <section className="section section-dark" style={{ paddingTop: '110px', paddingBottom: '90px' }}>
-        <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 clamp(10px, 3vw, 40px)' }}>
-          
-          {/* Top Step 2 Header */}
-          <div style={{ textAlign: 'center', marginBottom: '35px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            
-            {/* 2-Step Progress Indicator */}
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '6px 16px',
-              borderRadius: '50px',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              marginBottom: '20px',
-              flexWrap: 'wrap',
-              justifyContent: 'center'
-            }}>
-              {/* Step 1 badge */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '5px 14px',
-                borderRadius: '20px',
-                backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                border: '1px solid rgba(16, 185, 129, 0.4)',
-                color: '#10b981',
-                fontSize: '0.82rem',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase'
-              }}>
-                <span>✓</span>
-                <span>Step 1: Details Submitted</span>
-              </div>
-
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>➔</span>
-
-              {/* Step 2 badge */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '5px 16px',
-                borderRadius: '20px',
-                backgroundColor: selectedPlan ? 'rgba(16, 185, 129, 0.15)' : 'rgba(236, 72, 153, 0.2)',
-                border: selectedPlan ? '1px solid rgba(16, 185, 129, 0.5)' : '1px solid #ec4899',
-                color: selectedPlan ? '#10b981' : '#ffffff',
-                fontSize: '0.82rem',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                boxShadow: selectedPlan ? 'none' : '0 0 22px rgba(236, 72, 153, 0.5)',
-                animation: selectedPlan ? 'none' : 'pulseStepBadge 2.2s infinite ease-in-out'
-              }}>
-                <span>{selectedPlan ? "✓" : "⚡"}</span>
-                <span>{selectedPlan ? `Step 2: ${selectedPlan} Selected` : "Step 2: Choose Your Plan (Action Required)"}</span>
-              </div>
-            </div>
-
-            {/* Main Action Title */}
-            <h1 style={{
-              fontSize: 'clamp(2.1rem, 5.5vw, 3.6rem)',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 900,
-              textTransform: 'uppercase',
-              textAlign: 'center',
-              margin: '0 0 14px',
-              color: 'var(--text-heading)',
-              lineHeight: 1.15
-            }}>
-              {selectedPlan ? "Founding Membership Confirmed" : "Select Your Founding Plan"}
-            </h1>
-
-            {/* Instruction Subtitle */}
-            <p style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.18rem)',
-              color: 'var(--text-body)',
-              textAlign: 'center',
-              maxWidth: '840px',
-              margin: '0 auto 20px',
-              lineHeight: 1.6,
-              fontWeight: 300
-            }}>
-              {selectedPlan ? (
-                <>
-                  Welcome, <strong style={{ color: '#10b981' }}>{userName || "Member"}</strong>! Your founding member allocation for <strong>{selectedPlan}</strong> has been secured. Our team will contact you with onboarding details.
-                </>
-              ) : (
-                <>
-                  Welcome, <strong style={{ color: '#f472b6' }}>{userName || "Member"}</strong>! <strong>You have one final step:</strong> Please review the plans below and click <span style={{ color: 'var(--text-heading)', fontWeight: 700 }}>&ldquo;SELECT PLAN &amp; JOIN WAITING LIST&rdquo;</span> to confirm your interest and lock in your protected founding rate.
-                </>
-              )}
-            </p>
-
-            {/* Attention banner if plan is NOT yet selected */}
-            {!selectedPlan && (
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                backgroundColor: 'rgba(236, 72, 153, 0.12)',
-                border: '1px solid rgba(236, 72, 153, 0.4)',
-                padding: '9px 22px',
-                borderRadius: '50px',
-                color: '#f472b6',
-                fontWeight: 800,
-                fontSize: '0.88rem',
-                letterSpacing: '0.03em',
-                boxShadow: '0 4px 20px rgba(236, 72, 153, 0.25)',
-                marginBottom: '10px'
-              }}>
-                <span style={{ fontSize: '1.2rem', animation: 'bounceDown 1.5s infinite' }}>👇</span>
-                <span>NOT DONE YET — SELECT YOUR PLAN BELOW TO COMPLETE REGISTRATION</span>
-              </div>
-            )}
-          </div>
-
-          {/* CARDS ARE DISPLAYED RIGHT ON TOP! */}
-          <PricingGateWrapper hideBanner={true}>
-            <PlansGridClient plans={plans} />
-
-            {/* Informational Founding Member Advantage placed below the cards */}
-            <div style={{ marginTop: '50px' }}>
-              {renderAdvantageCard('0 auto 30px')}
-            </div>
-
-            {/* Commencement note */}
-            {renderCommencementNote()}
-
-            {/* Custom Enterprise Plan */}
-            {renderEnterpriseCard()}
-          </PricingGateWrapper>
-
-        </div>
-
-        <style jsx global>{`
-          @keyframes pulseStepBadge {
-            0%, 100% {
-              box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
-              border-color: #ec4899;
-            }
-            50% {
-              box-shadow: 0 0 30px rgba(236, 72, 153, 0.85);
-              border-color: #f472b6;
-            }
-          }
-          @keyframes bounceDown {
-            0%, 100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(4px);
-            }
-          }
-        `}</style>
-      </section>
-    );
-  }
-
-  // =========================================================================
-  // VIEW B: Standard Visitor (Not from waiting list)
-  // =========================================================================
   return (
-    <section className="section section-dark" style={{ paddingTop: '160px', paddingBottom: '100px' }}>
+    <section className="section section-dark" style={{ paddingTop: '140px', paddingBottom: '100px' }}>
       <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto', padding: '0 clamp(10px, 3vw, 40px)' }}>
         
         <div style={{ textAlign: 'center', marginBottom: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
