@@ -25,13 +25,13 @@ const countryOptions = allCountries
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const formatOptionLabel = ({ value, label }: any) => (
-  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
     <img 
       src={`https://flagcdn.com/w20/${value.toLowerCase()}.png`} 
       alt={value} 
-      style={{ width: "20px", height: "15px", objectFit: "cover", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "2px" }} 
+      style={{ width: "18px", height: "13px", objectFit: "cover", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "2px", flexShrink: 0 }} 
     />
-    <span style={{ fontSize: "0.95rem" }}>{label}</span>
+    <span style={{ fontSize: "0.86rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label}</span>
   </div>
 );
 
@@ -59,25 +59,45 @@ const professionOptions = [
 const selectStyles = {
   control: (base: any) => ({
     ...base,
-    padding: "3px 8px",
-    borderRadius: "12px",
+    padding: "0 4px",
+    borderRadius: "10px",
     border: "1px solid var(--border-input)",
-    fontSize: "0.95rem",
+    fontSize: "0.86rem",
     backgroundColor: "var(--bg-primary)",
     color: "var(--text-heading)",
     boxShadow: "none",
-    minHeight: "48px",
+    minHeight: "38px",
+    height: "38px",
     '&:hover': {
       border: "1px solid var(--border-input)"
     }
   }),
+  valueContainer: (base: any) => ({
+    ...base,
+    padding: "0 6px"
+  }),
   singleValue: (base: any) => ({
     ...base,
-    color: "var(--text-heading)"
+    color: "var(--text-heading)",
+    fontSize: "0.86rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   }),
   input: (base: any) => ({
     ...base,
-    color: "var(--text-heading)"
+    color: "var(--text-heading)",
+    fontSize: "0.86rem",
+    margin: 0,
+    padding: 0
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    fontSize: "0.84rem",
+    color: "var(--text-muted)",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   }),
   option: (base: any, { isFocused, isSelected }: any) => ({
     ...base,
@@ -88,18 +108,31 @@ const selectStyles = {
         : "transparent",
     color: "var(--text-heading)",
     cursor: "pointer",
-    padding: "10px 14px",
-    fontSize: "0.95rem"
+    padding: "8px 12px",
+    fontSize: "0.86rem"
   }),
   menu: (base: any) => ({
     ...base,
-    borderRadius: "12px",
+    borderRadius: "10px",
     border: "1px solid var(--border-input)",
     backgroundColor: "var(--bg-card)",
     boxShadow: "var(--shadow-card)",
     overflow: "hidden",
     zIndex: 50
   })
+};
+
+const inputStyle: React.CSSProperties = {
+  padding: "8px 10px",
+  borderRadius: "10px",
+  border: "1px solid var(--border-input)",
+  backgroundColor: "var(--bg-primary)",
+  color: "var(--text-heading)",
+  fontSize: "0.86rem",
+  outline: "none",
+  height: "38px",
+  width: "100%",
+  boxSizing: "border-box"
 };
 
 export default function PricingGateWrapper({ children, hideBanner = false }: PricingGateWrapperProps) {
@@ -117,6 +150,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
     company: "",
     profession: ""
   });
+  const [customProfession, setCustomProfession] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -159,7 +193,20 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
       let phone = cached.phone || localStorage.getItem("wipa_user_phone") || "";
       const email = cached.email || localStorage.getItem("wipa_user_email") || "";
       const company = cached.company || localStorage.getItem("wipa_user_company") || "";
-      const profession = cached.profession || localStorage.getItem("wipa_user_profession") || "";
+      const rawProfession = cached.profession || localStorage.getItem("wipa_user_profession") || "";
+
+      let initialProf = rawProfession;
+      let initialCustom = "";
+      if (rawProfession) {
+        const found = professionOptions.find(p => p.value.toLowerCase() === rawProfession.toLowerCase());
+        if (found) {
+          initialProf = found.value;
+        } else {
+          initialProf = "Other";
+          initialCustom = rawProfession;
+        }
+      }
+      setCustomProfession(initialCustom);
 
       if (phone && phone.startsWith("+")) {
         const parts = phone.split(/\s+/);
@@ -176,7 +223,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         phone: phone || prev.phone,
         email: email || prev.email,
         company: company || prev.company,
-        profession: profession || prev.profession
+        profession: initialProf || prev.profession
       }));
 
       if (name) {
@@ -194,16 +241,18 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
 
   const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+44";
 
-  const saveToBrowserCache = (updated: typeof formData) => {
+  const saveToBrowserCache = (updated: typeof formData, customProf?: string) => {
     try {
-      localStorage.setItem("wipa_form_cache", JSON.stringify(updated));
+      const activeCustom = customProf !== undefined ? customProf : customProfession;
+      const profToSave = updated.profession === "Other" ? (activeCustom.trim() || "Other") : updated.profession;
+      localStorage.setItem("wipa_form_cache", JSON.stringify({ ...updated, profession: profToSave }));
       if (updated.title) localStorage.setItem("wipa_user_title", updated.title);
       if (updated.name) localStorage.setItem("wipa_user_name", updated.name);
       if (updated.country) localStorage.setItem("wipa_user_country", updated.country);
       if (updated.phone) localStorage.setItem("wipa_user_phone", updated.phone);
       if (updated.email) localStorage.setItem("wipa_user_email", updated.email);
       if (updated.company) localStorage.setItem("wipa_user_company", updated.company);
-      if (updated.profession) localStorage.setItem("wipa_user_profession", updated.profession);
+      if (profToSave) localStorage.setItem("wipa_user_profession", profToSave);
     } catch {}
   };
 
@@ -269,6 +318,15 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
       }
     }
 
+    const finalProfession = formData.profession === "Other" 
+      ? (customProfession.trim() || "Other") 
+      : formData.profession;
+
+    if (formData.profession === "Other" && !customProfession.trim()) {
+      setError("Please specify your profession or role.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -293,7 +351,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
           phone: formattedPhone,
           email: formData.email,
           company: formData.company,
-          profession: formData.profession,
+          profession: finalProfession,
           fingerprint,
           device_info: deviceInfo
         })
@@ -413,47 +471,54 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         {children}
       </motion.div>
 
-      {/* Frosted Glass Gate Overlay Form (only shown if not unlocked and not from waiting list) */}
+      {/* Frosted Glass Gate Overlay Form (fixed centered in screen, 2-column layout, NO SCROLLING required) */}
       <AnimatePresence>
         {!isUnlocked && (
           <motion.div
             key="pricing-gate-overlay"
-            initial={{ opacity: 0, scale: 0.92, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: -30, transition: { duration: 0.4 } }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            transition={{ duration: 0.4 }}
             style={{
-              position: "absolute",
-              top: "40px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "100%",
-              maxWidth: "640px",
-              zIndex: 30,
-              padding: "0 15px"
+              position: "fixed",
+              inset: 0,
+              zIndex: 100,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px",
+              backgroundColor: "rgba(0, 0, 0, 0.55)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)"
             }}
           >
-            <div
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: -15 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               style={{
+                width: "100%",
+                maxWidth: "680px",
+                maxHeight: "94vh",
+                overflowY: "auto",
                 backgroundColor: "var(--bg-card)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                borderRadius: "28px",
+                borderRadius: "22px",
                 border: "2px solid rgba(236, 72, 153, 0.4)",
-                boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(236, 72, 153, 0.2)",
-                padding: "clamp(24px, 5vw, 44px)",
-                position: "relative",
-                overflow: "hidden"
+                boxShadow: "0 25px 70px rgba(0, 0, 0, 0.6), 0 0 35px rgba(236, 72, 153, 0.25)",
+                padding: "clamp(16px, 2.5vw, 24px) clamp(16px, 3vw, 28px)",
+                position: "relative"
               }}
             >
               {/* Glowing decorative accent */}
               <div
                 style={{
                   position: "absolute",
-                  top: "-80px",
-                  right: "-80px",
-                  width: "180px",
-                  height: "180px",
+                  top: "-70px",
+                  right: "-70px",
+                  width: "150px",
+                  height: "150px",
                   borderRadius: "50%",
                   background: "radial-gradient(circle, rgba(236,72,153,0.3) 0%, rgba(0,0,0,0) 70%)",
                   pointerEvents: "none"
@@ -462,10 +527,10 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
               <div
                 style={{
                   position: "absolute",
-                  bottom: "-80px",
-                  left: "-80px",
-                  width: "180px",
-                  height: "180px",
+                  bottom: "-70px",
+                  left: "-70px",
+                  width: "150px",
+                  height: "150px",
                   borderRadius: "50%",
                   background: "radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(0,0,0,0) 70%)",
                   pointerEvents: "none"
@@ -473,7 +538,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
               />
 
               {/* Gate Header */}
-              <div style={{ textAlign: "center", marginBottom: "28px", position: "relative", zIndex: 1 }}>
+              <div style={{ textAlign: "center", marginBottom: "12px", position: "relative", zIndex: 1 }}>
                 <div
                   style={{
                     display: "inline-flex",
@@ -481,14 +546,14 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                     gap: "6px",
                     background: "linear-gradient(90deg, #ff2d55 0%, #ff7a00 100%)",
                     color: "#ffffff",
-                    padding: "6px 18px",
+                    padding: "3px 12px",
                     borderRadius: "9999px",
                     fontWeight: 800,
-                    fontSize: "0.78rem",
-                    letterSpacing: "0.08em",
+                    fontSize: "0.72rem",
+                    letterSpacing: "0.06em",
                     textTransform: "uppercase",
-                    boxShadow: "0 4px 15px rgba(255, 45, 85, 0.4)",
-                    marginBottom: "16px"
+                    boxShadow: "0 3px 10px rgba(255, 45, 85, 0.35)",
+                    marginBottom: "8px"
                   }}
                 >
                   🔒 EXCLUSIVE FOUNDING ACCESS
@@ -497,34 +562,35 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                 <h2
                   className="heading-md"
                   style={{
-                    fontSize: "clamp(1.5rem, 4vw, 2.1rem)",
-                    marginBottom: "10px",
+                    fontSize: "clamp(1.25rem, 2.2vw, 1.55rem)",
+                    marginBottom: "4px",
                     color: "var(--text-heading)",
-                    lineHeight: 1.2
+                    lineHeight: 1.15,
+                    fontWeight: 800
                   }}
                 >
                   Unlock Founding Member Pricing
                 </h2>
                 <p
                   style={{
-                    fontSize: "0.95rem",
+                    fontSize: "0.82rem",
                     color: "var(--text-body)",
-                    lineHeight: 1.5,
-                    maxWidth: "480px",
+                    lineHeight: 1.4,
+                    maxWidth: "500px",
                     margin: "0 auto"
                   }}
                 >
-                  Join the official waiting list to view our limited-availability introductory rates and select your protected Founding Member plan.
+                  Join the official waiting list to view our limited-availability introductory rates.
                 </p>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px", position: "relative", zIndex: 1 }}>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "9px", position: "relative", zIndex: 1 }}>
                 
-                {/* Title & Full Name */}
-                <div className="mobile-stack" style={{ display: "flex", gap: "12px" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1, minWidth: "120px" }}>
-                    <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
+                {/* Row 1: Title & Full Name */}
+                <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                  <div style={{ width: "95px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
                       Title
                     </label>
                     <Select
@@ -544,8 +610,8 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                     />
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 3 }}>
-                    <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
                       Full Name <span style={{ color: "#ec4899" }}>*</span>
                     </label>
                     <input
@@ -555,174 +621,183 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                       placeholder="e.g. Jane Doe"
                       value={formData.name}
                       onChange={handleChange}
-                      style={{
-                        padding: "12px 14px",
-                        borderRadius: "12px",
-                        border: "1px solid var(--border-input)",
-                        backgroundColor: "var(--bg-primary)",
-                        color: "var(--text-heading)",
-                        fontSize: "0.95rem",
-                        outline: "none"
-                      }}
+                      style={inputStyle}
                     />
                   </div>
                 </div>
 
-                {/* Email Address */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                    Email Address <span style={{ color: "#ec4899" }}>*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="you@organisation.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    style={{
-                      padding: "12px 14px",
-                      borderRadius: "12px",
-                      border: "1px solid var(--border-input)",
-                      backgroundColor: "var(--bg-primary)",
-                      color: "var(--text-heading)",
-                      fontSize: "0.95rem",
-                      outline: "none"
-                    }}
-                  />
+                {/* Row 2: Email Address & Country */}
+                <div className="gate-row-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", width: "100%" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                      Email Address <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="you@organisation.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      style={inputStyle}
+                    />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                      Country <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <Select
+                      options={countryOptions}
+                      value={countryOptions.find(c => c.value === formData.country)}
+                      onChange={(selected: any) => {
+                        if (selected) {
+                          setFormData(prev => {
+                            const updated = { ...prev, country: selected.value };
+                            saveToBrowserCache(updated);
+                            return updated;
+                          });
+                        }
+                      }}
+                      formatOptionLabel={formatOptionLabel}
+                      styles={selectStyles}
+                    />
+                  </div>
                 </div>
 
-                {/* Country Selection */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                    Country <span style={{ color: "#ec4899" }}>*</span>
-                  </label>
-                  <Select
-                    options={countryOptions}
-                    value={countryOptions.find(c => c.value === formData.country)}
-                    onChange={(selected: any) => {
-                      if (selected) {
-                        setFormData(prev => {
-                          const updated = { ...prev, country: selected.value };
-                          saveToBrowserCache(updated);
-                          return updated;
-                        });
-                      }
-                    }}
-                    formatOptionLabel={formatOptionLabel}
-                    styles={selectStyles}
-                  />
-                </div>
-
-                {/* Phone Number */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                    Phone Number <span style={{ color: "#ec4899" }}>*</span>
-                  </label>
-                  <div
-                    style={{
-                      display: "flex",
-                      border: `1px solid ${phoneStatus.status === 'invalid' ? '#ef4444' : phoneStatus.status === 'valid' ? '#10b981' : 'var(--border-input)'}`,
-                      borderRadius: "12px",
-                      overflow: "hidden",
-                      backgroundColor: "var(--bg-primary)"
-                    }}
-                  >
+                {/* Row 3: Phone Number & Profession / Role */}
+                <div className="gate-row-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", width: "100%" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                      Phone Number <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
                     <div
                       style={{
-                        padding: "12px 14px",
-                        backgroundColor: "var(--bg-surface-elevated)",
-                        color: "var(--text-heading)",
-                        fontWeight: 700,
-                        borderRight: "1px solid var(--border-input)",
-                        minWidth: "65px",
-                        textAlign: "center",
-                        fontSize: "0.95rem"
+                        display: "flex",
+                        border: `1px solid ${phoneStatus.status === 'invalid' ? '#ef4444' : phoneStatus.status === 'valid' ? '#10b981' : 'var(--border-input)'}`,
+                        borderRadius: "10px",
+                        overflow: "hidden",
+                        backgroundColor: "var(--bg-primary)",
+                        height: "38px"
                       }}
                     >
-                      {dialCode}
+                      <div
+                        style={{
+                          padding: "0 8px",
+                          backgroundColor: "var(--bg-surface-elevated)",
+                          color: "var(--text-heading)",
+                          fontWeight: 700,
+                          borderRight: "1px solid var(--border-input)",
+                          minWidth: "55px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "0.85rem"
+                        }}
+                      >
+                        {dialCode}
+                      </div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="e.g. 7123456789"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        onBlur={handlePhoneBlur}
+                        style={{
+                          flex: 1,
+                          padding: "8px 10px",
+                          border: "none",
+                          backgroundColor: "transparent",
+                          color: "var(--text-heading)",
+                          fontSize: "0.86rem",
+                          outline: "none"
+                        }}
+                      />
                     </div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      placeholder="e.g. 7123456789"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      onBlur={handlePhoneBlur}
-                      style={{
-                        flex: 1,
-                        padding: "12px 14px",
-                        border: "none",
-                        backgroundColor: "transparent",
-                        color: "var(--text-heading)",
-                        fontSize: "0.95rem",
-                        outline: "none"
+                    {phoneStatus.message && (
+                      <span style={{ fontSize: "0.72rem", color: phoneStatus.status === 'invalid' ? '#ef4444' : '#10b981' }}>
+                        {phoneStatus.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                      Profession / Role
+                    </label>
+                    <Select
+                      options={professionOptions}
+                      placeholder="Select role"
+                      value={professionOptions.find(p => p.value === formData.profession) || (formData.profession === "Other" ? { value: "Other", label: "Other" } : null)}
+                      onChange={(selected: any) => {
+                        if (selected) {
+                          setFormData(prev => {
+                            const updated = { ...prev, profession: selected.value };
+                            saveToBrowserCache(updated, selected.value === "Other" ? customProfession : "");
+                            return updated;
+                          });
+                        }
                       }}
+                      styles={selectStyles}
                     />
                   </div>
-                  {phoneStatus.message && (
-                    <span style={{ fontSize: "0.8rem", color: phoneStatus.status === 'invalid' ? '#ef4444' : '#10b981' }}>
-                      {phoneStatus.message}
-                    </span>
+                </div>
+
+                {/* Row 4: Company & (Optional Custom Profession input when "Other" is chosen) */}
+                <div className="gate-row-2col" style={{ display: "grid", gridTemplateColumns: formData.profession === "Other" ? "1fr 1fr" : "1fr", gap: "10px", width: "100%" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                      Company / Organisation <span style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: "normal" }}>(Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="company"
+                      placeholder="e.g. Acme IP Law"
+                      value={formData.company}
+                      onChange={handleChange}
+                      style={inputStyle}
+                    />
+                  </div>
+
+                  {formData.profession === "Other" && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+                    >
+                      <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                        Specify Profession / Role <span style={{ color: "#ec4899" }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="customProfession"
+                        required
+                        placeholder="e.g. Patent Strategist / Agent"
+                        value={customProfession}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCustomProfession(val);
+                          saveToBrowserCache(formData, val);
+                        }}
+                        style={inputStyle}
+                        autoFocus
+                      />
+                    </motion.div>
                   )}
-                </div>
-
-                {/* Profession / Role */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                    Profession / Role
-                  </label>
-                  <Select
-                    options={professionOptions}
-                    placeholder="Select your profession / role"
-                    value={professionOptions.find(p => p.value === formData.profession) || null}
-                    onChange={(selected: any) => {
-                      if (selected) {
-                        setFormData(prev => {
-                          const updated = { ...prev, profession: selected.value };
-                          saveToBrowserCache(updated);
-                          return updated;
-                        });
-                      }
-                    }}
-                    styles={selectStyles}
-                  />
-                </div>
-
-                {/* Company / Organisation (Optional) */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                    Company / Law Firm / Organisation <span style={{ fontSize: "0.8rem", color: "var(--text-muted)", fontWeight: "normal" }}>(Optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="e.g. Acme IP Law"
-                    value={formData.company}
-                    onChange={handleChange}
-                    style={{
-                      padding: "12px 14px",
-                      borderRadius: "12px",
-                      border: "1px solid var(--border-input)",
-                      backgroundColor: "var(--bg-primary)",
-                      color: "var(--text-heading)",
-                      fontSize: "0.95rem",
-                      outline: "none"
-                    }}
-                  />
                 </div>
 
                 {/* Error Banner */}
                 {error && (
                   <div
                     style={{
-                      padding: "12px 16px",
+                      padding: "8px 12px",
                       backgroundColor: "rgba(239, 68, 68, 0.12)",
                       border: "1px solid rgba(239, 68, 68, 0.3)",
-                      borderRadius: "12px",
+                      borderRadius: "10px",
                       color: "#ef4444",
-                      fontSize: "0.88rem",
+                      fontSize: "0.82rem",
                       textAlign: "center"
                     }}
                   >
@@ -734,14 +809,14 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                 <motion.button
                   type="submit"
                   disabled={isLoading}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   className="btn btn-accent"
                   style={{
-                    marginTop: "8px",
-                    padding: "15px",
-                    fontSize: "1.05rem",
-                    borderRadius: "50px",
+                    marginTop: "4px",
+                    padding: "11px",
+                    fontSize: "0.95rem",
+                    borderRadius: "40px",
                     fontWeight: "bold",
                     cursor: isLoading ? "not-allowed" : "pointer",
                     textTransform: "uppercase",
@@ -750,16 +825,16 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "10px",
+                    gap: "8px",
                     background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
                     color: "#ffffff",
                     border: "none",
-                    boxShadow: "0 8px 25px rgba(236, 72, 153, 0.4)"
+                    boxShadow: "0 6px 20px rgba(236, 72, 153, 0.35)"
                   }}
                 >
                   {isLoading ? (
                     <>
-                      <span className="spinner" style={{ display: "inline-block", width: "18px", height: "18px", border: "2px solid #ffffff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+                      <span className="spinner" style={{ display: "inline-block", width: "16px", height: "16px", border: "2px solid #ffffff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
                       <span>SAVING & CONTINUING...</span>
                     </>
                   ) : (
@@ -767,11 +842,11 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                   )}
                 </motion.button>
 
-                <p style={{ textAlign: "center", fontSize: "0.78rem", color: "var(--text-muted)", margin: "4px 0 0" }}>
+                <p style={{ textAlign: "center", fontSize: "0.74rem", color: "var(--text-muted)", margin: "2px 0 0" }}>
                   🔒 Your details are protected & strictly confidential.
                 </p>
               </form>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -779,6 +854,11 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
       <style jsx global>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+        @media (max-width: 620px) {
+          .gate-row-2col {
+            grid-template-columns: 1fr !important;
+          }
         }
       `}</style>
     </div>
