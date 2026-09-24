@@ -47,22 +47,19 @@ async function main() {
 
   if (!webhookUrl) {
     console.log("\n⚠️  GOOGLE_SHEET_WEBHOOK_URL is not set in .env.local.");
-    console.log("\nPlease complete these 3 quick steps to connect Google Sheets:");
-    console.log("1. Open: https://docs.google.com/spreadsheets/d/174cg1j5JKWj6w4pfIC8YSe-TuaZduUU3n-uUWKGoJ1I/edit");
-    console.log("2. Click Extensions > Apps Script and paste the code from: google_apps_script.js");
-    console.log("3. Click Deploy > New deployment > Web app (Who has access: Anyone) > Deploy.");
-    console.log("4. Copy the Web App URL and set in .env.local: GOOGLE_SHEET_WEBHOOK_URL=\"your_url\"");
-    console.log("5. Re-run this script: node sync_waiting_list_to_sheets.js\n");
     return;
   }
 
-  console.log(`\n2. Syncing ${leads.length} leads to Google Sheets via Webhook: ${webhookUrl}...`);
+  console.log(`\n2. Syncing and reformatting Google Sheet via Webhook: ${webhookUrl.substring(0, 45)}...`);
 
   try {
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(leads),
+      body: JSON.stringify({
+        action: 'reformat_and_sync',
+        leads: leads
+      }),
       redirect: "follow"
     });
 
@@ -70,7 +67,7 @@ async function main() {
     console.log("Webhook Response:", result);
 
     if (result.success) {
-      console.log(`\n✅ SUCCESS! All ${leads.length} leads successfully written to Google Sheet.`);
+      console.log(`\n✅ SUCCESS! Google Sheet cleanly realigned and populated with ${leads.length} leads.`);
     } else {
       console.error("Webhook reported error:", result.error);
     }
