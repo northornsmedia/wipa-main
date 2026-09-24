@@ -45,17 +45,6 @@ const titleOptions = [
   { value: "Other", label: "Other" }
 ];
 
-const professionOptions = [
-  { value: "IP Attorney / Patent Attorney", label: "IP Attorney / Patent Attorney" },
-  { value: "Trade Mark Attorney", label: "Trade Mark Attorney" },
-  { value: "In-House IP Counsel", label: "In-House IP Counsel" },
-  { value: "Startup Founder / Entrepreneur", label: "Startup Founder / Entrepreneur" },
-  { value: "IP Consultant / Specialist", label: "IP Consultant / Specialist" },
-  { value: "Student / Academic Researcher", label: "Student / Academic Researcher" },
-  { value: "Law Firm Partner / Leader", label: "Law Firm Partner / Leader" },
-  { value: "Other", label: "Other" }
-];
-
 const selectStyles = {
   control: (base: any) => ({
     ...base,
@@ -118,7 +107,7 @@ const selectStyles = {
     backgroundColor: "var(--bg-card)",
     boxShadow: "var(--shadow-card)",
     overflow: "hidden",
-    zIndex: 50
+    zIndex: 999999
   })
 };
 
@@ -150,7 +139,6 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
     company: "",
     profession: ""
   });
-  const [customProfession, setCustomProfession] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -193,20 +181,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
       let phone = cached.phone || localStorage.getItem("wipa_user_phone") || "";
       const email = cached.email || localStorage.getItem("wipa_user_email") || "";
       const company = cached.company || localStorage.getItem("wipa_user_company") || "";
-      const rawProfession = cached.profession || localStorage.getItem("wipa_user_profession") || "";
-
-      let initialProf = rawProfession;
-      let initialCustom = "";
-      if (rawProfession) {
-        const found = professionOptions.find(p => p.value.toLowerCase() === rawProfession.toLowerCase());
-        if (found) {
-          initialProf = found.value;
-        } else {
-          initialProf = "Other";
-          initialCustom = rawProfession;
-        }
-      }
-      setCustomProfession(initialCustom);
+      const profession = cached.profession || localStorage.getItem("wipa_user_profession") || "";
 
       if (phone && phone.startsWith("+")) {
         const parts = phone.split(/\s+/);
@@ -223,7 +198,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         phone: phone || prev.phone,
         email: email || prev.email,
         company: company || prev.company,
-        profession: initialProf || prev.profession
+        profession: profession || prev.profession
       }));
 
       if (name) {
@@ -241,18 +216,16 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
 
   const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+44";
 
-  const saveToBrowserCache = (updated: typeof formData, customProf?: string) => {
+  const saveToBrowserCache = (updated: typeof formData) => {
     try {
-      const activeCustom = customProf !== undefined ? customProf : customProfession;
-      const profToSave = updated.profession === "Other" ? (activeCustom.trim() || "Other") : updated.profession;
-      localStorage.setItem("wipa_form_cache", JSON.stringify({ ...updated, profession: profToSave }));
+      localStorage.setItem("wipa_form_cache", JSON.stringify(updated));
       if (updated.title) localStorage.setItem("wipa_user_title", updated.title);
       if (updated.name) localStorage.setItem("wipa_user_name", updated.name);
       if (updated.country) localStorage.setItem("wipa_user_country", updated.country);
       if (updated.phone) localStorage.setItem("wipa_user_phone", updated.phone);
       if (updated.email) localStorage.setItem("wipa_user_email", updated.email);
       if (updated.company) localStorage.setItem("wipa_user_company", updated.company);
-      if (profToSave) localStorage.setItem("wipa_user_profession", profToSave);
+      if (updated.profession) localStorage.setItem("wipa_user_profession", updated.profession);
     } catch {}
   };
 
@@ -318,12 +291,9 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
       }
     }
 
-    const finalProfession = formData.profession === "Other" 
-      ? (customProfession.trim() || "Other") 
-      : formData.profession;
-
-    if (formData.profession === "Other" && !customProfession.trim()) {
-      setError("Please specify your profession or role.");
+    const trimmedProf = formData.profession.trim();
+    if (!trimmedProf) {
+      setError("Please enter your profession or role.");
       return;
     }
 
@@ -351,7 +321,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
           phone: formattedPhone,
           email: formData.email,
           company: formData.company,
-          profession: finalProfession,
+          profession: trimmedProf,
           fingerprint,
           device_info: deviceInfo
         })
@@ -390,19 +360,6 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleRegisterAnotherPerson = () => {
-    localStorage.removeItem("wipa_waitlist_unlocked");
-    localStorage.removeItem("wipa_from_waiting_list");
-    localStorage.removeItem("wipa_user_id");
-    localStorage.removeItem("wipa_user_name");
-    localStorage.removeItem("wipa_user_email");
-    localStorage.removeItem("wipa_selected_plan");
-    localStorage.removeItem("wipa_preferred_plan");
-    localStorage.removeItem("wipa_form_cache");
-    localStorage.removeItem("wipa_device_fingerprint");
-    window.location.href = "/waiting-list";
   };
 
   // Prevent hydration mismatch
@@ -471,7 +428,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         {children}
       </motion.div>
 
-      {/* Frosted Glass Gate Overlay Form (fixed centered in screen, 2-column layout, NO SCROLLING required) */}
+      {/* Frosted Glass Gate Overlay Form (fixed dead-center in viewport, 2-column layout, NO SCROLLING required on desktop, viewport-safe on mobile) */}
       <AnimatePresence>
         {!isUnlocked && (
           <motion.div
@@ -479,36 +436,47 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.3 } }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.35 }}
             style={{
               position: "fixed",
-              inset: 0,
-              zIndex: 100,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: "100vw",
+              height: "100vh",
+              minHeight: "100dvh",
+              zIndex: 99999,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "16px",
-              backgroundColor: "rgba(0, 0, 0, 0.55)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)"
+              padding: "max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left))",
+              backgroundColor: "rgba(0, 0, 0, 0.65)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              boxSizing: "border-box"
             }}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 15 }}
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: -15 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              exit={{ opacity: 0, scale: 0.94, y: -12 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="gate-modal-card"
               style={{
                 width: "100%",
-                maxWidth: "680px",
-                maxHeight: "94vh",
+                maxWidth: "620px",
+                maxHeight: "min(92vh, 92dvh)",
                 overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
                 backgroundColor: "var(--bg-card)",
-                borderRadius: "22px",
-                border: "2px solid rgba(236, 72, 153, 0.4)",
+                borderRadius: "20px",
+                border: "1.5px solid rgba(236, 72, 153, 0.45)",
                 boxShadow: "0 25px 70px rgba(0, 0, 0, 0.6), 0 0 35px rgba(236, 72, 153, 0.25)",
-                padding: "clamp(16px, 2.5vw, 24px) clamp(16px, 3vw, 28px)",
-                position: "relative"
+                padding: "clamp(16px, 2.5vh, 24px) clamp(16px, 3vw, 26px)",
+                position: "relative",
+                margin: "auto",
+                boxSizing: "border-box"
               }}
             >
               {/* Glowing decorative accent */}
@@ -517,8 +485,8 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                   position: "absolute",
                   top: "-70px",
                   right: "-70px",
-                  width: "150px",
-                  height: "150px",
+                  width: "140px",
+                  height: "140px",
                   borderRadius: "50%",
                   background: "radial-gradient(circle, rgba(236,72,153,0.3) 0%, rgba(0,0,0,0) 70%)",
                   pointerEvents: "none"
@@ -529,8 +497,8 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                   position: "absolute",
                   bottom: "-70px",
                   left: "-70px",
-                  width: "150px",
-                  height: "150px",
+                  width: "140px",
+                  height: "140px",
                   borderRadius: "50%",
                   background: "radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(0,0,0,0) 70%)",
                   pointerEvents: "none"
@@ -553,7 +521,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     boxShadow: "0 3px 10px rgba(255, 45, 85, 0.35)",
-                    marginBottom: "8px"
+                    marginBottom: "6px"
                   }}
                 >
                   🔒 EXCLUSIVE FOUNDING ACCESS
@@ -562,7 +530,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                 <h2
                   className="heading-md"
                   style={{
-                    fontSize: "clamp(1.25rem, 2.2vw, 1.55rem)",
+                    fontSize: "clamp(1.2rem, 2.2vw, 1.5rem)",
                     marginBottom: "4px",
                     color: "var(--text-heading)",
                     lineHeight: 1.15,
@@ -575,7 +543,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                   style={{
                     fontSize: "0.82rem",
                     color: "var(--text-body)",
-                    lineHeight: 1.4,
+                    lineHeight: 1.35,
                     maxWidth: "500px",
                     margin: "0 auto"
                   }}
@@ -589,7 +557,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                 
                 {/* Row 1: Title & Full Name */}
                 <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-                  <div style={{ width: "95px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "2px" }}>
+                  <div style={{ width: "90px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "2px" }} className="gate-title-col">
                     <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
                       Title
                     </label>
@@ -621,6 +589,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                       placeholder="e.g. Jane Doe"
                       value={formData.name}
                       onChange={handleChange}
+                      className="gate-input"
                       style={inputStyle}
                     />
                   </div>
@@ -639,6 +608,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                       placeholder="you@organisation.com"
                       value={formData.email}
                       onChange={handleChange}
+                      className="gate-input"
                       style={inputStyle}
                     />
                   </div>
@@ -680,6 +650,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                         backgroundColor: "var(--bg-primary)",
                         height: "38px"
                       }}
+                      className="gate-phone-wrapper"
                     >
                       <div
                         style={{
@@ -705,6 +676,7 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                         value={formData.phone}
                         onChange={handleChange}
                         onBlur={handlePhoneBlur}
+                        className="gate-phone-input"
                         style={{
                           flex: 1,
                           padding: "8px 10px",
@@ -712,7 +684,8 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
                           backgroundColor: "transparent",
                           color: "var(--text-heading)",
                           fontSize: "0.86rem",
-                          outline: "none"
+                          outline: "none",
+                          width: "100%"
                         }}
                       />
                     </div>
@@ -725,67 +698,35 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
 
                   <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                     <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
-                      Profession / Role
+                      Profession / Role <span style={{ color: "#ec4899" }}>*</span>
                     </label>
-                    <Select
-                      options={professionOptions}
-                      placeholder="Select role"
-                      value={professionOptions.find(p => p.value === formData.profession) || (formData.profession === "Other" ? { value: "Other", label: "Other" } : null)}
-                      onChange={(selected: any) => {
-                        if (selected) {
-                          setFormData(prev => {
-                            const updated = { ...prev, profession: selected.value };
-                            saveToBrowserCache(updated, selected.value === "Other" ? customProfession : "");
-                            return updated;
-                          });
-                        }
-                      }}
-                      styles={selectStyles}
+                    <input
+                      type="text"
+                      name="profession"
+                      required
+                      placeholder="e.g. Patent Attorney, Legal Counsel..."
+                      value={formData.profession}
+                      onChange={handleChange}
+                      className="gate-input"
+                      style={inputStyle}
                     />
                   </div>
                 </div>
 
-                {/* Row 4: Company & (Optional Custom Profession input when "Other" is chosen) */}
-                <div className="gate-row-2col" style={{ display: "grid", gridTemplateColumns: formData.profession === "Other" ? "1fr 1fr" : "1fr", gap: "10px", width: "100%" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                    <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
-                      Company / Organisation <span style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: "normal" }}>(Optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="company"
-                      placeholder="e.g. Acme IP Law"
-                      value={formData.company}
-                      onChange={handleChange}
-                      style={inputStyle}
-                    />
-                  </div>
-
-                  {formData.profession === "Other" && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      style={{ display: "flex", flexDirection: "column", gap: "2px" }}
-                    >
-                      <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
-                        Specify Profession / Role <span style={{ color: "#ec4899" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="customProfession"
-                        required
-                        placeholder="e.g. Patent Strategist / Agent"
-                        value={customProfession}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCustomProfession(val);
-                          saveToBrowserCache(formData, val);
-                        }}
-                        style={inputStyle}
-                        autoFocus
-                      />
-                    </motion.div>
-                  )}
+                {/* Row 4: Company / Law Firm / Organisation */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "2px", width: "100%" }}>
+                  <label style={{ fontWeight: 600, fontSize: "0.78rem", color: "var(--text-heading)" }}>
+                    Company / Law Firm / Organisation <span style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: "normal" }}>(Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    placeholder="e.g. Acme IP Law"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="gate-input"
+                    style={inputStyle}
+                  />
                 </div>
 
                 {/* Error Banner */}
@@ -855,9 +796,22 @@ export default function PricingGateWrapper({ children, hideBanner = false }: Pri
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
-        @media (max-width: 620px) {
+        @media (max-width: 640px) {
           .gate-row-2col {
             grid-template-columns: 1fr !important;
+            gap: 8px !important;
+          }
+          .gate-modal-card {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            max-height: calc(100dvh - 20px) !important;
+          }
+          .gate-input, .gate-phone-input {
+            font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+            height: 40px !important;
+          }
+          .gate-phone-wrapper {
+            height: 40px !important;
           }
         }
       `}</style>
