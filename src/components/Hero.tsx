@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FadeIn from "./animations/FadeIn";
 import MagneticButton from "./animations/MagneticButton";
+import Link from "next/link";
 
 export default function Hero() {
   const profiles = [
@@ -137,26 +138,32 @@ export default function Hero() {
             {/* Launching Badge */}
             <div className="mobile-text-center" style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
               <FadeIn direction="up" delay={0.1}>
-                <div style={{ 
-                  display: 'inline-block', 
-                  backgroundColor: 'rgba(236, 72, 153, 0.12)', 
-                  color: 'var(--text-heading)', 
-                  padding: '7px 18px', 
-                  borderRadius: '30px', 
-                  fontWeight: 700, 
-                  fontSize: 'clamp(0.8rem, 0.95vw, 0.9rem)', 
-                  marginBottom: '24px', 
-                  border: '1px solid rgba(236, 72, 153, 0.35)', 
-                  boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' 
-                }}>
-                  <span className="desktop-hide">
-                    Launching January 2027 <br />
-                    Become a Founding Member
-                  </span>
-                  <span className="mobile-hide">
-                    Launching January 2027 | Become a Founding Member
-                  </span>
-                </div>
+                <Link href="/waiting-list" style={{ textDecoration: 'none' }}>
+                  <div style={{ 
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    backgroundColor: 'rgba(236, 72, 153, 0.12)', 
+                    color: 'var(--text-heading)', 
+                    padding: '7px 18px', 
+                    borderRadius: '30px', 
+                    fontWeight: 700, 
+                    fontSize: 'clamp(0.8rem, 0.95vw, 0.9rem)', 
+                    marginBottom: '24px', 
+                    border: '1px solid rgba(236, 72, 153, 0.35)', 
+                    boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)',
+                    transition: 'all 0.25s ease',
+                    cursor: 'pointer'
+                  }}>
+                    <span className="desktop-hide">
+                      Launching 04 January 2027 <br />
+                      Become a Founding Member →
+                    </span>
+                    <span className="mobile-hide">
+                      Launching 04 January 2027 | Become a Founding Member →
+                    </span>
+                  </div>
+                </Link>
               </FadeIn>
             </div>
             

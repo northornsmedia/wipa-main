@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import LaunchChronograph from "@/components/LaunchChronograph";
 import InfiniteMarquee from "@/components/animations/InfiniteMarquee";
 import About from "@/components/About";
 import MemberBenefits from "@/components/MemberBenefits";
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main>
+      <LaunchChronograph />
       <Navbar />
       <Hero />
       <div style={{ position: 'relative', zIndex: 10, backgroundColor: 'var(--color-charcoal)' }}>

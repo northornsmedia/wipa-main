@@ -1,0 +1,513 @@
+/* Swiss Luxury Chronograph - Apple Minimalist Edition */
+
+/* Full-Screen Splash Screen */
+.splashOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  background-color: #0b0f19;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: clamp(20px, 4vh, 48px) clamp(16px, 4vw, 32px);
+  user-select: none;
+}
+
+/* 4-Second Top Progress Laser */
+.splashProgressBarContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  z-index: 1000000;
+}
+
+.splashProgressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff2a5f 0%, #a855f7 50%, #5a32fa 100%);
+  box-shadow: 0 0 12px rgba(255, 42, 95, 0.7);
+  animation: splashCountdown 4s linear forwards;
+}
+
+@keyframes splashCountdown {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* Top Skip Pill */
+.splashTopBar {
+  position: absolute;
+  top: clamp(16px, 3vh, 28px);
+  right: clamp(16px, 4vw, 36px);
+  z-index: 1000000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skipBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-family: var(--font-body, -apple-system, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.skipBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Ambient Backlight Glow */
+.ambientGlow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(320px, 60vw, 750px);
+  height: clamp(200px, 35vw, 420px);
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.18) 0%, rgba(255, 42, 95, 0.12) 35%, rgba(90, 50, 250, 0.06) 70%, transparent 80%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Centered Main Deck */
+.mainDeck {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+/* Brand Pill */
+.brandBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  margin-bottom: clamp(18px, 3vh, 28px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.badgeText {
+  font-family: var(--font-body, -apple-system, sans-serif);
+  font-size: clamp(0.68rem, 0.8vw, 0.76rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Headlines */
+.mainTitle {
+  font-family: var(--font-display, -apple-system, sans-serif);
+  font-size: clamp(1.8rem, 4.2vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  margin-bottom: clamp(12px, 1.8vh, 18px);
+  color: #ffffff;
+}
+
+.gradientText {
+  background: linear-gradient(90deg, #ff2a5f 0%, #d946ef 45%, #8b5cf6 80%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.subHeading {
+  font-family: var(--font-body, -apple-system, sans-serif);
+  font-size: clamp(0.82rem, 1.1vw, 1rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: clamp(32px, 5.5vh, 52px);
+}
+
+/* ==========================================================
+   MINIMALIST LUXURY CHRONOGRAPH DECK (4 CLEAN UNITS)
+   ========================================================== */
+.chronoDeck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.2vw, 22px);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto clamp(32px, 5.5vh, 52px);
+}
+
+/* Individual Chrono Card */
+.chronoCard {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-radius: clamp(16px, 2.6vw, 24px);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 16px 40px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: clamp(18px, 3vw, 28px) clamp(10px, 1.8vw, 20px);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+}
+
+.chronoCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  pointer-events: none;
+}
+
+.chronoCardInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Number Container & Ticker */
+.numberWrapper {
+  position: relative;
+  height: clamp(2.4rem, 6.5vw, 4.4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chronoNumber {
+  font-family: var(--font-display, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: clamp(2.2rem, 6.2vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 65%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.4));
+  user-select: none;
+}
+
+/* Label Below (Days, Hours, Minutes, Seconds) */
+.chronoLabel {
+  font-family: var(--font-body, -apple-system, sans-serif);
+  font-size: clamp(0.62rem, 1.1vw, 0.74rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: clamp(0.14em, 0.22vw, 0.22em);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: clamp(8px, 1.5vh, 12px);
+  user-select: none;
+}
+
+/* Separator Dots Between Cards */
+.separatorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1vw, 10px);
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(1px, 0.4vw, 4px);
+  margin-top: -12px;
+}
+
+.separatorDot {
+  width: clamp(3px, 0.6vw, 5px);
+  height: clamp(3px, 0.6vw, 5px);
+  border-radius: 50%;
+  background: #ff2a5f;
+  box-shadow: 0 0 10px rgba(255, 42, 95, 0.8);
+}
+
+/* ==========================================================
+   MINIMALIST MULTI-CITY GLASS CAPSULE
+   ========================================================== */
+.citiesCapsule {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.6vw, 30px);
+  padding: clamp(10px, 1.8vh, 16px) clamp(22px, 4vw, 38px);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  max-width: 95vw;
+}
+
+.cityItem {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1vw, 10px);
+}
+
+.cityFlag {
+  width: clamp(14px, 1.8vw, 20px);
+  height: clamp(10px, 1.3vw, 14px);
+  border-radius: 2.5px;
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.cityName {
+  font-family: var(--font-body, -apple-system, sans-serif);
+  font-size: clamp(0.72rem, 1vw, 0.82rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+}
+
+.cityTime {
+  font-family: var(--font-display, -apple-system, sans-serif);
+  font-size: clamp(0.78rem, 1.1vw, 0.92rem);
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.cityDivider {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] .splashOverlay,
+:root:not([data-theme="dark"]) .splashOverlay {
+  background-color: #f8fafc;
+}
+
+[data-theme="light"] .mainTitle,
+:root:not([data-theme="dark"]) .mainTitle {
+  color: #0f172a;
+}
+
+[data-theme="light"] .subHeading,
+:root:not([data-theme="dark"]) .subHeading {
+  color: #0f172a;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+[data-theme="light"] .chronoNumber,
+:root:not([data-theme="dark"]) .chronoNumber {
+  background: linear-gradient(180deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .chronoCard,
+:root:not([data-theme="dark"]) .chronoCard {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .chronoLabel,
+:root:not([data-theme="dark"]) .chronoLabel {
+  color: #475569;
+  font-weight: 700;
+}
+
+[data-theme="light"] .brandBadge,
+:root:not([data-theme="dark"]) .brandBadge {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .badgeText,
+:root:not([data-theme="dark"]) .badgeText {
+  color: #0f172a;
+}
+
+[data-theme="light"] .citiesCapsule,
+:root:not([data-theme="dark"]) .citiesCapsule {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .cityName,
+:root:not([data-theme="dark"]) .cityName {
+  color: #334155;
+  font-weight: 600;
+}
+
+[data-theme="light"] .cityTime,
+:root:not([data-theme="dark"]) .cityTime {
+  color: #0f172a;
+}
+
+[data-theme="light"] .cityDivider,
+:root:not([data-theme="dark"]) .cityDivider {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .skipBtn,
+:root:not([data-theme="dark"]) .skipBtn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #0f172a;
+}
+
+[data-theme="light"] .splashProgressBarContainer,
+:root:not([data-theme="dark"]) .splashProgressBarContainer {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ==========================================================
+   MOBILE VIEWPORT OPTIMIZATIONS (ULTRA-CLEAN, UNCLUTTERED)
+   ========================================================== */
+@media (max-width: 768px) {
+  .splashOverlay {
+    padding: 24px 16px;
+  }
+
+  .splashTopBar {
+    top: 14px;
+    right: 14px;
+  }
+
+  .skipBtn {
+    font-size: 0.72rem;
+    padding: 6px 14px;
+  }
+
+  .brandBadge {
+    padding: 6px 14px;
+    margin-bottom: 18px;
+  }
+
+  .badgeText {
+    font-size: 0.65rem;
+  }
+
+  .mainTitle {
+    font-size: clamp(1.4rem, 6.5vw, 1.9rem);
+    line-height: 1.18;
+    margin-bottom: 12px;
+  }
+
+  .subHeading {
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 30px;
+  }
+
+  /* 4 Balanced Cards on Mobile */
+  .chronoDeck {
+    gap: 8px;
+    max-width: 375px;
+    margin-bottom: 32px;
+  }
+
+  .chronoCard {
+    padding: 16px 6px;
+    border-radius: 16px;
+  }
+
+  .numberWrapper {
+    height: 2.3rem;
+  }
+
+  .chronoNumber {
+    font-size: clamp(1.65rem, 7.2vw, 2.15rem);
+  }
+
+  .chronoLabel {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    margin-top: 8px;
+  }
+
+  .separatorContainer {
+    gap: 6px;
+    margin-top: -6px;
+  }
+
+  .separatorDot {
+    width: 3.5px;
+    height: 3.5px;
+  }
+
+  .citiesCapsule {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 20px;
+    border-radius: 18px;
+    padding: 14px 22px;
+    width: auto;
+  }
+
+  .cityDivider {
+    display: none;
+  }
+
+  .cityName {
+    font-size: 0.75rem;
+  }
+
+  .cityTime {
+    font-size: 0.88rem;
+  }
+}
