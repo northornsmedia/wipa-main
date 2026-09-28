@@ -37,13 +37,34 @@ export default function Navbar() {
         className={`section-white navbar-header ${scrolled ? 'scrolled' : ''}`}
       >
         <nav className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link href="/" style={{ zIndex: 101, display: 'flex', alignItems: 'center' }}>
+          <Link 
+            href="/" 
+            style={{ zIndex: 101, display: 'flex', alignItems: 'center' }}
+            onClick={() => {
+              try {
+                localStorage.setItem("wipa_splash_seen", "true");
+                sessionStorage.setItem("wipa_splash_seen", "true");
+                if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+              } catch {}
+            }}
+          >
             <img src="/WIPA-Logo.png" alt="WIPA (Women's IP Alliance) Official Logo" className="navbar-logo" />
           </Link>
 
           {/* Desktop Nav */}
           <div className="mobile-hidden" style={{ display: 'flex', gap: '2.5rem', fontFamily: 'var(--font-display)', fontWeight: 700, textTransform: 'uppercase' }}>
-            <Link href="/">Home</Link>
+            <Link 
+              href="/"
+              onClick={() => {
+                try {
+                  localStorage.setItem("wipa_splash_seen", "true");
+                  sessionStorage.setItem("wipa_splash_seen", "true");
+                  if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+                } catch {}
+              }}
+            >
+              Home
+            </Link>
             <Link href="/about">About</Link>
             <Link href="/coming-soon">Platform</Link>
             <Link href="/community">Community</Link>
@@ -99,7 +120,19 @@ export default function Navbar() {
           >
           
           <FadeIn direction="up" style={{ display: 'flex', flexDirection: 'column', gap: '26px', alignItems: 'center', marginTop: '40px', fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase' }}>
-            <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
+            <Link 
+              href="/" 
+              onClick={() => {
+                try {
+                  localStorage.setItem("wipa_splash_seen", "true");
+                  sessionStorage.setItem("wipa_splash_seen", "true");
+                  if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+                } catch {}
+                setIsOpen(false);
+              }}
+            >
+              Home
+            </Link>
             <Link href="/about" onClick={() => setIsOpen(false)}>About</Link>
             <Link href="/coming-soon" onClick={() => setIsOpen(false)}>Platform</Link>
             <Link href="/community" onClick={() => setIsOpen(false)}>Community</Link>

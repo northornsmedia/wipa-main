@@ -246,6 +246,13 @@ export default function WaitingListPage() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // Ensure splash is flagged as seen since user is already inside the website
+    try {
+      localStorage.setItem("wipa_splash_seen", "true");
+      sessionStorage.setItem("wipa_splash_seen", "true");
+      (window as any).__wipa_visited = true;
+    } catch {}
+
     // Check if plan is passed in URL query param, or stored in localStorage
     const searchParams = new URLSearchParams(window.location.search);
     const planParam = searchParams.get("plan");
@@ -638,7 +645,14 @@ export default function WaitingListPage() {
     }}>
       {/* Back to Home Button */}
       <button 
-        onClick={() => router.push('/')}
+        onClick={() => {
+          try {
+            localStorage.setItem("wipa_splash_seen", "true");
+            sessionStorage.setItem("wipa_splash_seen", "true");
+            if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+          } catch {}
+          router.push('/?from=back');
+        }}
         style={{
           position: "fixed",
           top: "14px",
@@ -1044,7 +1058,14 @@ export default function WaitingListPage() {
 
               <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
                 <button
-                  onClick={() => router.push('/')}
+                  onClick={() => {
+                    try {
+                      localStorage.setItem("wipa_splash_seen", "true");
+                      sessionStorage.setItem("wipa_splash_seen", "true");
+                      if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+                    } catch {}
+                    router.push('/?from=back');
+                  }}
                   className="btn btn-accent"
                   style={{
                     padding: "12px 28px",

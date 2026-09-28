@@ -88,17 +88,55 @@ export default function LaunchChronograph() {
     seconds: "00",
   });
 
-  // Check if user has already seen splash in this browser session
+  // Check if user has already seen splash or is returning to home
   useEffect(() => {
     setIsMounted(true);
     try {
-      const hasSeen = sessionStorage.getItem("wipa_splash_seen");
-      if (!hasSeen) {
+      // 1. Check persistent localStorage & sessionStorage flags
+      const seenLocal = localStorage.getItem("wipa_splash_seen");
+      const seenSession = sessionStorage.getItem("wipa_splash_seen");
+
+      // 2. Check if user navigated internally from within the website
+      const referrer = typeof document !== "undefined" ? document.referrer : "";
+      const isInternalReferrer = !!(
+        referrer && 
+        (referrer.includes(window.location.hostname) || 
+         referrer.includes("womensipalliance.com") || 
+         referrer.includes("localhost"))
+      );
+
+      // 3. Check browser back/forward navigation
+      const navEntries = typeof performance !== "undefined" && performance.getEntriesByType
+        ? (performance.getEntriesByType("navigation") as PerformanceNavigationTiming[])
+        : [];
+      const isBackForward = (navEntries.length > 0 && navEntries[0].type === "back_forward") ||
+        (typeof performance !== "undefined" && (performance as any).navigation?.type === 2);
+
+      // 4. In-memory flag from current session
+      const inMemoryVisited = typeof window !== "undefined" && (window as any).__wipa_visited;
+
+      // 5. Query parameter ?from=... or ?nosplash=1
+      const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const isFromParam = urlParams?.has("from") || urlParams?.get("splash") === "0";
+
+      // If user has seen it, or is returning to home from another page/back button: NEVER show
+      if (seenLocal || seenSession || isInternalReferrer || isBackForward || inMemoryVisited || isFromParam) {
+        setShowSplash(false);
+        try {
+          localStorage.setItem("wipa_splash_seen", "true");
+          sessionStorage.setItem("wipa_splash_seen", "true");
+          if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+        } catch {}
+      } else {
         setShowSplash(true);
-        sessionStorage.setItem("wipa_splash_seen", "true");
+        try {
+          localStorage.setItem("wipa_splash_seen", "true");
+          sessionStorage.setItem("wipa_splash_seen", "true");
+          if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+        } catch {}
       }
     } catch {
-      // In case sessionStorage is blocked or unavailable
+      // In case storage is blocked or unavailable
       setShowSplash(false);
     }
   }, []);
@@ -113,6 +151,11 @@ export default function LaunchChronograph() {
     document.body.style.overflow = "hidden";
 
     const dismissTimer = setTimeout(() => {
+      try {
+        localStorage.setItem("wipa_splash_seen", "true");
+        sessionStorage.setItem("wipa_splash_seen", "true");
+        if (typeof window !== "undefined") (window as any).__wipa_visited = true;
+      } catch {}
       setShowSplash(false);
       document.body.style.overflow = "";
     }, 4000);
@@ -125,7 +168,9 @@ export default function LaunchChronograph() {
 
   const dismissSplash = () => {
     try {
+      localStorage.setItem("wipa_splash_seen", "true");
       sessionStorage.setItem("wipa_splash_seen", "true");
+      if (typeof window !== "undefined") (window as any).__wipa_visited = true;
     } catch {}
     setShowSplash(false);
     document.body.style.overflow = "";
