@@ -498,7 +498,7 @@ export default function WaitingListPage() {
     }
   };
 
-  // Uniform plan card: exactly the same height & size for all plans
+  // Uniform plan card: Rich overview & pricing box on desktop, compact on mobile
   const renderPlanCard = (plan: PricingPlan, gridSpanClass: string) => {
     const isSelected = selectedPlan === plan.name;
 
@@ -509,62 +509,115 @@ export default function WaitingListPage() {
         onClick={() => setSelectedPlan(plan.name)}
         style={{
           cursor: "pointer",
-          borderRadius: "14px",
-          padding: "clamp(10px, 1.4vh, 14px) clamp(12px, 1.4vw, 18px)",
-          backgroundColor: isSelected ? "rgba(16, 185, 129, 0.08)" : "var(--bg-surface-elevated)",
+          borderRadius: "18px",
+          padding: "clamp(12px, 1.5vw, 18px)",
+          backgroundColor: isSelected ? "rgba(16, 185, 129, 0.06)" : "var(--bg-surface-elevated)",
           border: isSelected ? "2px solid #10b981" : "1px solid var(--border-card)",
-          boxShadow: isSelected ? "0 4px 16px rgba(16, 185, 129, 0.2)" : "0 2px 6px rgba(0,0,0,0.02)",
+          boxShadow: isSelected ? "0 8px 24px rgba(16, 185, 129, 0.16)" : "0 2px 8px rgba(0,0,0,0.03)",
           transition: "border 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          height: "82px",
-          minHeight: "82px",
-          maxHeight: "82px",
           boxSizing: "border-box",
           position: "relative"
         }}
       >
-        {/* Top Row: Plan Name & Square with Green Tick */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
-          <div style={{ 
-            fontWeight: 700, 
-            fontSize: "clamp(0.92rem, 1.15vw, 1.02rem)", 
-            color: "var(--text-heading)", 
-            lineHeight: 1.25,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis"
-          }}>
-            {plan.displayName}
+        {/* Card Body Content */}
+        <div>
+          {/* Top Row: Plan Name & Subtitle + Square with Green Tick */}
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "8px" }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div 
+                className="plan-card-title"
+                style={{ 
+                  fontWeight: 800, 
+                  fontSize: "clamp(0.95rem, 1.1vw, 1.12rem)", 
+                  color: "var(--text-heading)", 
+                  lineHeight: 1.25,
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "4px"
+                }}
+              >
+                <span>{plan.displayName}</span>
+                {plan.subtitle && (
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--text-muted)" }}>
+                    {plan.subtitle}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Square with Green Tick */}
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                minWidth: "22px",
+                borderRadius: "6px",
+                border: isSelected ? "2px solid #10b981" : "2px solid var(--border-input)",
+                backgroundColor: isSelected ? "#10b981" : "transparent",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.15s ease",
+                flexShrink: 0
+              }}
+            >
+              {isSelected && (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+            </div>
           </div>
 
-          {/* Square with Green Tick */}
-          <div
-            style={{
-              width: "22px",
-              height: "22px",
-              minWidth: "22px",
-              borderRadius: "6px",
-              border: isSelected ? "2px solid #10b981" : "2px solid var(--border-input)",
-              backgroundColor: isSelected ? "#10b981" : "transparent",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.15s ease",
-              flexShrink: 0
-            }}
-          >
-            {isSelected && (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            )}
+          {/* Desktop Description */}
+          <p className="desktop-only-plan-detail" style={{ 
+            fontSize: "0.83rem", 
+            color: "var(--text-body)", 
+            lineHeight: 1.45, 
+            margin: "8px 0 10px 0", 
+            minHeight: "40px" 
+          }}>
+            {plan.desc}
+          </p>
+
+          {/* Desktop Pricing Box (Matches screenshot) */}
+          <div className="desktop-only-plan-detail pricing-box-desktop" style={{ 
+            backgroundColor: "var(--bg-primary)", 
+            border: "1px solid var(--border-subtle)", 
+            borderRadius: "14px", 
+            padding: "10px 12px", 
+            marginBottom: "10px"
+          }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: "6px", flexWrap: "wrap" }}>
+              <span style={{ fontSize: "1.45rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1 }}>
+                {plan.price}
+              </span>
+              <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>
+                {plan.period}
+              </span>
+              {plan.monthlyPrice && (
+                <span style={{ marginLeft: "auto", fontSize: "0.76rem", color: "var(--text-muted)", fontWeight: 600 }}>
+                  (or {plan.monthlyPrice})
+                </span>
+              )}
+            </div>
+
+            <div style={{ fontSize: "0.78rem", fontWeight: 700, color: "#ec4899", lineHeight: 1.35, margin: "6px 0 4px" }}>
+              ⚡ {plan.limit}
+            </div>
+
+            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", borderTop: "1px solid var(--border-subtle)", paddingTop: "5px" }}>
+              {plan.standardPrice}
+            </div>
           </div>
         </div>
 
-        {/* Bottom Row: See cost */}
-        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+        {/* Bottom Row: Know more */}
+        <div style={{ display: "flex", justifyContent: "flex-start", marginTop: "auto" }}>
           <button
             type="button"
             onClick={(e) => {
@@ -586,7 +639,7 @@ export default function WaitingListPage() {
               textUnderlineOffset: "3px"
             }}
           >
-            See cost ↗
+            Know more ↗
           </button>
         </div>
       </div>
@@ -635,7 +688,7 @@ export default function WaitingListPage() {
       <div 
         style={{ 
           width: "100%", 
-          maxWidth: step === 2 ? "clamp(880px, 70vw, 1100px)" : "clamp(780px, 60vw, 1000px)", 
+          maxWidth: step === 2 ? "clamp(980px, 86vw, 1320px)" : "clamp(780px, 60vw, 1000px)", 
           margin: "auto",
           transition: "max-width 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
           position: "relative", 
@@ -1215,11 +1268,19 @@ export default function WaitingListPage() {
           grid-column: span 2;
         }
 
+        .desktop-only-plan-detail {
+          display: block;
+        }
+        .pricing-box-desktop {
+          display: flex !important;
+          flex-direction: column !important;
+        }
+
         /* Medium Tablets (2 per row) */
-        @media (min-width: 641px) and (max-width: 820px) {
+        @media (min-width: 641px) and (max-width: 860px) {
           .step2-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 8px !important;
+            gap: 10px !important;
           }
           .grid-col-card-top,
           .grid-col-card-bottom {
@@ -1227,7 +1288,7 @@ export default function WaitingListPage() {
           }
         }
 
-        /* Mobile Viewports Optimization */
+        /* Mobile Viewports Optimization - Exact Same as Before */
         @media (max-width: 640px) {
           .main-card-box {
             padding: 14px 14px !important;
@@ -1248,12 +1309,20 @@ export default function WaitingListPage() {
           .grid-col-card-bottom {
             grid-column: 1 / -1 !important;
           }
+          .desktop-only-plan-detail {
+            display: none !important;
+          }
           .plan-card-item {
             height: 64px !important;
             min-height: 64px !important;
             max-height: 64px !important;
             padding: 8px 12px !important;
             border-radius: 12px !important;
+          }
+          .plan-card-title {
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
           }
         }
       `}</style>
