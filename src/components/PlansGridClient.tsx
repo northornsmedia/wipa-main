@@ -374,7 +374,7 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
 
               {/* Standard Price / Footnote */}
               {isYearly && (
-                <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', paddingTop: '15px', borderTop: '1px solid var(--border-subtle)', minHeight: '85px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', marginBottom: '25px' }}>
+                <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', paddingTop: '15px', borderTop: '1px solid var(--border-subtle)', minHeight: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', marginBottom: '25px' }}>
                   {t.standardPrice}
                 </div>
               )}

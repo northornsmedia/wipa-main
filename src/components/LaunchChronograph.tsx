@@ -79,7 +79,7 @@ function PulsingSeparator() {
 
 export default function LaunchChronograph() {
   const [isMounted, setIsMounted] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
   const [cityTimes, setCityTimes] = useState<{ [city: string]: string }>({});
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: "100",
@@ -88,28 +88,45 @@ export default function LaunchChronograph() {
     seconds: "00",
   });
 
-  // 4-Second Splash Screen Auto-Dismiss
+  // Check if user has already seen splash in this browser session
   useEffect(() => {
     setIsMounted(true);
-
-    if (showSplash) {
-      document.body.style.overflow = "hidden";
-
-      const dismissTimer = setTimeout(() => {
-        setShowSplash(false);
-        document.body.style.overflow = "";
-      }, 4000);
-
-      return () => {
-        clearTimeout(dismissTimer);
-        document.body.style.overflow = "";
-      };
-    } else {
-      document.body.style.overflow = "";
+    try {
+      const hasSeen = sessionStorage.getItem("wipa_splash_seen");
+      if (!hasSeen) {
+        setShowSplash(true);
+        sessionStorage.setItem("wipa_splash_seen", "true");
+      }
+    } catch {
+      // In case sessionStorage is blocked or unavailable
+      setShowSplash(false);
     }
+  }, []);
+
+  // 4-Second Splash Screen Auto-Dismiss
+  useEffect(() => {
+    if (!showSplash) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    document.body.style.overflow = "hidden";
+
+    const dismissTimer = setTimeout(() => {
+      setShowSplash(false);
+      document.body.style.overflow = "";
+    }, 4000);
+
+    return () => {
+      clearTimeout(dismissTimer);
+      document.body.style.overflow = "";
+    };
   }, [showSplash]);
 
   const dismissSplash = () => {
+    try {
+      sessionStorage.setItem("wipa_splash_seen", "true");
+    } catch {}
     setShowSplash(false);
     document.body.style.overflow = "";
   };

@@ -11,36 +11,36 @@ const tiers = [
     name: "IP Professional\nMembership", 
     price: "£395",
     monthlyPrice: "£50",
-    limit: "Rate-limited for the first 300 founding members worldwide",
+    limit: "Exclusive Founding Member rate available for our inaugural launch.",
     desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, and other intellectual property professionals.", 
-    standardPrice: "Standard Membership Rate: £695/year (effective once all 300 Founding Membership places have been secured).",
+    standardPrice: "Standard Membership Rate: £695/year",
     style: "bg-pastel-green"
   },
   { 
     name: "Entrepreneur\nMembership\n(for Start Ups only)",
     price: "£295",
     monthlyPrice: "£42",
-    limit: "Rate-limited for the first 200 Startup Founding members worldwide",
-    desc: "Open to law firms and IP businesses incorporated or registered within the past 24 months.",
-    standardPrice: "Standard Membership Rate: £495/year (effective once all 200 Founding Membership places have been secured).",
+    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    desc: "Open to law firms and IP businesses incorporated or registered within the past 24 months.", 
+    standardPrice: "Standard Membership Rate: £495/year",
     style: "bg-pastel-purple"
   },
   { 
     name: "Student\nMembership", 
     price: "£99",
     monthlyPrice: "£12",
-    limit: "Rate-limited for the first 200 founding members worldwide",
+    limit: "Exclusive Founding Member rate available for our inaugural launch.",
     desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.", 
-    standardPrice: "Standard Membership Rate: £149/year (effective once all 200 Founding Membership places have been secured).",
+    standardPrice: "Standard Membership Rate: £149/year",
     style: "bg-pastel-pink"
   },
   { 
     name: "In-House Counsel\nMembership", 
     price: "FREE",
     monthlyPrice: "FREE",
-    limit: "COMPLIMENTARY FOR THE FIRST YEAR FOR THE FIRST 200 FOUNDING IN-HOUSE COUNSEL MEMBERS WORLDWIDE",
+    limit: "Complimentary First-Year Membership for Inaugural Founding In-House Counsel Members Worldwide",
     desc: "For women leading intellectual property within corporate legal departments, The Women's IP Alliance connects you with a global community of trusted peers, industry leaders, and IP experts.", 
-    standardPrice: "Standard Membership & Annual Renewal: £99/year (Effective once all 200 Founding In-House Counsel Membership places have been allocated.)",
+    standardPrice: "Standard Membership & Annual Renewal: £99/year",
     style: "bg-pastel-orange"
   }
 ];

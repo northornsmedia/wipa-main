@@ -82,11 +82,11 @@ export default function PlansPageContent({ plans }: { plans: Plan[] }) {
           Need a tailored solution for your entire organisation? We offer custom enterprise packages for law firms, universities, and corporate IP departments. Get in touch to build a plan that perfectly fits your team&apos;s needs.
         </p>
         <Link 
-          href="/waiting-list?plan=Enterprise%20Membership" 
+          href="/waiting-list?plan=Custom%20Enterprise%20Plan" 
           onClick={() => {
             if (typeof window !== "undefined") {
-              localStorage.setItem("wipa_preferred_plan", "Enterprise Membership");
-              localStorage.setItem("wipa_selected_plan", "Enterprise Membership");
+              localStorage.setItem("wipa_preferred_plan", "Custom Enterprise Plan");
+              localStorage.setItem("wipa_selected_plan", "Custom Enterprise Plan");
             }
           }}
           style={{ textDecoration: 'none' }}

@@ -31,9 +31,9 @@ const pricingPlans: PricingPlan[] = [
     price: "£395",
     period: "/ year",
     monthlyPrice: "£50 / month",
-    limit: "Rate-limited for the first 300 founding members worldwide",
+    limit: "Exclusive Founding Member rate available for our inaugural launch.",
     desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, and other intellectual property professionals.",
-    standardPrice: "Standard Rate: £695/year (effective once all 300 Founding places are secured).",
+    standardPrice: "Standard Rate: £695/year",
     highlights: [
       "Global directory listing & cross-border referral opportunities",
       "Access to private peer forums, roundtables & intelligence briefings",
@@ -49,9 +49,9 @@ const pricingPlans: PricingPlan[] = [
     price: "£295",
     period: "/ year",
     monthlyPrice: "£42 / month",
-    limit: "Rate-limited for the first 200 Startup Founding members worldwide",
+    limit: "Exclusive Founding Member rate available for our inaugural launch.",
     desc: "Open to law firms and IP businesses incorporated or registered within the past 24 months.",
-    standardPrice: "Standard Rate: £495/year (effective once all 200 Founding places are secured).",
+    standardPrice: "Standard Rate: £495/year",
     highlights: [
       "Startup IP strategy guidance & commercialisation support",
       "Direct introductions to early-stage investors & mentors",
@@ -66,9 +66,9 @@ const pricingPlans: PricingPlan[] = [
     price: "£99",
     period: "/ year",
     monthlyPrice: "£12 / month",
-    limit: "Rate-limited for the first 200 founding members worldwide",
+    limit: "Exclusive Founding Member rate available for our inaugural launch.",
     desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.",
-    standardPrice: "Standard Rate: £149/year (effective once all 200 Founding places are secured).",
+    standardPrice: "Standard Rate: £149/year",
     highlights: [
       "1-on-1 mentorship with established IP partners & attorneys",
       "Early career job board & internship opportunities",
@@ -100,14 +100,31 @@ const pricingPlans: PricingPlan[] = [
     displayName: "In-House Counsel Membership",
     price: "FREE",
     period: "for 1st year",
-    limit: "COMPLIMENTARY FOR THE FIRST YEAR FOR FIRST 200 IN-HOUSE COUNSEL MEMBERS WORLDWIDE",
+    limit: "Complimentary First-Year Membership for Inaugural Founding In-House Counsel Members Worldwide",
     desc: "For women leading intellectual property within corporate legal departments connecting with trusted global peers, industry leaders, and IP experts.",
-    standardPrice: "Standard Membership & Annual Renewal: £99/year (after first 200 places).",
+    standardPrice: "Standard Membership & Annual Renewal: £99/year",
     highlights: [
       "100% complimentary for the entire first founding year",
       "Confidential in-house legal roundtables & peer benchmarking",
       "Vendor & counsel review exchange and independent insights",
       "VIP access to global leadership summits & executive retreats"
+    ]
+  },
+  {
+    id: "custom-enterprise",
+    name: "Custom Enterprise Plan",
+    displayName: "Custom Enterprise Plan",
+    subtitle: "(Tailored Packages)",
+    price: "Custom",
+    period: "Quote",
+    limit: "Bespoke packages for law firms, universities & corporate departments",
+    desc: "Tailored solution for law firms, universities, corporate IP departments, and entire organisations seeking custom seat allocations, dedicated onboarding, and bespoke alliance integration.",
+    standardPrice: "Bespoke pricing based on team size and requirements. Contact our enterprise team.",
+    highlights: [
+      "Custom seat allocations tailored to your firm or department size",
+      "Dedicated account manager & bespoke concierge team onboarding",
+      "Custom co-branded webinars, intelligence briefings & thought leadership",
+      "Executive networking, cross-border referrals & priority event passes"
     ]
   }
 ];
@@ -860,13 +877,14 @@ export default function WaitingListPage() {
                 </p>
               </div>
 
-              {/* All Plan Cards: Perfectly uniform height across all 5 cards */}
+              {/* All Plan Cards: Perfectly uniform height across all 6 cards (3 per row) */}
               <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(8px, 1.2vh, 12px)", marginBottom: "clamp(10px, 1.4vh, 16px)" }}>
                 {renderPlanCard(pricingPlans[0], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[1], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[2], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[3], "grid-col-card-bottom")}
                 {renderPlanCard(pricingPlans[4], "grid-col-card-bottom")}
+                {renderPlanCard(pricingPlans[5], "grid-col-card-bottom")}
               </div>
 
               {error && (
@@ -1191,12 +1209,22 @@ export default function WaitingListPage() {
           to { transform: rotate(360deg); }
         }
 
-        /* Desktop: 6-column balanced system */
-        .grid-col-card-top {
+        /* Desktop: 6-column balanced system (3 per row) */
+        .grid-col-card-top,
+        .grid-col-card-bottom {
           grid-column: span 2;
         }
-        .grid-col-card-bottom {
-          grid-column: span 3;
+
+        /* Medium Tablets (2 per row) */
+        @media (min-width: 641px) and (max-width: 820px) {
+          .step2-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+          }
+          .grid-col-card-top,
+          .grid-col-card-bottom {
+            grid-column: span 1 !important;
+          }
         }
 
         /* Mobile Viewports Optimization */
