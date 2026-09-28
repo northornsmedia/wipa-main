@@ -27,6 +27,7 @@ const profiles = [
   { src: "/nadine-stuttle.png", name: "Nadine Stuttle", countryCode: ["ch"], position: "CEO", company: "PSS Solutions" },
   { src: "/rashi-rastogi.png", name: "Rashi Rastogi", countryCode: ["in"], position: "Founder", company: "Lexorant" },
   { src: "/adriana-barrera.png", name: "Adriana Barrera", countryCode: ["pe"], position: "Founder and Managing Partner, Inaugural WIPA Chair - South America", company: "BARLAW – Barrera & Asociados" },
+  { src: "/tove-graulund.png", name: "Tove Graulund", countryCode: ["dk"], position: "Founder", company: "Graulund Consulting" },
 ].map((p, i) => ({ ...p, style: baseStyles[i % 4] }));
 
 export default function CommunityImpact() {
