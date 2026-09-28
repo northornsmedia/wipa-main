@@ -505,8 +505,8 @@ export default function WaitingListPage() {
         onClick={() => setSelectedPlan(plan.name)}
         style={{
           cursor: "pointer",
-          borderRadius: "18px",
-          padding: "clamp(12px, 1.4vw, 16px)",
+          borderRadius: "16px",
+          padding: "clamp(10px, 1.2vw, 14px)",
           backgroundColor: isSelected ? "rgba(16, 185, 129, 0.06)" : "var(--bg-surface-elevated)",
           border: isSelected ? "2px solid #10b981" : "1px solid var(--border-card)",
           boxShadow: isSelected ? "0 8px 24px rgba(16, 185, 129, 0.16)" : "0 2px 8px rgba(0,0,0,0.03)",
@@ -527,18 +527,18 @@ export default function WaitingListPage() {
                 className="plan-card-title"
                 style={{ 
                   fontWeight: 800, 
-                  fontSize: "clamp(0.95rem, 1.05vw, 1.08rem)", 
+                  fontSize: "clamp(0.9rem, 0.98vw, 1.02rem)", 
                   color: "var(--text-heading)", 
-                  lineHeight: 1.25,
+                  lineHeight: 1.2,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  gap: "2px"
+                  gap: "1px"
                 }}
               >
                 <span>{plan.displayName}</span>
                 {plan.subtitle && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.2 }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.74rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.15 }}>
                     {plan.subtitle}
                   </span>
                 )}
@@ -548,10 +548,10 @@ export default function WaitingListPage() {
             {/* Square with Green Tick */}
             <div
               style={{
-                width: "22px",
-                height: "22px",
-                minWidth: "22px",
-                borderRadius: "6px",
+                width: "20px",
+                height: "20px",
+                minWidth: "20px",
+                borderRadius: "5px",
                 border: isSelected ? "2px solid #10b981" : "2px solid var(--border-input)",
                 backgroundColor: isSelected ? "#10b981" : "transparent",
                 display: "flex",
@@ -562,25 +562,25 @@ export default function WaitingListPage() {
               }}
             >
               {isSelected && (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               )}
             </div>
           </div>
 
-          {/* Desktop Description: Exactly 68px height for horizontal alignment */}
+          {/* Desktop Description: Exactly 52px height for horizontal alignment */}
           <p className="desktop-only-plan-detail plan-card-desc">
             {plan.desc}
           </p>
 
-          {/* Desktop Pricing Box: Exactly 152px height for horizontal alignment */}
+          {/* Desktop Pricing Box: Exactly 114px height for horizontal alignment */}
           <div className="desktop-only-plan-detail pricing-box-desktop">
             <div className="pricing-box-price-row">
-              <span style={{ fontSize: "1.42rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1 }}>
+              <span style={{ fontSize: "1.32rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1 }}>
                 {plan.price}
               </span>
-              <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>
+              <span style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>
                 {plan.period}
               </span>
             </div>
@@ -609,13 +609,13 @@ export default function WaitingListPage() {
               padding: 0,
               color: "#ec4899",
               fontWeight: 600,
-              fontSize: "0.82rem",
+              fontSize: "0.78rem",
               cursor: "pointer",
               display: "inline-flex",
               alignItems: "center",
               gap: "4px",
               textDecoration: "underline",
-              textUnderlineOffset: "3px"
+              textUnderlineOffset: "2px"
             }}
           >
             Know more ↗
@@ -675,15 +675,17 @@ export default function WaitingListPage() {
         }}
       >
         <div 
-          className="main-card-box"
+          className="main-card-box no-scrollbar"
           style={{ 
             backgroundColor: "var(--bg-card)", 
-            padding: "clamp(18px, 2.8vh, 32px) clamp(18px, 3vw, 44px)", 
-            borderRadius: "26px", 
+            padding: step === 2 
+              ? "clamp(12px, 1.6vh, 18px) clamp(16px, 2.4vw, 32px)" 
+              : "clamp(18px, 2.8vh, 32px) clamp(18px, 3vw, 44px)", 
+            borderRadius: "24px", 
             border: "1px solid var(--border-card)", 
             boxShadow: "0 25px 60px rgba(0, 0, 0, 0.09)", 
             width: "100%",
-            maxHeight: "calc(100vh - clamp(20px, 3.5vh, 44px))",
+            maxHeight: "calc(100vh - clamp(14px, 2vh, 30px))",
             overflowY: "auto"
           }}
         >
@@ -897,20 +899,20 @@ export default function WaitingListPage() {
               exit={{ opacity: 0, x: -15 }}
               transition={{ duration: 0.18 }}
             >
-              <div style={{ textAlign: "center", marginBottom: "clamp(8px, 1.4vh, 14px)" }}>
-                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "3px 12px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "4px" }}>
+              <div style={{ textAlign: "center", marginBottom: "clamp(6px, 1vh, 10px)" }}>
+                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "2px 10px", borderRadius: "20px", fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "2px" }}>
                   Step 2 of 2
                 </div>
-                <h1 className="heading-md" style={{ margin: "2px 0 4px", textAlign: "center", color: "var(--text-heading)", fontSize: "clamp(1.4rem, 2.2vw, 1.95rem)", fontWeight: 800, letterSpacing: "-0.02em" }}>
+                <h1 className="heading-md" style={{ margin: "1px 0 3px", textAlign: "center", color: "var(--text-heading)", fontSize: "clamp(1.25rem, 1.8vw, 1.65rem)", fontWeight: 800, letterSpacing: "-0.02em" }}>
                   Select Your Founding Plan
                 </h1>
-                <p style={{ fontSize: "clamp(0.85rem, 1.1vw, 0.95rem)", textAlign: "center", color: "var(--text-body)", margin: 0 }}>
+                <p style={{ fontSize: "clamp(0.8rem, 1vw, 0.88rem)", textAlign: "center", color: "var(--text-body)", margin: 0 }}>
                   Choose your membership plan below. IP Professional is selected by default.
                 </p>
               </div>
 
               {/* All Plan Cards: Perfectly uniform height across all 6 cards (3 per row) */}
-              <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(8px, 1.2vh, 12px)", marginBottom: "clamp(10px, 1.4vh, 16px)" }}>
+              <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(6px, 1vh, 8px)", marginBottom: "clamp(8px, 1.2vh, 12px)" }}>
                 {renderPlanCard(pricingPlans[0], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[1], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[2], "grid-col-card-top")}
@@ -920,7 +922,7 @@ export default function WaitingListPage() {
               </div>
 
               {error && (
-                <div style={{ backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#ef4444", padding: "8px 12px", borderRadius: "10px", fontSize: "0.88rem", textAlign: "center", marginBottom: "10px" }}>
+                <div style={{ backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#ef4444", padding: "6px 10px", borderRadius: "10px", fontSize: "0.84rem", textAlign: "center", marginBottom: "8px" }}>
                   {error}
                 </div>
               )}
@@ -931,14 +933,14 @@ export default function WaitingListPage() {
                   type="button"
                   onClick={() => { setError(""); setStep(1); }}
                   style={{
-                    height: "48px",
+                    height: "42px",
                     padding: "0 clamp(16px, 2.5vw, 24px)",
                     borderRadius: "50px",
                     border: "1px solid var(--border-input)",
                     backgroundColor: "var(--bg-surface-elevated)",
                     color: "var(--text-heading)",
                     fontWeight: 600,
-                    fontSize: "clamp(0.85rem, 2.2vw, 0.94rem)",
+                    fontSize: "clamp(0.82rem, 2vw, 0.9rem)",
                     cursor: "pointer",
                     whiteSpace: "nowrap"
                   }}
@@ -954,8 +956,8 @@ export default function WaitingListPage() {
                   whileTap={{ scale: 0.99 }}
                   className="btn btn-accent" 
                   style={{ 
-                    height: "48px",
-                    fontSize: "clamp(0.85rem, 2.4vw, 0.98rem)", 
+                    height: "42px",
+                    fontSize: "clamp(0.85rem, 2.2vw, 0.95rem)", 
                     borderRadius: "50px", 
                     fontWeight: 700, 
                     cursor: isLoading ? "not-allowed" : "pointer", 
@@ -1246,26 +1248,37 @@ export default function WaitingListPage() {
           display: block;
         }
 
+        /* Completely hide scrollbars everywhere (main card, body, html) */
+        ::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        * {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+
         /* Desktop Card Alignment Compartments - Pixel Perfect Symmetry */
         .plan-card-title-wrap {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
-          gap: 8px;
-          height: 46px;
-          min-height: 46px;
-          max-height: 46px;
+          gap: 6px;
+          height: 38px;
+          min-height: 38px;
+          max-height: 38px;
           box-sizing: border-box;
         }
 
         .plan-card-desc {
-          font-size: 0.81rem;
+          font-size: 0.77rem;
           color: var(--text-body);
-          line-height: 1.4;
-          margin: 6px 0 10px 0;
-          height: 68px;
-          min-height: 68px;
-          max-height: 68px;
+          line-height: 1.35;
+          margin: 4px 0 6px 0;
+          height: 52px;
+          min-height: 52px;
+          max-height: 52px;
           overflow: hidden;
           box-sizing: border-box;
           display: flex;
@@ -1275,12 +1288,12 @@ export default function WaitingListPage() {
         .pricing-box-desktop {
           background-color: var(--bg-primary);
           border: 1px solid var(--border-subtle);
-          border-radius: 14px;
-          padding: 10px 12px;
-          margin-bottom: 10px;
-          height: 152px;
-          min-height: 152px;
-          max-height: 152px;
+          border-radius: 12px;
+          padding: 8px 10px;
+          margin-bottom: 6px;
+          height: 114px;
+          min-height: 114px;
+          max-height: 114px;
           display: flex !important;
           flex-direction: column !important;
           justify-content: space-between !important;
@@ -1291,20 +1304,20 @@ export default function WaitingListPage() {
           display: flex;
           align-items: baseline;
           gap: 6px;
-          height: 28px;
-          min-height: 28px;
-          max-height: 28px;
+          height: 24px;
+          min-height: 24px;
+          max-height: 24px;
           box-sizing: border-box;
         }
 
         .pricing-box-limit {
-          font-size: 0.76rem;
+          font-size: 0.73rem;
           font-weight: 700;
           color: #ec4899;
-          line-height: 1.32;
-          height: 48px;
-          min-height: 48px;
-          max-height: 48px;
+          line-height: 1.25;
+          height: 38px;
+          min-height: 38px;
+          max-height: 38px;
           display: flex;
           align-items: center;
           overflow: hidden;
@@ -1312,16 +1325,16 @@ export default function WaitingListPage() {
         }
 
         .pricing-box-footnote {
-          font-size: 0.74rem;
+          font-size: 0.70rem;
           color: var(--text-muted);
           border-top: 1px solid var(--border-subtle);
-          padding-top: 5px;
-          height: 40px;
-          min-height: 40px;
-          max-height: 40px;
+          padding-top: 4px;
+          height: 30px;
+          min-height: 30px;
+          max-height: 30px;
           display: flex;
           align-items: center;
-          line-height: 1.3;
+          line-height: 1.25;
           overflow: hidden;
           box-sizing: border-box;
         }
@@ -1330,8 +1343,8 @@ export default function WaitingListPage() {
           display: flex;
           justify-content: flex-start;
           margin-top: auto;
-          height: 20px;
-          min-height: 20px;
+          height: 18px;
+          min-height: 18px;
           align-items: center;
           box-sizing: border-box;
         }
