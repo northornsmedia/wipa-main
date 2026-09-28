@@ -546,7 +546,7 @@ export default function WaitingListPage() {
           </div>
         </div>
 
-        {/* Bottom Row: Know more */}
+        {/* Bottom Row: See cost */}
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
           <button
             type="button"
@@ -569,7 +569,7 @@ export default function WaitingListPage() {
               textUnderlineOffset: "3px"
             }}
           >
-            Know more ↗
+            See cost ↗
           </button>
         </div>
       </div>
@@ -1015,7 +1015,7 @@ export default function WaitingListPage() {
         </div>
       </div>
 
-      {/* Plan Details & Price Modal ("Know more") */}
+      {/* Plan Details & Price Modal ("See cost") */}
       <AnimatePresence>
         {modalPlan && (
           <motion.div
