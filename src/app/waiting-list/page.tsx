@@ -30,7 +30,6 @@ const pricingPlans: PricingPlan[] = [
     displayName: "IP Professional Membership",
     price: "£395",
     period: "/ year",
-    monthlyPrice: "£50 / month",
     limit: "Exclusive Founding Member rate available for our inaugural launch.",
     desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, and other intellectual property professionals.",
     standardPrice: "Standard Rate: £695/year",
@@ -48,9 +47,8 @@ const pricingPlans: PricingPlan[] = [
     subtitle: "(for Start Ups only)",
     price: "£295",
     period: "/ year",
-    monthlyPrice: "£42 / month",
     limit: "Exclusive Founding Member rate available for our inaugural launch.",
-    desc: "Open to law firms and IP businesses incorporated or registered within the past 24 months.",
+    desc: "Open to newly established law firms, legal tech ventures, and IP businesses incorporated or registered within the past 24 months.",
     standardPrice: "Standard Rate: £495/year",
     highlights: [
       "Startup IP strategy guidance & commercialisation support",
@@ -65,9 +63,8 @@ const pricingPlans: PricingPlan[] = [
     displayName: "Student Membership",
     price: "£99",
     period: "/ year",
-    monthlyPrice: "£12 / month",
     limit: "Exclusive Founding Member rate available for our inaugural launch.",
-    desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.",
+    desc: "For students, graduates, researchers, and early-career individuals pursuing careers in intellectual property, innovation, technology, or law.",
     standardPrice: "Standard Rate: £149/year",
     highlights: [
       "1-on-1 mentorship with established IP partners & attorneys",
@@ -83,9 +80,8 @@ const pricingPlans: PricingPlan[] = [
     subtitle: "(IP Professional Teams)",
     price: "£1,745",
     period: "/ year",
-    monthlyPrice: "£175 / month",
     limit: "5 Founding Memberships at £349/ea + 1 FREE Membership (Save £625)",
-    desc: "Perfect for law firms, corporate IP departments, universities, innovation teams, and organisations looking to provide membership benefits to multiple professionals.",
+    desc: "For law firms, corporate IP departments, universities, and organisations looking to provide alliance benefits to multiple professionals.",
     standardPrice: "Standard Price After Launch: £2,780/year",
     highlights: [
       "Includes 5 team memberships plus 1 complimentary team seat",
@@ -118,7 +114,7 @@ const pricingPlans: PricingPlan[] = [
     price: "Custom",
     period: "Quote",
     limit: "Bespoke packages for law firms, universities & corporate departments",
-    desc: "Tailored solution for law firms, universities, corporate IP departments, and entire organisations seeking custom seat allocations, dedicated onboarding, and bespoke alliance integration.",
+    desc: "Tailored solution for law firms, universities, corporate IP teams, and entire organisations seeking custom seats and bespoke alliance integration.",
     standardPrice: "Bespoke pricing based on team size and requirements. Contact our enterprise team.",
     highlights: [
       "Custom seat allocations tailored to your firm or department size",
@@ -510,7 +506,7 @@ export default function WaitingListPage() {
         style={{
           cursor: "pointer",
           borderRadius: "18px",
-          padding: "clamp(12px, 1.5vw, 18px)",
+          padding: "clamp(12px, 1.4vw, 16px)",
           backgroundColor: isSelected ? "rgba(16, 185, 129, 0.06)" : "var(--bg-surface-elevated)",
           border: isSelected ? "2px solid #10b981" : "1px solid var(--border-card)",
           boxShadow: isSelected ? "0 8px 24px rgba(16, 185, 129, 0.16)" : "0 2px 8px rgba(0,0,0,0.03)",
@@ -523,26 +519,26 @@ export default function WaitingListPage() {
         }}
       >
         {/* Card Body Content */}
-        <div>
+        <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
           {/* Top Row: Plan Name & Subtitle + Square with Green Tick */}
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "8px" }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="plan-card-title-wrap">
+            <div style={{ flex: 1, minWidth: 0, paddingRight: "4px" }}>
               <div 
                 className="plan-card-title"
                 style={{ 
                   fontWeight: 800, 
-                  fontSize: "clamp(0.95rem, 1.1vw, 1.12rem)", 
+                  fontSize: "clamp(0.95rem, 1.05vw, 1.08rem)", 
                   color: "var(--text-heading)", 
                   lineHeight: 1.25,
                   display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: "4px"
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "2px"
                 }}
               >
                 <span>{plan.displayName}</span>
                 {plan.subtitle && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--text-muted)" }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.2 }}>
                     {plan.subtitle}
                   </span>
                 )}
@@ -573,51 +569,34 @@ export default function WaitingListPage() {
             </div>
           </div>
 
-          {/* Desktop Description */}
-          <p className="desktop-only-plan-detail" style={{ 
-            fontSize: "0.83rem", 
-            color: "var(--text-body)", 
-            lineHeight: 1.45, 
-            margin: "8px 0 10px 0", 
-            minHeight: "40px" 
-          }}>
+          {/* Desktop Description: Exactly 68px height for horizontal alignment */}
+          <p className="desktop-only-plan-detail plan-card-desc">
             {plan.desc}
           </p>
 
-          {/* Desktop Pricing Box (Matches screenshot) */}
-          <div className="desktop-only-plan-detail pricing-box-desktop" style={{ 
-            backgroundColor: "var(--bg-primary)", 
-            border: "1px solid var(--border-subtle)", 
-            borderRadius: "14px", 
-            padding: "10px 12px", 
-            marginBottom: "10px"
-          }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "6px", flexWrap: "wrap" }}>
-              <span style={{ fontSize: "1.45rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1 }}>
+          {/* Desktop Pricing Box: Exactly 152px height for horizontal alignment */}
+          <div className="desktop-only-plan-detail pricing-box-desktop">
+            <div className="pricing-box-price-row">
+              <span style={{ fontSize: "1.42rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1 }}>
                 {plan.price}
               </span>
               <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>
                 {plan.period}
               </span>
-              {plan.monthlyPrice && (
-                <span style={{ marginLeft: "auto", fontSize: "0.76rem", color: "var(--text-muted)", fontWeight: 600 }}>
-                  (or {plan.monthlyPrice})
-                </span>
-              )}
             </div>
 
-            <div style={{ fontSize: "0.78rem", fontWeight: 700, color: "#ec4899", lineHeight: 1.35, margin: "6px 0 4px" }}>
-              ⚡ {plan.limit}
+            <div className="pricing-box-limit">
+              {plan.limit}
             </div>
 
-            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", borderTop: "1px solid var(--border-subtle)", paddingTop: "5px" }}>
+            <div className="pricing-box-footnote">
               {plan.standardPrice}
             </div>
           </div>
         </div>
 
         {/* Bottom Row: Know more */}
-        <div style={{ display: "flex", justifyContent: "flex-start", marginTop: "auto" }}>
+        <div className="desktop-only-plan-detail plan-card-footer">
           <button
             type="button"
             onClick={(e) => {
@@ -1179,15 +1158,10 @@ export default function WaitingListPage() {
                   <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>
                     {modalPlan.period}
                   </span>
-                  {modalPlan.monthlyPrice && (
-                    <span style={{ marginLeft: "auto", fontSize: "0.84rem", color: "var(--text-muted)", fontWeight: 600 }}>
-                      (or {modalPlan.monthlyPrice})
-                    </span>
-                  )}
                 </div>
                 
                 <div style={{ marginTop: "8px", fontSize: "0.84rem", fontWeight: 700, color: "#ec4899", lineHeight: 1.35 }}>
-                  ⚡ {modalPlan.limit}
+                  {modalPlan.limit}
                 </div>
 
                 <div style={{ marginTop: "6px", fontSize: "0.8rem", color: "var(--text-muted)", borderTop: "1px solid var(--border-subtle)", paddingTop: "6px" }}>
@@ -1271,9 +1245,95 @@ export default function WaitingListPage() {
         .desktop-only-plan-detail {
           display: block;
         }
+
+        /* Desktop Card Alignment Compartments - Pixel Perfect Symmetry */
+        .plan-card-title-wrap {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 8px;
+          height: 46px;
+          min-height: 46px;
+          max-height: 46px;
+          box-sizing: border-box;
+        }
+
+        .plan-card-desc {
+          font-size: 0.81rem;
+          color: var(--text-body);
+          line-height: 1.4;
+          margin: 6px 0 10px 0;
+          height: 68px;
+          min-height: 68px;
+          max-height: 68px;
+          overflow: hidden;
+          box-sizing: border-box;
+          display: flex;
+          align-items: flex-start;
+        }
+
         .pricing-box-desktop {
+          background-color: var(--bg-primary);
+          border: 1px solid var(--border-subtle);
+          border-radius: 14px;
+          padding: 10px 12px;
+          margin-bottom: 10px;
+          height: 152px;
+          min-height: 152px;
+          max-height: 152px;
           display: flex !important;
           flex-direction: column !important;
+          justify-content: space-between !important;
+          box-sizing: border-box !important;
+        }
+
+        .pricing-box-price-row {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          height: 28px;
+          min-height: 28px;
+          max-height: 28px;
+          box-sizing: border-box;
+        }
+
+        .pricing-box-limit {
+          font-size: 0.76rem;
+          font-weight: 700;
+          color: #ec4899;
+          line-height: 1.32;
+          height: 48px;
+          min-height: 48px;
+          max-height: 48px;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+
+        .pricing-box-footnote {
+          font-size: 0.74rem;
+          color: var(--text-muted);
+          border-top: 1px solid var(--border-subtle);
+          padding-top: 5px;
+          height: 40px;
+          min-height: 40px;
+          max-height: 40px;
+          display: flex;
+          align-items: center;
+          line-height: 1.3;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+
+        .plan-card-footer {
+          display: flex;
+          justify-content: flex-start;
+          margin-top: auto;
+          height: 20px;
+          min-height: 20px;
+          align-items: center;
+          box-sizing: border-box;
         }
 
         /* Medium Tablets (2 per row) */
@@ -1319,10 +1379,18 @@ export default function WaitingListPage() {
             padding: 8px 12px !important;
             border-radius: 12px !important;
           }
+          .plan-card-title-wrap {
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            align-items: center !important;
+          }
           .plan-card-title {
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
+            flex-direction: row !important;
+            align-items: center !important;
           }
         }
       `}</style>
