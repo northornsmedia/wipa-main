@@ -17,6 +17,10 @@ export interface LeadNotificationData {
   dateOfIncorporation?: string | null;
   collegeInstitute?: string | null;
   studentId?: string | null;
+  startupName?: string | null;
+  startupCountry?: string | null;
+  universityName?: string | null;
+  course?: string | null;
   createdAt?: string;
   source?: "waiting_list" | "plan_selection" | "pricing_unlock";
 }
@@ -107,11 +111,14 @@ export async function sendSlackLeadNotification(lead: LeadNotificationData): Pro
 
     // Optional fields if provided
     const extraDetails: string[] = [];
-    if (lead.seats) extraDetails.push(`• *Seats:* ${lead.seats}`);
-    if (lead.businessRegistrationNumber) extraDetails.push(`• *Business Reg No:* ${lead.businessRegistrationNumber}`);
+    if (lead.startupName) extraDetails.push(`• *Startup Name:* ${lead.startupName}`);
+    if (lead.startupCountry) extraDetails.push(`• *Startup Country:* ${lead.startupCountry}`);
+    if (lead.businessRegistrationNumber) extraDetails.push(`• *Reg / Business Number:* ${lead.businessRegistrationNumber}`);
+    if (lead.universityName || lead.collegeInstitute) extraDetails.push(`• *University:* ${lead.universityName || lead.collegeInstitute}`);
+    if (lead.course) extraDetails.push(`• *Course:* ${lead.course}`);
+    if (lead.studentId) extraDetails.push(`• *Student ID / Reg No:* ${lead.studentId}`);
     if (lead.dateOfIncorporation) extraDetails.push(`• *Date of Incorporation:* ${lead.dateOfIncorporation}`);
-    if (lead.collegeInstitute) extraDetails.push(`• *College / Institute:* ${lead.collegeInstitute}`);
-    if (lead.studentId) extraDetails.push(`• *Student ID:* ${lead.studentId}`);
+    if (lead.seats) extraDetails.push(`• *Seats:* ${lead.seats}`);
 
     if (extraDetails.length > 0) {
       blocks.push({

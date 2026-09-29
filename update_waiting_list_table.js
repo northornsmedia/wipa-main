@@ -26,7 +26,11 @@ async function main() {
       ADD COLUMN IF NOT EXISTS date_of_incorporation TEXT,
       ADD COLUMN IF NOT EXISTS college_institute TEXT,
       ADD COLUMN IF NOT EXISTS student_id TEXT,
-      ADD COLUMN IF NOT EXISTS seats TEXT;
+      ADD COLUMN IF NOT EXISTS seats TEXT,
+      ADD COLUMN IF NOT EXISTS startup_name TEXT,
+      ADD COLUMN IF NOT EXISTS startup_country TEXT,
+      ADD COLUMN IF NOT EXISTS university_name TEXT,
+      ADD COLUMN IF NOT EXISTS course TEXT;
     `);
     
     console.log("Successfully added new columns to waiting_list table.");

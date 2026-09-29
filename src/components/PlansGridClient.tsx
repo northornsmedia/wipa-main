@@ -6,6 +6,7 @@ import StaggerGrid from "@/components/animations/StaggerGrid";
 import TiltCard from "@/components/animations/TiltCard";
 import Link from "next/link";
 import Select from "react-select";
+import { allCountries } from "country-telephone-data";
 import { getDeviceFingerprint } from "@/lib/fingerprint";
 
 interface Plan {
@@ -22,11 +23,32 @@ interface Plan {
   hideOnMonthly?: boolean;
 }
 
+const countryOptions = allCountries
+  .map(c => {
+    const cleanName = c.name.replace(/\s*\([^)]*\)/g, '').trim();
+    return {
+      value: c.iso2.toUpperCase(),
+      name: cleanName,
+      label: cleanName,
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const formatCountryLabel = ({ value, label }: any) => (
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <img 
+      src={`https://flagcdn.com/w20/${value.toLowerCase()}.png`} 
+      alt={value} 
+      style={{ width: "20px", height: "14px", objectFit: "cover", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "2px" }} 
+    />
+    <span style={{ fontSize: "0.93rem", color: "var(--text-heading)" }}>{label}</span>
+  </div>
+);
+
 const seatsOptions = [
-  { value: "5", label: "5 Seats" },
-  { value: "10", label: "10 Seats" },
-  { value: "10-20", label: "10-20 Seats" },
-  { value: "20+", label: "20+ Seats" }
+  { value: "1-5", label: "1-5 Seats" },
+  { value: "5-10", label: "5-10 Seats" },
+  { value: "10+", label: "10+ Seats" }
 ];
 
 const modalSelectStyles = {
@@ -66,14 +88,15 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
   const [confirmedPlanName, setConfirmedPlanName] = useState("");
   const [modalError, setModalError] = useState("");
 
-  // Modal extra fields
+  // Modal extra fields: Entrepreneur (reg no, country, startup name), Student (university, reg no, course), Custom (seats 1-5, 5-10, 10+)
   const [extraFields, setExtraFields] = useState({
     businessRegistrationNumber: "",
-    dateOfIncorporation: "",
-    collegeInstitute: "",
+    country: "GB",
+    startupName: "",
+    universityName: "",
     studentId: "",
-    seats: "5",
-    workEmail: ""
+    course: "",
+    seats: "1-5"
   });
 
   const visiblePlans = plans.filter(t => isYearly || !t.hideOnMonthly);
@@ -126,28 +149,15 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
     // If not from waiting list or if plan already chosen, return
     if (!isFromWaitingList || selectedPlan) return;
 
-    // Plan-specific extra info check
+    // Plan-specific extra info check: EXACTLY THESE THREE ONLY
     if (cleanPlanName === "Entrepreneur Membership") {
       setActiveModalPlan("Entrepreneur Membership");
     } else if (cleanPlanName === "Student Membership") {
       setActiveModalPlan("Student Membership");
-    } else if (cleanPlanName === "Enterprise Membership") {
-      setActiveModalPlan("Enterprise Membership");
-    } else if (cleanPlanName === "In-House Counsel Membership") {
-      const storedEmail = localStorage.getItem("wipa_user_email") || "";
-      const personalDomains = [
-        'gmail.com', 'outlook.com', 'hotmail.com', 'live.com', 'yahoo.com', 
-        'icloud.com', 'me.com', 'mac.com', 'aol.com', 'proton.me', 
-        'protonmail.com', 'pm.me', 'gmx.com', 'gmx.net', 'mail.com'
-      ];
-      const domain = storedEmail.split('@')[1]?.toLowerCase();
-      if (domain && personalDomains.includes(domain)) {
-        setActiveModalPlan("In-House Counsel Membership");
-      } else {
-        submitPlanSelection("In-House Counsel Membership", {});
-      }
+    } else if (cleanPlanName === "Custom Enterprise Plan" || cleanPlanName === "Custom Plan") {
+      setActiveModalPlan("Custom Enterprise Plan");
     } else {
-      // IP Professional or other plans
+      // IP Professional, Enterprise, In-House Counsel or others
       submitPlanSelection(cleanPlanName, {});
     }
   };
@@ -492,22 +502,24 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (activeModalPlan === "Entrepreneur Membership") {
+                    const countryMatch = countryOptions.find(c => c.value === extraFields.country);
+                    const startupCountryName = countryMatch ? countryMatch.name : extraFields.country;
                     submitPlanSelection(activeModalPlan, {
                       businessRegistrationNumber: extraFields.businessRegistrationNumber,
-                      dateOfIncorporation: extraFields.dateOfIncorporation
+                      startupCountry: startupCountryName,
+                      startupName: extraFields.startupName,
+                      company: extraFields.startupName
                     });
                   } else if (activeModalPlan === "Student Membership") {
                     submitPlanSelection(activeModalPlan, {
-                      collegeInstitute: extraFields.collegeInstitute,
-                      studentId: extraFields.studentId
+                      universityName: extraFields.universityName,
+                      collegeInstitute: extraFields.universityName,
+                      studentId: extraFields.studentId,
+                      course: extraFields.course
                     });
-                  } else if (activeModalPlan === "Enterprise Membership") {
+                  } else if (activeModalPlan === "Custom Enterprise Plan" || activeModalPlan === "Custom Plan") {
                     submitPlanSelection(activeModalPlan, {
                       seats: extraFields.seats
-                    });
-                  } else if (activeModalPlan === "In-House Counsel Membership") {
-                    submitPlanSelection(activeModalPlan, {
-                      workEmail: extraFields.workEmail
                     });
                   }
                 }}
@@ -518,26 +530,39 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   <>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                        Business Registration Number <span style={{ color: "#ec4899" }}>*</span>
+                        Name of Startup <span style={{ color: "#ec4899" }}>*</span>
                       </label>
                       <input
                         type="text"
                         required
-                        placeholder="e.g. 12345678"
-                        value={extraFields.businessRegistrationNumber}
-                        onChange={(e) => setExtraFields(prev => ({ ...prev, businessRegistrationNumber: e.target.value }))}
+                        placeholder="e.g. Acme IP Technologies"
+                        value={extraFields.startupName}
+                        onChange={(e) => setExtraFields(prev => ({ ...prev, startupName: e.target.value }))}
                         style={{ padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "0.95rem" }}
                       />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                        Date of Incorporation <span style={{ color: "#ec4899" }}>*</span>
+                        Country <span style={{ color: "#ec4899" }}>*</span>
+                      </label>
+                      <Select
+                        options={countryOptions}
+                        value={countryOptions.find(c => c.value === extraFields.country) || countryOptions[0]}
+                        onChange={(opt: any) => setExtraFields(prev => ({ ...prev, country: opt.value }))}
+                        formatOptionLabel={formatCountryLabel}
+                        styles={modalSelectStyles}
+                      />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
+                        Registration Number <span style={{ color: "#ec4899" }}>*</span>
                       </label>
                       <input
-                        type="date"
+                        type="text"
                         required
-                        value={extraFields.dateOfIncorporation}
-                        onChange={(e) => setExtraFields(prev => ({ ...prev, dateOfIncorporation: e.target.value }))}
+                        placeholder="e.g. 12345678 / US-987654"
+                        value={extraFields.businessRegistrationNumber}
+                        onChange={(e) => setExtraFields(prev => ({ ...prev, businessRegistrationNumber: e.target.value }))}
                         style={{ padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "0.95rem" }}
                       />
                     </div>
@@ -549,20 +574,20 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                   <>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                        College / University / Institute <span style={{ color: "#ec4899" }}>*</span>
+                        University Name <span style={{ color: "#ec4899" }}>*</span>
                       </label>
                       <input
                         type="text"
                         required
                         placeholder="e.g. Oxford Law School"
-                        value={extraFields.collegeInstitute}
-                        onChange={(e) => setExtraFields(prev => ({ ...prev, collegeInstitute: e.target.value }))}
+                        value={extraFields.universityName}
+                        onChange={(e) => setExtraFields(prev => ({ ...prev, universityName: e.target.value }))}
                         style={{ padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "0.95rem" }}
                       />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                       <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                        Student ID / Proof Number <span style={{ color: "#ec4899" }}>*</span>
+                        Registration Number <span style={{ color: "#ec4899" }}>*</span>
                       </label>
                       <input
                         type="text"
@@ -573,41 +598,57 @@ export default function PlansGridClient({ plans }: { plans: Plan[] }) {
                         style={{ padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "0.95rem" }}
                       />
                     </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
+                        Course <span style={{ color: "#ec4899" }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. LLM in Intellectual Property"
+                        value={extraFields.course}
+                        onChange={(e) => setExtraFields(prev => ({ ...prev, course: e.target.value }))}
+                        style={{ padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "0.95rem" }}
+                      />
+                    </div>
                   </>
                 )}
 
-                {/* Enterprise Fields */}
-                {activeModalPlan === "Enterprise Membership" && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                {/* Custom Plan Seats Fields */}
+                {(activeModalPlan === "Custom Enterprise Plan" || activeModalPlan === "Custom Plan") && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                      Number of Team Seats <span style={{ color: "#ec4899" }}>*</span>
+                      Required Seats <span style={{ color: "#ec4899" }}>*</span>
                     </label>
-                    <Select
-                      options={seatsOptions}
-                      defaultValue={seatsOptions[0]}
-                      onChange={(opt: any) => setExtraFields(prev => ({ ...prev, seats: opt.value }))}
-                      styles={modalSelectStyles}
-                    />
-                  </div>
-                )}
-
-                {/* In-House Counsel Work Email Field */}
-                {activeModalPlan === "In-House Counsel Membership" && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                    <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
-                      Official Corporate Work Email <span style={{ color: "#ec4899" }}>*</span>
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="e.g. counsel@corporate.com"
-                      value={extraFields.workEmail}
-                      onChange={(e) => setExtraFields(prev => ({ ...prev, workEmail: e.target.value }))}
-                      style={{ padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--border-input)", backgroundColor: "var(--bg-primary)", color: "var(--text-heading)", fontSize: "0.95rem" }}
-                    />
-                    <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-                      Complimentary In-House Counsel membership is verified with a valid corporate organisation domain.
-                    </span>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                      {["1-5", "5-10", "10+"].map((seatOption) => {
+                        const isSelected = extraFields.seats === seatOption;
+                        return (
+                          <button
+                            type="button"
+                            key={seatOption}
+                            onClick={() => setExtraFields(prev => ({ ...prev, seats: seatOption }))}
+                            style={{
+                              padding: "14px 8px",
+                              borderRadius: "14px",
+                              border: isSelected ? "2px solid #10b981" : "1px solid var(--border-input)",
+                              backgroundColor: isSelected ? "rgba(16, 185, 129, 0.12)" : "var(--bg-primary)",
+                              color: isSelected ? "#10b981" : "var(--text-heading)",
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              gap: "4px"
+                            }}
+                          >
+                            <span style={{ fontSize: "1.1rem" }}>{seatOption}</span>
+                            <span style={{ fontSize: "0.72rem", opacity: 0.7 }}>Seats</span>
+                            {isSelected && <span style={{ fontSize: "0.7rem", color: "#10b981", fontWeight: 800 }}>✓ Selected</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 

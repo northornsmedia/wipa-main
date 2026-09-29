@@ -2840,11 +2840,15 @@ export default function AdminDashboardClient({
                 "company",
                 "profession",
                 "plan",
-                "seats",
+                "startup_name",
+                "startup_country",
                 "business_registration_number",
-                "date_of_incorporation",
-                "college_institute",
+                "university_name",
+                "course",
                 "student_id",
+                "seats",
+                "college_institute",
+                "date_of_incorporation",
                 "created_at",
               ]}
             />

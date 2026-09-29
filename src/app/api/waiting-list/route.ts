@@ -44,7 +44,11 @@ export async function POST(req: Request) {
       dateOfIncorporation,
       collegeInstitute,
       studentId,
-      seats
+      seats,
+      startupName,
+      startupCountry,
+      universityName,
+      course
     } = data;
 
     if (!name || !email) {
@@ -73,7 +77,7 @@ export async function POST(req: Request) {
       country: formattedCountry || country,
       phone: formattedPhone || phone,
       email,
-      company,
+      company: company || startupName || null,
       profession,
       plan: plan || null,
       fingerprint: fingerprint || null,
@@ -81,8 +85,12 @@ export async function POST(req: Request) {
       device_info: device_info || null,
       business_registration_number: businessRegistrationNumber || null,
       date_of_incorporation: dateOfIncorporation || null,
-      college_institute: collegeInstitute || null,
+      college_institute: collegeInstitute || universityName || null,
+      university_name: universityName || collegeInstitute || null,
       student_id: studentId || null,
+      course: course || null,
+      startup_name: startupName || null,
+      startup_country: startupCountry || null,
       seats: seats || null,
     };
 
@@ -129,14 +137,18 @@ export async function POST(req: Request) {
           email,
           phone: formattedPhone || phone,
           country: formattedCountry || country,
-          company,
+          company: company || startupName || null,
           profession,
           plan: plan || null,
           seats,
           businessRegistrationNumber,
           dateOfIncorporation,
-          collegeInstitute,
+          collegeInstitute: collegeInstitute || universityName,
+          universityName: universityName || collegeInstitute,
           studentId,
+          course,
+          startupName,
+          startupCountry,
           createdAt: lead?.created_at,
           source: "waiting_list"
         })

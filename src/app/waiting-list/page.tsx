@@ -212,6 +212,69 @@ const selectStyles = {
   })
 };
 
+const startupCountryOptions = allCountries
+  .map(c => {
+    const cleanName = c.name.replace(/\s*\([^)]*\)/g, '').trim();
+    return {
+      value: c.iso2.toUpperCase(),
+      name: cleanName,
+      label: cleanName,
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const formatCountryOnlyLabel = ({ value, label }: any) => (
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <img 
+      src={`https://flagcdn.com/w20/${value.toLowerCase()}.png`} 
+      alt={value} 
+      style={{ width: "20px", height: "14px", objectFit: "cover", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "2px" }} 
+    />
+    <span style={{ fontSize: "0.93rem", color: "var(--text-heading)" }}>{label}</span>
+  </div>
+);
+
+const modalSelectStyles = {
+  control: (base: any) => ({
+    ...base,
+    padding: "0 4px",
+    borderRadius: "12px",
+    border: "1px solid var(--border-input)",
+    backgroundColor: "var(--bg-primary)",
+    color: "var(--text-heading)",
+    fontSize: "0.93rem",
+    minHeight: "44px",
+    height: "44px",
+    boxShadow: "none",
+    '&:hover': {
+      border: "1px solid var(--border-input)"
+    }
+  }),
+  valueContainer: (base: any) => ({
+    ...base,
+    padding: "0 10px"
+  }),
+  singleValue: (base: any) => ({ ...base, color: "var(--text-heading)", margin: 0 }),
+  input: (base: any) => ({ ...base, color: "var(--text-heading)", margin: 0, padding: 0 }),
+  option: (base: any, { isFocused, isSelected }: any) => ({
+    ...base,
+    backgroundColor: isSelected ? "rgba(236, 72, 153, 0.3)" : isFocused ? "var(--bg-surface-elevated)" : "transparent",
+    color: "var(--text-heading)",
+    cursor: "pointer",
+    padding: "10px 14px",
+    fontSize: "0.92rem"
+  }),
+  menu: (base: any) => ({
+    ...base,
+    borderRadius: "12px",
+    border: "1px solid var(--border-input)",
+    backgroundColor: "var(--bg-card)",
+    boxShadow: "var(--shadow-card)",
+    overflow: "hidden",
+    zIndex: 10005
+  })
+};
+
 export default function WaitingListPage() {
   const router = useRouter();
   
@@ -231,6 +294,27 @@ export default function WaitingListPage() {
   // Auto-selected by default: IP Professional Membership
   const [selectedPlan, setSelectedPlan] = useState<string>("IP Professional Membership");
   const [modalPlan, setModalPlan] = useState<PricingPlan | null>(null);
+
+  // Modal type for extra requirements: 'entrepreneur' | 'student' | 'custom' | null
+  const [detailsModalType, setDetailsModalType] = useState<'entrepreneur' | 'student' | 'custom' | null>(null);
+  const [detailsModalError, setDetailsModalError] = useState("");
+
+  // Plan-specific extra fields
+  const [entrepreneurData, setEntrepreneurData] = useState({
+    startupName: "",
+    country: "GB",
+    registrationNumber: ""
+  });
+
+  const [studentData, setStudentData] = useState({
+    universityName: "",
+    registrationNumber: "",
+    course: ""
+  });
+
+  const [customPlanData, setCustomPlanData] = useState({
+    seats: "1-5" // options: "1-5", "5-10", "10+"
+  });
 
   const selectedCountryOption = countryOptions.find(c => c.value === formData.country) || countryOptions.find(c => c.value === "GB") || countryOptions[0];
   const dialCode = selectedCountryOption ? selectedCountryOption.dialCode : "+44";
@@ -347,13 +431,17 @@ export default function WaitingListPage() {
   // Close modal on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && modalPlan) {
-        setModalPlan(null);
+      if (e.key === "Escape") {
+        if (modalPlan) setModalPlan(null);
+        if (detailsModalType) {
+          setDetailsModalType(null);
+          setDetailsModalError("");
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [modalPlan]);
+  }, [modalPlan, detailsModalType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -441,8 +529,90 @@ export default function WaitingListPage() {
     setStep(2);
   };
 
+  // Card selection logic: Entrepreneur, Student, and Custom Plan open a modal. Others select immediately.
+  const handleCardClick = (plan: PricingPlan) => {
+    if (plan.id === "entrepreneur" || plan.name === "Entrepreneur Membership") {
+      setDetailsModalType("entrepreneur");
+      setDetailsModalError("");
+    } else if (plan.id === "student" || plan.name === "Student Membership") {
+      setDetailsModalType("student");
+      setDetailsModalError("");
+    } else if (plan.id === "custom-enterprise" || plan.name === "Custom Enterprise Plan") {
+      setDetailsModalType("custom");
+      setDetailsModalError("");
+    } else {
+      setSelectedPlan(plan.name);
+    }
+  };
+
+  const handleConfirmEntrepreneur = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!entrepreneurData.startupName.trim()) {
+      setDetailsModalError("Please enter your startup name.");
+      return;
+    }
+    if (!entrepreneurData.registrationNumber.trim()) {
+      setDetailsModalError("Please enter your startup registration number.");
+      return;
+    }
+    setSelectedPlan("Entrepreneur Membership");
+    setDetailsModalType(null);
+    setDetailsModalError("");
+  };
+
+  const handleConfirmStudent = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!studentData.universityName.trim()) {
+      setDetailsModalError("Please enter your university name.");
+      return;
+    }
+    if (!studentData.registrationNumber.trim()) {
+      setDetailsModalError("Please enter your student registration number.");
+      return;
+    }
+    if (!studentData.course.trim()) {
+      setDetailsModalError("Please enter your course of study.");
+      return;
+    }
+    setSelectedPlan("Student Membership");
+    setDetailsModalType(null);
+    setDetailsModalError("");
+  };
+
+  const handleConfirmCustomPlan = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customPlanData.seats) {
+      setDetailsModalError("Please select the required number of seats (1-5, 5-10, or 10+).");
+      return;
+    }
+    setSelectedPlan("Custom Enterprise Plan");
+    setDetailsModalType(null);
+    setDetailsModalError("");
+  };
+
   // Step 2 final submission with chosen plan to DB
   const handleFinalSubmit = async () => {
+    // Validate if selected plan requires extra details
+    if (selectedPlan === "Entrepreneur Membership") {
+      if (!entrepreneurData.startupName.trim() || !entrepreneurData.registrationNumber.trim()) {
+        setDetailsModalType("entrepreneur");
+        setDetailsModalError("Please complete your startup registration details to proceed.");
+        return;
+      }
+    } else if (selectedPlan === "Student Membership") {
+      if (!studentData.universityName.trim() || !studentData.registrationNumber.trim() || !studentData.course.trim()) {
+        setDetailsModalType("student");
+        setDetailsModalError("Please complete your university, registration number, and course details.");
+        return;
+      }
+    } else if (selectedPlan === "Custom Enterprise Plan") {
+      if (!customPlanData.seats) {
+        setDetailsModalType("custom");
+        setDetailsModalError("Please select your seat requirements (1-5, 5-10, or 10+).");
+        return;
+      }
+    }
+
     setIsLoading(true);
     setError("");
 
@@ -458,22 +628,40 @@ export default function WaitingListPage() {
         formattedPhone = `${currentDialCode} ${formattedPhone}`;
       }
 
+      const startupCountryObj = startupCountryOptions.find(c => c.value === entrepreneurData.country) || countryOptions.find(c => c.value === entrepreneurData.country);
+      const startupCountryDisplay = startupCountryObj ? startupCountryObj.name : entrepreneurData.country;
+
+      const submitPayload: Record<string, any> = {
+        title: formData.title,
+        name: formData.name,
+        country: fullCountryName,
+        phone: formattedPhone,
+        email: formData.email,
+        company: formData.company || (selectedPlan === "Entrepreneur Membership" ? entrepreneurData.startupName : undefined),
+        profession: formData.profession,
+        plan: selectedPlan,
+        fingerprint,
+        device_info: deviceInfo
+      };
+
+      if (selectedPlan === "Entrepreneur Membership") {
+        submitPayload.startupName = entrepreneurData.startupName.trim();
+        submitPayload.startupCountry = startupCountryDisplay;
+        submitPayload.businessRegistrationNumber = entrepreneurData.registrationNumber.trim();
+      } else if (selectedPlan === "Student Membership") {
+        submitPayload.universityName = studentData.universityName.trim();
+        submitPayload.collegeInstitute = studentData.universityName.trim();
+        submitPayload.studentId = studentData.registrationNumber.trim();
+        submitPayload.course = studentData.course.trim();
+      } else if (selectedPlan === "Custom Enterprise Plan") {
+        submitPayload.seats = customPlanData.seats;
+      }
+
       // Save directly to DB with selected plan
       const res = await fetch("/api/waiting-list", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: formData.title,
-          name: formData.name,
-          country: fullCountryName,
-          phone: formattedPhone,
-          email: formData.email,
-          company: formData.company,
-          profession: formData.profession,
-          plan: selectedPlan,
-          fingerprint,
-          device_info: deviceInfo
-        })
+        body: JSON.stringify(submitPayload)
       });
 
       const result = await res.json();
@@ -509,15 +697,18 @@ export default function WaitingListPage() {
       <div
         key={plan.id}
         className={`plan-card-item ${gridSpanClass}`}
-        onClick={() => setSelectedPlan(plan.name)}
+        onClick={() => handleCardClick(plan)}
         style={{
           cursor: "pointer",
-          borderRadius: "16px",
-          padding: "clamp(10px, 1.2vw, 14px)",
-          backgroundColor: isSelected ? "rgba(16, 185, 129, 0.06)" : "var(--bg-surface-elevated)",
+          borderRadius: "20px",
+          padding: "clamp(16px, 1.5vw, 20px)",
+          background: isSelected 
+            ? "linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.01) 100%), var(--bg-surface-elevated)"
+            : "var(--bg-surface-elevated)",
           border: isSelected ? "2px solid #10b981" : "1px solid var(--border-card)",
-          boxShadow: isSelected ? "0 8px 24px rgba(16, 185, 129, 0.16)" : "0 2px 8px rgba(0,0,0,0.03)",
-          transition: "border 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease",
+          boxShadow: isSelected 
+            ? "0 14px 34px -4px rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.15)" 
+            : "0 4px 18px -2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -527,45 +718,63 @@ export default function WaitingListPage() {
       >
         {/* Card Body Content */}
         <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-          {/* Top Row: Plan Name & Subtitle + Square with Green Tick */}
+          {/* Top Row: Plan Name & Subtitle + Radio Checkmark */}
           <div className="plan-card-title-wrap">
-            <div style={{ flex: 1, minWidth: 0, paddingRight: "4px" }}>
+            <div style={{ flex: 1, minWidth: 0, paddingRight: "8px" }}>
               <div 
                 className="plan-card-title"
                 style={{ 
                   fontWeight: 800, 
-                  fontSize: "clamp(0.9rem, 0.98vw, 1.02rem)", 
+                  fontSize: "clamp(0.96rem, 1.05vw, 1.06rem)", 
                   color: "var(--text-heading)", 
-                  lineHeight: 1.2,
+                  lineHeight: 1.25,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  gap: "1px"
+                  gap: "2px",
+                  letterSpacing: "-0.015em"
                 }}
               >
                 <span>{plan.displayName}</span>
                 {plan.subtitle && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.74rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.15 }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.75rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.2 }}>
                     {plan.subtitle}
+                  </span>
+                )}
+                {isSelected && (plan.id === "entrepreneur" || plan.name === "Entrepreneur Membership") && entrepreneurData.startupName && (
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.72rem", fontWeight: 700, color: "#10b981", lineHeight: 1.2, marginTop: "2px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                    ✓ {entrepreneurData.startupName} <span style={{ textDecoration: "underline", opacity: 0.85, fontWeight: 500 }}>(Edit)</span>
+                  </span>
+                )}
+                {isSelected && (plan.id === "student" || plan.name === "Student Membership") && studentData.universityName && (
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.72rem", fontWeight: 700, color: "#10b981", lineHeight: 1.2, marginTop: "2px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                    ✓ {studentData.universityName} <span style={{ textDecoration: "underline", opacity: 0.85, fontWeight: 500 }}>(Edit)</span>
+                  </span>
+                )}
+                {isSelected && (plan.id === "custom-enterprise" || plan.name === "Custom Enterprise Plan") && customPlanData.seats && (
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.72rem", fontWeight: 700, color: "#10b981", lineHeight: 1.2, marginTop: "2px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                    ✓ {customPlanData.seats} Seats <span style={{ textDecoration: "underline", opacity: 0.85, fontWeight: 500 }}>(Edit)</span>
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Square with Green Tick */}
+            {/* Sleek Circular Radio with Green Tick */}
             <div
               style={{
-                width: "20px",
-                height: "20px",
-                minWidth: "20px",
-                borderRadius: "5px",
-                border: isSelected ? "2px solid #10b981" : "2px solid var(--border-input)",
+                width: "22px",
+                height: "22px",
+                minWidth: "22px",
+                borderRadius: "50%",
+                border: isSelected ? "2px solid #10b981" : "1.5px solid var(--border-input)",
                 backgroundColor: isSelected ? "#10b981" : "transparent",
+                boxShadow: isSelected ? "0 2px 8px rgba(16, 185, 129, 0.35)" : "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                transition: "all 0.15s ease",
-                flexShrink: 0
+                transition: "all 0.18s ease",
+                flexShrink: 0,
+                marginTop: "1px"
               }}
             >
               {isSelected && (
@@ -576,18 +785,18 @@ export default function WaitingListPage() {
             </div>
           </div>
 
-          {/* Desktop Description: Exactly 52px height for horizontal alignment */}
+          {/* Desktop Description: Airy, clean line height */}
           <p className="desktop-only-plan-detail plan-card-desc">
             {plan.desc}
           </p>
 
-          {/* Desktop Pricing Box: Exactly 114px height for horizontal alignment */}
+          {/* Desktop Pricing Box: Refined, modern card section */}
           <div className="desktop-only-plan-detail pricing-box-desktop">
             <div className="pricing-box-price-row">
-              <span style={{ fontSize: "1.32rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1 }}>
+              <span style={{ fontSize: "1.42rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1, letterSpacing: "-0.025em" }}>
                 {plan.price}
               </span>
-              <span style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase" }}>
+              <span style={{ fontSize: "0.76rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>
                 {plan.period}
               </span>
             </div>
@@ -616,16 +825,24 @@ export default function WaitingListPage() {
               padding: 0,
               color: "#ec4899",
               fontWeight: 600,
-              fontSize: "0.78rem",
+              fontSize: "0.82rem",
               cursor: "pointer",
               display: "inline-flex",
               alignItems: "center",
               gap: "4px",
-              textDecoration: "underline",
-              textUnderlineOffset: "2px"
+              transition: "all 0.15s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "#d946ef";
+              e.currentTarget.style.transform = "translateX(2px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "#ec4899";
+              e.currentTarget.style.transform = "translateX(0px)";
             }}
           >
-            Know more ↗
+            <span>Know more</span>
+            <span style={{ fontSize: "0.85rem" }}>↗</span>
           </button>
         </div>
       </div>
@@ -681,7 +898,7 @@ export default function WaitingListPage() {
       <div 
         style={{ 
           width: "100%", 
-          maxWidth: step === 2 ? "clamp(980px, 86vw, 1320px)" : "clamp(780px, 60vw, 1000px)", 
+          maxWidth: step === 2 ? "clamp(1080px, 90vw, 1380px)" : "clamp(780px, 60vw, 1000px)", 
           margin: "auto",
           transition: "max-width 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
           position: "relative", 
@@ -693,11 +910,11 @@ export default function WaitingListPage() {
           style={{ 
             backgroundColor: "var(--bg-card)", 
             padding: step === 2 
-              ? "clamp(12px, 1.6vh, 18px) clamp(16px, 2.4vw, 32px)" 
+              ? "clamp(20px, 2.6vh, 30px) clamp(22px, 2.8vw, 38px)" 
               : "clamp(18px, 2.8vh, 32px) clamp(18px, 3vw, 44px)", 
             borderRadius: "24px", 
             border: "1px solid var(--border-card)", 
-            boxShadow: "0 25px 60px rgba(0, 0, 0, 0.09)", 
+            boxShadow: "0 25px 60px rgba(0, 0, 0, 0.08)", 
             width: "100%",
             maxHeight: "calc(100vh - clamp(14px, 2vh, 30px))",
             overflowY: "auto"
@@ -913,20 +1130,20 @@ export default function WaitingListPage() {
               exit={{ opacity: 0, x: -15 }}
               transition={{ duration: 0.18 }}
             >
-              <div style={{ textAlign: "center", marginBottom: "clamp(6px, 1vh, 10px)" }}>
-                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "2px 10px", borderRadius: "20px", fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "2px" }}>
+              <div style={{ textAlign: "center", marginBottom: "clamp(14px, 2vh, 20px)" }}>
+                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "4px 14px", borderRadius: "20px", fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "6px", boxShadow: "0 2px 10px rgba(236, 72, 153, 0.28)" }}>
                   Step 2 of 2
                 </div>
-                <h1 className="heading-md" style={{ margin: "1px 0 3px", textAlign: "center", color: "var(--text-heading)", fontSize: "clamp(1.25rem, 1.8vw, 1.65rem)", fontWeight: 800, letterSpacing: "-0.02em" }}>
+                <h1 className="heading-md" style={{ margin: "2px 0 4px", textAlign: "center", color: "var(--text-heading)", fontSize: "clamp(1.4rem, 2.1vw, 1.85rem)", fontWeight: 800, letterSpacing: "-0.025em" }}>
                   Select Your Founding Plan
                 </h1>
-                <p style={{ fontSize: "clamp(0.8rem, 1vw, 0.88rem)", textAlign: "center", color: "var(--text-body)", margin: 0 }}>
+                <p style={{ fontSize: "clamp(0.85rem, 1.05vw, 0.94rem)", textAlign: "center", color: "var(--text-body)", margin: 0, opacity: 0.85 }}>
                   Choose your membership plan below. IP Professional is selected by default.
                 </p>
               </div>
 
               {/* All Plan Cards: Perfectly uniform height across all 6 cards (3 per row) */}
-              <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(6px, 1vh, 8px)", marginBottom: "clamp(8px, 1.2vh, 12px)" }}>
+              <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(12px, 1.4vw, 16px)", marginBottom: "clamp(14px, 2vh, 20px)" }}>
                 {renderPlanCard(pricingPlans[0], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[1], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[2], "grid-col-card-top")}
@@ -942,21 +1159,23 @@ export default function WaitingListPage() {
               )}
 
               {/* Action Buttons: Back + Submit (Arrow removed, no text wrapping) */}
-              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: "14px", alignItems: "center", marginTop: "4px" }}>
                 <button
                   type="button"
                   onClick={() => { setError(""); setStep(1); }}
                   style={{
-                    height: "42px",
-                    padding: "0 clamp(16px, 2.5vw, 24px)",
+                    height: "46px",
+                    padding: "0 clamp(20px, 2.5vw, 28px)",
                     borderRadius: "50px",
                     border: "1px solid var(--border-input)",
                     backgroundColor: "var(--bg-surface-elevated)",
                     color: "var(--text-heading)",
                     fontWeight: 600,
-                    fontSize: "clamp(0.82rem, 2vw, 0.9rem)",
+                    fontSize: "clamp(0.86rem, 2vw, 0.92rem)",
                     cursor: "pointer",
-                    whiteSpace: "nowrap"
+                    whiteSpace: "nowrap",
+                    transition: "all 0.15s ease",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.02)"
                   }}
                 >
                   ← Back
@@ -966,17 +1185,17 @@ export default function WaitingListPage() {
                   type="button" 
                   onClick={handleFinalSubmit}
                   disabled={isLoading}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+                  whileHover={{ scale: 1.008 }}
+                  whileTap={{ scale: 0.992 }}
                   className="btn btn-accent" 
                   style={{ 
-                    height: "42px",
-                    fontSize: "clamp(0.85rem, 2.2vw, 0.95rem)", 
+                    height: "46px",
+                    fontSize: "clamp(0.88rem, 2.2vw, 0.96rem)", 
                     borderRadius: "50px", 
                     fontWeight: 700, 
                     cursor: isLoading ? "not-allowed" : "pointer", 
                     flex: 1, 
-                    boxShadow: "0 6px 20px rgba(236, 72, 153, 0.35)",
+                    boxShadow: "0 8px 24px rgba(236, 72, 153, 0.35)",
                     background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
                     color: "#ffffff",
                     border: "none",
@@ -986,7 +1205,7 @@ export default function WaitingListPage() {
                     gap: "8px",
                     letterSpacing: "0.03em",
                     whiteSpace: "nowrap",
-                    padding: "0 clamp(10px, 2vw, 20px)"
+                    padding: "0 clamp(14px, 2.5vw, 24px)"
                   }}
                 >
                   {isLoading ? (
@@ -1042,6 +1261,40 @@ export default function WaitingListPage() {
                     ✓ {selectedPlan}
                   </span>
                 </div>
+                {selectedPlan === "Entrepreneur Membership" && entrepreneurData.startupName && (
+                  <>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
+                      <span style={{ color: "var(--text-muted)" }}>Startup Name:</span>
+                      <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{entrepreneurData.startupName}</span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
+                      <span style={{ color: "var(--text-muted)" }}>Registration No:</span>
+                      <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{entrepreneurData.registrationNumber}</span>
+                    </div>
+                  </>
+                )}
+                {selectedPlan === "Student Membership" && studentData.universityName && (
+                  <>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
+                      <span style={{ color: "var(--text-muted)" }}>University:</span>
+                      <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{studentData.universityName}</span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
+                      <span style={{ color: "var(--text-muted)" }}>Course:</span>
+                      <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{studentData.course}</span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
+                      <span style={{ color: "var(--text-muted)" }}>Student Reg No:</span>
+                      <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{studentData.registrationNumber}</span>
+                    </div>
+                  </>
+                )}
+                {selectedPlan === "Custom Enterprise Plan" && customPlanData.seats && (
+                  <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
+                    <span style={{ color: "var(--text-muted)" }}>Seats:</span>
+                    <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{customPlanData.seats} Seats</span>
+                  </div>
+                )}
                 <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.9rem" }}>
                   <span style={{ color: "var(--text-muted)" }}>Email:</span>
                   <span style={{ fontWeight: 600, color: "var(--text-heading)" }}>{formData.email}</span>
@@ -1230,8 +1483,9 @@ export default function WaitingListPage() {
                 <button
                   type="button"
                   onClick={() => {
-                    setSelectedPlan(modalPlan.name);
+                    const chosen = modalPlan;
                     setModalPlan(null);
+                    handleCardClick(chosen);
                   }}
                   style={{
                     flex: 2,
@@ -1249,6 +1503,435 @@ export default function WaitingListPage() {
                   Select This Plan
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Plan-Specific Details Modal (Entrepreneur, Student, Custom Enterprise) */}
+      <AnimatePresence>
+        {detailsModalType && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => { setDetailsModalType(null); setDetailsModalError(""); }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.75)",
+              backdropFilter: "blur(6px)",
+              zIndex: 10000,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px"
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.94, y: 14 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.94, y: 14 }}
+              transition={{ duration: 0.18 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                backgroundColor: "var(--bg-card)",
+                border: "2px solid rgba(236, 72, 153, 0.35)",
+                borderRadius: "24px",
+                padding: "clamp(20px, 3.5vw, 28px)",
+                width: "100%",
+                maxWidth: "480px",
+                maxHeight: "90vh",
+                overflowY: "auto",
+                boxShadow: "0 25px 60px rgba(0, 0, 0, 0.5)",
+                position: "relative"
+              }}
+            >
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => { setDetailsModalType(null); setDetailsModalError(""); }}
+                style={{
+                  position: "absolute",
+                  top: "14px",
+                  right: "14px",
+                  background: "var(--bg-surface-elevated)",
+                  border: "1px solid var(--border-input)",
+                  borderRadius: "50%",
+                  width: "32px",
+                  height: "32px",
+                  fontSize: "1.1rem",
+                  color: "var(--text-heading)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.15s ease"
+                }}
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+
+              {/* Modal Header */}
+              <div style={{ textAlign: "center", marginBottom: "18px" }}>
+                <div style={{ 
+                  display: "inline-block", 
+                  background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", 
+                  color: "#ffffff", 
+                  padding: "3px 12px", 
+                  borderRadius: "20px", 
+                  fontSize: "0.75rem", 
+                  fontWeight: 800, 
+                  textTransform: "uppercase", 
+                  marginBottom: "8px" 
+                }}>
+                  {detailsModalType === "entrepreneur" && "Startup Details"}
+                  {detailsModalType === "student" && "Student Details"}
+                  {detailsModalType === "custom" && "Custom Plan Seats"}
+                </div>
+
+                <h3 className="heading-md" style={{ color: "var(--text-heading)", margin: "0 0 6px", fontSize: "clamp(1.2rem, 2.2vw, 1.45rem)", fontWeight: 800 }}>
+                  {detailsModalType === "entrepreneur" && "Entrepreneur Membership"}
+                  {detailsModalType === "student" && "Student Membership"}
+                  {detailsModalType === "custom" && "Custom Enterprise Plan"}
+                </h3>
+
+                <p style={{ fontSize: "0.88rem", color: "var(--text-body)", margin: 0, lineHeight: 1.4 }}>
+                  {detailsModalType === "entrepreneur" && "Please provide your startup registration details to secure your early founder rate."}
+                  {detailsModalType === "student" && "Please provide your academic registration details to qualify for your student rate."}
+                  {detailsModalType === "custom" && "Please select the seat package that best fits your organisation's requirements."}
+                </p>
+              </div>
+
+              {/* Entrepreneur Form */}
+              {detailsModalType === "entrepreneur" && (
+                <form onSubmit={handleConfirmEntrepreneur} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text-heading)" }}>
+                      Name of Startup <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Acme IP Technologies"
+                      value={entrepreneurData.startupName}
+                      onChange={(e) => {
+                        setEntrepreneurData(prev => ({ ...prev, startupName: e.target.value }));
+                        if (detailsModalError) setDetailsModalError("");
+                      }}
+                      style={{
+                        padding: "11px 14px",
+                        borderRadius: "12px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-primary)",
+                        color: "var(--text-heading)",
+                        fontSize: "0.93rem",
+                        outline: "none"
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text-heading)" }}>
+                      Country <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <Select
+                      options={startupCountryOptions}
+                      value={startupCountryOptions.find(c => c.value === entrepreneurData.country) || startupCountryOptions[0]}
+                      onChange={(opt: any) => {
+                        if (opt) setEntrepreneurData(prev => ({ ...prev, country: opt.value }));
+                        if (detailsModalError) setDetailsModalError("");
+                      }}
+                      formatOptionLabel={formatCountryOnlyLabel}
+                      styles={modalSelectStyles}
+                      isSearchable
+                      menuPlacement="auto"
+                    />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text-heading)" }}>
+                      Registration Number <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. 12345678 / US-987654"
+                      value={entrepreneurData.registrationNumber}
+                      onChange={(e) => {
+                        setEntrepreneurData(prev => ({ ...prev, registrationNumber: e.target.value }));
+                        if (detailsModalError) setDetailsModalError("");
+                      }}
+                      style={{
+                        padding: "11px 14px",
+                        borderRadius: "12px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-primary)",
+                        color: "var(--text-heading)",
+                        fontSize: "0.93rem",
+                        outline: "none"
+                      }}
+                    />
+                  </div>
+
+                  {detailsModalError && (
+                    <div style={{ color: "#ef4444", fontSize: "0.84rem", textAlign: "center", backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "8px 12px", borderRadius: "10px" }}>
+                      {detailsModalError}
+                    </div>
+                  )}
+
+                  <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}>
+                    <button
+                      type="button"
+                      onClick={() => { setDetailsModalType(null); setDetailsModalError(""); }}
+                      style={{
+                        flex: 1,
+                        padding: "12px",
+                        borderRadius: "50px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-surface-elevated)",
+                        color: "var(--text-heading)",
+                        fontWeight: 600,
+                        fontSize: "0.92rem",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      style={{
+                        flex: 2,
+                        padding: "12px",
+                        borderRadius: "50px",
+                        border: "none",
+                        background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
+                        color: "#ffffff",
+                        fontWeight: 700,
+                        fontSize: "0.92rem",
+                        cursor: "pointer",
+                        boxShadow: "0 4px 16px rgba(236, 72, 153, 0.3)"
+                      }}
+                    >
+                      CONFIRM & SELECT PLAN ➔
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* Student Form */}
+              {detailsModalType === "student" && (
+                <form onSubmit={handleConfirmStudent} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text-heading)" }}>
+                      University Name <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Oxford University / Harvard Law School"
+                      value={studentData.universityName}
+                      onChange={(e) => {
+                        setStudentData(prev => ({ ...prev, universityName: e.target.value }));
+                        if (detailsModalError) setDetailsModalError("");
+                      }}
+                      style={{
+                        padding: "11px 14px",
+                        borderRadius: "12px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-primary)",
+                        color: "var(--text-heading)",
+                        fontSize: "0.93rem",
+                        outline: "none"
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text-heading)" }}>
+                      Registration Number <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Student ID or Roll No (e.g. STU-849201)"
+                      value={studentData.registrationNumber}
+                      onChange={(e) => {
+                        setStudentData(prev => ({ ...prev, registrationNumber: e.target.value }));
+                        if (detailsModalError) setDetailsModalError("");
+                      }}
+                      style={{
+                        padding: "11px 14px",
+                        borderRadius: "12px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-primary)",
+                        color: "var(--text-heading)",
+                        fontSize: "0.93rem",
+                        outline: "none"
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text-heading)" }}>
+                      Course <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. LLM in Intellectual Property / LLB / Tech Law"
+                      value={studentData.course}
+                      onChange={(e) => {
+                        setStudentData(prev => ({ ...prev, course: e.target.value }));
+                        if (detailsModalError) setDetailsModalError("");
+                      }}
+                      style={{
+                        padding: "11px 14px",
+                        borderRadius: "12px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-primary)",
+                        color: "var(--text-heading)",
+                        fontSize: "0.93rem",
+                        outline: "none"
+                      }}
+                    />
+                  </div>
+
+                  {detailsModalError && (
+                    <div style={{ color: "#ef4444", fontSize: "0.84rem", textAlign: "center", backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "8px 12px", borderRadius: "10px" }}>
+                      {detailsModalError}
+                    </div>
+                  )}
+
+                  <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}>
+                    <button
+                      type="button"
+                      onClick={() => { setDetailsModalType(null); setDetailsModalError(""); }}
+                      style={{
+                        flex: 1,
+                        padding: "12px",
+                        borderRadius: "50px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-surface-elevated)",
+                        color: "var(--text-heading)",
+                        fontWeight: 600,
+                        fontSize: "0.92rem",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      style={{
+                        flex: 2,
+                        padding: "12px",
+                        borderRadius: "50px",
+                        border: "none",
+                        background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
+                        color: "#ffffff",
+                        fontWeight: 700,
+                        fontSize: "0.92rem",
+                        cursor: "pointer",
+                        boxShadow: "0 4px 16px rgba(236, 72, 153, 0.3)"
+                      }}
+                    >
+                      CONFIRM & SELECT PLAN ➔
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* Custom Plan Form */}
+              {detailsModalType === "custom" && (
+                <form onSubmit={handleConfirmCustomPlan} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <label style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-heading)" }}>
+                      Required Seats <span style={{ color: "#ec4899" }}>*</span>
+                    </label>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                      {["1-5", "5-10", "10+"].map((seatOption) => {
+                        const isSelected = customPlanData.seats === seatOption;
+                        return (
+                          <button
+                            type="button"
+                            key={seatOption}
+                            onClick={() => {
+                              setCustomPlanData({ seats: seatOption });
+                              if (detailsModalError) setDetailsModalError("");
+                            }}
+                            style={{
+                              padding: "14px 8px",
+                              borderRadius: "14px",
+                              border: isSelected ? "2px solid #10b981" : "1px solid var(--border-input)",
+                              backgroundColor: isSelected ? "rgba(16, 185, 129, 0.12)" : "var(--bg-primary)",
+                              color: isSelected ? "#10b981" : "var(--text-heading)",
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              gap: "4px",
+                              transition: "all 0.15s ease",
+                              outline: "none"
+                            }}
+                          >
+                            <span style={{ fontSize: "1.15rem", lineHeight: 1.1 }}>{seatOption}</span>
+                            <span style={{ fontSize: "0.74rem", fontWeight: 600, opacity: isSelected ? 1 : 0.65 }}>Seats</span>
+                            {isSelected && (
+                              <span style={{ fontSize: "0.72rem", color: "#10b981", fontWeight: 800 }}>✓ Selected</span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {detailsModalError && (
+                    <div style={{ color: "#ef4444", fontSize: "0.84rem", textAlign: "center", backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "8px 12px", borderRadius: "10px" }}>
+                      {detailsModalError}
+                    </div>
+                  )}
+
+                  <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
+                    <button
+                      type="button"
+                      onClick={() => { setDetailsModalType(null); setDetailsModalError(""); }}
+                      style={{
+                        flex: 1,
+                        padding: "12px",
+                        borderRadius: "50px",
+                        border: "1px solid var(--border-input)",
+                        backgroundColor: "var(--bg-surface-elevated)",
+                        color: "var(--text-heading)",
+                        fontWeight: 600,
+                        fontSize: "0.92rem",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      style={{
+                        flex: 2,
+                        padding: "12px",
+                        borderRadius: "50px",
+                        border: "none",
+                        background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
+                        color: "#ffffff",
+                        fontWeight: 700,
+                        fontSize: "0.92rem",
+                        cursor: "pointer",
+                        boxShadow: "0 4px 16px rgba(236, 72, 153, 0.3)"
+                      }}
+                    >
+                      CONFIRM & SELECT PLAN ➔
+                    </button>
+                  </div>
+                </form>
+              )}
             </motion.div>
           </motion.div>
         )}
@@ -1281,26 +1964,29 @@ export default function WaitingListPage() {
         }
 
         /* Desktop Card Alignment Compartments - Pixel Perfect Symmetry */
+        .plan-card-item {
+          transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease !important;
+        }
+        .plan-card-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.08) !important;
+        }
+
         .plan-card-title-wrap {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
           gap: 6px;
-          height: 38px;
-          min-height: 38px;
-          max-height: 38px;
+          min-height: 42px;
           box-sizing: border-box;
         }
 
         .plan-card-desc {
           font-size: 0.77rem;
           color: var(--text-body);
-          line-height: 1.35;
-          margin: 4px 0 6px 0;
-          height: 52px;
-          min-height: 52px;
-          max-height: 52px;
-          overflow: hidden;
+          line-height: 1.4;
+          margin: 6px 0 8px 0;
+          min-height: 54px;
           box-sizing: border-box;
           display: flex;
           align-items: flex-start;
@@ -1309,12 +1995,10 @@ export default function WaitingListPage() {
         .pricing-box-desktop {
           background-color: var(--bg-primary);
           border: 1px solid var(--border-subtle);
-          border-radius: 12px;
-          padding: 8px 10px;
-          margin-bottom: 6px;
-          height: 114px;
-          min-height: 114px;
-          max-height: 114px;
+          border-radius: 14px;
+          padding: 10px 12px;
+          margin-bottom: 8px;
+          min-height: 122px;
           display: flex !important;
           flex-direction: column !important;
           justify-content: space-between !important;
@@ -1325,38 +2009,31 @@ export default function WaitingListPage() {
           display: flex;
           align-items: baseline;
           gap: 6px;
-          height: 24px;
           min-height: 24px;
-          max-height: 24px;
           box-sizing: border-box;
         }
 
         .pricing-box-limit {
           font-size: 0.73rem;
-          font-weight: 700;
+          font-weight: 600;
           color: #ec4899;
-          line-height: 1.25;
-          height: 38px;
+          line-height: 1.34;
           min-height: 38px;
-          max-height: 38px;
           display: flex;
           align-items: center;
-          overflow: hidden;
           box-sizing: border-box;
+          margin: 3px 0;
         }
 
         .pricing-box-footnote {
           font-size: 0.70rem;
           color: var(--text-muted);
           border-top: 1px solid var(--border-subtle);
-          padding-top: 4px;
-          height: 30px;
-          min-height: 30px;
-          max-height: 30px;
+          padding-top: 5px;
+          min-height: 28px;
           display: flex;
           align-items: center;
-          line-height: 1.25;
-          overflow: hidden;
+          line-height: 1.3;
           box-sizing: border-box;
         }
 
@@ -1364,7 +2041,6 @@ export default function WaitingListPage() {
           display: flex;
           justify-content: flex-start;
           margin-top: auto;
-          height: 18px;
           min-height: 18px;
           align-items: center;
           box-sizing: border-box;

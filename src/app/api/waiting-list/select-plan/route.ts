@@ -16,7 +16,11 @@ export async function POST(req: Request) {
       collegeInstitute,
       studentId,
       seats,
-      workEmail
+      workEmail,
+      startupName,
+      startupCountry,
+      universityName,
+      course
     } = data;
 
     if (!plan) {
@@ -41,8 +45,12 @@ export async function POST(req: Request) {
     const updatePayload: Record<string, any> = {
       plan,
       ...(businessRegistrationNumber ? { business_registration_number: businessRegistrationNumber } : {}),
+      ...(startupName ? { startup_name: startupName } : {}),
+      ...(startupCountry ? { startup_country: startupCountry } : {}),
+      ...(universityName ? { university_name: universityName, college_institute: universityName } : {}),
+      ...(collegeInstitute ? { college_institute: collegeInstitute, university_name: collegeInstitute } : {}),
+      ...(course ? { course } : {}),
       ...(dateOfIncorporation ? { date_of_incorporation: dateOfIncorporation } : {}),
-      ...(collegeInstitute ? { college_institute: collegeInstitute } : {}),
       ...(studentId ? { student_id: studentId } : {}),
       ...(seats ? { seats } : {}),
       ...(workEmail ? { email: workEmail } : {})
@@ -58,7 +66,7 @@ export async function POST(req: Request) {
       query = query.eq("fingerprint", fingerprint);
     }
 
-    const { data: updatedRows, error } = await query.select("id, name, email, plan, country, phone, company, profession, created_at, business_registration_number, date_of_incorporation, college_institute, student_id, seats, ip_address");
+    const { data: updatedRows, error } = await query.select("id, name, email, plan, country, phone, company, profession, created_at, business_registration_number, date_of_incorporation, college_institute, university_name, student_id, course, startup_name, startup_country, seats, ip_address");
 
     if (error) {
       console.error("Supabase select-plan update error:", error);
@@ -103,8 +111,12 @@ export async function POST(req: Request) {
             seats: updatedUser.seats,
             businessRegistrationNumber: updatedUser.business_registration_number,
             dateOfIncorporation: updatedUser.date_of_incorporation,
-            collegeInstitute: updatedUser.college_institute,
+            collegeInstitute: updatedUser.college_institute || updatedUser.university_name,
+            universityName: updatedUser.university_name || updatedUser.college_institute,
             studentId: updatedUser.student_id,
+            course: updatedUser.course,
+            startupName: updatedUser.startup_name,
+            startupCountry: updatedUser.startup_country,
             createdAt: updatedUser.created_at,
             source: "plan_selection"
           })
