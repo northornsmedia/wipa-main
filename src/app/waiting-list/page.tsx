@@ -30,7 +30,7 @@ const pricingPlans: PricingPlan[] = [
     displayName: "IP Professional Membership",
     price: "£395",
     period: "/ year",
-    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    limit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027).",
     desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, and other intellectual property professionals.",
     standardPrice: "Standard Rate: £695/year",
     highlights: [
@@ -47,7 +47,7 @@ const pricingPlans: PricingPlan[] = [
     subtitle: "(for Start Ups only)",
     price: "£295",
     period: "/ year",
-    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    limit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027).",
     desc: "Open to newly established law firms, legal tech ventures, and IP businesses incorporated or registered within the past 24 months.",
     standardPrice: "Standard Rate: £495/year",
     highlights: [
@@ -63,7 +63,7 @@ const pricingPlans: PricingPlan[] = [
     displayName: "Student Membership",
     price: "£99",
     period: "/ year",
-    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    limit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027).",
     desc: "For students, graduates, researchers, and early-career individuals pursuing careers in intellectual property, innovation, technology, or law.",
     standardPrice: "Standard Rate: £149/year",
     highlights: [

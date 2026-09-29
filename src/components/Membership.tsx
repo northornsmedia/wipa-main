@@ -11,7 +11,7 @@ const tiers = [
     name: "IP Professional\nMembership", 
     price: "£395",
     monthlyPrice: "£50",
-    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    limit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027).",
     desc: "For lawyers, patent attorneys, trade mark attorneys, IP practitioners, consultants, and other intellectual property professionals.", 
     standardPrice: "Standard Membership Rate: £695/year",
     style: "bg-pastel-green"
@@ -20,7 +20,7 @@ const tiers = [
     name: "Entrepreneur\nMembership\n(for Start Ups only)",
     price: "£295",
     monthlyPrice: "£42",
-    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    limit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027).",
     desc: "Open to law firms and IP businesses incorporated or registered within the past 24 months.", 
     standardPrice: "Standard Membership Rate: £495/year",
     style: "bg-pastel-purple"
@@ -29,7 +29,7 @@ const tiers = [
     name: "Student\nMembership", 
     price: "£99",
     monthlyPrice: "£12",
-    limit: "Exclusive Founding Member rate available for our inaugural launch.",
+    limit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027).",
     desc: "For students, graduates, researchers, and early-career professionals pursuing careers in intellectual property, innovation, law, technology, or related disciplines.", 
     standardPrice: "Standard Membership Rate: £149/year",
     style: "bg-pastel-pink"

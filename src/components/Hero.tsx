@@ -10,6 +10,7 @@ export default function Hero() {
     { src: "/mrinali-menon.png", name: "Mrinali Menon", countryCode: ["ky"], position: "Senior IP Manager", company: "HSM" },
     { src: "/Dr Shweta_AIPPI (1).png", name: "Dr. Shweta Singh", countryCode: ["in"], position: "Founder & CEO, Inaugural WIPA Chair - South Asia", company: "Ennoble IP" },
     { src: "/1.png", name: "Michele S. Katz", countryCode: ["us"], position: "Founding Partner & WIPA Inaugural President", company: "Advitam IP LLC" },
+    { src: "/tove-graulund.png", name: "Tove Graulund", countryCode: ["dk"], position: "Founder", company: "Graulund Consulting" },
     { src: "/Rafaella Oliveira.png", name: "Rafaella Oliveira", countryCode: ["br"], position: "Head of Chemical and Life Sciences Patent Acquisition Practice", company: "Licks Advogados" },
     { src: "/Tina Nan.png", name: "Tina Nan", countryCode: ["cn"], position: "Managing Partner, Inaugural WIPA Chair - East Asia", company: "Cohorizon IP Attorneys" },
     { src: "/2.png", name: "Dhruva Dakhani", countryCode: ["in"], position: "Director", company: "Women’s IP Alliance" },
@@ -28,7 +29,6 @@ export default function Hero() {
     { src: "/nadine-stuttle.png", name: "Nadine Stuttle", countryCode: ["ch"], position: "CEO", company: "PSS Solutions" },
     { src: "/rashi-rastogi.png", name: "Rashi Rastogi", countryCode: ["in"], position: "Founder", company: "Lexorant" },
     { src: "/adriana-barrera.png", name: "Adriana Barrera", countryCode: ["pe"], position: "Founder and Managing Partner, Inaugural WIPA Chair - South America", company: "BARLAW – Barrera & Asociados" },
-    { src: "/tove-graulund.png", name: "Tove Graulund", countryCode: ["dk"], position: "Founder", company: "Graulund Consulting" },
   ];
   type DeviceTier = 'mobile' | 'tablet' | 'laptop' | 'desktop';
 

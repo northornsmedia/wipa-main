@@ -52,7 +52,7 @@ const options: JourneyOption[] = [
     planName: "Student Membership",
     planStyle: "bg-pastel-pink",
     planPrice: "£99 / year",
-    planLimit: "Exclusive Founding Member rate available for our inaugural launch."
+    planLimit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027)."
   },
   {
     id: "entrepreneur",
@@ -61,7 +61,7 @@ const options: JourneyOption[] = [
     planName: "Entrepreneur Membership",
     planStyle: "bg-pastel-purple",
     planPrice: "£295 / year",
-    planLimit: "Exclusive Founding Member rate available for our inaugural launch."
+    planLimit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027)."
   },
   {
     id: "professional",
@@ -70,7 +70,7 @@ const options: JourneyOption[] = [
     planName: "IP Professional Membership",
     planStyle: "bg-pastel-green",
     planPrice: "£395 / year",
-    planLimit: "Exclusive Founding Member rate available for our inaugural launch."
+    planLimit: "Exclusive Founding Member rate available for our inaugural launch (until January 2027)."
   },
   {
     id: "corporate",
