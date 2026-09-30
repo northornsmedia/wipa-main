@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 type MarqueeImage = string | { src: string, height?: string };
 
-export default function InfiniteMarquee({ text, images }: { text?: string, images?: MarqueeImage[] }) {
+export default function InfiniteMarquee({ text, images, duration }: { text?: string, images?: MarqueeImage[], duration?: number }) {
   // Duplicate text/images to ensure seamless scrolling
   const repeatedText = text ? Array(4).fill(text).join(" • ") : "";
   const repeatedImages = images ? [...images, ...images, ...images] : [];
@@ -20,6 +20,8 @@ export default function InfiniteMarquee({ text, images }: { text?: string, image
   ) : (
     <div style={{ paddingRight: "40px" }}>{repeatedText}</div>
   );
+
+  const defaultDuration = images ? 120 : 80;
 
   return (
     <div style={{
@@ -50,7 +52,7 @@ export default function InfiniteMarquee({ text, images }: { text?: string, image
           x: ["0%", "-50%"]
         }}
         transition={{
-          duration: images ? 60 : 40,
+          duration: duration || defaultDuration,
           ease: "linear",
           repeat: Infinity
         }}
