@@ -37,7 +37,14 @@ export default function Home() {
           { src: "/LOGO - ALLIANCE USE.png", height: "85px" },
           { src: "/footerlogo.svg", height: "72px" },
           { src: "/GenieAI.png", height: "60px" },
-          { src: "/cohorizon-logo.png", height: "82px" }
+          { src: "/cohorizon-logo.png", height: "82px" },
+          { src: "/LOGO - ALLIANCE USE (9).png", height: "55px" },
+          { src: "/LOGO - ALLIANCE USE (10).png", height: "65px" },
+          "/LOGO - ALLIANCE USE (11).png",
+          { src: "/LOGO - ALLIANCE USE (12).png", height: "70px" },
+          { src: "/LOGO - ALLIANCE USE (13).png", height: "65px" },
+          { src: "/LOGO - ALLIANCE USE (14).png", height: "65px" },
+          "/LOGO - ALLIANCE USE (15).png"
         ]} />
         <About />
         <MemberBenefits />

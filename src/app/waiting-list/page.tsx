@@ -700,15 +700,15 @@ export default function WaitingListPage() {
         onClick={() => handleCardClick(plan)}
         style={{
           cursor: "pointer",
-          borderRadius: "20px",
-          padding: "clamp(16px, 1.5vw, 20px)",
+          borderRadius: "14px",
+          padding: "clamp(7px, 1vh, 11px) clamp(9px, 1vw, 13px)",
           background: isSelected 
             ? "linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.01) 100%), var(--bg-surface-elevated)"
             : "var(--bg-surface-elevated)",
           border: isSelected ? "2px solid #10b981" : "1px solid var(--border-card)",
           boxShadow: isSelected 
-            ? "0 14px 34px -4px rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.15)" 
-            : "0 4px 18px -2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)",
+            ? "0 8px 20px -3px rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.15)" 
+            : "0 2px 10px -2px rgba(0, 0, 0, 0.03)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -720,39 +720,39 @@ export default function WaitingListPage() {
         <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
           {/* Top Row: Plan Name & Subtitle + Radio Checkmark */}
           <div className="plan-card-title-wrap">
-            <div style={{ flex: 1, minWidth: 0, paddingRight: "8px" }}>
+            <div style={{ flex: 1, minWidth: 0, paddingRight: "6px" }}>
               <div 
                 className="plan-card-title"
                 style={{ 
                   fontWeight: 800, 
-                  fontSize: "clamp(0.96rem, 1.05vw, 1.06rem)", 
+                  fontSize: "clamp(0.84rem, 0.92vw, 0.95rem)", 
                   color: "var(--text-heading)", 
-                  lineHeight: 1.25,
+                  lineHeight: 1.2,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  gap: "2px",
+                  gap: "1px",
                   letterSpacing: "-0.015em"
                 }}
               >
                 <span>{plan.displayName}</span>
                 {plan.subtitle && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.75rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.2 }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.68rem", fontWeight: 500, color: "var(--text-muted)", lineHeight: 1.15 }}>
                     {plan.subtitle}
                   </span>
                 )}
                 {isSelected && (plan.id === "entrepreneur" || plan.name === "Entrepreneur Membership") && entrepreneurData.startupName && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.72rem", fontWeight: 700, color: "#10b981", lineHeight: 1.2, marginTop: "2px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.68rem", fontWeight: 700, color: "#10b981", lineHeight: 1.15, marginTop: "1px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
                     ✓ {entrepreneurData.startupName} <span style={{ textDecoration: "underline", opacity: 0.85, fontWeight: 500 }}>(Edit)</span>
                   </span>
                 )}
                 {isSelected && (plan.id === "student" || plan.name === "Student Membership") && studentData.universityName && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.72rem", fontWeight: 700, color: "#10b981", lineHeight: 1.2, marginTop: "2px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.68rem", fontWeight: 700, color: "#10b981", lineHeight: 1.15, marginTop: "1px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
                     ✓ {studentData.universityName} <span style={{ textDecoration: "underline", opacity: 0.85, fontWeight: 500 }}>(Edit)</span>
                   </span>
                 )}
                 {isSelected && (plan.id === "custom-enterprise" || plan.name === "Custom Enterprise Plan") && customPlanData.seats && (
-                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.72rem", fontWeight: 700, color: "#10b981", lineHeight: 1.2, marginTop: "2px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                  <span className="desktop-only-plan-detail" style={{ fontSize: "0.68rem", fontWeight: 700, color: "#10b981", lineHeight: 1.15, marginTop: "1px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
                     ✓ {customPlanData.seats} Seats <span style={{ textDecoration: "underline", opacity: 0.85, fontWeight: 500 }}>(Edit)</span>
                   </span>
                 )}
@@ -762,13 +762,13 @@ export default function WaitingListPage() {
             {/* Sleek Circular Radio with Green Tick */}
             <div
               style={{
-                width: "22px",
-                height: "22px",
-                minWidth: "22px",
+                width: "18px",
+                height: "18px",
+                minWidth: "18px",
                 borderRadius: "50%",
                 border: isSelected ? "2px solid #10b981" : "1.5px solid var(--border-input)",
                 backgroundColor: isSelected ? "#10b981" : "transparent",
-                boxShadow: isSelected ? "0 2px 8px rgba(16, 185, 129, 0.35)" : "none",
+                boxShadow: isSelected ? "0 2px 6px rgba(16, 185, 129, 0.35)" : "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -778,7 +778,7 @@ export default function WaitingListPage() {
               }}
             >
               {isSelected && (
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               )}
@@ -793,10 +793,10 @@ export default function WaitingListPage() {
           {/* Desktop Pricing Box: Refined, modern card section */}
           <div className="desktop-only-plan-detail pricing-box-desktop">
             <div className="pricing-box-price-row">
-              <span style={{ fontSize: "1.42rem", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1, letterSpacing: "-0.025em" }}>
+              <span style={{ fontSize: "clamp(1.15rem, 1.25vw, 1.32rem)", fontWeight: 900, color: "var(--text-heading)", lineHeight: 1, letterSpacing: "-0.025em" }}>
                 {plan.price}
               </span>
-              <span style={{ fontSize: "0.76rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+              <span style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>
                 {plan.period}
               </span>
             </div>
@@ -825,11 +825,11 @@ export default function WaitingListPage() {
               padding: 0,
               color: "#ec4899",
               fontWeight: 600,
-              fontSize: "0.82rem",
+              fontSize: "0.74rem",
               cursor: "pointer",
               display: "inline-flex",
               alignItems: "center",
-              gap: "4px",
+              gap: "3px",
               transition: "all 0.15s ease"
             }}
             onMouseEnter={(e) => {
@@ -842,7 +842,7 @@ export default function WaitingListPage() {
             }}
           >
             <span>Know more</span>
-            <span style={{ fontSize: "0.85rem" }}>↗</span>
+            <span style={{ fontSize: "0.78rem" }}>↗</span>
           </button>
         </div>
       </div>
@@ -850,16 +850,24 @@ export default function WaitingListPage() {
   };
 
   return (
-    <div style={{ 
-      position: "relative", 
-      minHeight: "100vh", 
-      display: "flex", 
-      justifyContent: "center", 
-      alignItems: "center", 
-      padding: "clamp(10px, 2vh, 28px) clamp(12px, 2.5vw, 36px)", 
-      backgroundColor: "var(--bg-primary)",
-      overflowX: "hidden"
-    }}>
+    <div 
+      className={step === 2 ? "step2-active-container" : ""}
+      style={{ 
+        position: "relative", 
+        minHeight: "100vh", 
+        height: step === 2 ? "100vh" : "auto",
+        maxHeight: step === 2 ? "100vh" : "none",
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        padding: step === 2 
+          ? "clamp(6px, 1.2vh, 14px) clamp(10px, 2vw, 24px)" 
+          : "clamp(10px, 2vh, 28px) clamp(12px, 2.5vw, 36px)", 
+        backgroundColor: "var(--bg-primary)",
+        overflowX: "hidden",
+        boxSizing: "border-box"
+      }}
+    >
       {/* Back to Home Button */}
       <button 
         onClick={() => {
@@ -872,15 +880,15 @@ export default function WaitingListPage() {
         }}
         style={{
           position: "fixed",
-          top: "14px",
-          left: "14px",
-          padding: "7px 14px",
+          top: "clamp(8px, 1.2vh, 12px)",
+          left: "clamp(8px, 1.2vw, 14px)",
+          padding: "5px 12px",
           backgroundColor: "var(--bg-card)",
           border: "1px solid var(--border-card)",
           color: "var(--text-heading)",
           borderRadius: "10px",
           fontWeight: 600,
-          fontSize: "0.85rem",
+          fontSize: "0.80rem",
           cursor: "pointer",
           zIndex: 100,
           boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
@@ -898,7 +906,7 @@ export default function WaitingListPage() {
       <div 
         style={{ 
           width: "100%", 
-          maxWidth: step === 2 ? "clamp(1080px, 90vw, 1380px)" : "clamp(780px, 60vw, 1000px)", 
+          maxWidth: step === 2 ? "clamp(1020px, 88vw, 1360px)" : "clamp(780px, 60vw, 1000px)", 
           margin: "auto",
           transition: "max-width 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
           position: "relative", 
@@ -906,18 +914,22 @@ export default function WaitingListPage() {
         }}
       >
         <div 
-          className="main-card-box no-scrollbar"
+          className={`main-card-box no-scrollbar ${step === 2 ? "step2-active-card" : ""}`}
           style={{ 
             backgroundColor: "var(--bg-card)", 
             padding: step === 2 
-              ? "clamp(20px, 2.6vh, 30px) clamp(22px, 2.8vw, 38px)" 
+              ? "clamp(10px, 1.4vh, 16px) clamp(14px, 1.8vw, 26px)" 
               : "clamp(18px, 2.8vh, 32px) clamp(18px, 3vw, 44px)", 
-            borderRadius: "24px", 
+            borderRadius: "20px", 
             border: "1px solid var(--border-card)", 
-            boxShadow: "0 25px 60px rgba(0, 0, 0, 0.08)", 
+            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.08)", 
             width: "100%",
-            maxHeight: "calc(100vh - clamp(14px, 2vh, 30px))",
-            overflowY: "auto"
+            maxHeight: step === 2 ? "calc(100vh - clamp(12px, 2.4vh, 28px))" : "calc(100vh - clamp(14px, 2vh, 30px))",
+            overflowY: step === 2 ? "hidden" : "auto",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            boxSizing: "border-box"
           }}
         >
           
@@ -1129,21 +1141,22 @@ export default function WaitingListPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -15 }}
               transition={{ duration: 0.18 }}
+              style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "center" }}
             >
-              <div style={{ textAlign: "center", marginBottom: "clamp(14px, 2vh, 20px)" }}>
-                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "4px 14px", borderRadius: "20px", fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "6px", boxShadow: "0 2px 10px rgba(236, 72, 153, 0.28)" }}>
+              <div style={{ textAlign: "center", marginBottom: "clamp(6px, 1.1vh, 12px)" }}>
+                <div style={{ display: "inline-block", background: "linear-gradient(90deg, #d946ef 0%, #ec4899 100%)", color: "#ffffff", padding: "2px 10px", borderRadius: "20px", fontSize: "clamp(0.64rem, 0.72vw, 0.69rem)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "2px", boxShadow: "0 2px 8px rgba(236, 72, 153, 0.25)" }}>
                   Step 2 of 2
                 </div>
-                <h1 className="heading-md" style={{ margin: "2px 0 4px", textAlign: "center", color: "var(--text-heading)", fontSize: "clamp(1.4rem, 2.1vw, 1.85rem)", fontWeight: 800, letterSpacing: "-0.025em" }}>
+                <h1 className="heading-md" style={{ margin: "1px 0 2px", textAlign: "center", color: "var(--text-heading)", fontSize: "clamp(1.15rem, 1.55vw, 1.55rem)", fontWeight: 800, letterSpacing: "-0.025em", lineHeight: 1.15 }}>
                   Select Your Founding Plan
                 </h1>
-                <p style={{ fontSize: "clamp(0.85rem, 1.05vw, 0.94rem)", textAlign: "center", color: "var(--text-body)", margin: 0, opacity: 0.85 }}>
+                <p style={{ fontSize: "clamp(0.74rem, 0.86vw, 0.84rem)", textAlign: "center", color: "var(--text-body)", margin: 0, opacity: 0.85, lineHeight: 1.25 }}>
                   Choose your membership plan below. IP Professional is selected by default.
                 </p>
               </div>
 
               {/* All Plan Cards: Perfectly uniform height across all 6 cards (3 per row) */}
-              <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(12px, 1.4vw, 16px)", marginBottom: "clamp(14px, 2vh, 20px)" }}>
+              <div className="step2-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "clamp(6px, 1vh, 10px)", marginBottom: "clamp(6px, 1vh, 10px)" }}>
                 {renderPlanCard(pricingPlans[0], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[1], "grid-col-card-top")}
                 {renderPlanCard(pricingPlans[2], "grid-col-card-top")}
@@ -1153,25 +1166,25 @@ export default function WaitingListPage() {
               </div>
 
               {error && (
-                <div style={{ backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#ef4444", padding: "6px 10px", borderRadius: "10px", fontSize: "0.84rem", textAlign: "center", marginBottom: "8px" }}>
+                <div style={{ backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#ef4444", padding: "4px 8px", borderRadius: "8px", fontSize: "0.78rem", textAlign: "center", marginBottom: "6px" }}>
                   {error}
                 </div>
               )}
 
               {/* Action Buttons: Back + Submit (Arrow removed, no text wrapping) */}
-              <div style={{ display: "flex", gap: "14px", alignItems: "center", marginTop: "4px" }}>
+              <div style={{ display: "flex", gap: "10px", alignItems: "center", marginTop: "clamp(2px, 0.6vh, 6px)" }}>
                 <button
                   type="button"
                   onClick={() => { setError(""); setStep(1); }}
                   style={{
-                    height: "46px",
-                    padding: "0 clamp(20px, 2.5vw, 28px)",
+                    height: "clamp(36px, 4.4vh, 42px)",
+                    padding: "0 clamp(16px, 2vw, 24px)",
                     borderRadius: "50px",
                     border: "1px solid var(--border-input)",
                     backgroundColor: "var(--bg-surface-elevated)",
                     color: "var(--text-heading)",
                     fontWeight: 600,
-                    fontSize: "clamp(0.86rem, 2vw, 0.92rem)",
+                    fontSize: "clamp(0.78rem, 1vw, 0.86rem)",
                     cursor: "pointer",
                     whiteSpace: "nowrap",
                     transition: "all 0.15s ease",
@@ -1189,13 +1202,13 @@ export default function WaitingListPage() {
                   whileTap={{ scale: 0.992 }}
                   className="btn btn-accent" 
                   style={{ 
-                    height: "46px",
-                    fontSize: "clamp(0.88rem, 2.2vw, 0.96rem)", 
+                    height: "clamp(36px, 4.4vh, 42px)",
+                    fontSize: "clamp(0.80rem, 1vw, 0.88rem)", 
                     borderRadius: "50px", 
                     fontWeight: 700, 
                     cursor: isLoading ? "not-allowed" : "pointer", 
                     flex: 1, 
-                    boxShadow: "0 8px 24px rgba(236, 72, 153, 0.35)",
+                    boxShadow: "0 6px 20px rgba(236, 72, 153, 0.35)",
                     background: "linear-gradient(90deg, #d946ef 0%, #ec4899 45%, #f97316 100%)",
                     color: "#ffffff",
                     border: "none",
@@ -1205,12 +1218,12 @@ export default function WaitingListPage() {
                     gap: "8px",
                     letterSpacing: "0.03em",
                     whiteSpace: "nowrap",
-                    padding: "0 clamp(14px, 2.5vw, 24px)"
+                    padding: "0 clamp(14px, 2vw, 22px)"
                   }}
                 >
                   {isLoading ? (
                     <>
-                      <span style={{ display: "inline-block", width: "16px", height: "16px", border: "2px solid #ffffff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+                      <span style={{ display: "inline-block", width: "14px", height: "14px", border: "2px solid #ffffff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
                       Submitting Details...
                     </>
                   ) : (
@@ -1969,24 +1982,24 @@ export default function WaitingListPage() {
         }
         .plan-card-item:hover {
           transform: translateY(-2px);
-          box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.08) !important;
+          box-shadow: 0 8px 20px -3px rgba(0, 0, 0, 0.08) !important;
         }
 
         .plan-card-title-wrap {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
-          gap: 6px;
-          min-height: 42px;
+          gap: 4px;
+          min-height: clamp(28px, 3.4vh, 34px);
           box-sizing: border-box;
         }
 
         .plan-card-desc {
-          font-size: 0.77rem;
+          font-size: clamp(0.68rem, 0.74vw, 0.74rem);
           color: var(--text-body);
-          line-height: 1.4;
-          margin: 6px 0 8px 0;
-          min-height: 54px;
+          line-height: 1.28;
+          margin: 2px 0 4px 0;
+          min-height: clamp(34px, 4.4vh, 44px);
           box-sizing: border-box;
           display: flex;
           align-items: flex-start;
@@ -1995,10 +2008,10 @@ export default function WaitingListPage() {
         .pricing-box-desktop {
           background-color: var(--bg-primary);
           border: 1px solid var(--border-subtle);
-          border-radius: 14px;
-          padding: 10px 12px;
-          margin-bottom: 8px;
-          min-height: 122px;
+          border-radius: 10px;
+          padding: clamp(5px, 0.8vh, 8px) clamp(8px, 1vw, 10px);
+          margin-bottom: 3px;
+          min-height: clamp(76px, 9.8vh, 96px);
           display: flex !important;
           flex-direction: column !important;
           justify-content: space-between !important;
@@ -2008,32 +2021,32 @@ export default function WaitingListPage() {
         .pricing-box-price-row {
           display: flex;
           align-items: baseline;
-          gap: 6px;
-          min-height: 24px;
+          gap: 4px;
+          min-height: 18px;
           box-sizing: border-box;
         }
 
         .pricing-box-limit {
-          font-size: 0.73rem;
+          font-size: clamp(0.65rem, 0.71vw, 0.71rem);
           font-weight: 600;
           color: #ec4899;
-          line-height: 1.34;
-          min-height: 38px;
+          line-height: 1.24;
+          min-height: clamp(26px, 3.4vh, 34px);
           display: flex;
           align-items: center;
           box-sizing: border-box;
-          margin: 3px 0;
+          margin: 1px 0;
         }
 
         .pricing-box-footnote {
-          font-size: 0.70rem;
+          font-size: clamp(0.62rem, 0.67vw, 0.68rem);
           color: var(--text-muted);
           border-top: 1px solid var(--border-subtle);
-          padding-top: 5px;
-          min-height: 28px;
+          padding-top: 3px;
+          min-height: clamp(18px, 2.4vh, 22px);
           display: flex;
           align-items: center;
-          line-height: 1.3;
+          line-height: 1.2;
           box-sizing: border-box;
         }
 
@@ -2041,9 +2054,28 @@ export default function WaitingListPage() {
           display: flex;
           justify-content: flex-start;
           margin-top: auto;
-          min-height: 18px;
+          min-height: 14px;
           align-items: center;
           box-sizing: border-box;
+        }
+
+        /* Prevent desktop scrolling completely */
+        @media (min-width: 641px) {
+          .step2-active-container {
+            height: 100vh !important;
+            max-height: 100vh !important;
+            overflow: hidden !important;
+          }
+          .step2-active-card {
+            overflow: hidden !important;
+          }
+        }
+
+        /* Safe fallback for extremely small laptop screen heights (< 500px) */
+        @media (min-width: 641px) and (max-height: 500px) {
+          .step2-active-card {
+            overflow-y: auto !important;
+          }
         }
 
         /* Medium Tablets (2 per row) */
